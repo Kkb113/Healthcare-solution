@@ -1,0 +1,68 @@
+{
+  "status": "APPROVED",
+  "reviewer": "Codex, user-designated synthetic workforce/resource/domain reviewer",
+  "reviewed_at": "2026-10-23T16:02:55.091996+00:00",
+  "review_scope": "USER_DESIGNATED_SYNTHETIC_RESOURCE_PLAUSIBILITY",
+  "licensed_clinical_endorsement": false,
+  "cases_reviewed": 100,
+  "sample_sha256": "001385843371c8c83de208f728d00139c1c1239cdfc069c00b4bff2ba6a4fffd",
+  "selected_facts_sha256": "d04150252392fa45ac7a146ffc186818047567d66bdf6b90794ff519ded98673",
+  "business_sha256": "d74687a69f72c7e2b4f63fea2ede2d58e45487c86a2e92a2013ca639f675c439",
+  "method": [
+    "Inspected all 100 named case summaries, birth dates and encounter ages, facility/care boundaries, dispositions and declared shortage causes; sixty cases cover the thirty stockout and thirty circulating-RN absence windows.",
+    "Read detailed operative, medication, actual worker, source knowledge, dose/base-unit, lot/expiry and daily consumption examples, including cases 1-4, 62-64, 75 and 100. Shift and daily stock-group costs remain explicitly distinct from patient charges.",
+    "Inspected retained labor publications, changed planned/actual durations, absence and cancellation histories, paid leave, rate corrections and open attendance; reviewed expiry, unopened returns, cycle-count assertions and their linked reversal histories.",
+    "Reviewed workload/competency assumptions and selected capture limits. Full data controls, independent persisted inspection and process-recovery regressions must pass separately; plausibility review is conditional on that technical gate."
+  ],
+  "detailed_cases": [
+    1,
+    2,
+    3,
+    4,
+    62,
+    63,
+    64,
+    75,
+    100
+  ],
+  "resolved_findings": [
+    {
+      "id": "WORKED_SOURCE_AUTHOR",
+      "resolution": "Link actual medication/observation nurses and operative surgeons to qualified attendance. Preserve the specialty-qualified attending of record and distinguish source reviewing authors from full service performers."
+    },
+    {
+      "id": "SURGEON_AND_RN_CAPACITY",
+      "resolution": "Use actual coordinated case-list lanes, prohibit surgeon overlap, and require actual circulating-RN coverage for concurrent cases. Staff absence and stock readiness change actual procedure start/end and source clocks within observed care boundaries."
+    },
+    {
+      "id": "RETAINED_PLAN_KNOWLEDGE",
+      "resolution": "Generate retained initial nursing rosters using lagged source-known census, record forecast cancellations, and treat missing early source versions as unknown. No final actual hours or costs appear in advance publications."
+    },
+    {
+      "id": "REPRODUCIBLE_LABOR_COST",
+      "resolution": "Recompute costs from serialized six-place paid hours, split workweeks with an explicit micro-hour residual, apply the loaded rate once and append retroactive rate/attendance corrections."
+    },
+    {
+      "id": "EXPIRING_REORDER_STOCK",
+      "resolution": "Exclude stock expiring within procurement lead time from reorder availability; independently replay actual FEFO eligibility, whole medication fills, receipts and expiry at point of use."
+    },
+    {
+      "id": "RESOURCE_NOTE_GROUNDING",
+      "resolution": "Attach two prior recorded patient assessments with exact facts and availability to each resource note; bound normalized prose duplication and prohibit unsupported future-outcome assertions."
+    },
+    {
+      "id": "MONTH_BOUNDARY_REPRODUCTION",
+      "resolution": "Use stable logical-shift ordering for recurring-decimal nursing prorations so serialized and in-memory validation reproduce identical controls without altering business facts."
+    }
+  ],
+  "material_assumptions": [
+    "Fictional adult Illinois hospital network and selected care/resource capture. This is not a safe-staffing standard, real payroll calculation or licensed clinical endorsement.",
+    "Staff source history captures all modeled worked blocks plus selected earlier publications, support samples, leave and corrections. It is not complete hospital payroll, continuous EVS coverage, an entire OR/anesthetic team or all clinician activity.",
+    "The pharmacy stock pool is facility-level. Selected serum collection, preparation, gloves, drapes and precaution gowns do not represent every material, implant, anesthetic or blood product used in care.",
+    "Medication issues are single-lot indivisible administrations or whole prescription fills. Residual lots remain available to smaller fills. Daily book issues are batch source facts and do not assert a live ward cabinet inventory.",
+    "Prewindow clinical context remains observed context without invented opening resource expense. Closing unfinished attendance has observed start and zero finalized cost; later costing requires a separate explicit accrual policy.",
+    "Source cost inputs are not patient-level allocated costs or financial postings. Finance, Axiom scenarios, source release replay and final consumer acceptance remain future phases."
+  ],
+  "unresolved_critical_findings": [],
+  "disposition": "Synthetic resource plausibility approved for the reviewed content, conditional on all Phase 5 technical exit criteria passing. Full release and healthcare analytics solution remain blocked until Phase 9."
+}

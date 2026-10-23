@@ -1,0 +1,94 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-10-23T16:28:44.158483+00:00",
+  "command": "python scripts/restore_operational_snapshot.py --output output/resource-parent-restored",
+  "accepted_source_commit": "51ef26af7a1002e6a6074f96b72059f74dbbe5dc",
+  "accepted_business_sha256": "f0ffb9bb73ef93375cd24dac8294ffefa05c2a6b48252493047011f5fb0e2eed",
+  "restored_business_rows": 938452,
+  "canonical_files": {
+    "cost_center": {
+      "sha256": "59d84db8258a4dcc035a4127d1324bad2037a392c37388e9f1e19d8bab046135",
+      "bytes": 24180,
+      "matches_accepted_parent": true
+    },
+    "facility": {
+      "sha256": "ff3f0b5114089f60a18536b919981166729cfe94ecdd9219c3d58d005b57cc9b",
+      "bytes": 1524,
+      "matches_accepted_parent": true
+    },
+    "location": {
+      "sha256": "5a02e56fdda95cb251d091004f3d3d9b60d585dcc862b85ce77ae83661f6ce6d",
+      "bytes": 97182,
+      "matches_accepted_parent": true
+    },
+    "catalog_item": {
+      "sha256": "1bbfdd3f2621ecaf4658ed55d62012dce2b82f47733a03b92847a5fe1a6636a9",
+      "bytes": 2122462,
+      "matches_accepted_parent": true
+    },
+    "patient": {
+      "sha256": "7c4235cf024e1e1ac3624b08265cd2df05c1106c2b6ac6e15c5e7a97dacc2cf2",
+      "bytes": 20353928,
+      "matches_accepted_parent": true
+    },
+    "worker_assignment": {
+      "sha256": "f5fc13f26d5d1d9ab924788e90e3de778f8ddc22521c49d59f167687310dc0ab",
+      "bytes": 1017756,
+      "matches_accepted_parent": true
+    },
+    "payer_plan": {
+      "sha256": "e8b19173a405c0e762dfa722fa1dcff29944c5c91000e916c94ad8f24ce24cde",
+      "bytes": 12934,
+      "matches_accepted_parent": true
+    },
+    "patient_coverage": {
+      "sha256": "7e28df5e9995bbcb6efa4a6f5bb97ec1518410f481eaadd2d0bd926a6087ccab",
+      "bytes": 19636793,
+      "matches_accepted_parent": true
+    },
+    "access_scope": {
+      "sha256": "885d8eb5cc7d314165634d7066817ebb979abb7dfcca1d0804729501f4200205",
+      "bytes": 1267812,
+      "matches_accepted_parent": true
+    },
+    "source_key_map": {
+      "sha256": "ce8d1d05f82a51859a48d84e335133c726d21ccaa5f44a4ec1d16306358171a1",
+      "bytes": 6705955,
+      "matches_accepted_parent": true
+    },
+    "clinical_condition": {
+      "sha256": "076d1777720730bdeccffa0a1f77c94cf05597beaf5dcb4704d476d44d965aac",
+      "bytes": 72175662,
+      "matches_accepted_parent": true
+    },
+    "encounter": {
+      "sha256": "2e0a26af44b5f728df1a0f56100d27fb829945f34e578085f1d0794b664fc877",
+      "bytes": 154055785,
+      "matches_accepted_parent": true
+    },
+    "appointment": {
+      "sha256": "3a976e0fd3ad4db6e9c74bb8f0bea7391f93d224992537895d44f1638195760f",
+      "bytes": 25602014,
+      "matches_accepted_parent": true
+    },
+    "clinical_event": {
+      "sha256": "a0c157d0b210584b890fea2af28590235be385947f373fa566e7de835aaed8a8",
+      "bytes": 813758803,
+      "matches_accepted_parent": true
+    },
+    "bed_event": {
+      "sha256": "50b15ca96a84daa9640642d1cbcabce9b489cf442b28890c8f0c134a135f7824",
+      "bytes": 50446055,
+      "matches_accepted_parent": true
+    },
+    "facility_day_driver": {
+      "sha256": "c96c563fb4da2b7554bcc451b5d1a4e99eda26cd27635844a97259524310175b",
+      "bytes": 2171703,
+      "matches_accepted_parent": true
+    }
+  },
+  "original_parent_unchanged": true,
+  "scope": "Independent canonical-file checksum verification after an exact-revision reconstruction into a separate ignored destination; no business records embedded",
+  "full_dataset_accepted": false,
+  "solution_status": "BLOCKED_FOR_SOLUTION"
+}

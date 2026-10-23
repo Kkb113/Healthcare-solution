@@ -1,0 +1,85 @@
+{
+  "profile": "CONNECTED_WORKFORCE_AND_STOCK",
+  "version": "1.0.0",
+  "seed": 20261023,
+  "parent_candidate": "output/operational-flow",
+  "parent_business_sha256": "f0ffb9bb73ef93375cd24dac8294ffefa05c2a6b48252493047011f5fb0e2eed",
+  "parent_commit": "51ef26af7a1002e6a6074f96b72059f74dbbe5dc",
+  "review_cases": 100,
+  "rn_hours_per_patient_day": "5.5",
+  "acuity_weights": {
+    "1": "1.12",
+    "2": "1.04",
+    "3": "1.00",
+    "4": "1.00",
+    "5": "1.00"
+  },
+  "minimum_rest_hours": "10",
+  "maximum_shift_hours": "13",
+  "maximum_weekly_hours": "60",
+  "normal_shift_productive_hours": "10.75",
+  "roster_lead_days": 14,
+  "retain_initial_roster_every": 16,
+  "late_attendance_corrections": 120,
+  "february_absences": 60,
+  "operative_absence_cases": 30,
+  "stockout_cases": 30,
+  "shortage_delay_minutes": 15,
+  "operative_concurrency": 2,
+  "procurement_lead_days": 2,
+  "stock_reorder_days": 14,
+  "stock_target_days": 30,
+  "shelf_life_days": 365,
+  "opening_expiry_lots": 30,
+  "return_cases": 30,
+  "cycle_count_corrections": 30,
+  "targets": {
+    "monthly_rn_coverage": [
+      "0.90",
+      "1.20"
+    ]
+  },
+  "quarterly_price_escalator": "0.0125",
+  "inventory_products": {
+    "MED-001": {
+      "base_unit_price": "0.08",
+      "daily_planning_units": "80"
+    },
+    "MED-009": {
+      "base_unit_price": "0.35",
+      "daily_planning_units": "20"
+    },
+    "MED-012": {
+      "base_unit_price": "0.12",
+      "daily_planning_units": "8"
+    },
+    "MED-020": {
+      "base_unit_price": "0.18",
+      "daily_planning_units": "12"
+    },
+    "SUP-025": {
+      "base_unit_price": "0.28",
+      "daily_planning_units": "35"
+    },
+    "SUP-035": {
+      "base_unit_price": "0.04",
+      "daily_planning_units": "35"
+    },
+    "SUP-013": {
+      "base_unit_price": "0.10",
+      "daily_planning_units": "100"
+    },
+    "SUP-033": {
+      "base_unit_price": "8.25",
+      "daily_planning_units": "5"
+    },
+    "SUP-015": {
+      "base_unit_price": "1.35",
+      "daily_planning_units": "3"
+    },
+    "SUP-019": {
+      "base_unit_price": "0.22",
+      "daily_planning_units": "0"
+    }
+  }
+}

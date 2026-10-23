@@ -1,10 +1,34 @@
 # Healthcare synthetic data foundation
 
-Phases 0-4 are complete for their defined data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. The deterministic framework produces full-schema master data, longitudinal clinical histories and capacity-integrated operational data. Phase 4 passes all four exit criteria with 197 tests, 15 clinical and seven operational check groups, and 100 reviewed operational cases. The full healthcare dataset and analytics solution remain blocked until final Phase 9 data acceptance.
+Phases 0-5 are complete for their defined data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. The deterministic framework produces full-schema master data, longitudinal clinical histories, capacity-integrated operations, workforce attendance and selected resource/inventory histories. Phase 5 passes all four exit criteria with **238 tests**, **31 clinical/operational/workforce/stock check groups**, independent persisted-file inspection and a recorded 100-case resource review. The full healthcare dataset and analytics solution remain blocked until final Phase 9 data acceptance.
 
 The finalized baseline contains **25 business tables and 1,958,210 planned records** across **2023-2025**, with **41,790 records of headroom** below the two-million ceiling. Three fictional Illinois community hospitals have 72 inpatient beds in total. This replaces the earlier provisional 300-bed scale so the budget includes clinical detail and historical revisions.
 
 Start with the [frozen baseline](docs/phase-0/README.md), [framework](docs/phase-1/README.md), [master-data foundation](docs/master-data/README.md), and [implementation plan](synthetic-data-generation-implementation.md). The [clinical foundation](docs/clinical-histories/README.md) implements Phase 3; its current acceptance status is recorded in the [clinical exit gate](evidence/clinical-histories/acceptance-gate.json). The analytics solution stays blocked until final Phase 9 data acceptance.
+
+## Connected workforce and inventory data
+
+The [resource foundation](docs/resource-foundation/README.md) implements Phase 5 and passes all four [exit criteria](evidence/resource-foundation/acceptance-gate.json). Its three-year candidate contains **1,053,661 canonical rows across 18 populated business tables**, including **66,582 staff-shift versions**, **47,839 inventory movements** and **561,909 clinical events**. All fifteen unchanged parent tables, including encounter/attending and bed histories, remain byte-identical. Actual operative timing, qualified source authors and clinical stock links are integrated and independently revalidated.
+
+The [generation design](docs/resource-foundation/generation-design.md) states workload, historical-knowledge, rate/OT, lot/expiry, quantity and valuation rules. Source costs reconcile without unexplained negative stock or balancing plugs. Thirty operating-unit stockout and thirty circulating-RN absence windows have connected service effects. Selected capture is explicit: this is not complete payroll, all materials or an entire operative/anesthetic team. Financial postings, Axiom scenarios and native source release replay remain later data-foundation phases.
+
+```powershell
+# Restore missing immutable inputs only; preserve existing accepted snapshots.
+if (-not (Test-Path output/master-foundation/manifest.json)) {
+    python scripts/restore_master_snapshot.py
+}
+if (-not (Test-Path output/clinical-histories/manifest.json)) {
+    python scripts/restore_clinical_snapshot.py
+}
+if (-not (Test-Path output/operational-flow/manifest.json)) {
+    python scripts/restore_operational_snapshot.py
+}
+python scripts/generate_resource_foundation.py
+python scripts/validate_resource_data.py --report output/resource-foundation/independent-inspection.json
+python scripts/validate_resource_foundation.py
+```
+
+See the [runbook](docs/resource-foundation/runbook.md), [complete validation evidence](evidence/resource-foundation/validation-report.json), [review decision](reviews/resource-foundation-review.json) and [named case sample](reviews/resource-foundation-sample.md). The acceptance command runs current framework/master, operational and resource tests plus the exact accepted historical clinical tests, with strict source/configuration/review locks and no skipped tests. Phase 6 has not started.
 
 ## Capacity-integrated operational data
 
@@ -60,7 +84,7 @@ python scripts/run_phase1.py --output output/phase1-development
 python scripts/validate_phase1_candidate.py --run-dir output/phase1-development
 ```
 
-The historical framework gate records its original regression and fixture scope. Use the operational acceptance command above for the complete current and version-bound historical regression assessment. See [Phase 1 exit evidence](evidence/phase-1/gate.json). Normal generation produces **30 development rows across 15 declared scalar projections** and **3 Workday/Axiom mirror rows**, never a full business dataset. The [runbook](docs/phase-1/runbook.md) explains recovery, invalidation, quotas and output semantics.
+The historical framework gate records its original regression and fixture scope. Use the resource acceptance command above for the complete current and version-bound historical regression assessment. See [Phase 1 exit evidence](evidence/phase-1/gate.json). Normal generation produces **30 development rows across 15 declared scalar projections** and **3 Workday/Axiom mirror rows**, never a full business dataset. The [runbook](docs/phase-1/runbook.md) explains recovery, invalidation, quotas and output semantics.
 
 ## Reviewable artifacts
 
@@ -82,7 +106,7 @@ Python 3.10+ and its standard library are sufficient. Run from the repository ro
 ```powershell
 python scripts/build_phase0_spec.py --check
 python scripts/validate_phase0.py --report evidence/phase-0/validation-report.json
-python -m unittest discover -s tests -v
+python -m unittest discover -s tests -p test_phase0_contracts.py -v
 ```
 
 `scripts/build_phase0_spec.py` is the versioned authoring source for the declarative contracts and generated dictionary/DDL. After an intentional specification change, run it without `--check`, review every generated change, rerun validation/tests, and reopen affected review gates. It never generates healthcare records. `databricks-schema.sql` is an offline schema template, not an executed migration.
