@@ -1,0 +1,656 @@
+{
+  "profile": "MASTER_FOUNDATION",
+  "version": "1.0.0",
+  "seed": 20261023,
+  "window": {
+    "start": "2023-01-01",
+    "end_inclusive": "2025-12-31",
+    "timezone": "America/Chicago",
+    "delivery_grace_end": "2026-01-10T23:59:59Z"
+  },
+  "budgets": {
+    "facility": 3,
+    "cost_center": 45,
+    "location": 150,
+    "patient": 22000,
+    "worker_assignment": 900,
+    "access_scope": 1800,
+    "payer_plan": 24,
+    "patient_coverage": 28000,
+    "catalog_item": 3000,
+    "source_key_map": 10000,
+    "clinical_condition": 13000
+  },
+  "population": {
+    "patients": 20000,
+    "workers": 300,
+    "patient_history_changes": 1000,
+    "shared_address_people": 6000,
+    "age_groups": {
+      "18-34": 16,
+      "35-49": 20,
+      "50-64": 26,
+      "65-79": 25,
+      "80-100": 13
+    },
+    "administrative_sex": {
+      "F": 51,
+      "M": 47,
+      "X": 1,
+      "UNKNOWN": 1
+    },
+    "race_ethnicity": {
+      "White, non-Hispanic": 58,
+      "Black, non-Hispanic": 19,
+      "Hispanic or Latino": 13,
+      "Asian, non-Hispanic": 5,
+      "Multiracial or other": 3,
+      "UNKNOWN": 2
+    },
+    "languages": {
+      "en": 82,
+      "es": 8,
+      "pl": 3,
+      "zh": 2,
+      "ar": 1,
+      "DECLINED": 2,
+      "UNKNOWN": 2
+    },
+    "contact_missing_percent": 8,
+    "middle_name_percent": 62,
+    "middle_initial_percent": 24,
+    "suffix_percent": 3,
+    "hyphenated_surname_percent": 3,
+    "naming_series_cross_percent": 4,
+    "streets": [
+      "Willowbrook",
+      "Juniper",
+      "Meadowlark",
+      "Briarwood",
+      "Cedar Hollow",
+      "Foxglove",
+      "Silver Birch",
+      "Brookstone",
+      "Maple Crest",
+      "Aspen Grove",
+      "Orchard View",
+      "Hawthorne",
+      "Pine Meadow",
+      "Stonebridge",
+      "Cloverfield",
+      "Oak Haven",
+      "Copperleaf",
+      "Winding Creek",
+      "Rosewood",
+      "Sycamore"
+    ],
+    "street_types": [
+      "Lane",
+      "Drive",
+      "Court",
+      "Way",
+      "Road",
+      "Terrace"
+    ],
+    "geography": [
+      {
+        "city": "Springfield",
+        "state": "IL",
+        "postal_code": "62704",
+        "weight": 35
+      },
+      {
+        "city": "Peoria",
+        "state": "IL",
+        "postal_code": "61614",
+        "weight": 35
+      },
+      {
+        "city": "Rockford",
+        "state": "IL",
+        "postal_code": "61107",
+        "weight": 30
+      }
+    ],
+    "history_kinds": {
+      "family_name": 500,
+      "address": 300,
+      "correction": 200
+    },
+    "deceased_policy": "No reported death in opening master scope; null is unknown/no report, not a survival label. Outcome-driven death revisions belong to clinical-history generation.",
+    "gender_reporting": {
+      "unknown_percent": 65,
+      "F": {
+        "Woman": 97,
+        "Man": 1,
+        "Nonbinary": 1,
+        "Self-described": 1
+      },
+      "M": {
+        "Man": 97,
+        "Woman": 1,
+        "Nonbinary": 1,
+        "Self-described": 1
+      },
+      "OTHER": {
+        "Woman": 30,
+        "Man": 30,
+        "Nonbinary": 30,
+        "Self-described": 10
+      }
+    },
+    "surname_population_mix_percent": 5
+  },
+  "organization": {
+    "facilities": [
+      {
+        "code": "HSP-SPR",
+        "name": "Prairie Creek Community Hospital",
+        "city": "Springfield",
+        "postal_code": "62704"
+      },
+      {
+        "code": "HSP-PEO",
+        "name": "Riverbend Community Hospital",
+        "city": "Peoria",
+        "postal_code": "61614"
+      },
+      {
+        "code": "HSP-RFD",
+        "name": "Oakwood Community Hospital",
+        "city": "Rockford",
+        "postal_code": "61107"
+      }
+    ],
+    "centers": [
+      [
+        "ADMINISTRATION",
+        "Hospital Administration",
+        "ADMINISTRATION"
+      ],
+      [
+        "MEDICINE",
+        "Adult Medicine",
+        "CLINICAL"
+      ],
+      [
+        "SURGERY",
+        "Surgical Care",
+        "CLINICAL"
+      ],
+      [
+        "ICU",
+        "Intensive Care",
+        "CLINICAL"
+      ],
+      [
+        "ED",
+        "Emergency Care",
+        "CLINICAL"
+      ],
+      [
+        "AMBULATORY",
+        "Ambulatory Care",
+        "CLINICAL"
+      ],
+      [
+        "OPERATING",
+        "Operating Services",
+        "CLINICAL"
+      ],
+      [
+        "PHARMACY",
+        "Pharmacy",
+        "SUPPORT"
+      ],
+      [
+        "LABORATORY",
+        "Clinical Laboratory",
+        "SUPPORT"
+      ],
+      [
+        "IMAGING",
+        "Diagnostic Imaging",
+        "SUPPORT"
+      ],
+      [
+        "ENVIRONMENTAL",
+        "Environmental Services",
+        "SUPPORT"
+      ],
+      [
+        "FACILITIES",
+        "Facilities and Engineering",
+        "SHARED"
+      ],
+      [
+        "FINANCE",
+        "Finance",
+        "ADMINISTRATION"
+      ],
+      [
+        "HR",
+        "Human Resources",
+        "ADMINISTRATION"
+      ],
+      [
+        "IT",
+        "Information Technology",
+        "SHARED"
+      ]
+    ],
+    "departments": [
+      [
+        "ACUTE",
+        "Acute Care",
+        "MEDICINE",
+        "MEDICINE"
+      ],
+      [
+        "EMERGENCY",
+        "Emergency Services",
+        "ED",
+        "ED"
+      ],
+      [
+        "OUTPATIENT",
+        "Outpatient Services",
+        "AMBULATORY",
+        "AMBULATORY"
+      ],
+      [
+        "SUPPORT",
+        "Clinical Support",
+        "SUPPORT",
+        "ADMINISTRATION"
+      ]
+    ],
+    "units": [
+      [
+        "MED",
+        "Adult Medicine Ward",
+        "ACUTE",
+        "MEDICINE",
+        "MEDICINE"
+      ],
+      [
+        "SURG",
+        "Surgical Ward",
+        "ACUTE",
+        "SURGERY",
+        "SURGERY"
+      ],
+      [
+        "ICU",
+        "Intensive Care Unit",
+        "ACUTE",
+        "ICU",
+        "ICU"
+      ],
+      [
+        "ED",
+        "Emergency Department",
+        "EMERGENCY",
+        "ED",
+        "ED"
+      ],
+      [
+        "AMB",
+        "Ambulatory Clinic",
+        "OUTPATIENT",
+        "AMBULATORY",
+        "AMBULATORY"
+      ],
+      [
+        "OR",
+        "Operating Suite",
+        "ACUTE",
+        "SURGERY",
+        "OPERATING"
+      ],
+      [
+        "PHARM",
+        "Pharmacy Services",
+        "SUPPORT",
+        "SUPPORT",
+        "PHARMACY"
+      ],
+      [
+        "DIAG",
+        "Diagnostic Services",
+        "SUPPORT",
+        "SUPPORT",
+        "LABORATORY"
+      ]
+    ],
+    "beds": [
+      [
+        "MED",
+        5,
+        2
+      ],
+      [
+        "SURG",
+        5,
+        2
+      ],
+      [
+        "ICU",
+        4,
+        1
+      ]
+    ],
+    "isolation_room_codes": [
+      "MED-R01",
+      "SURG-R01"
+    ]
+  },
+  "workforce": {
+    "roles": [
+      {
+        "role": "PHYSICIAN",
+        "count_per_facility": 15,
+        "specialties": [
+          "Internal Medicine",
+          "Emergency Medicine",
+          "General Surgery",
+          "Orthopedics",
+          "Critical Care"
+        ],
+        "credentials": [
+          "MD"
+        ],
+        "min_rate": "120.00",
+        "max_rate": "180.00",
+        "pay_basis_employee": "SALARY_EQUIVALENT",
+        "credential_years": 2
+      },
+      {
+        "role": "RN",
+        "count_per_facility": 42,
+        "specialties": [
+          "Medical-Surgical Nursing",
+          "Emergency Nursing",
+          "Critical Care Nursing"
+        ],
+        "credentials": [
+          "RN"
+        ],
+        "min_rate": "45.00",
+        "max_rate": "68.00",
+        "pay_basis_employee": "HOURLY",
+        "credential_years": 2
+      },
+      {
+        "role": "LPN",
+        "count_per_facility": 4,
+        "specialties": [
+          "Medical-Surgical Nursing"
+        ],
+        "credentials": [
+          "LPN"
+        ],
+        "min_rate": "30.00",
+        "max_rate": "43.00",
+        "pay_basis_employee": "HOURLY",
+        "credential_years": 2
+      },
+      {
+        "role": "THERAPIST",
+        "count_per_facility": 4,
+        "specialties": [
+          "Respiratory Therapy",
+          "Physical Therapy"
+        ],
+        "credentials": [
+          "RRT",
+          "PT"
+        ],
+        "min_rate": "35.00",
+        "max_rate": "48.00",
+        "pay_basis_employee": "HOURLY",
+        "credential_years": 2
+      },
+      {
+        "role": "TECHNICIAN",
+        "count_per_facility": 4,
+        "specialties": [
+          "Clinical Laboratory",
+          "Diagnostic Imaging"
+        ],
+        "credentials": [
+          "MLS",
+          "RT(R)"
+        ],
+        "min_rate": "26.00",
+        "max_rate": "40.00",
+        "pay_basis_employee": "HOURLY",
+        "credential_years": 2
+      },
+      {
+        "role": "PHARMACIST",
+        "count_per_facility": 2,
+        "specialties": [
+          "Hospital Pharmacy"
+        ],
+        "credentials": [
+          "RPH"
+        ],
+        "min_rate": "60.00",
+        "max_rate": "85.00",
+        "pay_basis_employee": "HOURLY",
+        "credential_years": 2
+      },
+      {
+        "role": "HOUSEKEEPING",
+        "count_per_facility": 4,
+        "specialties": [
+          "Environmental Services"
+        ],
+        "credentials": [
+          "EVS_ORIENTATION"
+        ],
+        "min_rate": "20.00",
+        "max_rate": "29.00",
+        "pay_basis_employee": "HOURLY",
+        "credential_years": 2
+      },
+      {
+        "role": "ADMIN",
+        "count_per_facility": 25,
+        "specialties": [
+          "Hospital Administration",
+          "Finance",
+          "Human Resources",
+          "Information Technology",
+          "Patient Access"
+        ],
+        "credentials": [
+          "BUSINESS_ORIENTATION"
+        ],
+        "min_rate": "28.00",
+        "max_rate": "55.00",
+        "pay_basis_employee": "SALARY_EQUIVALENT",
+        "credential_years": 2
+      }
+    ],
+    "rostered_roles": [
+      "RN",
+      "LPN",
+      "THERAPIST",
+      "TECHNICIAN",
+      "PHARMACIST",
+      "HOUSEKEEPING"
+    ],
+    "rostered_fte_cycle": [
+      "0.500000",
+      "0.600000",
+      "0.650000",
+      "0.850000"
+    ],
+    "agency_per_facility": 6,
+    "contract_per_facility": 4,
+    "late_hires_per_facility": 6,
+    "terminations_per_facility": 6,
+    "agency_loaded_factor": "1.35",
+    "contract_loaded_factor": "1.10",
+    "renewal_loaded_factor": "1.04",
+    "initial_credential_start": "2022-07-01",
+    "initial_credential_end": "2024-07-01",
+    "renewed_credential_end": "2026-07-01",
+    "specialty_home": {
+      "Internal Medicine": [
+        "MED"
+      ],
+      "Emergency Medicine": [
+        "ED"
+      ],
+      "General Surgery": [
+        "SURG"
+      ],
+      "Orthopedics": [
+        "SURG"
+      ],
+      "Critical Care": [
+        "ICU"
+      ],
+      "Medical-Surgical Nursing": [
+        "MED",
+        "SURG"
+      ],
+      "Emergency Nursing": [
+        "ED"
+      ],
+      "Critical Care Nursing": [
+        "ICU"
+      ],
+      "Respiratory Therapy": [
+        "MED",
+        "ICU"
+      ],
+      "Physical Therapy": [
+        "MED",
+        "SURG"
+      ],
+      "Clinical Laboratory": [
+        "DIAG"
+      ],
+      "Diagnostic Imaging": [
+        "DIAG"
+      ],
+      "Hospital Pharmacy": [
+        "PHARM"
+      ],
+      "Environmental Services": [
+        "SUPPORT"
+      ],
+      "Hospital Administration": [
+        "SUPPORT"
+      ],
+      "Finance": [
+        "SUPPORT"
+      ],
+      "Human Resources": [
+        "SUPPORT"
+      ],
+      "Information Technology": [
+        "SUPPORT"
+      ],
+      "Patient Access": [
+        "AMB"
+      ]
+    },
+    "specialty_center_overrides": {
+      "Finance": "FINANCE",
+      "Human Resources": "HR",
+      "Information Technology": "IT",
+      "Diagnostic Imaging": "IMAGING"
+    }
+  },
+  "coverage": {
+    "renewal_patients": 4000,
+    "other_change_patients": 4000,
+    "payer_mix_under65": {
+      "COMMERCIAL": 62,
+      "MEDICAID": 28,
+      "SELF_PAY": 10
+    },
+    "payer_mix_65plus": {
+      "MEDICARE": 82,
+      "COMMERCIAL": 10,
+      "MEDICAID": 5,
+      "SELF_PAY": 3
+    }
+  },
+  "security": {
+    "principals": 150,
+    "grants_per_principal": 6,
+    "changed_grants": 450
+  },
+  "mapping": {
+    "patient": 6382,
+    "worker_namespaces": [
+      "WORKDAY",
+      "EHR_PROVIDER",
+      "IDENTITY_PROVIDER"
+    ],
+    "catalog": 2400,
+    "location": 150,
+    "center_namespaces": [
+      "WORKDAY_CENTER",
+      "AXIOM_CENTER"
+    ],
+    "payer": 24,
+    "unit_associations": 36,
+    "unit_association_changes": 18
+  },
+  "opening_health": {
+    "problems": 12000,
+    "allergies": 1000,
+    "condition_codes": [
+      "I10",
+      "E119",
+      "I509",
+      "J449",
+      "N189",
+      "E785"
+    ],
+    "severity_weights": {
+      "MILD": 45,
+      "MODERATE": 40,
+      "SEVERE": 10,
+      "UNKNOWN": 5
+    },
+    "minimum_ages": {
+      "I10": 18,
+      "E119": 25,
+      "I509": 35,
+      "J449": 40,
+      "N189": 35,
+      "E785": 25
+    },
+    "age_weights": {
+      "18-34": 1,
+      "35-49": 3,
+      "50-64": 6,
+      "65-100": 10
+    },
+    "allergy_reactions": [
+      "Rash",
+      "Urticaria",
+      "Wheezing",
+      "Pruritus"
+    ]
+  },
+  "references": {
+    "names": "references/person-name-weights.json",
+    "clinical_codes": "references/clinical-code-releases.json",
+    "local_catalog": "references/hospital-reference-catalog.json",
+    "runtime": "contracts/phase1/runtime-lock.json"
+  },
+  "review": {
+    "patients": 100,
+    "workers": 50
+  },
+  "assumptions_provenance": "Configured fictional US adult hospital group; public names/code releases support vocabulary only. Demographic, workforce, payer and morbidity weights are project assumptions, not measured national benchmarks."
+}

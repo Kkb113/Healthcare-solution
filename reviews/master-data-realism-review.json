@@ -1,0 +1,48 @@
+{
+  "status": "APPROVED",
+  "review_date": "2026-10-23",
+  "reviewer": "Codex, user-designated technical and synthetic-data realism reviewer",
+  "review_scope": "Identity, demographic, workforce and source-context plausibility; no licensed clinical or vendor certification claimed",
+  "sample_sha256": "e327e56cf774a3a42a43e11a1461dbda4d541fcf9a247dbdb348aabc9c92f52c",
+  "patient_identities_reviewed": 100,
+  "worker_identities_reviewed": 50,
+  "sampling": "Deterministic stratification across all five age bands, four administrative-sex values, six self-report categories, seven language/unknown states, changed/unchanged histories, eight worker roles, three employers, three employment types, later hires and former staff.",
+  "findings": [
+    {
+      "area": "Names and ages",
+      "disposition": "PASS",
+      "observations": "Reviewed all 100 patient rows. Cohort-appropriate names, middle names/initials, hyphenation, suffix and age variation are plausible; no indexed generic names. Rare cross-series names and unknown administrative attributes are retained rather than guessed from a name."
+    },
+    {
+      "area": "Geography and contacts",
+      "disposition": "PASS",
+      "observations": "Constructed street/apartment addresses vary across the three declared Illinois city/postal areas. Automated full-cohort checks separately verify reserved .example email and 555-01xx contacts; addresses are fictional combinations, not copied addresses or a deliverability claim."
+    },
+    {
+      "area": "Demographic associations",
+      "disposition": "PASS",
+      "observations": "Self-report is generated independently before probabilistic surname selection. Census aggregate weights with cross-population mixing improve plausibility without imputing a person category from a name. Disease generation is independently tested against surname changes."
+    },
+    {
+      "area": "Workforce",
+      "disposition": "PASS",
+      "observations": "Reviewed all 50 worker rows, including physicians, nursing, therapy, laboratory/imaging, pharmacy, environmental and administrative staff; employer, credential, FTE, agency/contract cost premiums, hires and terminations form plausible demonstration records."
+    },
+    {
+      "area": "Master histories and scope",
+      "disposition": "PASS",
+      "observations": "Full-data validators, not a visual name review, establish referential integrity and effective/known history boundaries. Opening problem/allergy assertions consume the frozen condition budget. Clinical journeys and outcomes remain later work."
+    }
+  ],
+  "unresolved_critical_findings": [],
+  "limitations": [
+    "Configured catchment and cost/coverage assumptions are fictional rather than US benchmarks.",
+    "No real identities, license registries, live Workday/Axiom extracts or patient records were used.",
+    "This review approves only the matching identity sample and master-data implementation; full healthcare data acceptance remains blocked."
+  ],
+  "additional_review_notes": [
+    "Re-reviewed all 150 identities after documented SSA registration-label curation and canonical ordering of configuration distributions.",
+    "The sample now includes Jayne Brenda Andress, Glenn Peters, Lois Williams and Mathew Justin Castillo with distinct adult histories; the reviewed worker roles/types and contractual costs remain coherent.",
+    "Cross-series/unisex names and cross-population surnames are configured probabilistic cases; administrative self-report is retained rather than overwritten from appearance of a name."
+  ]
+}

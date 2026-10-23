@@ -1,10 +1,22 @@
 # Healthcare synthetic data foundation
 
-Phases 0 and 1 establish the data foundation for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. Phase 1 adds a runnable, deterministic framework and small development fixtures. No full healthcare dataset is accepted and no cloud deployment, forecasting model, dashboard, or AI agent has been built.
+Phases 0-2 establish the data foundation for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. The deterministic framework now generates and validates realistic full-schema master data. No full healthcare dataset is accepted and no cloud deployment, forecasting model, dashboard, or AI agent has been built.
 
 The finalized baseline contains **25 business tables and 1,958,210 planned records** across **2023-2025**, with **41,790 records of headroom** below the two-million ceiling. Three fictional Illinois community hospitals have 72 inpatient beds in total. This replaces the earlier provisional 300-bed scale so the budget includes clinical detail and historical revisions.
 
-Start with the [Phase 0 baseline](docs/phase-0/README.md), [Phase 1 framework and runbook](docs/phase-1/README.md), and [implementation plan](synthetic-data-generation-implementation.md). Phase 1 completion makes **Phase 2** eligible to start when requested. The analytics solution stays blocked until final Phase 9 data acceptance.
+Start with the [frozen baseline](docs/phase-0/README.md), [framework](docs/phase-1/README.md), [master-data foundation](docs/master-data/README.md), and [implementation plan](synthetic-data-generation-implementation.md). Phase 2 completion makes **Phase 3** eligible to start when requested. The analytics solution stays blocked until final Phase 9 data acceptance.
+
+## Generate and validate the master-data foundation
+
+```powershell
+python scripts/validate_master_foundation.py
+python scripts/generate_master_data.py --output output/master-foundation
+python scripts/validate_master_data.py --output output/master-foundation
+```
+
+The candidate contains **78,922 full-schema rows**: 20,000 stable patients, 300 stable workers, organizations/72 beds, payer/coverage/security histories, source mappings, 3,000 catalog entries and 13,000 opening health assertions. All rows fit within the existing budget; **1,879,288 planned rows remain** for later work. The candidate currently has 11 generated business tables; the complete release retains the frozen 25-table schema. It is not final data acceptance.
+
+See the [master-data gate](evidence/master-data/acceptance-gate.json), [validation evidence](evidence/master-data/validation-report.json), [reviewed 100-patient/50-worker sample](reviews/master-data-identity-sample.md), and [runbook](docs/master-data/runbook.md). Public aggregate references are pinned and generation runs offline. Generated datasets remain under ignored output paths; only selected review/evidence artifacts are versioned. New filenames follow the [repository naming conventions](CONTRIBUTING.md).
 
 ## Run the Phase 1 framework and gate
 

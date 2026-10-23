@@ -1,0 +1,1659 @@
+{
+  "implementation_phase": 2,
+  "evaluated_at": "2026-10-23T07:57:55.256704+00:00",
+  "scope": "Full-schema master data and opening health context only",
+  "full_dataset_accepted": false,
+  "solution_status": "BLOCKED_FOR_SOLUTION",
+  "design_artifacts_current": true,
+  "design_regression": {
+    "phase": 0,
+    "validation_scope": "Contract integrity and independently calculated design feasibility only; no generated-data validations have been executed.",
+    "baseline_version": "1.0.0",
+    "passed": true,
+    "check_count": 41,
+    "checks": [
+      {
+        "id": "TABLE_COUNT",
+        "passed": true,
+        "detail": "25 tables; unique names required"
+      },
+      {
+        "id": "BUDGET",
+        "passed": true,
+        "detail": "Planned=1,958,210; reserve=41,790"
+      },
+      {
+        "id": "BUDGET_SYNC",
+        "passed": true,
+        "detail": "Schema and baseline have identical per-table budgets"
+      },
+      {
+        "id": "POSITIVE_BUDGETS",
+        "passed": true,
+        "detail": "Every table has a positive integer envelope"
+      },
+      {
+        "id": "HORIZON",
+        "passed": true,
+        "detail": "1096 days, 36 months including leap year"
+      },
+      {
+        "id": "EXPORT_GRACE",
+        "passed": true,
+        "detail": "December close may arrive in January; no extra clinical/payment outcomes are manufactured"
+      },
+      {
+        "id": "DRIVER_DAYS",
+        "passed": true,
+        "detail": "One facility-day row per local day"
+      },
+      {
+        "id": "DICTIONARY",
+        "passed": true,
+        "detail": "All scalar field definitions, units, keys and history metadata complete"
+      },
+      {
+        "id": "REFERENCES",
+        "passed": true,
+        "detail": "All physical FKs target matching typed primary keys"
+      },
+      {
+        "id": "LOGICAL_REFERENCES",
+        "passed": true,
+        "detail": "Stable identities, typed scopes/crosswalks and source-group predicates are explicitly declared"
+      },
+      {
+        "id": "RULE_CATALOG",
+        "passed": true,
+        "detail": "55 uniquely owned, scoped rules with full table coverage"
+      },
+      {
+        "id": "SOURCES",
+        "passed": true,
+        "detail": "Canonical fields and Workday/Axiom/ADT layouts map to known columns"
+      },
+      {
+        "id": "CLINICAL_MATRIX",
+        "passed": true,
+        "detail": "Every event family has explicit required fields, domain and provenance semantics"
+      },
+      {
+        "id": "SCENARIOS",
+        "passed": true,
+        "detail": "12 causal scenarios with positive coverage, exact fixtures and valid rule dependencies"
+      },
+      {
+        "id": "REALISM_TARGETS",
+        "passed": true,
+        "detail": "All thresholds preregistered with denominators and assumption/source provenance"
+      },
+      {
+        "id": "BED_CAPACITY",
+        "passed": true,
+        "detail": "72 beds = 3 x (4 ICU + 20 medicine/surgery)"
+      },
+      {
+        "id": "OCCUPANCY",
+        "passed": true,
+        "detail": "Licensed=78912, staffed=77950, occupied=62400; staffed occupancy=80.051315%"
+      },
+      {
+        "id": "OPENING",
+        "passed": true,
+        "detail": "57 opening occupied beds linked to 57 in-window carry-in encounters"
+      },
+      {
+        "id": "PATHWAY_ROUTES",
+        "passed": true,
+        "detail": "Case mix sums to one; 5.21-day completed-duration assumption and all 12,000 admission routes reconciled"
+      },
+      {
+        "id": "ENCOUNTER_ROWS",
+        "passed": true,
+        "detail": "56k intersecting +2k opening-only +68k lifecycle +4k correction =130k"
+      },
+      {
+        "id": "PATIENT_WORKER_ROWS",
+        "passed": true,
+        "detail": "Stable persons plus versions reconcile to table envelopes"
+      },
+      {
+        "id": "CLINICAL_ROWS",
+        "passed": true,
+        "detail": "Every event family plus revisions counted"
+      },
+      {
+        "id": "CLINICAL_BUDGET_FAMILIES",
+        "passed": true,
+        "detail": "No omitted/zero clinical event family or uncounted revision class"
+      },
+      {
+        "id": "BED_EVENT_ROWS",
+        "passed": true,
+        "detail": "All opening/transitions/capacity/correction rows counted"
+      },
+      {
+        "id": "BED_INTERVALS",
+        "passed": true,
+        "detail": "15k intervals and allowance for four primary transitions each"
+      },
+      {
+        "id": "TURNAROUND",
+        "passed": true,
+        "detail": "Turnaround allowance 781.25 bed-days fits staffed slack"
+      },
+      {
+        "id": "STAFF_ROWS",
+        "passed": true,
+        "detail": "52k work +4k leave/unavailable +14k versions =70k rows"
+      },
+      {
+        "id": "STAFF_FEASIBILITY",
+        "passed": true,
+        "detail": "RN supply=382200h, modeled requirement=343200h; annual worked=208000h <= contracted capacity=243360h"
+      },
+      {
+        "id": "CLAIM_ROWS",
+        "passed": true,
+        "detail": "54k new +2k opening claims; all 160k lifecycle events budgeted"
+      },
+      {
+        "id": "CHARGE_LINE_CAPACITY",
+        "passed": true,
+        "detail": "One-charge/one-original-line baseline is feasible without duplicating charges"
+      },
+      {
+        "id": "FINANCIAL_SERIES",
+        "passed": true,
+        "detail": "Selected series, not unbudgeted dense account/vintage Cartesian product"
+      },
+      {
+        "id": "FINANCIAL_GRID",
+        "passed": true,
+        "detail": "Account/center/month/vintage products independently recomputed, not just a matching grand total"
+      },
+      {
+        "id": "POSTING_ROWS",
+        "passed": true,
+        "detail": "All source, opening and monthly cost-pool reclassification journal lines counted"
+      },
+      {
+        "id": "POOL_CLOSE_LINES",
+        "passed": true,
+        "detail": "Up to four categories per center/month have counted debit and credit reclassification lines"
+      },
+      {
+        "id": "ALLOCATION_FEASIBILITY",
+        "passed": true,
+        "detail": "Patient/category/month/transfer allocations, nonpatient/residual and revision allowance fit 180k rows"
+      },
+      {
+        "id": "HAND_CALCULATIONS",
+        "passed": true,
+        "detail": "Independent census/stock/debit-credit/rounding arithmetic"
+      },
+      {
+        "id": "AGE_FIXTURES",
+        "passed": true,
+        "detail": "Birthday and configured leap-day convention"
+      },
+      {
+        "id": "SOLUTION_LOCK",
+        "passed": true,
+        "detail": "No generator, datasets, models, dashboards or solution deployment authorized by these design checks"
+      },
+      {
+        "id": "OFFLINE_SCHEMA_ARTIFACTS",
+        "passed": true,
+        "detail": "Offline DDL has 25 PK definitions and 62 FK declarations; dictionary covers every table. No live DDL executed."
+      },
+      {
+        "id": "DOCUMENT_LINKS",
+        "passed": true,
+        "detail": "All local Markdown links resolve across 25 documents"
+      },
+      {
+        "id": "GATE_ARTIFACTS",
+        "passed": true,
+        "detail": "Gate/README/review agree with the contract budget, zero generated records and blocked solution scope"
+      }
+    ],
+    "contract_sha256": {
+      "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
+      "contracts/phase0/clinical-type-matrix.json": "9deaa0fdca2f0310d1cefa5061b59071f93197e1eef52a1ec8b56a1a1ca2d97f",
+      "contracts/phase0/databricks-schema.sql": "ee6db2817180ab84c5bafd227a8c71628d18fb5877745b1f5d5e9a9853e29580",
+      "contracts/phase0/realism-targets.json": "4616bc333586527bdc4deeef9f506d2df14082f899982edfbb2e938563f15e0f",
+      "contracts/phase0/scenarios.json": "56283fa396b1202c73e5e0609ade1aa82fa6df4708c064096902624f24bfbeb2",
+      "contracts/phase0/schema.json": "062d9b070ed687cf0c98e8a2ec16efe47969a7ed1080d11b594126d062168f3c",
+      "contracts/phase0/source-contracts.json": "64911dbf82f7d65c24271fa13a3de9c292b5b9a0f97e2531ad751dd17a8b2413",
+      "contracts/phase0/validation-rules.json": "dffe39411824eae480f1e80e58e3961302a7d6187cdf011c26d862278d30944b"
+    },
+    "business_tables": 25,
+    "planned_records": 1958210,
+    "actual_generated_records": 0,
+    "solution_status": "BLOCKED_FOR_SOLUTION"
+  },
+  "frozen_design_hashes_unchanged": true,
+  "tests": {
+    "run": 121,
+    "passed": true,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "cases": [
+      {
+        "test": "test_master_data.MasterDataTests.test_birth_cohort_weights_and_demographic_bands",
+        "status": "PASS",
+        "seconds": 0.375
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_budget_rejection_and_no_later_domain_generation",
+        "status": "PASS",
+        "seconds": 0.047
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_cached_resume_preserves_exact_business_hashes",
+        "status": "PASS",
+        "seconds": 2.984
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_changed_seed_keeps_all_master_rules_and_requires_fresh_review",
+        "status": "PASS",
+        "seconds": 20.828
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_clean_rebuild_matches_all_business_and_stage_hashes",
+        "status": "PASS",
+        "seconds": 19.891
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_code_releases_cover_october_and_april_boundaries",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_complete_master_scope_and_budget",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_coverage_consumer_resolves_same_person_after_demographic_change",
+        "status": "PASS",
+        "seconds": 0.015
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_exclusive_bitemporal_rectangles_and_revision_sequence",
+        "status": "PASS",
+        "seconds": 0.141
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_failed_upstream_invalidates_descendants_before_recomputation",
+        "status": "PASS",
+        "seconds": 8.063
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_foreign_key_orphan_is_rejected",
+        "status": "PASS",
+        "seconds": 0.046
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_full_field_schema_not_fixture_projection",
+        "status": "PASS",
+        "seconds": 1.922
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_hierarchies_and_physical_capacity",
+        "status": "PASS",
+        "seconds": 0.078
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_identity_review_is_stratified_and_content_bound",
+        "status": "PASS",
+        "seconds": 0.938
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_independent_inspector_checks_files_and_recalculates",
+        "status": "PASS",
+        "seconds": 5.984
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_manager_cycle_and_temporal_resolution",
+        "status": "PASS",
+        "seconds": 0.094
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_names_do_not_determine_self_report_or_opening_health",
+        "status": "PASS",
+        "seconds": 0.203
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_official_and_local_reference_semantics",
+        "status": "PASS",
+        "seconds": 0.094
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_opening_health_has_no_fabricated_encounters_or_future_outcomes",
+        "status": "PASS",
+        "seconds": 0.141
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_patient_name_change_preserves_person_and_source_identity",
+        "status": "PASS",
+        "seconds": 0.031
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_primary_coverage_changes_and_selfpay",
+        "status": "PASS",
+        "seconds": 0.312
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_primary_source_keys_and_name_collisions",
+        "status": "PASS",
+        "seconds": 0.235
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_real_names_contacts_and_adult_eligibility",
+        "status": "PASS",
+        "seconds": 0.453
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_real_process_crash_rolls_back_and_resumes_without_duplicate_rows",
+        "status": "PASS",
+        "seconds": 11.531
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_reordering_configuration_objects_preserves_individual_records",
+        "status": "PASS",
+        "seconds": 0.047
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_revocation_blocks_and_active_scopes_remain",
+        "status": "PASS",
+        "seconds": 0.031
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_source_authority_and_availability",
+        "status": "PASS",
+        "seconds": 0.094
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_typed_crosswalks_no_fuzzy_or_ambiguous_mapping",
+        "status": "PASS",
+        "seconds": 0.109
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_validator_imports_no_generation_helpers",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_workday_and_axiom_identity_projections",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_worker_hire_termination_and_retroactive_cost_consumers",
+        "status": "PASS",
+        "seconds": 0.078
+      },
+      {
+        "test": "test_master_data.MasterDataTests.test_workforce_credentials_types_and_fte",
+        "status": "PASS",
+        "seconds": 0.063
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_budget_mismatch",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_duplicate_table",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_fk_to_nonunique_stable_identity",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_frozen_baseline",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_grace_cannot_add_another_business_year",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_hidden_nested_business_facts",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_impossible_occupancy",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_insufficient_staff",
+        "status": "PASS",
+        "seconds": 0.015
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_missing_fk_target",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_nullable_primary_key",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_offsetting_financial_grid_errors",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_omitted_clinical_budget_family",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_omitted_clinical_family",
+        "status": "PASS",
+        "seconds": 0.015
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_over_cap",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_premature_data_validation_claim",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_realism_share_sum",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_scenario_refers_to_unknown_rule",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_solution_cannot_unlock",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_unbudgeted_claim_events",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_unbudgeted_cost_pool_journals",
+        "status": "PASS",
+        "seconds": 0.015
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_unbudgeted_encounter_history",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_unfunded_allocation_fanout",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_unknown_source_column",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_aggregate_budget_counts_child_rows_and_all_versions",
+        "status": "PASS",
+        "seconds": 0.062
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_ambient_decimal_settings_do_not_change_business_or_validation",
+        "status": "PASS",
+        "seconds": 0.172
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_budget_exceeded_before_any_stage_publication",
+        "status": "PASS",
+        "seconds": 0.047
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_checkpoint_corruption_fails_closed",
+        "status": "PASS",
+        "seconds": 0.11
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_clean_build_cached_resume_and_manifest_accounting",
+        "status": "PASS",
+        "seconds": 0.109
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_clean_rebuild_has_identical_business_and_stage_hashes",
+        "status": "PASS",
+        "seconds": 0.156
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_code_hash_change_invalidates_every_stage",
+        "status": "PASS",
+        "seconds": 0.188
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_critical_failure_blocks_and_defect_resolves_after_upstream_fix",
+        "status": "PASS",
+        "seconds": 0.156
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_delivery_grace_does_not_allow_post_cutoff_care",
+        "status": "PASS",
+        "seconds": 0.094
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_every_stage_exception_rolls_back_then_resumes_without_duplicates",
+        "status": "PASS",
+        "seconds": 1.031
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_failed_changed_upstream_removes_all_stale_descendants",
+        "status": "PASS",
+        "seconds": 0.25
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_failure_cli_exit_status",
+        "status": "PASS",
+        "seconds": 0.391
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_independent_export_validator_finds_corrupt_source",
+        "status": "PASS",
+        "seconds": 0.078
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_independent_runner_rejects_modified_business_file",
+        "status": "PASS",
+        "seconds": 0.109
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_mandatory_negative_controls_cannot_be_disabled",
+        "status": "PASS",
+        "seconds": 0.063
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_no_full_generation_profile_unknown_fields_or_clock_change",
+        "status": "PASS",
+        "seconds": 0.031
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_projection_detects_arithmetic_and_chronology_changes_independently",
+        "status": "PASS",
+        "seconds": 0.094
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_readonly_independent_candidate_runner",
+        "status": "PASS",
+        "seconds": 0.093
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_real_process_death_before_commit_recovers_wal_and_marks_attempt",
+        "status": "PASS",
+        "seconds": 0.5
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_reconciliation_reports_observed_values_and_differences",
+        "status": "PASS",
+        "seconds": 0.078
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_reference_bytes_change_invalidates_every_stage",
+        "status": "PASS",
+        "seconds": 0.157
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_runtime_lock_mismatch_stops_run",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_second_process_cannot_write_active_run_directory",
+        "status": "PASS",
+        "seconds": 0.406
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_seed_change_varies_individuals_and_keeps_constraints",
+        "status": "PASS",
+        "seconds": 0.172
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_selective_config_invalidation_preserves_ancestors",
+        "status": "PASS",
+        "seconds": 0.125
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_unregistered_tables_nested_rows_and_duplicate_owners_rejected",
+        "status": "PASS",
+        "seconds": 0.015
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_validation_only_config_changes_do_not_regenerate_business",
+        "status": "PASS",
+        "seconds": 0.125
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_allocation_conservation_and_reversal",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_canonical_unicode_and_field_order",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_clock_order_ties_and_dynamic_feedback",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_effective_code_release_boundary",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_equivalent_utc_instants",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_fall_fold_is_explicit",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_half_up_signed_rounding",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_leap_birthdays_follow_frozen_phase0_convention",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_no_binary_float_or_naive_instants",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_retroactive_worker_asof",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_row_order_invariance_keeps_duplicates",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_spring_gap_and_elapsed_shift",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_stream_boundaries",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_streams_do_not_reshuffle_existing_people",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_typed_identity_and_name_collisions",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_all_seven_source_recovery_behaviors",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_bad_row_is_atomic_and_repair_restores_certification",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_correction_cycles_and_missing_predecessors_fail",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_csv_roundtrip_unicode_quotes_and_newlines",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_duplicate_version_inside_file_and_conflicting_message",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_exact_decimal_and_row_control_checks",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_implicit_replacement_and_branched_vintages_rejected",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_missing_partition_is_never_zero",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_not_yet_available_delivery_rejected",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_replacement_scope_and_history",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_replayed_file_has_no_economic_effect",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_schema_and_unmapped_quarantine_does_not_partially_apply",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_all_123_faults_use_intended_detector_and_block_gate",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_all_55_positive_and_adverse_cases",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_all_frozen_rule_families_have_positive_and_negative_controls",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_critical_detector_removed_is_caught_by_negative_controls",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_defect_ids_stable_across_reason_changes",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_empty_or_invalid_gate_evidence_cannot_pass",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_offsetting_financial_errors_fail_at_declared_grain",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_profile_preserves_null_distinct_and_extrema",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_real_adverse_outcomes_do_not_equal_malformed_data",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_unknown_rule_and_missing_fields_fail_closed",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_validator_arithmetic_does_not_use_generator_rounding",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_validator_module_has_no_generation_imports",
+        "status": "PASS",
+        "seconds": 0.015
+      }
+    ],
+    "failure_details": []
+  },
+  "manifest": {
+    "profile": "MASTER_FOUNDATION",
+    "implementation_phase": 2,
+    "started_at": "2026-10-23T07:59:33.373730+00:00",
+    "status": "MASTER_FOUNDATION_PASSED",
+    "locks": {
+      "files": {
+        "src/healthcare_synthetic/__init__.py": "872ab14430bb39fd0baddd2ef66a99075f2f1dedce587f08210a2275e474bed2",
+        "src/healthcare_synthetic/core.py": "be57d625783707220f72b6c8f275d712ef3893faef44dc2212c6f01b8331e78e",
+        "src/healthcare_synthetic/engine.py": "0d014dab88e6c8e31b7c811e17c9fdbde787bd5c1bc2f1d09442ea468822370d",
+        "src/healthcare_synthetic/master_generation.py": "8abf762b1c18a999b4c6254121af200c5659f82283a31bd957ada7273c63da07",
+        "src/healthcare_synthetic/master_pipeline.py": "7724714dc67b69f38c1511863de77add804cb2d38436968af3736e862016e77e",
+        "src/healthcare_synthetic/master_queries.py": "65276ea5ba9251beb199318c809d578ba3e9ccd5651304613f248f9c633dc644",
+        "src/healthcare_synthetic/master_review.py": "62f19a72859b906507abe7a9c4d10175a4f989758c7c1037defc4f5f6588a55d",
+        "src/healthcare_synthetic/master_validation.py": "613590557fbcc165bf111bdcb93095aadd2b624b9e16f5776dfafef0d193f1e7",
+        "src/healthcare_synthetic/source_identity_projection.py": "fa0f3e36ff76cdd481ded7f3c8b7afab10e48f8e44ab850607c0eca66ab90024",
+        "src/healthcare_synthetic/sources.py": "ca920f32aff7060db33f46912df98331009a5bee47662f99bf66bf68fc12bdc7",
+        "src/healthcare_synthetic/stages.py": "794aa375f2e0960b3b2c7d8049022b6e4ade1e2694f118bf71bade7af3ca460a",
+        "src/healthcare_synthetic/validation.py": "2c743743bfacf33340b9ad238457ea7e7b91808231b60d76579f50175fffec3f",
+        "contracts/master-data-policy.json": "619830491bd2eaffda711b92b8c3ac86561dfca4e82e9eb27e65f1a589ce7d31",
+        "contracts/reference-package-lock.json": "0601389d5984a539d4a696d9b5fdb4045338fdd066a7704265f7ac59b29b7805",
+        "contracts/phase1/runtime-lock.json": "2e4a7bafaf989370edbf22d92b9f81e8b37f24d39c48a32549cb0a4cd54e18f3",
+        "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
+        "contracts/phase0/clinical-type-matrix.json": "9deaa0fdca2f0310d1cefa5061b59071f93197e1eef52a1ec8b56a1a1ca2d97f",
+        "contracts/phase0/realism-targets.json": "4616bc333586527bdc4deeef9f506d2df14082f899982edfbb2e938563f15e0f",
+        "contracts/phase0/scenarios.json": "56283fa396b1202c73e5e0609ade1aa82fa6df4708c064096902624f24bfbeb2",
+        "contracts/phase0/schema.json": "062d9b070ed687cf0c98e8a2ec16efe47969a7ed1080d11b594126d062168f3c",
+        "contracts/phase0/source-contracts.json": "64911dbf82f7d65c24271fa13a3de9c292b5b9a0f97e2531ad751dd17a8b2413",
+        "contracts/phase0/validation-rules.json": "dffe39411824eae480f1e80e58e3961302a7d6187cdf011c26d862278d30944b",
+        "references/person-name-weights.json": "3f7d369273109fe4da0778a5234cc2e3c59e15babe27456fe28fa12f95accb0e",
+        "references/clinical-code-releases.json": "28112cec2a482fafe861529673ad0f6b0e79c373e1485ba3c42ffe14c9baeb7c",
+        "references/hospital-reference-catalog.json": "53d0107cd7637b46378a7cb1873098ea0c90b9848bc3151dd6915c708f1af8ae"
+      },
+      "runtime": {
+        "python": "3.10.10",
+        "implementation": "CPython",
+        "tzdata": "2025.2",
+        "chicago_sha256": "c27b739ff46a7df0594e120d725b439217e11e44ea9a50cdc49130383b5482e7"
+      },
+      "configuration_sha256": "46085231c83e0eec7c50e7d2416c8701201ef32b33c8f0e88d11997d6dc81f39"
+    },
+    "executed": [
+      "validation"
+    ],
+    "reused": [
+      "organizations",
+      "catalog",
+      "patients",
+      "workforce",
+      "payers",
+      "coverage",
+      "security",
+      "mappings",
+      "opening_health"
+    ],
+    "invalidated": [
+      "validation"
+    ],
+    "full_dataset_accepted": false,
+    "solution_status": "BLOCKED_FOR_SOLUTION",
+    "business_sha256": "c4e987cfd994c51a6bcf0352d44b386d701a84ef8e35a84240bbed25cf1dc59c",
+    "business_rows": 78922,
+    "rows_by_table": {
+      "cost_center": 45,
+      "facility": 3,
+      "location": 150,
+      "catalog_item": 3000,
+      "patient": 22000,
+      "worker_assignment": 900,
+      "payer_plan": 24,
+      "patient_coverage": 28000,
+      "access_scope": 1800,
+      "source_key_map": 10000,
+      "clinical_condition": 13000
+    },
+    "canonical_files": {
+      "cost_center": {
+        "file": "canonical/cost-center.jsonl",
+        "sha256": "59d84db8258a4dcc035a4127d1324bad2037a392c37388e9f1e19d8bab046135",
+        "bytes": 24180,
+        "rows": 45
+      },
+      "facility": {
+        "file": "canonical/facility.jsonl",
+        "sha256": "ff3f0b5114089f60a18536b919981166729cfe94ecdd9219c3d58d005b57cc9b",
+        "bytes": 1524,
+        "rows": 3
+      },
+      "location": {
+        "file": "canonical/location.jsonl",
+        "sha256": "5a02e56fdda95cb251d091004f3d3d9b60d585dcc862b85ce77ae83661f6ce6d",
+        "bytes": 97182,
+        "rows": 150
+      },
+      "catalog_item": {
+        "file": "canonical/catalog-item.jsonl",
+        "sha256": "1bbfdd3f2621ecaf4658ed55d62012dce2b82f47733a03b92847a5fe1a6636a9",
+        "bytes": 2122462,
+        "rows": 3000
+      },
+      "patient": {
+        "file": "canonical/patient.jsonl",
+        "sha256": "7c4235cf024e1e1ac3624b08265cd2df05c1106c2b6ac6e15c5e7a97dacc2cf2",
+        "bytes": 20353928,
+        "rows": 22000
+      },
+      "worker_assignment": {
+        "file": "canonical/worker-assignment.jsonl",
+        "sha256": "f5fc13f26d5d1d9ab924788e90e3de778f8ddc22521c49d59f167687310dc0ab",
+        "bytes": 1017756,
+        "rows": 900
+      },
+      "payer_plan": {
+        "file": "canonical/payer-plan.jsonl",
+        "sha256": "e8b19173a405c0e762dfa722fa1dcff29944c5c91000e916c94ad8f24ce24cde",
+        "bytes": 12934,
+        "rows": 24
+      },
+      "patient_coverage": {
+        "file": "canonical/patient-coverage.jsonl",
+        "sha256": "7e28df5e9995bbcb6efa4a6f5bb97ec1518410f481eaadd2d0bd926a6087ccab",
+        "bytes": 19636793,
+        "rows": 28000
+      },
+      "access_scope": {
+        "file": "canonical/access-scope.jsonl",
+        "sha256": "885d8eb5cc7d314165634d7066817ebb979abb7dfcca1d0804729501f4200205",
+        "bytes": 1267812,
+        "rows": 1800
+      },
+      "source_key_map": {
+        "file": "canonical/source-key-map.jsonl",
+        "sha256": "ce8d1d05f82a51859a48d84e335133c726d21ccaa5f44a4ec1d16306358171a1",
+        "bytes": 6705955,
+        "rows": 10000
+      },
+      "clinical_condition": {
+        "file": "canonical/clinical-condition.jsonl",
+        "sha256": "10d0278d8ae62a9e878499bb63dbd4ad1bb7d9792131f561cefacde88d850f41",
+        "bytes": 11118717,
+        "rows": 13000
+      }
+    },
+    "stage_checksums": {
+      "organizations": "c67e757cd97bd6cc3ff7b014c3acf09d11d648cdda529913200da655ff477cd1",
+      "catalog": "132299ba81ec6e7518749aeccc960ac284b94f5fa4883b2df526a386c4d8e4fc",
+      "patients": "30007ad06807a40bbb75f39523d631600b380858cf23089e3cf61a7377bed0f3",
+      "workforce": "af5cb65980066ea6c11fcd79f3a369959cb86b286452c892e48f91f64eb3f4fe",
+      "payers": "18d6871867b75ff8bf486f2b0c851179a84aa97773d57c56320d9ade1cbe13b8",
+      "coverage": "e88cd43e05839e0a8436e32f8bf42847b0233b32dfe10b20eb250d2b20d1e391",
+      "security": "6dade6226a30be9998633a890d3dbe40c640ed617cd47ee9ee7fa9378d843af3",
+      "mappings": "d0dfca555d51850d6f158295cc3bf29a97e151d7ce458fec1cdbf15c521873a6",
+      "opening_health": "bbbbd5e94aa7208bb93979d3841de3f97209ba213a1a8427b4836b1c31c77d4a",
+      "validation": "70c8d0df1cfa45b2b8d86f4e04447f2bba2df898f6e23b769099d1815bf317aa"
+    },
+    "release_business_tables": 25,
+    "generated_business_tables": 11,
+    "remaining_planned_rows": 1879288,
+    "review_mirror_rows": 150,
+    "review_mirror_bytes": 26651,
+    "checkpoint_mirror_rows": 78922,
+    "physical_serialized_rows": 157994,
+    "next_phase": "Longitudinal clinical histories - not started",
+    "finished_at": "2026-10-23T07:59:39.796953+00:00"
+  },
+  "independent_validation": {
+    "status": "MASTER_CHECKS_PASSED",
+    "checks": [
+      {
+        "rule_id": "SCHEMA",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "KEYS",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "REFERENCES",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "AVAILABILITY",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "RECTANGLES",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "PATIENT_IDENTITIES",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "DEMOGRAPHICS",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "NAME_WEIGHTS",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "ORG_HIERARCHY",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "WORKFORCE",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "MANAGERS",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "COVERAGE",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "CATALOG",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "CROSSWALKS",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "ACCESS",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "OPENING_HEALTH",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "ASOF",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      },
+      {
+        "rule_id": "BUDGET",
+        "status": "PASS",
+        "severity": "P0",
+        "scope": "FULL_MASTER_DATA",
+        "failures": []
+      }
+    ],
+    "metrics": {
+      "patients": {
+        "stable_people": 20000,
+        "versions": 22000,
+        "name_collision_groups": 552,
+        "given_names": 1374,
+        "family_names": 6564
+      },
+      "demographics": {
+        "age_groups": {
+          "18-34": 3238,
+          "50-64": 5159,
+          "65-79": 5031,
+          "35-49": 4041,
+          "80-100": 2531
+        },
+        "administrative_sex": {
+          "F": 10326,
+          "M": 9283,
+          "UNKNOWN": 190,
+          "X": 201
+        },
+        "race_ethnicity": {
+          "White, non-Hispanic": 11525,
+          "Asian, non-Hispanic": 1044,
+          "Hispanic or Latino": 2645,
+          "Black, non-Hispanic": 3777,
+          "Multiracial or other": 604,
+          "UNKNOWN": 405
+        },
+        "languages": {
+          "en": 16385,
+          "es": 1627,
+          "zh": 414,
+          "DECLINED": 408,
+          "UNKNOWN": 388,
+          "pl": 595,
+          "ar": 183
+        }
+      },
+      "addresses": {
+        "distinct": 16964,
+        "shared": 3016,
+        "max_people_at_address": 4
+      },
+      "name_weights": {
+        "given_top100_other_tv": "0.01927993451669360431429625238",
+        "surname_top100_other_tv": "0.01624509270291953751027473183",
+        "mixed_race_repeated_surnames": 692,
+        "source_hashes": [
+          "7c8ca3c1ef72de0b0222a6c62bff494cc60c1d37e41b0745ede6570250e07f9a",
+          "117c41cb4668727b7627b2845b6df3f83eb2a22a1813f42c0ff4bdcab86de135"
+        ]
+      },
+      "organization": {
+        "facilities": 3,
+        "centers": 45,
+        "locations": 150,
+        "beds": 72,
+        "icu_beds": 12,
+        "general_beds": 60
+      },
+      "workforce": {
+        "stable_workers": 300,
+        "versions": 900,
+        "rostered_workers": 180,
+        "opening_roster_mean_fte": "0.650000",
+        "roles": {
+          "RN": 126,
+          "TECHNICIAN": 12,
+          "THERAPIST": 12,
+          "ADMIN": 75,
+          "PHYSICIAN": 45,
+          "PHARMACIST": 6,
+          "HOUSEKEEPING": 12,
+          "LPN": 12
+        },
+        "types": {
+          "EMPLOYEE": 270,
+          "CONTRACT": 12,
+          "AGENCY": 18
+        },
+        "late_hires": 18,
+        "terminated": 18
+      },
+      "coverage": {
+        "patients": 20000,
+        "rows": 28000,
+        "changed_patients": 8000,
+        "payer_classes": [
+          "COMMERCIAL",
+          "MEDICAID",
+          "MEDICARE",
+          "SELF_PAY"
+        ]
+      },
+      "catalog": {
+        "domains": {
+          "DIAGNOSIS": 2100,
+          "PROCEDURE": 730,
+          "DENIAL": 13,
+          "MEDICATION": 30,
+          "ACCOUNT": 17,
+          "OBSERVATION": 24,
+          "SUPPLY": 40,
+          "LAB": 30,
+          "ALLERGEN": 16
+        },
+        "official_rows": 2800,
+        "local_rows": 200,
+        "releases": [
+          "FY2023-APR",
+          "FY2023-OCT",
+          "FY2024-APR",
+          "FY2024-OCT",
+          "FY2025-APR",
+          "FY2025-OCT",
+          "FY2026-OCT"
+        ]
+      },
+      "crosswalks": {
+        "rows": 10000,
+        "types": {
+          "PATIENT": 6382,
+          "WORKER": 900,
+          "CATALOG": 2400,
+          "LOCATION": 150,
+          "COST_CENTER": 90,
+          "UNIT_COST_CENTER": 54,
+          "PAYER_PLAN": 24
+        },
+        "namespaces": [
+          "ADT_LOCATION",
+          "AXIOM_CENTER",
+          "AXIOM_PAYER",
+          "EHR_PROVIDER",
+          "IDENTITY_PROVIDER",
+          "LEGACY_EHR",
+          "TERMINOLOGY_ALIAS",
+          "UNIT_FINANCE",
+          "WORKDAY",
+          "WORKDAY_CENTER"
+        ]
+      },
+      "access": {
+        "current_revoked": 450,
+        "current_allowed": 450,
+        "rows": 1800
+      },
+      "opening_health": {
+        "problems": 12000,
+        "allergies": 1000,
+        "patients_with_assertions": 9185,
+        "absence_semantics": "Unasserted conditions are unknown/out of scope, not confirmed absence"
+      },
+      "asof": {
+        "changed_identities_probed": 1282,
+        "probes_per_identity": 3
+      },
+      "budget": {
+        "generated_master_rows": 78922,
+        "rows_by_table": {
+          "cost_center": 45,
+          "facility": 3,
+          "location": 150,
+          "catalog_item": 3000,
+          "patient": 22000,
+          "worker_assignment": 900,
+          "payer_plan": 24,
+          "patient_coverage": 28000,
+          "access_scope": 1800,
+          "source_key_map": 10000,
+          "clinical_condition": 13000
+        },
+        "frozen_release_rows": 1958210,
+        "remaining_planned_rows": 1879288,
+        "release_cap_reserve": 41790
+      }
+    },
+    "defects": [],
+    "full_dataset_accepted": false,
+    "solution_status": "BLOCKED_FOR_SOLUTION",
+    "review": {
+      "rule_id": "REVIEW_SAMPLE",
+      "severity": "P0",
+      "scope": "STRATIFIED_IDENTITY_REVIEW",
+      "status": "PASS",
+      "sample_sha256": "e327e56cf774a3a42a43e11a1461dbda4d541fcf9a247dbdb348aabc9c92f52c",
+      "reviewer": "Codex, user-designated technical and synthetic-data realism reviewer",
+      "failures": []
+    },
+    "review_selection": {
+      "patient_ids": [
+        "patient_c42e520addb5be48b4facca9aa95a3f8",
+        "patient_b1e8196cf30a0b2c19e8c16310f3bd42",
+        "patient_f164296739b55d47bff3a04cd3132321",
+        "patient_818fcf7ae555c41f240434daefc4ae10",
+        "patient_27febbe066c8fdbcd3852d934449d4ad",
+        "patient_37e42aeb0674affc9c8c0876a1e94fa8",
+        "patient_08fd429ede642315bf765c0a55de12a1",
+        "patient_510703522c251b9d2d08c9fd7a3b9701",
+        "patient_d056139c60b729421e389a6822b76216",
+        "patient_96edc84ca60d7f933e2e1c44ea4cda03",
+        "patient_516e7cef5436186049748b3ab41368c0",
+        "patient_7bd6038744ab05aaae032e02b3a241b6",
+        "patient_ef630c54c19b38787041c56d7f0f0523",
+        "patient_704c2bc20db382a68a737cabb8161869",
+        "patient_40d2eb19b58be0924ec576a5551bfb40",
+        "patient_19533bf13cafb8a1ce10b3c96f96b3a7",
+        "patient_f63551e29304e5b2b99a7c7611a5075c",
+        "patient_ef6bd584cffd3e4d1c8858a41393db2f",
+        "patient_aa9fb1ebf5d0b261b67f0acca5c47701",
+        "patient_aab6a51990cc37e5ba4a381f2e61c5ee",
+        "patient_0c1291a08e11360f2203781ef9db563a",
+        "patient_87dfea13a02dae7cf1a4b0a1fbbd5481",
+        "patient_6941dc21a72d3940d2f7afac702a8586",
+        "patient_4fd1a351c0933290ed6522541dd05a5a",
+        "patient_51593223708ac55896afc2c7984f5618",
+        "patient_f588ef44b1292689a29369dd5d63146a",
+        "patient_911985275e2def96be6160b4d306b6f1",
+        "patient_12c34af8691072f8c1faf051642a0a2c",
+        "patient_96e5553b04d561c9443afaa6a210355c",
+        "patient_447f649431130e3f1e70d4e0e13263c7",
+        "patient_35641a5c44cd8f401a8abeaf36236f35",
+        "patient_82671ea6eb5aae923088ad1f9f2c0d51",
+        "patient_97b35aaeb750e0a96c5067925043e811",
+        "patient_99af6a127d791eff05b59f414d092c94",
+        "patient_426e6aea015b77b0bf5366358d8c55a7",
+        "patient_89f0c132621bcf50738114061360719a",
+        "patient_c450666127b76578b7ab51520a42cac2",
+        "patient_8b00016f6999c3177f11bcef9c7045db",
+        "patient_551faaa5b7d638d95e5a6eb5f393cc9d",
+        "patient_96daefe4cc647f182812dfdc2fc2d804",
+        "patient_5c4f6c351d7f3d3ebd311e5717dfeeb4",
+        "patient_4e1de90c422eaf2e6b12f292f90f24fb",
+        "patient_c4c6aee76bc9a506a86487ddcf5f1f5d",
+        "patient_e37f2716d6a8f8e00f780ecc285cdcf2",
+        "patient_b6d8814172c2c29e8eb50f8e5f6e9521",
+        "patient_86fc277ede8832040a2e0ae8cbfb4c15",
+        "patient_8d2c73ba9c0980b1b7cb0aa14253be75",
+        "patient_77608e751267fb6225ca0ca2ad1608d4",
+        "patient_96243238b75c216b7ddd663d84df74f3",
+        "patient_ba537dfa96f1782836263bf266afbc5b",
+        "patient_ef6cca552061a8bd5e40a2f4413d3e21",
+        "patient_7fa7cab42411a904bec1eb1ddc61b3e9",
+        "patient_8ad15cc6e2d91d7cb773ce750d972d84",
+        "patient_4a38c5d31fd963f7dfa204be320a8d71",
+        "patient_e89761a1af721005de5fbbef76e35854",
+        "patient_9978025c35e5e844e08fee0d58f884c6",
+        "patient_58f615005de4b07d2ac7c3eba0544976",
+        "patient_9dd2f96d2a7e6b581d2de1744cc3b18f",
+        "patient_a6bacfb425bf8ffa3877bb1700eb3c65",
+        "patient_21c4dd791992e0ca6d18ae6f1afff980",
+        "patient_b1328464c9203756b5d35d21d5f89903",
+        "patient_9e95a8bf277d0ae373469003826a742e",
+        "patient_81d846ee412bf2214d148217df14494a",
+        "patient_f101aaaa84975400095964696ec37e76",
+        "patient_f18bff4182420116580847f7e378f1ae",
+        "patient_819cf679513a110b3ae48a25ad202d8c",
+        "patient_8f44d222415d372dd391d6b7d7f6c44a",
+        "patient_e6e206c81a914e7ea61a8d2685180f4a",
+        "patient_e81cd57f6ca6de1629a33aa2777d0666",
+        "patient_caa0a9a621fec969cbc3f9acb7345201",
+        "patient_bac495c7b19cf7aac351467320b93cfc",
+        "patient_d9bc9f32bd70c6e3951152ce4f31c3d5",
+        "patient_44d54c9896d727d2657f643d403ff8e5",
+        "patient_113215d2628f63214529db05dc69e629",
+        "patient_34e2cba3f8ad57aab2d6aacc9e765a46",
+        "patient_3825f4f20e683fb6c3de68c078e7b2f5",
+        "patient_2ad86692561bec047a2ff6254b28209c",
+        "patient_83e870e98e49a984aab75b9d33db3743",
+        "patient_9fe1200017506a2e34a6eab14c83c781",
+        "patient_03c3f54756e969efa0d4c5f57cfac609",
+        "patient_f60d63d53ff091af7949e4053b2386d9",
+        "patient_57a95796ba49f5a2bb68cc7a88a0a15f",
+        "patient_5edfcd6a32f40500af14d077dee6cb3c",
+        "patient_20b9ea5cda33854645f4570c8cd7a076",
+        "patient_a2a3c393f8604cb3095fc872d253d92d",
+        "patient_8d1a81a654ec315ee468d379ed3c6d0d",
+        "patient_b9fdf2e418ea9f024223fac2fb7576af",
+        "patient_d08f62f800bba41a04e879508b8e8b2b",
+        "patient_c87ed15589092ddd1128084a48dae2a6",
+        "patient_9a23b65ab65f346d5acbcccb1235fe92",
+        "patient_453e2439240f527f14b02ca35552f1f4",
+        "patient_cd879ac6113d748da5a55bed26dc6bbd",
+        "patient_e4a1f52f6ce4ffb5554d11685d300b6d",
+        "patient_610973551ddb44fafc33dc126bb32f1a",
+        "patient_f6ad6a9482edb4386e24a0213bb4c864",
+        "patient_d01ea8df28d8b6f7e8ffa0588e168a50",
+        "patient_9ecfc3e7acb95152905537ceaafc1572",
+        "patient_7a2d25bd5232cecaa66f4d9f4c6804df",
+        "patient_5afc89def277308c05f5540fab8fa367",
+        "patient_2dfaa1dc23221ab49d3b15b2a6923b82"
+      ],
+      "worker_ids": [
+        "worker_ba413b93f1ef3523bd485ea62d7f86e0",
+        "worker_e9f6a9dd39b27252b75e5ab8fb7eb059",
+        "worker_6ceab4bd45b54a803017bd7924152174",
+        "worker_a65dd61f26c45a2f2cbc1bdd99cc9cb5",
+        "worker_72749429d713ac3ba3b15ffbccba46b6",
+        "worker_b135329afa7fc0f6808bf752f6995119",
+        "worker_08556b380ad91a7cb037673ea7d69681",
+        "worker_2d64bc73f0e45f785eef29d9a03524dd",
+        "worker_feca5dfdc040abfcfc8a83f3f3557ed9",
+        "worker_e87b1ce8d4e1328c354f44f90ebd7113",
+        "worker_b6d2184e981b9d5d9529b96f9c5d9ac1",
+        "worker_37426dc97ae28c27c7c6e131e8e2a463",
+        "worker_26bb03dc78a356bf24bb130b232e5431",
+        "worker_dd9961c1acf60b9965bb494083e4ddb4",
+        "worker_a905a912fa066335374337ef460e9311",
+        "worker_5b8d9d440dafc8f3161e52926ca66a0d",
+        "worker_84a3d2f0dbf780e5d3d5ded817240828",
+        "worker_84535be78f968b2dfcba2323642f3621",
+        "worker_856c32e73d754ad036c4cfe0b69dab65",
+        "worker_ab27a6904839a4c50fcacb75e86dcba8",
+        "worker_ffc7b96000c87a2f08deb84017b39b99",
+        "worker_f89b9a4df82330904b490029a199c615",
+        "worker_1a28ec3fb57f7e1b16259a72055217df",
+        "worker_a1671ae509095c786ac580ed9f8ab6f1",
+        "worker_40a06dc64e4b07822123efe962783940",
+        "worker_6520cd0a965ad9ee569e72b9c0607108",
+        "worker_56d670e3bebbd69b9f667f2639a15cf3",
+        "worker_0911cfc519b7c86fbd0cb76369b7822b",
+        "worker_25d9ded1deda2a400b2744ee0053177e",
+        "worker_0c66ba6335323a53bddf6c3dd85fefd4",
+        "worker_41dfd5dcc175259b3862cd0c21f9dc4b",
+        "worker_930566af24457a71b47924e0bb4270a9",
+        "worker_47b5beea11521c385b87d270c398a5de",
+        "worker_7ac54fbf5d271a8335738939db528c4d",
+        "worker_3afac724370d0f6a636b4653ec46d361",
+        "worker_aae653b8906a06c2267af95c264d86fc",
+        "worker_d30f4a2b521d1424c182f7e7f3b4bd0f",
+        "worker_c8ecf06ee3ee21e95fd3fb385542a299",
+        "worker_4c92af2aec3e72ee0c7b45a235105fae",
+        "worker_e961e79d664153231e6de2ed71dafc5b",
+        "worker_0dbeafa45e871d8c51ac01798b0d7e63",
+        "worker_bf3085320af659557320a9a56065b1f5",
+        "worker_59049eddce9cbe0f90cb653c7b65f432",
+        "worker_bd50eb169dda0e5e04895dfed0089174",
+        "worker_89e4f7e197fd2ba70505369f28c1ec58",
+        "worker_19f044262262371837d2a594fab6f164",
+        "worker_230dd210519da9f3ca2dca1441b36995",
+        "worker_ffa75f59225455a428e96dc7d4b015b3",
+        "worker_73ee84e0fc7071126bf000900bda5d4b",
+        "worker_a211f3f7dd0ec99c524b9ccaa82ac0bb"
+      ],
+      "patient_strata": [
+        "age/18-34",
+        "age/35-49",
+        "age/50-64",
+        "age/65-79",
+        "age/80-100",
+        "history/False",
+        "history/True",
+        "language/DECLINED",
+        "language/UNKNOWN",
+        "language/ar",
+        "language/en",
+        "language/es",
+        "language/pl",
+        "language/zh",
+        "race/Asian, non-Hispanic",
+        "race/Black, non-Hispanic",
+        "race/Hispanic or Latino",
+        "race/Multiracial or other",
+        "race/UNKNOWN",
+        "race/White, non-Hispanic",
+        "sex/F",
+        "sex/M",
+        "sex/UNKNOWN",
+        "sex/X"
+      ],
+      "worker_strata": [
+        "late-hire/False",
+        "late-hire/True",
+        "role/ADMIN",
+        "role/HOUSEKEEPING",
+        "role/LPN",
+        "role/PHARMACIST",
+        "role/PHYSICIAN",
+        "role/RN",
+        "role/TECHNICIAN",
+        "role/THERAPIST",
+        "site/facility_7990133218ef060b178c3cf8a0825f76",
+        "site/facility_a56f2c2e3a76834b7a766c6ba89f7afe",
+        "site/facility_a6a95cfdcf7df4bfa7fe88c206195c24",
+        "terminated/False",
+        "terminated/True",
+        "type/AGENCY",
+        "type/CONTRACT",
+        "type/EMPLOYEE"
+      ],
+      "sample_sha256": "e327e56cf774a3a42a43e11a1461dbda4d541fcf9a247dbdb348aabc9c92f52c",
+      "patient_count": 100,
+      "worker_count": 50,
+      "mirror_rows": 150,
+      "mirror_bytes": 26651
+    },
+    "gate_status": "MASTER_FOUNDATION_PASSED",
+    "artifact_integrity": "PASS",
+    "business_sha256": "c4e987cfd994c51a6bcf0352d44b386d701a84ef8e35a84240bbed25cf1dc59c"
+  },
+  "review_decision": {
+    "status": "APPROVED",
+    "review_date": "2026-10-23",
+    "reviewer": "Codex, user-designated technical and synthetic-data realism reviewer",
+    "review_scope": "Identity, demographic, workforce and source-context plausibility; no licensed clinical or vendor certification claimed",
+    "sample_sha256": "e327e56cf774a3a42a43e11a1461dbda4d541fcf9a247dbdb348aabc9c92f52c",
+    "patient_identities_reviewed": 100,
+    "worker_identities_reviewed": 50,
+    "sampling": "Deterministic stratification across all five age bands, four administrative-sex values, six self-report categories, seven language/unknown states, changed/unchanged histories, eight worker roles, three employers, three employment types, later hires and former staff.",
+    "findings": [
+      {
+        "area": "Names and ages",
+        "disposition": "PASS",
+        "observations": "Reviewed all 100 patient rows. Cohort-appropriate names, middle names/initials, hyphenation, suffix and age variation are plausible; no indexed generic names. Rare cross-series names and unknown administrative attributes are retained rather than guessed from a name."
+      },
+      {
+        "area": "Geography and contacts",
+        "disposition": "PASS",
+        "observations": "Constructed street/apartment addresses vary across the three declared Illinois city/postal areas. Automated full-cohort checks separately verify reserved .example email and 555-01xx contacts; addresses are fictional combinations, not copied addresses or a deliverability claim."
+      },
+      {
+        "area": "Demographic associations",
+        "disposition": "PASS",
+        "observations": "Self-report is generated independently before probabilistic surname selection. Census aggregate weights with cross-population mixing improve plausibility without imputing a person category from a name. Disease generation is independently tested against surname changes."
+      },
+      {
+        "area": "Workforce",
+        "disposition": "PASS",
+        "observations": "Reviewed all 50 worker rows, including physicians, nursing, therapy, laboratory/imaging, pharmacy, environmental and administrative staff; employer, credential, FTE, agency/contract cost premiums, hires and terminations form plausible demonstration records."
+      },
+      {
+        "area": "Master histories and scope",
+        "disposition": "PASS",
+        "observations": "Full-data validators, not a visual name review, establish referential integrity and effective/known history boundaries. Opening problem/allergy assertions consume the frozen condition budget. Clinical journeys and outcomes remain later work."
+      }
+    ],
+    "unresolved_critical_findings": [],
+    "limitations": [
+      "Configured catchment and cost/coverage assumptions are fictional rather than US benchmarks.",
+      "No real identities, license registries, live Workday/Axiom extracts or patient records were used.",
+      "This review approves only the matching identity sample and master-data implementation; full healthcare data acceptance remains blocked."
+    ],
+    "additional_review_notes": [
+      "Re-reviewed all 150 identities after documented SSA registration-label curation and canonical ordering of configuration distributions.",
+      "The sample now includes Jayne Brenda Andress, Glenn Peters, Lois Williams and Mathew Justin Castillo with distinct adult histories; the reviewed worker roles/types and contractual costs remain coherent.",
+      "Cross-series/unisex names and cross-population surnames are configured probabilistic cases; administrative self-report is retained rather than overwritten from appearance of a name."
+    ]
+  },
+  "exit_criteria": {
+    "structural_temporal_master_checks": {
+      "passed": true,
+      "evidence_tests": [
+        "test_full_field_schema_not_fixture_projection",
+        "test_foreign_key_orphan_is_rejected",
+        "test_exclusive_bitemporal_rectangles_and_revision_sequence",
+        "test_primary_coverage_changes_and_selfpay",
+        "test_manager_cycle_and_temporal_resolution"
+      ]
+    },
+    "stratified_realism_review": {
+      "passed": true,
+      "evidence_tests": [
+        "test_identity_review_is_stratified_and_content_bound",
+        "test_real_names_contacts_and_adult_eligibility",
+        "test_birth_cohort_weights_and_demographic_bands"
+      ]
+    },
+    "required_domains_source_authorities": {
+      "passed": true,
+      "evidence_tests": [
+        "test_complete_master_scope_and_budget",
+        "test_source_authority_and_availability",
+        "test_typed_crosswalks_no_fuzzy_or_ambiguous_mapping",
+        "test_official_and_local_reference_semantics",
+        "test_workday_and_axiom_identity_projections"
+      ]
+    },
+    "no_critical_identity_realism_defects": {
+      "passed": true,
+      "evidence_tests": [
+        "test_names_do_not_determine_self_report_or_opening_health",
+        "test_revocation_blocks_and_active_scopes_remain",
+        "test_opening_health_has_no_fabricated_encounters_or_future_outcomes",
+        "test_independent_inspector_checks_files_and_recalculates"
+      ]
+    },
+    "end_to_end_rebuild_and_recovery": {
+      "passed": true,
+      "evidence_tests": [
+        "test_clean_rebuild_matches_all_business_and_stage_hashes",
+        "test_cached_resume_preserves_exact_business_hashes",
+        "test_real_process_crash_rolls_back_and_resumes_without_duplicate_rows",
+        "test_failed_upstream_invalidates_descendants_before_recomputation",
+        "test_changed_seed_keeps_all_master_rules_and_requires_fresh_review"
+      ]
+    }
+  },
+  "passed": true,
+  "verification_source_sha256": {
+    "tests/test_master_data.py": "a7a99352f6d78a98f166fe0756197774832f8f9deb820efe73468be8ce39caf7",
+    "tests/test_phase0_contracts.py": "65b1c76e1ba4d39c15b89c7fd3f9c815933568ae83078d2e658f9e59084b4a03",
+    "tests/test_phase1_engine.py": "7e4709239de635896f6cc506e52cf0b4eaf31d893c0f02acae0d109d49180b94",
+    "tests/test_phase1_primitives.py": "760cb2544aab0e8738be337700060bfde71d6600d386f977f90b7cedf28f0c0e",
+    "tests/test_phase1_sources.py": "8c5e03613cd53ad48a775e538b58a6c92c15e040a17f232212e8a38333f05869",
+    "tests/test_phase1_validation.py": "013caff512253a536ab25b373ecfc9e9de3292c528a2d9d4646bbf3d16a77f55",
+    "scripts/generate_master_data.py": "6885609efb59ecb333fc02bae01f785627d78835b292cf5fde3ce5d5aca16274",
+    "scripts/validate_master_data.py": "87148fb557804d538349cbf9b43614c8947245fa36daf79c17b0e01c185c8548",
+    "scripts/validate_master_foundation.py": "5fed118fae6cb1d04ada344591edfd3bb0a610ef962c923bd62124969896e48f",
+    "scripts/import_public_references.py": "289aab375adb5a7b0e8536611705563da7594f3bdd8761da77996ad41a3733f4"
+  }
+}

@@ -1,11 +1,11 @@
 # Synthetic Data Generation Implementation Plan
 
-**Status:** Phase 0 design/contract implementation is complete under baseline 1.0.0; see the [Phase 0 review and gate](docs/phase-0/review-and-gate.md). Phase 1 framework implementation and development-fixture validation are complete; see the [Phase 1 review and gate](docs/phase-1/review-and-gate.md). Phases 2-9 have not started. No full healthcare dataset is accepted and no healthcare analytics solution or live source integration has been built.
+**Status:** Phases 0-2 are complete for their defined scopes: the [frozen design baseline](docs/phase-0/review-and-gate.md), [framework and fixture validation](docs/phase-1/review-and-gate.md), and [full-schema master-data foundation](docs/master-data/README.md). Phase 2 produces 78,922 master/opening-context rows with recorded identity review and [exit evidence](evidence/master-data/acceptance-gate.json). Phases 3-9 have not started. No full healthcare dataset is accepted and no healthcare analytics solution or live source integration has been built.
 
 **Prepared:** October 23, 2026  
 **Setting:** Fictional US hospital group, USD, Workday workforce integration, and Axiom healthcare financial planning integration.  
 **Implementation sequence:** Ten phases, numbered Phase 0 through Phase 9.  
-**Current completed deliverables:** This implementation plan, the [Phase 0 frozen baseline](docs/phase-0/README.md), and the [Phase 1 runnable framework, development fixtures and evidence](docs/phase-1/README.md). The user authorized Phase 1 implementation, testing, commit and push. Phase 2 is the next unstarted phase; the full dataset and solution remain blocked.
+**Current completed deliverables:** This implementation plan, the [frozen baseline](docs/phase-0/README.md), [runnable framework](docs/phase-1/README.md), and [master-data generation, reference packages, review and evidence](docs/master-data/README.md). The user authorized Phase 2 implementation, testing, commit and push. Phase 3 is the next unstarted phase; the full dataset and solution remain blocked. New artifacts use descriptive filenames with phase numbers kept inside their content.
 
 ## 1. Purpose and mandatory delivery boundary
 
@@ -206,6 +206,8 @@ Implement the controls that make all later generation repeatable, observable, re
 - Only development fixtures exist; a full business dataset has not yet been accepted.
 
 ## Phase 2 - Realistic identities, organizations, reference data, and histories
+
+**Implementation:** Complete for master data and opening problem/allergy context; [design and runbook](docs/master-data/README.md), [exit evidence](evidence/master-data/acceptance-gate.json). Generates 20,000 stable patients and 300 stable workers within 78,922 counted full-schema rows, preserving the 25-table / 1,958,210-row complete-release plan. The 13,000 opening condition rows are part of the existing condition budget. The final healthcare dataset remains unaccepted.
 
 ### Objective
 

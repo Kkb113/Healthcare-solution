@@ -1,0 +1,68 @@
+{
+  "implementation_phase": 2,
+  "status": "PASSED",
+  "evaluated_at": "2026-10-23T07:57:55.256704+00:00",
+  "exit_criteria": {
+    "structural_temporal_master_checks": {
+      "passed": true,
+      "evidence_tests": [
+        "test_full_field_schema_not_fixture_projection",
+        "test_foreign_key_orphan_is_rejected",
+        "test_exclusive_bitemporal_rectangles_and_revision_sequence",
+        "test_primary_coverage_changes_and_selfpay",
+        "test_manager_cycle_and_temporal_resolution"
+      ]
+    },
+    "stratified_realism_review": {
+      "passed": true,
+      "evidence_tests": [
+        "test_identity_review_is_stratified_and_content_bound",
+        "test_real_names_contacts_and_adult_eligibility",
+        "test_birth_cohort_weights_and_demographic_bands"
+      ]
+    },
+    "required_domains_source_authorities": {
+      "passed": true,
+      "evidence_tests": [
+        "test_complete_master_scope_and_budget",
+        "test_source_authority_and_availability",
+        "test_typed_crosswalks_no_fuzzy_or_ambiguous_mapping",
+        "test_official_and_local_reference_semantics",
+        "test_workday_and_axiom_identity_projections"
+      ]
+    },
+    "no_critical_identity_realism_defects": {
+      "passed": true,
+      "evidence_tests": [
+        "test_names_do_not_determine_self_report_or_opening_health",
+        "test_revocation_blocks_and_active_scopes_remain",
+        "test_opening_health_has_no_fabricated_encounters_or_future_outcomes",
+        "test_independent_inspector_checks_files_and_recalculates"
+      ]
+    },
+    "end_to_end_rebuild_and_recovery": {
+      "passed": true,
+      "evidence_tests": [
+        "test_clean_rebuild_matches_all_business_and_stage_hashes",
+        "test_cached_resume_preserves_exact_business_hashes",
+        "test_real_process_crash_rolls_back_and_resumes_without_duplicate_rows",
+        "test_failed_upstream_invalidates_descendants_before_recomputation",
+        "test_changed_seed_keeps_all_master_rules_and_requires_fresh_review"
+      ]
+    }
+  },
+  "tests_run": 121,
+  "master_data_rows": 78922,
+  "stable_patients": 20000,
+  "stable_workers": 300,
+  "generated_business_tables": 11,
+  "frozen_release_business_tables": 25,
+  "opening_problem_allergy_rows": 13000,
+  "reviewed_patient_identities": 100,
+  "reviewed_worker_identities": 50,
+  "remaining_planned_rows": 1879288,
+  "business_sha256": "c4e987cfd994c51a6bcf0352d44b386d701a84ef8e35a84240bbed25cf1dc59c",
+  "full_dataset_accepted": false,
+  "solution_status": "BLOCKED_FOR_SOLUTION",
+  "next_phase": "Longitudinal clinical histories - not started"
+}
