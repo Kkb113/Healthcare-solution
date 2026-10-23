@@ -1,23 +1,35 @@
 # Healthcare synthetic data foundation
 
-Phases 0-3 are complete for their defined data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. The deterministic framework generates full-schema master data and provisional longitudinal clinical histories; Phase 3 passes all exit criteria with 159 tests, 15 clinical check groups and 100 reviewed longitudinal journeys. No full healthcare dataset is accepted and no cloud deployment, forecasting model, dashboard, or AI agent has been built.
+Phases 0-4 are complete for their defined data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. The deterministic framework produces full-schema master data, longitudinal clinical histories and capacity-integrated operational data. Phase 4 passes all four exit criteria with 197 tests, 15 clinical and seven operational check groups, and 100 reviewed operational cases. The full healthcare dataset and analytics solution remain blocked until final Phase 9 data acceptance.
 
 The finalized baseline contains **25 business tables and 1,958,210 planned records** across **2023-2025**, with **41,790 records of headroom** below the two-million ceiling. Three fictional Illinois community hospitals have 72 inpatient beds in total. This replaces the earlier provisional 300-bed scale so the budget includes clinical detail and historical revisions.
 
 Start with the [frozen baseline](docs/phase-0/README.md), [framework](docs/phase-1/README.md), [master-data foundation](docs/master-data/README.md), and [implementation plan](synthetic-data-generation-implementation.md). The [clinical foundation](docs/clinical-histories/README.md) implements Phase 3; its current acceptance status is recorded in the [clinical exit gate](evidence/clinical-histories/acceptance-gate.json). The analytics solution stays blocked until final Phase 9 data acceptance.
 
-## Generate longitudinal clinical histories
+## Capacity-integrated operational data
+
+The [operational foundation](docs/operational-flow/README.md) implements the Phase 4 data scope. Its [acceptance gate](evidence/operational-flow/acceptance-gate.json) passes all four exit criteria. The three-year candidate contains **938,452 canonical records across 16 populated business tables**, including 71,018 immutable bed events. Event-state and independent interval oracles reconcile at all 25,245 census boundaries with zero unexplained differences. The final schema remains 25 tables with 1,958,210 planned records; the 41,790-record reserve is untouched.
 
 ```powershell
+# Restore only missing immutable parent snapshots.
 if (-not (Test-Path output/master-foundation/manifest.json)) {
     python scripts/restore_master_snapshot.py
 }
-python scripts/generate_clinical_histories.py
-python scripts/validate_clinical_data.py
-python scripts/validate_clinical_foundation.py
+if (-not (Test-Path output/clinical-histories/manifest.json)) {
+    python scripts/restore_clinical_snapshot.py
+}
+python scripts/generate_operational_flow.py
+python scripts/validate_operational_data.py
+python scripts/validate_operational_foundation.py
 ```
 
-The [clinical foundation](docs/clinical-histories/README.md) implements linked adult visits, conditions, selected orders/results/treatment courses, operative documentation and fact-grounded notes. Its 58,000 encounter contexts cover the three-year cohort and opening-only contexts, within the unchanged 25-table release schema and existing record envelopes. The clinical candidate contains **840,061 canonical rows across 14 populated business tables**, including 58,000 encounter contexts. The accepted master snapshot is preserved exactly. Full repository tests require the accepted master and completed clinical candidate; the clinical acceptance command prepares the latter before test discovery.
+Existing accepted parents must be preserved. Historical standalone generators bind their committed source versions; use the restoration wrappers rather than regenerating an accepted parent in place from later code. The [runbook](docs/operational-flow/runbook.md) explains exact-history regression checks, current-code tests and local derived-state queries. No analytics solution is authorized by this phase gate.
+
+## Historical longitudinal clinical workflow
+
+Phase 3 evidence is retained against its accepted source commit. To reproduce that accepted data on a later checkout, use `restore_clinical_snapshot.py`. For complete historical clinical regressions, the operational exit gate runs every accepted clinical test against its exact archived generator and the unchanged accepted snapshot. Avoid running a newer standalone generator over that accepted parent directory.
+
+The [clinical foundation](docs/clinical-histories/README.md) implements linked adult visits, conditions, selected orders/results/treatment courses, operative documentation and fact-grounded notes. Its 58,000 encounter contexts cover the three-year cohort and opening-only contexts, within the unchanged 25-table release schema and existing record envelopes. The clinical candidate contains **840,061 canonical rows across 14 populated business tables**, including 58,000 encounter contexts. The accepted master snapshot is preserved exactly. The current operational acceptance command prepares the operational candidate and evaluates current framework/master and operational tests together with the version-bound historical clinical suite.
 
 Preserve the accepted historical master snapshot. Running a current master generator into that same directory changes its provenance identifiers; use a different output directory for master experiments. The restoration command reproduces the original accepted snapshot from its exact Git revision. It refuses to overwrite an existing destination.
 
@@ -48,7 +60,7 @@ python scripts/run_phase1.py --output output/phase1-development
 python scripts/validate_phase1_candidate.py --run-dir output/phase1-development
 ```
 
-The gate runs Phase 0 regression, the complete test suite, clean rebuild/resume checks and independent read-only inspection. See [Phase 1 exit evidence](evidence/phase-1/gate.json). Normal generation produces **30 development rows across 15 declared scalar projections** and **3 Workday/Axiom mirror rows**, never a full business dataset. The [runbook](docs/phase-1/runbook.md) explains recovery, invalidation, quotas and output semantics.
+The historical framework gate records its original regression and fixture scope. Use the operational acceptance command above for the complete current and version-bound historical regression assessment. See [Phase 1 exit evidence](evidence/phase-1/gate.json). Normal generation produces **30 development rows across 15 declared scalar projections** and **3 Workday/Axiom mirror rows**, never a full business dataset. The [runbook](docs/phase-1/runbook.md) explains recovery, invalidation, quotas and output semantics.
 
 ## Reviewable artifacts
 

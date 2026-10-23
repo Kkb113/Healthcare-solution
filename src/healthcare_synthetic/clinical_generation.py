@@ -327,6 +327,9 @@ class ClinicalGenerator:
                                  appointment_type='FOLLOW_UP', booked_at=stamp(booked), scheduled_start=stamp(at), scheduled_end=stamp(at + timedelta(minutes=45)), **fields))
         return {'appointment': rows}
 
+    def adverse_outcome(self, encounter):
+        return encounter['encounter_class']=='IPD' and encounter['disposition'] in ('DEATH','TRANSFER')
+
     def care(self, facility=None):
         versions = defaultdict(list)
         for r in self.t['encounter']:
@@ -372,7 +375,7 @@ class ClinicalGenerator:
 
             # The same latent state drives paired measurements and their recovery/deterioration.
             severe = latest['initial_acuity'] <= 2
-            adverse = latest['disposition'] in ('DEATH', 'TRANSFER') and ipd
+            adverse = self.adverse_outcome(latest)
             times = [begin + timedelta(minutes=30)]
             if ipd and end - begin > timedelta(hours=12):
                 times.append(min(end - timedelta(hours=2), CUTOFF - timedelta(hours=1)))

@@ -1,0 +1,37 @@
+{
+  "profile": "OPERATIONAL_PATIENT_FLOW",
+  "version": "1.0.0",
+  "seed": 20261023,
+  "accepted_clinical_candidate": "output/clinical-histories",
+  "accepted_clinical_sha256": "a74a03a5b086143cc6db18b1b70e41a914aeab0750e64ea967ffe83e95ccf1ca",
+  "review_cases": 100,
+  "continuous_site_transfers": 12,
+  "site_transport_minutes": {
+    "HSP-PEO|HSP-RFD": 180,
+    "HSP-PEO|HSP-SPR": 120,
+    "HSP-RFD|HSP-SPR": 240
+  },
+  "site_transport_handover_max_minutes": 30,
+  "surge_start": "2024-01-08",
+  "surge_end": "2024-02-26",
+  "seasonal_amplitude": "0.13",
+  "annual_growth": "0.025",
+  "maintenance_beds": 12,
+  "maintenance_bed_days": 962,
+  "reservation_minutes": 10,
+  "icu_selection_percent": 20,
+  "icu_stabilization_hours": 48,
+  "maximum_admission_to_escalation_hours": 24,
+  "elective_priority_aging_days": 7,
+  "elective_latest_arrival_hour": 14,
+  "corrected_events": 100,
+  "cancelled_reservations": 100,
+  "targets": {
+    "staffed_occupancy": ["0.74", "0.86"],
+    "monthly_ed_rate_peak_trough": ["1.1", "1.8"],
+    "maximum_boarding_p95_hours": "48",
+    "maximum_unexplained_unplaced_completions": 0,
+    "maximum_elective_deferral_p95_days": "14",
+    "minimum_surge_respiratory_encounters": 200
+  }
+}

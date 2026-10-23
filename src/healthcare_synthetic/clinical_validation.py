@@ -414,7 +414,8 @@ class ClinicalValidator:
                 self.need(self.idx['worker_assignment'][e['attending_assignment_id']]['specialty'] == specialty, eid, 'operative attending specialty mismatch')
                 self.need(self.idx['worker_assignment'][procedures[0]['author_assignment_id']]['specialty'] == specialty, eid, 'operative author specialty mismatch')
                 day = timestamp(e['arrival_at']).astimezone(self.local_zone)
-                self.need(day.weekday() < 5 and 7 <= day.hour <= 10, eid, 'elective admission outside modeled weekday/daytime schedule')
+                first_hour,last_hour=self.policy.get('elective_admission_hours',[7,10])
+                self.need(day.weekday() < 5 and first_hour <= day.hour <= last_hour, eid, 'elective admission outside modeled weekday/daytime schedule')
             if expected['medication']:
                 self.need(any(r['event_type'] == 'ORDER' and self.catalog[r['catalog_item_id']]['code'] == expected['medication'] for r in rows if r['catalog_item_id']), eid, 'pathway treatment order missing')
                 self.need(any(r['event_type'] == 'MED_ADMIN' for r in rows), eid, 'pathway lacks treatment administration or explicit withholding')

@@ -1,0 +1,80 @@
+{
+  "status": "APPROVED",
+  "reviewer": "Codex, user-designated synthetic operational/domain reviewer",
+  "reviewed_at": "2026-10-23T12:43:17.858343+00:00",
+  "review_scope": "USER_DESIGNATED_SYNTHETIC_OPERATIONAL_PLAUSIBILITY",
+  "licensed_clinical_endorsement": false,
+  "cases_reviewed": 100,
+  "sample_sha256": "d3a38769e160addda89fe64fbb7fa0a7cf2bd64132d287e3cb1a20169f641ed6",
+  "selected_facts_sha256": "1e3047747726bf5cd1b1c2edd7a67f34014ab55530a671f05988c9e889d76fcf",
+  "business_sha256": "f0ffb9bb73ef93375cd24dac8294ffefa05c2a6b48252493047011f5fb0e2eed",
+  "method": [
+    "Inspected all 100 named chronological case summaries, their interval ordering, source-clock context and decision/admission-to-first-placement times.",
+    "Read selected operational source notes including accepted referral plans, receiving receipts, capacity dispositions and private-room precautions; inspected opening census, terminal/open boundaries, X/UNKNOWN defaults and ICU ward overflow/stepdown.",
+    "Reviewed route-dependent transfer assumptions, the 12 maintenance/restoration sequences, source corrections and cancelled holds; complete-history invariants and paired interval/state controls are independently validated."
+  ],
+  "detailed_cases": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    23,
+    51,
+    53,
+    60,
+    92,
+    94,
+    95
+  ],
+  "resolved_findings": [
+    {
+      "id": "OPENING_CAPACITY",
+      "resolution": "Replace the provisional 26-patient site opening with 19 compatible explicit occupants per site; retain all 57 carry-in patients."
+    },
+    {
+      "id": "PROVISIONAL_FLOW",
+      "resolution": "Actual clinical completion responds to bed waits; acute unmet compatible demand has an observed external transfer and source cause, while elective pre-admission deferral preserves original bookings."
+    },
+    {
+      "id": "PRECAUTION_SCOPE",
+      "resolution": "Use timestamped selected precaution assessments, private-room placement and conservative defaults for X/UNKNOWN registration values."
+    },
+    {
+      "id": "ELECTIVE_WINDOW",
+      "resolution": "Permit actual weekday arrivals 07:00-14:59 under the explicit operational addendum; preserve the standalone clinical validator default and original morning bookings."
+    },
+    {
+      "id": "REVIEW_CHRONOLOGY",
+      "resolution": "Order intervals by actual start time and atomic transfer legs as vacate before occupy; add a regression checking all sampled first-placement labels."
+    },
+    {
+      "id": "CLOCK_DEFINITIONS",
+      "resolution": "Boarding starts at admission decision. The escalation threshold is separately defined as 24 hours from administrative admission; transport and censored queues are explicitly reported."
+    },
+    {
+      "id": "REVIEW_SERIALIZATION_ORDER",
+      "resolution": "Explicitly order encounter revisions and operational source notes so checkpoints, canonical files and reversed input produce identical review text and fact hashes. The approved sample and bound facts remain unchanged."
+    },
+    {
+      "id": "ROUTE_TRANSPORT",
+      "resolution": "Use explicit 120/180/240 minute route windows plus zero to thirty minutes of handover; preserve transport when downstream bed waits change and independently validate all 12 transfers."
+    },
+    {
+      "id": "SOURCE_KNOWN_REFERRALS",
+      "resolution": "Twelve source-known accepted referral plans justify network continuity; twelve receiving receipts confirm observed arrival without asserting later outcomes."
+    },
+    {
+      "id": "TRANSFER_CAUSE_VS_RESPONSE",
+      "resolution": "Administrative capacity and continuity transfers do not automatically imply clinical deterioration; clinical measurement response uses a separate selected clinical nonresponse cause."
+    }
+  ],
+  "material_assumptions": [
+    "Fictional small adult hospital network and selected non-exhaustive clinical capture, rather than a full ICU/OR record or national benchmark.",
+    "Physical ICU ward overflow does not assert intensive treatment or justify an ICU charge.",
+    "External receiving care and later hypothetical terminal outcomes are unobserved and are not published.",
+    "Actual workforce, stock, financial ledgers, source release replay and final consumer acceptance remain later phases."
+  ],
+  "unresolved_critical_findings": [],
+  "disposition": "Operational plausibility approved within this synthetic scope, conditional on the complete technical acceptance gate passing; final data release and solution work remain blocked."
+}
