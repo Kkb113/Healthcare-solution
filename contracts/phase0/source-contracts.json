@@ -1,0 +1,3879 @@
+{
+  "version": "1.0.0",
+  "canonical_exports": [
+    {
+      "id": "CANON_FACILITY",
+      "source": "ORG_MASTER",
+      "target_table": "facility",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "facility_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "facility_id",
+          "target_column": "facility_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "facility_code",
+          "target_column": "facility_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "facility_name",
+          "target_column": "facility_name",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "city",
+          "target_column": "city",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "state_code",
+          "target_column": "state_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "postal_code",
+          "target_column": "postal_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "timezone",
+          "target_column": "timezone",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "opened_on",
+          "target_column": "opened_on",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "closed_on",
+          "target_column": "closed_on",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "currency",
+          "target_column": "currency",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "fiscal_calendar",
+          "target_column": "fiscal_calendar",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_COST_CENTER",
+      "source": "WORKDAY",
+      "target_table": "cost_center",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "cost_center_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "cost_center_id",
+          "target_column": "cost_center_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "facility_id",
+          "target_column": "facility_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "parent_cost_center_id",
+          "target_column": "parent_cost_center_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "cost_center_code",
+          "target_column": "cost_center_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "cost_center_name",
+          "target_column": "cost_center_name",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "center_type",
+          "target_column": "center_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "active_from",
+          "target_column": "active_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "active_to",
+          "target_column": "active_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_LOCATION",
+      "source": "ADT_LOCATION",
+      "target_table": "location",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "location_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "location_id",
+          "target_column": "location_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "facility_id",
+          "target_column": "facility_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "parent_location_id",
+          "target_column": "parent_location_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "cost_center_id",
+          "target_column": "cost_center_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "location_code",
+          "target_column": "location_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "location_name",
+          "target_column": "location_name",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "location_type",
+          "target_column": "location_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "service_line",
+          "target_column": "service_line",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "licensed_bed",
+          "target_column": "licensed_bed",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "isolation_capable",
+          "target_column": "isolation_capable",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "active_from",
+          "target_column": "active_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "active_to",
+          "target_column": "active_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_PATIENT",
+      "source": "EHR_REGISTRATION",
+      "target_table": "patient",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "patient_version_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "patient_version_id",
+          "target_column": "patient_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "patient_id",
+          "target_column": "patient_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "mrn",
+          "target_column": "mrn",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "given_name",
+          "target_column": "given_name",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "middle_name",
+          "target_column": "middle_name",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "family_name",
+          "target_column": "family_name",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "suffix",
+          "target_column": "suffix",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "birth_date",
+          "target_column": "birth_date",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "administrative_sex",
+          "target_column": "administrative_sex",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "gender_identity",
+          "target_column": "gender_identity",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "race_ethnicity",
+          "target_column": "race_ethnicity",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "preferred_language",
+          "target_column": "preferred_language",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "address_line",
+          "target_column": "address_line",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "city",
+          "target_column": "city",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "state_code",
+          "target_column": "state_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "postal_code",
+          "target_column": "postal_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "test_email",
+          "target_column": "test_email",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "test_phone",
+          "target_column": "test_phone",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "deceased_at",
+          "target_column": "deceased_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "revision_no",
+          "target_column": "revision_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_from",
+          "target_column": "valid_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_to",
+          "target_column": "valid_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_to",
+          "target_column": "known_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_WORKER_ASSIGNMENT",
+      "source": "WORKDAY",
+      "target_table": "worker_assignment",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "worker_assignment_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "worker_assignment_id",
+          "target_column": "worker_assignment_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "worker_id",
+          "target_column": "worker_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "employee_number",
+          "target_column": "employee_number",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "given_name",
+          "target_column": "given_name",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "family_name",
+          "target_column": "family_name",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "birth_date",
+          "target_column": "birth_date",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "facility_id",
+          "target_column": "facility_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "home_location_id",
+          "target_column": "home_location_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "cost_center_id",
+          "target_column": "cost_center_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "manager_worker_id",
+          "target_column": "manager_worker_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "role",
+          "target_column": "role",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "specialty",
+          "target_column": "specialty",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "credential_code",
+          "target_column": "credential_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "credential_valid_from",
+          "target_column": "credential_valid_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "credential_valid_to",
+          "target_column": "credential_valid_to",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "worker_type",
+          "target_column": "worker_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "fte",
+          "target_column": "fte",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "hourly_cost_rate",
+          "target_column": "hourly_cost_rate",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "currency",
+          "target_column": "currency",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "hire_date",
+          "target_column": "hire_date",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "termination_date",
+          "target_column": "termination_date",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "revision_no",
+          "target_column": "revision_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_from",
+          "target_column": "valid_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_to",
+          "target_column": "valid_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_to",
+          "target_column": "known_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_ACCESS_SCOPE",
+      "source": "WORKDAY_SECURITY",
+      "target_table": "access_scope",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "access_scope_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "access_scope_id",
+          "target_column": "access_scope_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "grant_id",
+          "target_column": "grant_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "principal_id",
+          "target_column": "principal_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "worker_id",
+          "target_column": "worker_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "role",
+          "target_column": "role",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "scope_type",
+          "target_column": "scope_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "scope_key",
+          "target_column": "scope_key",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "decision",
+          "target_column": "decision",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "revision_no",
+          "target_column": "revision_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_from",
+          "target_column": "valid_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_to",
+          "target_column": "valid_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_to",
+          "target_column": "known_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_PAYER_PLAN",
+      "source": "PAYER_CONTRACT",
+      "target_table": "payer_plan",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "payer_plan_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "payer_plan_id",
+          "target_column": "payer_plan_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "plan_code",
+          "target_column": "plan_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "payer_name",
+          "target_column": "payer_name",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "plan_name",
+          "target_column": "plan_name",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "payer_type",
+          "target_column": "payer_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "reimbursement_method",
+          "target_column": "reimbursement_method",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "authorization_required",
+          "target_column": "authorization_required",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "allowed_factor",
+          "target_column": "allowed_factor",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_from",
+          "target_column": "valid_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_to",
+          "target_column": "valid_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_PATIENT_COVERAGE",
+      "source": "EHR_COVERAGE",
+      "target_table": "patient_coverage",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "coverage_version_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "coverage_version_id",
+          "target_column": "coverage_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "coverage_id",
+          "target_column": "coverage_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "patient_version_id",
+          "target_column": "patient_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "payer_plan_id",
+          "target_column": "payer_plan_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "synthetic_member_id",
+          "target_column": "synthetic_member_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "coverage_status",
+          "target_column": "coverage_status",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "revision_no",
+          "target_column": "revision_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_from",
+          "target_column": "valid_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_to",
+          "target_column": "valid_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_to",
+          "target_column": "known_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_CATALOG_ITEM",
+      "source": "REFERENCE_CATALOG",
+      "target_table": "catalog_item",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "catalog_item_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "catalog_item_id",
+          "target_column": "catalog_item_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "domain",
+          "target_column": "domain",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "allergen_catalog_id",
+          "target_column": "allergen_catalog_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "code_system",
+          "target_column": "code_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "code",
+          "target_column": "code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "version",
+          "target_column": "version",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "display",
+          "target_column": "display",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_from",
+          "target_column": "valid_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_to",
+          "target_column": "valid_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "base_unit",
+          "target_column": "base_unit",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "formulation",
+          "target_column": "formulation",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "strength_per_base_unit",
+          "target_column": "strength_per_base_unit",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "strength_unit",
+          "target_column": "strength_unit",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "pack_to_base_factor",
+          "target_column": "pack_to_base_factor",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "account_class",
+          "target_column": "account_class",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "normal_balance",
+          "target_column": "normal_balance",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "clinical_group",
+          "target_column": "clinical_group",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_SOURCE_KEY_MAP",
+      "source": "INTEGRATION_CONTROL",
+      "target_table": "source_key_map",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "mapping_version_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "mapping_version_id",
+          "target_column": "mapping_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "mapping_id",
+          "target_column": "mapping_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_namespace",
+          "target_column": "source_namespace",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "entity_type",
+          "target_column": "entity_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_key",
+          "target_column": "source_key",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "target_key",
+          "target_column": "target_key",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "mapping_status",
+          "target_column": "mapping_status",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "revision_no",
+          "target_column": "revision_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_from",
+          "target_column": "valid_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_to",
+          "target_column": "valid_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_to",
+          "target_column": "known_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_ENCOUNTER",
+      "source": "EHR_ADT",
+      "target_table": "encounter",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "encounter_version_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "encounter_version_id",
+          "target_column": "encounter_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "encounter_id",
+          "target_column": "encounter_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "episode_id",
+          "target_column": "episode_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "previous_encounter_version_id",
+          "target_column": "previous_encounter_version_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "patient_version_id",
+          "target_column": "patient_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "facility_id",
+          "target_column": "facility_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "location_id",
+          "target_column": "location_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "coverage_version_id",
+          "target_column": "coverage_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "attending_assignment_id",
+          "target_column": "attending_assignment_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "encounter_class",
+          "target_column": "encounter_class",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "admission_source",
+          "target_column": "admission_source",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "initial_acuity",
+          "target_column": "initial_acuity",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "arrival_at",
+          "target_column": "arrival_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "admission_decision_at",
+          "target_column": "admission_decision_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "admitted_at",
+          "target_column": "admitted_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "medically_ready_at",
+          "target_column": "medically_ready_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "discharged_at",
+          "target_column": "discharged_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "disposition",
+          "target_column": "disposition",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "planned",
+          "target_column": "planned",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "carry_in",
+          "target_column": "carry_in",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "revision_no",
+          "target_column": "revision_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_to",
+          "target_column": "known_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_CLINICAL_CONDITION",
+      "source": "EHR_CLINICAL",
+      "target_table": "clinical_condition",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "condition_version_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "condition_version_id",
+          "target_column": "condition_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "condition_id",
+          "target_column": "condition_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "patient_version_id",
+          "target_column": "patient_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "encounter_version_id",
+          "target_column": "encounter_version_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "catalog_item_id",
+          "target_column": "catalog_item_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "condition_type",
+          "target_column": "condition_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "status",
+          "target_column": "status",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "diagnosis_rank",
+          "target_column": "diagnosis_rank",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "present_on_admission",
+          "target_column": "present_on_admission",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "onset_at",
+          "target_column": "onset_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "resolved_at",
+          "target_column": "resolved_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "reaction",
+          "target_column": "reaction",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "severity",
+          "target_column": "severity",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "revision_no",
+          "target_column": "revision_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_from",
+          "target_column": "valid_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "valid_to",
+          "target_column": "valid_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_to",
+          "target_column": "known_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_CLINICAL_EVENT",
+      "source": "EHR_CLINICAL",
+      "target_table": "clinical_event",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "clinical_event_version_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "clinical_event_version_id",
+          "target_column": "clinical_event_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "clinical_event_id",
+          "target_column": "clinical_event_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "encounter_version_id",
+          "target_column": "encounter_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "catalog_item_id",
+          "target_column": "catalog_item_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "parent_event_version_id",
+          "target_column": "parent_event_version_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "author_assignment_id",
+          "target_column": "author_assignment_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "event_type",
+          "target_column": "event_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "occurred_at",
+          "target_column": "occurred_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "period_end_at",
+          "target_column": "period_end_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "order_start_at",
+          "target_column": "order_start_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "order_end_at",
+          "target_column": "order_end_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "dose_interval_hours",
+          "target_column": "dose_interval_hours",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "as_needed",
+          "target_column": "as_needed",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "max_doses_per_day",
+          "target_column": "max_doses_per_day",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "administration_sequence",
+          "target_column": "administration_sequence",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "specimen_id",
+          "target_column": "specimen_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "collected_at",
+          "target_column": "collected_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "result_ready_at",
+          "target_column": "result_ready_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "document_signed_at",
+          "target_column": "document_signed_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "status",
+          "target_column": "status",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "numeric_value",
+          "target_column": "numeric_value",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "value_unit",
+          "target_column": "value_unit",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "text_value",
+          "target_column": "text_value",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "reference_low",
+          "target_column": "reference_low",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "reference_high",
+          "target_column": "reference_high",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "dose_quantity",
+          "target_column": "dose_quantity",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "dose_unit",
+          "target_column": "dose_unit",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "route",
+          "target_column": "route",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "consumed_base_quantity",
+          "target_column": "consumed_base_quantity",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "consumption_group_key",
+          "target_column": "consumption_group_key",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "document_type",
+          "target_column": "document_type",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "aggregation",
+          "target_column": "aggregation",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "revision_no",
+          "target_column": "revision_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_to",
+          "target_column": "known_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_APPOINTMENT",
+      "source": "EHR_SCHEDULING",
+      "target_table": "appointment",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "appointment_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "appointment_id",
+          "target_column": "appointment_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "patient_version_id",
+          "target_column": "patient_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "location_id",
+          "target_column": "location_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "worker_assignment_id",
+          "target_column": "worker_assignment_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "replacement_appointment_id",
+          "target_column": "replacement_appointment_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "resulting_encounter_version_id",
+          "target_column": "resulting_encounter_version_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "appointment_type",
+          "target_column": "appointment_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "booked_at",
+          "target_column": "booked_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "scheduled_start",
+          "target_column": "scheduled_start",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "scheduled_end",
+          "target_column": "scheduled_end",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "arrived_at",
+          "target_column": "arrived_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "cancelled_at",
+          "target_column": "cancelled_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "no_show_recorded_at",
+          "target_column": "no_show_recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "cancel_reason",
+          "target_column": "cancel_reason",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_BED_EVENT",
+      "source": "ADT_BED",
+      "target_table": "bed_event",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "bed_event_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "bed_event_id",
+          "target_column": "bed_event_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "bed_location_id",
+          "target_column": "bed_location_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "encounter_version_id",
+          "target_column": "encounter_version_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "corrects_bed_event_id",
+          "target_column": "corrects_bed_event_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "transfer_group_id",
+          "target_column": "transfer_group_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "sequence_no",
+          "target_column": "sequence_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "effective_at",
+          "target_column": "effective_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "event_type",
+          "target_column": "event_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "occupancy_state",
+          "target_column": "occupancy_state",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "service_state",
+          "target_column": "service_state",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "staffing_enabled",
+          "target_column": "staffing_enabled",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "reserved",
+          "target_column": "reserved",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "reason",
+          "target_column": "reason",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "delivery_at",
+          "target_column": "delivery_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_STAFF_SHIFT",
+      "source": "ROSTER_TIME",
+      "target_table": "staff_shift",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "shift_version_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "shift_version_id",
+          "target_column": "shift_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "shift_id",
+          "target_column": "shift_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "worker_assignment_id",
+          "target_column": "worker_assignment_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "location_id",
+          "target_column": "location_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "cost_center_id",
+          "target_column": "cost_center_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "shift_type",
+          "target_column": "shift_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "planned_start",
+          "target_column": "planned_start",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "planned_end",
+          "target_column": "planned_end",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "actual_start",
+          "target_column": "actual_start",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "actual_end",
+          "target_column": "actual_end",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "worked_hours",
+          "target_column": "worked_hours",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "productive_hours",
+          "target_column": "productive_hours",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "paid_nonproductive_hours",
+          "target_column": "paid_nonproductive_hours",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "unpaid_break_hours",
+          "target_column": "unpaid_break_hours",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "overtime_hours",
+          "target_column": "overtime_hours",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "loaded_cost",
+          "target_column": "loaded_cost",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "currency",
+          "target_column": "currency",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "posting_group_key",
+          "target_column": "posting_group_key",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "attendance_status",
+          "target_column": "attendance_status",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "revision_no",
+          "target_column": "revision_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_to",
+          "target_column": "known_to",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_INVENTORY_MOVEMENT",
+      "source": "INVENTORY_PHARMACY",
+      "target_table": "inventory_movement",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "movement_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "movement_id",
+          "target_column": "movement_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "location_id",
+          "target_column": "location_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "catalog_item_id",
+          "target_column": "catalog_item_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "lot_id",
+          "target_column": "lot_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "movement_type",
+          "target_column": "movement_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "occurred_at",
+          "target_column": "occurred_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "quantity_base",
+          "target_column": "quantity_base",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "unit_cost",
+          "target_column": "unit_cost",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "extended_cost",
+          "target_column": "extended_cost",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "expires_on",
+          "target_column": "expires_on",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "transfer_group_id",
+          "target_column": "transfer_group_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "consumption_group_key",
+          "target_column": "consumption_group_key",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "nonpatient_waste_base",
+          "target_column": "nonpatient_waste_base",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "reverses_movement_id",
+          "target_column": "reverses_movement_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "posting_group_key",
+          "target_column": "posting_group_key",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "currency",
+          "target_column": "currency",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_SERVICE_CHARGE",
+      "source": "BILLING",
+      "target_table": "service_charge",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "charge_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "charge_id",
+          "target_column": "charge_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "encounter_version_id",
+          "target_column": "encounter_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "catalog_item_id",
+          "target_column": "catalog_item_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "clinical_event_version_id",
+          "target_column": "clinical_event_version_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "cost_center_id",
+          "target_column": "cost_center_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "service_from",
+          "target_column": "service_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "service_to",
+          "target_column": "service_to",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "revenue_category",
+          "target_column": "revenue_category",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "units",
+          "target_column": "units",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "unit_code",
+          "target_column": "unit_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "unit_price",
+          "target_column": "unit_price",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "billed_amount",
+          "target_column": "billed_amount",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "currency",
+          "target_column": "currency",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "authorization_status",
+          "target_column": "authorization_status",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "authorization_known_at",
+          "target_column": "authorization_known_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "reverses_charge_id",
+          "target_column": "reverses_charge_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "posting_group_key",
+          "target_column": "posting_group_key",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_CLAIM",
+      "source": "RCM",
+      "target_table": "claim",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "claim_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "claim_id",
+          "target_column": "claim_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "encounter_version_id",
+          "target_column": "encounter_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "coverage_version_id",
+          "target_column": "coverage_version_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "claim_number",
+          "target_column": "claim_number",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "service_from",
+          "target_column": "service_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "service_to",
+          "target_column": "service_to",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "created_at",
+          "target_column": "created_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "first_submitted_at",
+          "target_column": "first_submitted_at",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "original_billed_amount",
+          "target_column": "original_billed_amount",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "opening_ar",
+          "target_column": "opening_ar",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "opening_contractual_adjustments",
+          "target_column": "opening_contractual_adjustments",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "opening_cash_collected",
+          "target_column": "opening_cash_collected",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "opening_writeoffs",
+          "target_column": "opening_writeoffs",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "carry_in",
+          "target_column": "carry_in",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "currency",
+          "target_column": "currency",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_CLAIM_LINE",
+      "source": "RCM",
+      "target_table": "claim_line",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "claim_line_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "claim_line_id",
+          "target_column": "claim_line_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "claim_id",
+          "target_column": "claim_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "charge_id",
+          "target_column": "charge_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "line_no",
+          "target_column": "line_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "billed_amount",
+          "target_column": "billed_amount",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "expected_allowed_amount",
+          "target_column": "expected_allowed_amount",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "currency",
+          "target_column": "currency",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_CLAIM_EVENT",
+      "source": "RCM_REMITTANCE",
+      "target_table": "claim_event",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "claim_event_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "claim_event_id",
+          "target_column": "claim_event_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "claim_id",
+          "target_column": "claim_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "claim_line_id",
+          "target_column": "claim_line_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "denial_catalog_id",
+          "target_column": "denial_catalog_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "reverses_claim_event_id",
+          "target_column": "reverses_claim_event_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "event_type",
+          "target_column": "event_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "attempt_no",
+          "target_column": "attempt_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "occurred_at",
+          "target_column": "occurred_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "contractual_adjustment_delta",
+          "target_column": "contractual_adjustment_delta",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "payer_liability_delta",
+          "target_column": "payer_liability_delta",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "patient_liability_delta",
+          "target_column": "patient_liability_delta",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "cash_delta",
+          "target_column": "cash_delta",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "writeoff_delta",
+          "target_column": "writeoff_delta",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recognized_revenue_delta",
+          "target_column": "recognized_revenue_delta",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "ar_delta",
+          "target_column": "ar_delta",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "posting_group_key",
+          "target_column": "posting_group_key",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "currency",
+          "target_column": "currency",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_FINANCIAL_POSTING",
+      "source": "SYNTHETIC_GL",
+      "target_table": "financial_posting",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "posting_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "posting_id",
+          "target_column": "posting_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "journal_id",
+          "target_column": "journal_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "line_no",
+          "target_column": "line_no",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "facility_id",
+          "target_column": "facility_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "cost_center_id",
+          "target_column": "cost_center_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "account_catalog_id",
+          "target_column": "account_catalog_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "posting_date",
+          "target_column": "posting_date",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "service_from",
+          "target_column": "service_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "service_to",
+          "target_column": "service_to",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "debit_amount",
+          "target_column": "debit_amount",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "credit_amount",
+          "target_column": "credit_amount",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "currency",
+          "target_column": "currency",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_domain",
+          "target_column": "source_domain",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_group_key",
+          "target_column": "source_group_key",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "allocation_pool_key",
+          "target_column": "allocation_pool_key",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "eligible_for_allocation",
+          "target_column": "eligible_for_allocation",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "reverses_posting_id",
+          "target_column": "reverses_posting_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_COST_ALLOCATION",
+      "source": "COST_ACCOUNTING",
+      "target_table": "cost_allocation",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "allocation_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "allocation_id",
+          "target_column": "allocation_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "posting_id",
+          "target_column": "posting_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "encounter_version_id",
+          "target_column": "encounter_version_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "cost_center_id",
+          "target_column": "cost_center_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "allocation_run_id",
+          "target_column": "allocation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "destination_type",
+          "target_column": "destination_type",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "cost_category",
+          "target_column": "cost_category",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "accounting_month",
+          "target_column": "accounting_month",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "driver_quantity",
+          "target_column": "driver_quantity",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "driver_unit",
+          "target_column": "driver_unit",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "allocation_share",
+          "target_column": "allocation_share",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "allocated_amount",
+          "target_column": "allocated_amount",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "currency",
+          "target_column": "currency",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "known_from",
+          "target_column": "known_from",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "supersedes_run_id",
+          "target_column": "supersedes_run_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_FINANCE_MONTHLY",
+      "source": "AXIOM",
+      "target_table": "finance_monthly",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "finance_record_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "finance_record_id",
+          "target_column": "finance_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "facility_id",
+          "target_column": "facility_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "cost_center_id",
+          "target_column": "cost_center_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "account_catalog_id",
+          "target_column": "account_catalog_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "measure_code",
+          "target_column": "measure_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "accounting_month",
+          "target_column": "accounting_month",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "scenario",
+          "target_column": "scenario",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "vintage_id",
+          "target_column": "vintage_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "published_at",
+          "target_column": "published_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "amount",
+          "target_column": "amount",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "quantity",
+          "target_column": "quantity",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "unit_code",
+          "target_column": "unit_code",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "report_template_id",
+          "target_column": "report_template_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_file_id",
+          "target_column": "source_file_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "supersedes_vintage_id",
+          "target_column": "supersedes_vintage_id",
+          "transform": "identity with schema type parsing",
+          "required": false
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    },
+    {
+      "id": "CANON_FACILITY_DAY_DRIVER",
+      "source": "EXTERNAL_DRIVER",
+      "target_table": "facility_day_driver",
+      "format": "UTF-8 RFC4180 CSV or Parquet; types follow schema.json",
+      "mode": "APPEND_IMMUTABLE_VERSIONS_OR_MOVEMENTS",
+      "business_key": [
+        "facility_day_id"
+      ],
+      "field_mappings": [
+        {
+          "source_field": "facility_day_id",
+          "target_column": "facility_day_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "facility_id",
+          "target_column": "facility_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "calendar_date",
+          "target_column": "calendar_date",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "day_of_week",
+          "target_column": "day_of_week",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "holiday",
+          "target_column": "holiday",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "season",
+          "target_column": "season",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "respiratory_index",
+          "target_column": "respiratory_index",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "weather_index",
+          "target_column": "weather_index",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "calendar_known_at",
+          "target_column": "calendar_known_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "observations_known_at",
+          "target_column": "observations_known_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "calendar_source",
+          "target_column": "calendar_source",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_system",
+          "target_column": "source_system",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "source_record_id",
+          "target_column": "source_record_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "recorded_at",
+          "target_column": "recorded_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "export_available_at",
+          "target_column": "export_available_at",
+          "transform": "identity with schema type parsing",
+          "required": true
+        },
+        {
+          "source_field": "generation_run_id",
+          "target_column": "generation_run_id",
+          "transform": "identity with schema type parsing",
+          "required": true
+        }
+      ],
+      "availability": "recorded_at <= export_available_at; delayed delivery never changes economic occurrence",
+      "control_totals": [
+        "row_count",
+        "business_key_count",
+        "sha256",
+        "min_max_recorded_at"
+      ],
+      "replay": "Deduplicate exact source version keys, not whole stable-person or claim identity"
+    }
+  ],
+  "source_families": [
+    {
+      "id": "WD_WORKER",
+      "source": "WORKDAY",
+      "target_table": "worker_assignment",
+      "cadence": "Weekly full Sunday 07:00 UTC; daily changes 07:00 UTC",
+      "mode": "SNAPSHOT_PLUS_VERSIONED_DELTA",
+      "source_keys": [
+        "EmployeeID",
+        "EffectiveDate",
+        "ExtractVersion"
+      ],
+      "maps": {
+        "EmployeeID": "worker_id",
+        "FirstName": "given_name",
+        "LastName": "family_name",
+        "CostCenterReference": "cost_center_id",
+        "ManagerEmployeeID": "manager_worker_id",
+        "EffectiveDate": "valid_from"
+      }
+    },
+    {
+      "id": "WD_COST_CENTER",
+      "source": "WORKDAY",
+      "target_table": "cost_center",
+      "cadence": "Weekly Sunday 07:00 UTC",
+      "mode": "FULL_SNAPSHOT",
+      "source_keys": [
+        "CostCenterReference"
+      ],
+      "maps": {
+        "CostCenterReference": "cost_center_id",
+        "CostCenterName": "cost_center_name",
+        "ParentReference": "parent_cost_center_id"
+      }
+    },
+    {
+      "id": "WD_SECURITY",
+      "source": "WORKDAY_SECURITY",
+      "target_table": "access_scope",
+      "cadence": "Daily 07:00 UTC; corrections next batch",
+      "mode": "VERSIONED_DELTA",
+      "source_keys": [
+        "GrantReference",
+        "EffectiveDate",
+        "ExtractVersion"
+      ],
+      "maps": {
+        "PrincipalReference": "principal_id",
+        "EmployeeID": "worker_id",
+        "ScopeReference": "scope_key",
+        "Role": "role",
+        "Decision": "decision"
+      }
+    },
+    {
+      "id": "AX_ACTUAL",
+      "source": "AXIOM",
+      "target_table": "finance_monthly",
+      "cadence": "Monthly close day 5 08:00 UTC; replacement corrections with new vintage",
+      "mode": "REPLACE_DECLARED_SCOPE_VERSION",
+      "source_keys": [
+        "ReportID",
+        "Period",
+        "CostCenter",
+        "Account",
+        "Version"
+      ],
+      "maps": {
+        "Period": "accounting_month",
+        "CostCenter": "cost_center_id",
+        "Account": "account_catalog_id",
+        "Amount": "amount",
+        "Version": "vintage_id",
+        "ReportID": "report_template_id"
+      }
+    },
+    {
+      "id": "AX_BUDGET",
+      "source": "AXIOM",
+      "target_table": "finance_monthly",
+      "cadence": "Original December 15 before plan year; midyear revision July 1 in 2024/2025",
+      "mode": "APPEND_VINTAGE",
+      "source_keys": [
+        "PlanYear",
+        "Period",
+        "CostCenter",
+        "Account",
+        "Version"
+      ],
+      "maps": {
+        "Period": "accounting_month",
+        "CostCenter": "cost_center_id",
+        "Account": "account_catalog_id",
+        "Amount": "amount",
+        "Version": "vintage_id"
+      }
+    },
+    {
+      "id": "AX_FORECAST",
+      "source": "AXIOM",
+      "target_table": "finance_monthly",
+      "cadence": "Quarterly first business day, next 3 target months only",
+      "mode": "APPEND_VINTAGE",
+      "source_keys": [
+        "Publication",
+        "Period",
+        "CostCenter",
+        "Account",
+        "Version"
+      ],
+      "maps": {
+        "Publication": "published_at",
+        "Period": "accounting_month",
+        "CostCenter": "cost_center_id",
+        "Account": "account_catalog_id",
+        "Amount": "amount",
+        "Version": "vintage_id"
+      }
+    },
+    {
+      "id": "AX_STATS",
+      "source": "AXIOM",
+      "target_table": "finance_monthly",
+      "cadence": "Monthly close day 5",
+      "mode": "REPLACE_DECLARED_SCOPE_VERSION",
+      "source_keys": [
+        "Period",
+        "CostCenter",
+        "Measure",
+        "Version"
+      ],
+      "maps": {
+        "Period": "accounting_month",
+        "CostCenter": "cost_center_id",
+        "Measure": "measure_code",
+        "Quantity": "quantity",
+        "Unit": "unit_code",
+        "Version": "vintage_id"
+      }
+    },
+    {
+      "id": "ADT_EVENT",
+      "source": "ADT_BED",
+      "target_table": "bed_event",
+      "cadence": "Event occurrence plus simulated source/delivery delay; historical bounded replay",
+      "mode": "APPEND_EVENT_DEDUP_ID",
+      "source_keys": [
+        "MessageControlID"
+      ],
+      "maps": {
+        "MessageControlID": "bed_event_id",
+        "BedReference": "bed_location_id",
+        "EffectiveTime": "effective_at",
+        "Sequence": "sequence_no",
+        "CorrectionReference": "corrects_bed_event_id"
+      }
+    }
+  ],
+  "source_transform_policy": "Resolve ID references through typed source_key_map at valid+knowledge time; parse UTC/date/decimals exactly; unknown mappings quarantine. No guessed identifiers.",
+  "axiom_layout_families": [
+    "actual-long",
+    "actual-wide-months",
+    "actual-with-adjustments",
+    "budget-original",
+    "budget-revised",
+    "forecast-amount",
+    "forecast-drivers",
+    "statistics-volume",
+    "statistics-workforce",
+    "variance-comparison",
+    "account-mapping",
+    "center-mapping"
+  ],
+  "wide_and_variance_policy": "Unpivot wide period columns into counted scalar canonical rows. Variance-only fields are reconciled/recomputed, never added as actuals. Mapping exports populate source_key_map/cost_center/catalog_item, not hidden tables.",
+  "manifest_fields": [
+    "file_id",
+    "source_contract_id",
+    "schema_version",
+    "scope",
+    "period",
+    "vintage",
+    "replacement_of",
+    "expected_rows",
+    "control_totals",
+    "sha256",
+    "available_at"
+  ],
+  "faults": [
+    {
+      "id": "F_DUP",
+      "action": "deduplicate exact event/version, no economic/state change"
+    },
+    {
+      "id": "F_LATE",
+      "action": "retain availability; reproject affected period/bed if beyond normal lateness"
+    },
+    {
+      "id": "F_MISSING",
+      "action": "mark partition incomplete, block certified close; never silently fill zero"
+    },
+    {
+      "id": "F_SCHEMA",
+      "action": "quarantine incompatible layout; compatible additive fields handled only through versioned contract"
+    },
+    {
+      "id": "F_UNMAPPED",
+      "action": "quarantine scoped rows; record missing key and block dependent totals"
+    },
+    {
+      "id": "F_REPLACE",
+      "action": "replace exact source scope/vintage, retain prior knowledge history; no double add"
+    },
+    {
+      "id": "F_CORRUPT",
+      "action": "reject/quarantine with row evidence; manifest fails until corrected"
+    }
+  ]
+}

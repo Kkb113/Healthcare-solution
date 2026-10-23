@@ -1,0 +1,269 @@
+{
+  "version": "1.0.0",
+  "status": "DESIGN_BASELINE",
+  "prepared_date": "2026-10-23",
+  "business_start_date": "2023-01-01",
+  "business_end_date_inclusive": "2025-12-31",
+  "final_export_grace_end_utc": "2026-01-10T23:59:59Z",
+  "export_grace_policy": "Only source delivery/December-close knowledge may occur after the business cutoff. No post-cutoff clinical care, claim payment or outcome is invented. December 2025 actuals may be published January 5, 2026 and remain unavailable to December as-of queries.",
+  "local_timezone": "America/Chicago",
+  "currency": "USD",
+  "fiscal_year_start_month": 1,
+  "minimum_tables": 20,
+  "maximum_tables": 25,
+  "minimum_planned_records": 1000000,
+  "maximum_records": 2000000,
+  "record_cap_scope": "canonical published business rows, including versions, openings, corrections and any published challenge rows",
+  "physical_export_count_policy": "Report every serialized snapshot/mirror row separately; no claim of <=2m across copies.",
+  "network": {
+    "facilities": 3,
+    "beds_per_facility": 24,
+    "total_beds": 72,
+    "icu_beds_per_facility": 4,
+    "medical_surgical_beds_per_facility": 20,
+    "adult_min_age_at_service": 18,
+    "planned_ipd_episodes": 12000,
+    "carry_in_ipd_included": 57,
+    "ipd_mean_in_window_bed_days": 5.2,
+    "planned_bed_days": 62400,
+    "planned_staffed_bed_days": 77950,
+    "opening_occupied_beds": 57,
+    "staffed_capacity_policy": "Close empty beds only; occupied patients retain physical bed status; coverage shortfall is separate.",
+    "distinct_encounters": {
+      "IPD": 12000,
+      "ED": 27000,
+      "OPD": 17000
+    },
+    "opening_closed_encounters": 2000,
+    "encounter_lifecycle_revision_rows": 68000,
+    "encounter_correction_rows": 4000,
+    "distinct_patients": 20000,
+    "patient_revision_rows": 2000,
+    "distinct_workers": 300,
+    "worker_revision_rows": 600
+  },
+  "scope": {
+    "included": [
+      "adult community inpatient medicine",
+      "limited elective general/orthopedic surgery",
+      "adult ED",
+      "hospital ambulatory follow-up",
+      "short-stay ICU stabilization",
+      "primary payer institutional claims",
+      "modeled formulary administrations",
+      "selected clinical measurements and diagnostic results",
+      "daily source-group double-entry ledger"
+    ],
+    "excluded": [
+      "pediatrics",
+      "maternity and newborns",
+      "long-term intensive care",
+      "transplants and complex tertiary surgery",
+      "complete device telemetry",
+      "full PACS imagery",
+      "every EHR observation",
+      "secondary payer coordination",
+      "professional claims",
+      "live Workday/Axiom tenant certification",
+      "deployed analytics or forecasting"
+    ]
+  },
+  "clinical_event_budget": {
+    "ORDER": 50000,
+    "OBSERVATION": 70000,
+    "LAB_RESULT": 70000,
+    "PROCEDURE": 20000,
+    "MED_ADMIN": 260000,
+    "MED_DISPENSE": 20000,
+    "DOCUMENT": 70000,
+    "REVISION_ROWS": 20000
+  },
+  "bed_event_budget": {
+    "opening": 72,
+    "occupy_vacate_clean_ready": 60000,
+    "service_staff_reservation": 18528,
+    "corrections": 1400
+  },
+  "bed_interval_design": {
+    "distinct_ipd": 12000,
+    "extra_transfers": 3000,
+    "total_intervals": 15000,
+    "average_turnaround_hours": 1.25
+  },
+  "staffing": {
+    "distinct_work_shifts": 52000,
+    "leave_unavailable_blocks": 4000,
+    "revision_rows": 14000,
+    "shift_hours": 12,
+    "productive_hours_per_work_shift": 10.5,
+    "rn_share_of_work_shifts": 0.7,
+    "modeled_rn_hours_per_patient_day": 5.5,
+    "rostered_workers": 180,
+    "mean_rostered_worker_fte": 0.65,
+    "annual_paid_hours_per_fte": 2080
+  },
+  "claim_budget": {
+    "current_period_originals": 54000,
+    "opening_originals": 2000,
+    "events": {
+      "OPENING": 2000,
+      "SUBMITTED": 54000,
+      "ADJUDICATED": 48000,
+      "PAYMENT": 44000,
+      "EXCEPTIONS_APPEALS_ADJUSTMENTS": 12000
+    }
+  },
+  "financial_grain": "Daily source-group journal lines plus explicit monthly pool-close reclassifications; exact source predicates; journals balanced per entity/currency.",
+  "accounting_policy": {
+    "recognition": "Gross service receivable/revenue at completed eligible service with explicit contractual estimate. Before submission the AR is unbilled, derived from eligible unclaimed charges. SUBMITTED assigns net service AR to the billed claim subledger without new revenue or net GL AR. Later adjudication changes estimates, never books gross revenue twice.",
+    "cash": "Receipt debits cash and credits AR; refunds/reversals use linked opposite entries.",
+    "inventory": "Receipts debit inventory/credit AP; actual consumption credits inventory/debits expense; no double expense of purchase plus consumption.",
+    "labor": "Actual loaded payable shift cost debits labor expense/credits payroll payable; daily aggregation retains source predicate.",
+    "allocations": "Monthly pool-close debits pool expense and credits original expense, preserving net total. Only eligible pool debit/reversal lines are allocated to encounter-month/category or nonpatient/residual. Daily source expense is never allocated twice; allocation rows create no new GL expense.",
+    "rounding": "Decimal HALF_UP to cents at charge/posting line; largest remainder deterministic allocation, tie-break by destination ID."
+  },
+  "finance_series": {
+    "actual": "11 required P&L control accounts at 45 centers and 6 required balance accounts at 3 facility control centers; control zeros explicitly required. P&L is monthly movement; balance sheet is cumulative closing balance including opening journals.",
+    "budget": "6 selected P&L accounts at 45 centers; original budget before each year, Jul-Dec midyear revisions in 2024/2025. No zero-filling absent comparison series.",
+    "forecast": "Quarterly published forward 3-month expense/revenue forecasts; not every account/center/month; target horizon clipped to observed reporting window.",
+    "statistics": [
+      "ADMISSIONS",
+      "PATIENT_DAYS",
+      "PRODUCTIVE_HOURS",
+      "FTE"
+    ],
+    "financial_row_budget": 36000,
+    "axiom_inventory_assumption": "900 report definitions grouped into 12 representative layout families; exercise all 12. Not 900 nonempty files every month. Actual tenant inventory is outside the simulated contract."
+  },
+  "budget_policy": "Planned rows are inclusive design envelopes, not quotas. Never pad, truncate descendants, or discard over-cap episodes. Regenerate/recalibrate complete causal histories if global cap would be exceeded.",
+  "solution_status": "BLOCKED_FOR_SOLUTION",
+  "next_phase": "Phase 1 only after Phase 0 gate",
+  "review_authority": {
+    "business_owner": "Kkb113",
+    "design_reviewer": "Codex",
+    "delegation": "User explicitly authorized Codex to review and finalize Phase 0 in this chat.",
+    "review_scope": "Design coherence, clinical pathway assumptions, simplified finance policy, contracts and arithmetic; not independent licensed clinical validation or vendor certification."
+  },
+  "financial_posting_budget": {
+    "opening": 500,
+    "workforce": 60000,
+    "inventory": 50000,
+    "revenue_ar_cash": 50000,
+    "monthly_pool_close": 12960,
+    "overhead_accrual_other_reclassification": 6540
+  },
+  "finance_row_breakdown": {
+    "actual_pnl_45_centers_11_accounts_36_months": 17820,
+    "actual_balance_3_control_centers_6_accounts_36_months": 648,
+    "actual_stats_15_centers_4_measures_36_months": 2160,
+    "original_budget_45_centers_6_accounts_36_months": 9720,
+    "midyear_budget_45_centers_6_accounts_12_months": 3240,
+    "forecast_12_selected_centers_2_accounts_12_vintages_3_months": 864,
+    "budget_stats_3_centers_4_measures_36_months": 432,
+    "correction_vintage_allowance": 1116
+  },
+  "account_sets": {
+    "pnl": [
+      "GROSS_REVENUE",
+      "CONTRA_REVENUE",
+      "LABOR_DIRECT",
+      "DRUG_DIRECT",
+      "SUPPLY_DIRECT",
+      "OVERHEAD_DIRECT",
+      "LABOR_POOL",
+      "DRUG_POOL",
+      "SUPPLY_POOL",
+      "OVERHEAD_POOL",
+      "OTHER_EXPENSE"
+    ],
+    "balance": [
+      "CASH",
+      "AR",
+      "INVENTORY",
+      "AP",
+      "PAYROLL_PAYABLE",
+      "OPENING_EQUITY"
+    ],
+    "budget": [
+      "GROSS_REVENUE",
+      "CONTRA_REVENUE",
+      "LABOR_POOL",
+      "DRUG_POOL",
+      "SUPPLY_POOL",
+      "OVERHEAD_POOL"
+    ]
+  },
+  "ipd_pathway_mix": [
+    {
+      "family": "HEART_FAILURE",
+      "share": 0.2,
+      "target_mean_days": 5.6
+    },
+    {
+      "family": "COPD",
+      "share": 0.15,
+      "target_mean_days": 5.2
+    },
+    {
+      "family": "PNEUMONIA",
+      "share": 0.15,
+      "target_mean_days": 6.6
+    },
+    {
+      "family": "GENERAL_MEDICINE",
+      "share": 0.1,
+      "target_mean_days": 4.8
+    },
+    {
+      "family": "GENERAL_SURGERY",
+      "share": 0.3,
+      "target_mean_days": 4.8
+    },
+    {
+      "family": "ORTHOPEDIC",
+      "share": 0.1,
+      "target_mean_days": 4.0
+    }
+  ],
+  "admission_routes": {
+    "elective_new": 4800,
+    "ed_new": 6000,
+    "direct_external_new": 1143,
+    "occupied_carry_in": 57
+  },
+  "cost_allocation_components": {
+    "ipd_four_categories": 48000,
+    "cross_month_ipd": 8640,
+    "transfer_centers": 12000,
+    "ed_op_average_2_25_categories": 99000,
+    "nonpatient_residual": 6000,
+    "allocation_revisions": 5000
+  },
+  "tables": {
+    "facility": 3,
+    "cost_center": 45,
+    "location": 150,
+    "patient": 22000,
+    "worker_assignment": 900,
+    "access_scope": 1800,
+    "payer_plan": 24,
+    "patient_coverage": 28000,
+    "catalog_item": 3000,
+    "source_key_map": 10000,
+    "encounter": 130000,
+    "clinical_condition": 95000,
+    "clinical_event": 580000,
+    "appointment": 30000,
+    "bed_event": 80000,
+    "staff_shift": 70000,
+    "inventory_movement": 60000,
+    "service_charge": 120000,
+    "claim": 56000,
+    "claim_line": 112000,
+    "claim_event": 160000,
+    "financial_posting": 180000,
+    "cost_allocation": 180000,
+    "finance_monthly": 36000,
+    "facility_day_driver": 3288
+  }
+}

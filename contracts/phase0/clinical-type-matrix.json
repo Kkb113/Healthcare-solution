@@ -1,0 +1,88 @@
+{
+  "version": "1.0.0",
+  "types": {
+    "ORDER": {
+      "required": [
+        "catalog_item_id"
+      ],
+      "domains": [
+        "MEDICATION",
+        "PROCEDURE",
+        "LAB",
+        "OBSERVATION"
+      ],
+      "parent": "none required; order precedes descendants",
+      "conditional_requirements": "For MEDICATION orders require dose_quantity, dose_unit, route, order_start_at, as_needed and max_doses_per_day; scheduled orders also require positive dose_interval_hours. Other order families do not carry fake medication fields."
+    },
+    "OBSERVATION": {
+      "required": [
+        "catalog_item_id",
+        "value_unit"
+      ],
+      "domains": [
+        "OBSERVATION"
+      ],
+      "parent": "optional earlier order; numeric or qualitative value required, not both empty"
+    },
+    "LAB_RESULT": {
+      "required": [
+        "catalog_item_id",
+        "parent_event_version_id",
+        "value_unit",
+        "specimen_id",
+        "collected_at",
+        "result_ready_at"
+      ],
+      "domains": [
+        "LAB"
+      ],
+      "parent": "earlier compatible ORDER; collection<=result_ready<=knowledge; each analyte is one scalar row"
+    },
+    "PROCEDURE": {
+      "required": [
+        "catalog_item_id",
+        "parent_event_version_id"
+      ],
+      "domains": [
+        "PROCEDURE"
+      ],
+      "parent": "earlier compatible ORDER; not-done/cancelled not billed"
+    },
+    "MED_ADMIN": {
+      "required": [
+        "catalog_item_id",
+        "parent_event_version_id",
+        "dose_quantity",
+        "dose_unit",
+        "route",
+        "administration_sequence"
+      ],
+      "domains": [
+        "MEDICATION"
+      ],
+      "parent": "earlier active medication ORDER; completed administration consumes positive converted stock; schedule/PRN maximum checked by stable order and local day",
+      "conditional_requirements": "COMPLETED requires positive consumed_base_quantity and resolvable consumption_group_key; CANCELLED/NOT_DONE consumes zero and has null consumption group. Inpatient ward dispensing is a transfer, not a second consumed dose. MED_DISPENSE represents take-home supply only in v1."
+    },
+    "MED_DISPENSE": {
+      "required": [
+        "catalog_item_id",
+        "parent_event_version_id",
+        "dose_quantity",
+        "dose_unit"
+      ],
+      "domains": [
+        "MEDICATION"
+      ],
+      "parent": "earlier medication ORDER; prescribed quantity is not assumed administered",
+      "conditional_requirements": "COMPLETED requires positive consumed_base_quantity and resolvable consumption_group_key; CANCELLED/NOT_DONE consumes zero and has null consumption group. Inpatient ward dispensing is a transfer, not a second consumed dose. MED_DISPENSE represents take-home supply only in v1."
+    },
+    "DOCUMENT": {
+      "required": [
+        "document_type",
+        "text_value"
+      ],
+      "domains": [],
+      "parent": "optional provenance; catalog_item_id null; only facts known at occurred_at"
+    }
+  }
+}

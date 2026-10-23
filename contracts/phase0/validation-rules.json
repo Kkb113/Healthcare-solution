@@ -1,0 +1,1109 @@
+{
+  "version": "1.0.0",
+  "rules": [
+    {
+      "id": "ID01",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "PK uniqueness and required scalar fields",
+      "formula_or_invariant": "PK not null and count(*)=count(distinct PK); required columns correctly typed",
+      "expected": "0 failures",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 2",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "ID02",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Explicit and typed references",
+      "formula_or_invariant": "All nonnull physical FKs resolve; polymorphic/stable-ID references satisfy entity-specific lookup",
+      "expected": "0 orphans or ambiguities",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 2",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "TM01",
+      "severity": "P0",
+      "tables": [
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "patient_coverage",
+        "clinical_condition",
+        "source_key_map"
+      ],
+      "title": "Bitemporal intervals",
+      "formula_or_invariant": "valid_from<valid_to and known_from<known_to when ends exist; no exclusive business/knowledge overlap",
+      "expected": "0 invalid rectangles",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 2",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "TM02",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Source knowledge versus export",
+      "formula_or_invariant": "recorded_at<=export_available_at; as-of projection requires applicable known_from and export availability",
+      "expected": "0 future facts",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 7",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "TM03",
+      "severity": "P0",
+      "tables": [
+        "encounter",
+        "clinical_event",
+        "staff_shift"
+      ],
+      "title": "Lifecycle knowledge",
+      "formula_or_invariant": "Initial and subsequent lifecycle values use separate versions; no final outcome in earlier known interval",
+      "expected": "0 leakage fixtures fail",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "NM01",
+      "severity": "P1",
+      "tables": [
+        "patient",
+        "worker_assignment",
+        "facility",
+        "location"
+      ],
+      "title": "Believable identities",
+      "formula_or_invariant": "Required human names present; no numbered generic person names; distinct persons may share names",
+      "expected": "0 unexplained placeholders; realism sample passes",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Business",
+      "execution_phase": "Phase 2",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "NM02",
+      "severity": "P1",
+      "tables": [
+        "patient",
+        "worker_assignment"
+      ],
+      "title": "Age and contacts",
+      "formula_or_invariant": "Age uses local calendar birthdays; service age>=18; identity contacts use documented test namespaces",
+      "expected": "0 impossible ages or real copied contacts",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Business",
+      "execution_phase": "Phase 2",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "OR01",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "location",
+        "cost_center"
+      ],
+      "title": "Hierarchy and bed inventory",
+      "formula_or_invariant": "Parent chains acyclic/same facility; 72 BED rows, 12 ICU and 60 medicine/surgery; opening state covers each bed",
+      "expected": "Exact baseline or approved scope change",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Operations",
+      "execution_phase": "Phase 2",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "WK01",
+      "severity": "P1",
+      "tables": [
+        "worker_assignment",
+        "staff_shift"
+      ],
+      "title": "Assignment and credential validity",
+      "formula_or_invariant": "Worked shift resolves eligible worker, role, credential and effective cost/rate as of service and knowledge",
+      "expected": "0 unauthorized worked assignments",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Workforce",
+      "execution_phase": "Phase 5",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "WK02",
+      "severity": "P0",
+      "tables": [
+        "worker_assignment"
+      ],
+      "title": "Manager identity",
+      "formula_or_invariant": "manager_worker_id resolves a distinct stable worker as of both valid and knowledge time; no cycles",
+      "expected": "0 invalid manager chains",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Workforce",
+      "execution_phase": "Phase 2",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "AC01",
+      "severity": "P0",
+      "tables": [
+        "access_scope"
+      ],
+      "title": "Scope and revocation",
+      "formula_or_invariant": "Scope key resolves its scope_type; NETWORK uses ALL_NETWORK; revoked rows deny later test reads",
+      "expected": "0 invalid targets or post-revocation grants",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Security",
+      "execution_phase": "Phase 7",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CV01",
+      "severity": "P0",
+      "tables": [
+        "patient_coverage",
+        "encounter",
+        "claim"
+      ],
+      "title": "Primary coverage",
+      "formula_or_invariant": "One primary enrollment per stable patient/time; encounter/claim patient matches coverage; SELF_PAY explicit",
+      "expected": "0 cross-person or overlapping primary coverage",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Revenue",
+      "execution_phase": "Phase 2",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CD01",
+      "severity": "P1",
+      "tables": [
+        "catalog_item",
+        "clinical_condition",
+        "clinical_event"
+      ],
+      "title": "Vocabulary and unit validity",
+      "formula_or_invariant": "Correct domain, release, effective date and UCUM/base unit; discharge-based diagnosis/procedure selection follows code-system rule",
+      "expected": "0 hard code/unit violations",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Clinical",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CD02",
+      "severity": "P0",
+      "tables": [
+        "catalog_item",
+        "financial_posting"
+      ],
+      "title": "Catalog type discriminators",
+      "formula_or_invariant": "MEDICATION requires strength/base-unit conversion; ACCOUNT requires account_class and normal_balance; no opaque extra facts",
+      "expected": "0 untyped or invalid catalog rows",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 2",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "EN01",
+      "severity": "P0",
+      "tables": [
+        "encounter",
+        "appointment"
+      ],
+      "title": "Encounter episode identity",
+      "formula_or_invariant": "Linked encounters share stable patient; episodes acyclic; ED/IPD separate visits, internal bed transfers not new encounters",
+      "expected": "0 identity/episode violations",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Operations",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "EN02",
+      "severity": "P0",
+      "tables": [
+        "encounter"
+      ],
+      "title": "Observed chronology",
+      "formula_or_invariant": "arrival<=decision<=IPD start<=observed discharge where applicable; open values remain null; prewindow completed rows are opening-AR context",
+      "expected": "0 impossible lifecycle orders",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Clinical",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "EN03",
+      "severity": "P0",
+      "tables": [
+        "encounter",
+        "patient"
+      ],
+      "title": "Death and cutoff",
+      "formula_or_invariant": "No new care after known death; post-death billing permitted; unobserved future outcomes remain censored",
+      "expected": "0 invented care/outcomes",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Clinical",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CN01",
+      "severity": "P1",
+      "tables": [
+        "clinical_condition"
+      ],
+      "title": "Condition family constraints",
+      "formula_or_invariant": "DIAGNOSIS requires encounter and rank>=1; PROBLEM/ALLERGY rank=0; ALLERGY requires drug substance and reaction",
+      "expected": "0 family-specific failures",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Clinical",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CN02",
+      "severity": "P0",
+      "tables": [
+        "clinical_condition",
+        "encounter"
+      ],
+      "title": "Diagnosis coverage",
+      "formula_or_invariant": "Each completed clinically assessed encounter has a primary diagnosis or explicit reviewed diagnostic uncertainty; no diagnosis required for left-without-seen",
+      "expected": "100% applicable encounters covered",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Clinical",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CE01",
+      "severity": "P0",
+      "tables": [
+        "clinical_event"
+      ],
+      "title": "Clinical event discriminator",
+      "formula_or_invariant": "Event-specific required fields match type matrix; no fabricated fields; every scalar result counts a row",
+      "expected": "0 matrix failures",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Clinical",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CE02",
+      "severity": "P0",
+      "tables": [
+        "clinical_event",
+        "clinical_condition"
+      ],
+      "title": "Orders, administration and allergy",
+      "formula_or_invariant": "Results/admin link valid earlier orders; active drug-allergy conflict rejected; dose/route within reviewed pathway configuration",
+      "expected": "0 hard clinical contradictions",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Clinical",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CE03",
+      "severity": "P1",
+      "tables": [
+        "clinical_event"
+      ],
+      "title": "Fact-grounded notes",
+      "formula_or_invariant": "DOCUMENT text contains only structured facts known at authored time; negation and uncertain diagnoses preserved",
+      "expected": "0 material sampled contradictions; repetition target passes",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Clinical",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "AP01",
+      "severity": "P1",
+      "tables": [
+        "appointment"
+      ],
+      "title": "Booked-slot history",
+      "formula_or_invariant": "booked<scheduled_end; no-show unavailable before scheduled end; cancelled/rescheduled slot retained and replacement linked",
+      "expected": "0 invalid transitions",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Operations",
+      "execution_phase": "Phase 3",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "BD01",
+      "severity": "P0",
+      "tables": [
+        "bed_event",
+        "encounter",
+        "location"
+      ],
+      "title": "Exclusive compatible occupancy",
+      "formula_or_invariant": "One active occupant per bed and one inpatient bed per stable patient; capability/cleanliness/service rules respected",
+      "expected": "0 unexplained conflicts",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Operations",
+      "execution_phase": "Phase 4",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "BD02",
+      "severity": "P0",
+      "tables": [
+        "bed_event"
+      ],
+      "title": "State machine",
+      "formula_or_invariant": "Resolve corrections before applying full post-state in effective sequence; no occupied closure without relocation; null occupant only when empty/nonoccupancy",
+      "expected": "0 illegal state transitions",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Operations",
+      "execution_phase": "Phase 4",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "BD03",
+      "severity": "P0",
+      "tables": [
+        "bed_event",
+        "encounter"
+      ],
+      "title": "Census roll-forward",
+      "formula_or_invariant": "opening+admissions+external transfers in-discharges-external transfers out=closing at same scope/time",
+      "expected": "Exact equality",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Operations",
+      "execution_phase": "Phase 4",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "BD04",
+      "severity": "P0",
+      "tables": [
+        "bed_event"
+      ],
+      "title": "Occupied seconds",
+      "formula_or_invariant": "Event-state integral equals independently reconstructed bed intervals clipped to window",
+      "expected": "0 seconds unexplained difference",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Operations",
+      "execution_phase": "Phase 4",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "BD05",
+      "severity": "P1",
+      "tables": [
+        "bed_event",
+        "encounter"
+      ],
+      "title": "Unmet capacity",
+      "formula_or_invariant": "Waiting/diversion/deferred appointments explicitly explain exhausted compatible capacity; no dropped arrivals",
+      "expected": "100% arrivals have current or terminal disposition",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Operations",
+      "execution_phase": "Phase 4",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "SF01",
+      "severity": "P0",
+      "tables": [
+        "staff_shift"
+      ],
+      "title": "Hours equation",
+      "formula_or_invariant": "worked_hours=productive+paid_nonproductive+unpaid_break; overtime<=paid hours; no overlapping WORK intervals",
+      "expected": "0 unexplained differences",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Workforce",
+      "execution_phase": "Phase 5",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "SF02",
+      "severity": "P1",
+      "tables": [
+        "staff_shift",
+        "bed_event",
+        "worker_assignment"
+      ],
+      "title": "Demand-linked staffing",
+      "formula_or_invariant": "RN productive requirement uses acuity-adjusted patient-days; coverage shortages are explicit, not hidden by census deletion",
+      "expected": "Registered cohort/shift targets pass",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Workforce",
+      "execution_phase": "Phase 5",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "IV01",
+      "severity": "P0",
+      "tables": [
+        "inventory_movement"
+      ],
+      "title": "Stock roll-forward",
+      "formula_or_invariant": "opening+signed movements=closing by location/item/lot/base unit; paired transfers balance",
+      "expected": "0 quantity difference or unexplained negative stock",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Supply",
+      "execution_phase": "Phase 5",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "IV02",
+      "severity": "P0",
+      "tables": [
+        "inventory_movement",
+        "clinical_event",
+        "catalog_item"
+      ],
+      "title": "Administration consumption",
+      "formula_or_invariant": "CONSUME group negative stock quantity equals administered converted base units plus explicit nonpatient waste; receipts not consumed twice",
+      "expected": "Exact base-unit equality at six-place precision",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Supply",
+      "execution_phase": "Phase 5",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "IV03",
+      "severity": "P1",
+      "tables": [
+        "inventory_movement"
+      ],
+      "title": "Lot expiry and valuation",
+      "formula_or_invariant": "No issue before stock arrival/after expiry; extended_cost=HALF_UP(quantity_base*unit_cost,2); reversal opposite",
+      "expected": "0 unexplained violations",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Supply",
+      "execution_phase": "Phase 5",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CH01",
+      "severity": "P0",
+      "tables": [
+        "service_charge",
+        "clinical_event",
+        "encounter"
+      ],
+      "title": "Charge provenance",
+      "formula_or_invariant": "Charge links performed billable service or declared room-day/category predicate; billed=HALF_UP(units*unit_price,2); no charge for cancelled/not-done service",
+      "expected": "0 untraceable or invalid amounts",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Finance",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CL01",
+      "severity": "P0",
+      "tables": [
+        "claim",
+        "claim_line",
+        "service_charge"
+      ],
+      "title": "Original claim totals",
+      "formula_or_invariant": "Original billed header equals original line sum; lines match charge and patient; each charge in at most one live original claim",
+      "expected": "0 cents difference",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Revenue",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CL02",
+      "severity": "P0",
+      "tables": [
+        "claim_event",
+        "claim"
+      ],
+      "title": "Claim lifecycle",
+      "formula_or_invariant": "Attempt/state valid; resubmissions retain original claim; OPENING is not new-period submission",
+      "expected": "0 invalid attempts or denominator duplication",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Revenue",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CL03",
+      "severity": "P0",
+      "tables": [
+        "claim_event"
+      ],
+      "title": "AR/cash movements",
+      "formula_or_invariant": "Opening AR plus signed event ar_delta equals closing; liability reclassification alone creates no cash/revenue; cash/refund reversals linked",
+      "expected": "0 cents unexplained",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Finance",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CL04",
+      "severity": "P1",
+      "tables": [
+        "claim_event",
+        "service_charge"
+      ],
+      "title": "Denial evidence availability",
+      "formula_or_invariant": "Denial causes relate to real authorization/coding/timing facts available at decision; open appeal is not final loss",
+      "expected": "All sampled reasons supported",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Revenue",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "GL01",
+      "severity": "P0",
+      "tables": [
+        "financial_posting",
+        "catalog_item"
+      ],
+      "title": "Double entry",
+      "formula_or_invariant": "Exactly one positive debit/credit per line; journal debit=credit per entity/currency/date; account domains valid",
+      "expected": "0 cents imbalance",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Finance",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "GL02",
+      "severity": "P0",
+      "tables": [
+        "financial_posting",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim_event"
+      ],
+      "title": "Source group reconciliation",
+      "formula_or_invariant": "Each source-group journal amount reconciles to latest eligible underlying facts under registered recognition policy",
+      "expected": "0 unexplained cents; lineage predicate mandatory",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Finance",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "GL03",
+      "severity": "P0",
+      "tables": [
+        "financial_posting",
+        "inventory_movement"
+      ],
+      "title": "Stock purchase versus expense",
+      "formula_or_invariant": "Receipts post asset/AP; consumption posts expense/asset; no simultaneous purchase and consumption double-expense",
+      "expected": "0 double-counted expense",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Finance",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CO01",
+      "severity": "P0",
+      "tables": [
+        "cost_allocation",
+        "financial_posting"
+      ],
+      "title": "Cost pool conservation",
+      "formula_or_invariant": "Selected run allocations PATIENT+NONPATIENT+RESIDUAL equal eligible signed expense source; shares sum 1; no allocation counted as new GL expense",
+      "expected": "0 cents difference",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Finance",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CO02",
+      "severity": "P0",
+      "tables": [
+        "cost_allocation"
+      ],
+      "title": "Destination and run selection",
+      "formula_or_invariant": "PATIENT requires encounter; other destinations require null encounter; select one current known run, not all versions",
+      "expected": "0 invalid destinations or duplicated runs",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Finance",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "AX01",
+      "severity": "P0",
+      "tables": [
+        "finance_monthly",
+        "financial_posting"
+      ],
+      "title": "Axiom actual reconciliation",
+      "formula_or_invariant": "Latest known ACTUAL equals P&L monthly movement or balance-sheet cumulative closing balance per account class, center, month, USD and explicit reclass/timing entries",
+      "expected": "0 cents difference at every declared grain",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Finance",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "AX02",
+      "severity": "P0",
+      "tables": [
+        "finance_monthly"
+      ],
+      "title": "Scenario/vintage/unit grain",
+      "formula_or_invariant": "Monetary rows have account+amount+USD, stats have quantity+unit; no summing scenarios or revisions; first-day month required",
+      "expected": "0 invalid unit/grain combinations",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Finance",
+      "execution_phase": "Phase 6",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "AX03",
+      "severity": "P0",
+      "tables": [
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "No hindsight forecasts",
+      "formula_or_invariant": "Budget/forecast uses only inputs available before vintage published_at; realized future indices never used early",
+      "expected": "0 leakage fixture failures",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Finance",
+      "execution_phase": "Phase 8",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "SR01",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Source round trip",
+      "formula_or_invariant": "Parsed export rows and control totals equal declared canonical scope; snapshots replace, deltas add once, versions retained",
+      "expected": "0 unexplained differences",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 7",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "SR02",
+      "severity": "P0",
+      "tables": [
+        "source_key_map"
+      ],
+      "title": "Crosswalk resolution",
+      "formula_or_invariant": "Typed target exists; source namespace/key/time resolves exactly one mapping; UNMAPPED rows are challenge inputs, not accepted canonical facts",
+      "expected": "0 unapproved unmapped facts",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 7",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "SR03",
+      "severity": "P0",
+      "tables": [
+        "bed_event",
+        "claim_event",
+        "inventory_movement",
+        "financial_posting"
+      ],
+      "title": "Idempotent replay",
+      "formula_or_invariant": "Repeated delivery has no new economic or occupancy effect; corrections converge to independent expected state",
+      "expected": "0 state or amount difference",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 7",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "DR01",
+      "severity": "P1",
+      "tables": [
+        "facility_day_driver"
+      ],
+      "title": "Daily driver coverage",
+      "formula_or_invariant": "3 facilities x1096 dates exactly once; calendar-known time separate from realized-observation-known time",
+      "expected": "3288 rows and no missing/duplicate day",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 2",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "RS01",
+      "severity": "P1",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Marginal and conditional realism",
+      "formula_or_invariant": "Apply preregistered target bands by denominator/date/cohort; low-count cells use documented intervals or manual review",
+      "expected": "All realism targets pass before release",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Business",
+      "execution_phase": "Phase 8",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "RS02",
+      "severity": "P1",
+      "tables": [
+        "clinical_event",
+        "encounter",
+        "staff_shift",
+        "claim_event"
+      ],
+      "title": "Connected scenario behavior",
+      "formula_or_invariant": "Scenario-specific expected effects appear in linked domains, no hidden scenario labels in business features",
+      "expected": "Every required scenario meets coverage and expected causal direction",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Business",
+      "execution_phase": "Phase 8",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "CP01",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Business volume/table boundary",
+      "formula_or_invariant": "20<=physical business tables<=25; all versions/openings/corrections counted; canonical total<=2,000,000",
+      "expected": "No over-cap release; never truncate linked data",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 8",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "RP01",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Clean rebuild",
+      "formula_or_invariant": "Pinned code/config/reference/seed reproduces normalized sorted business hashes, excluding volatile execution metadata",
+      "expected": "Exact hash equality",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 9",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    },
+    {
+      "id": "FN01",
+      "severity": "P0",
+      "tables": [
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "claim_line",
+        "cost_allocation"
+      ],
+      "title": "Independent fact grains",
+      "formula_or_invariant": "Aggregate each fact to declared target before joining; pairwise joins cannot multiply census/charges/cost",
+      "expected": "All hand-calculated fan-out fixtures pass",
+      "scope": "Latest applicable knowledge/business version at declared scope/time; raw challenge faults evaluated against expected disposition.",
+      "owner": "Data",
+      "execution_phase": "Phase 8",
+      "evidence": "Rule results, scoped counts/totals, failing keys, fixture expectation and independent reviewer disposition.",
+      "failure_action": "Block dependent gate; correct upstream cause; regenerate affected descendants.",
+      "implementation_status": "SPECIFIED_NOT_DATA_EXECUTED"
+    }
+  ]
+}

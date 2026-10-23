@@ -1,0 +1,5639 @@
+{
+  "version": "1.0.0",
+  "dialect": "Azure Databricks Unity Catalog Delta; offline contract only",
+  "common_availability_rule": "A revision is usable only after recorded_at and export_available_at and applicable known_from; event time does not override knowledge.",
+  "logical_reference_contracts": [
+    {
+      "source": "worker_assignment.manager_worker_id",
+      "target": "worker_assignment.worker_id",
+      "selection": "exactly one applicable valid+knowledge revision; acyclic manager chain"
+    },
+    {
+      "source": "access_scope.worker_id",
+      "target": "worker_assignment.worker_id",
+      "selection": "stable worker exists and grant validity/knowledge checked"
+    },
+    {
+      "source": "source_key_map.target_key",
+      "target_by_entity_type": {
+        "PATIENT": "patient.patient_id",
+        "WORKER": "worker_assignment.worker_id",
+        "LOCATION": "location.location_id",
+        "COST_CENTER": "cost_center.cost_center_id",
+        "CATALOG": "catalog_item.catalog_item_id",
+        "PAYER_PLAN": "payer_plan.payer_plan_id",
+        "UNIT_COST_CENTER": "cost_center.cost_center_id"
+      },
+      "selection": "typed lookup; UNIT_COST_CENTER source_key is the source/canonical unit association"
+    },
+    {
+      "source": "access_scope.scope_key",
+      "target_by_entity_type": {
+        "FACILITY": "facility.facility_id",
+        "LOCATION": "location.location_id",
+        "COST_CENTER": "cost_center.cost_center_id"
+      },
+      "selection": "NETWORK only uses ALL_NETWORK sentinel"
+    },
+    {
+      "source": "clinical_event.consumption_group_key",
+      "target": "inventory_movement.consumption_group_key",
+      "selection": "group-level unit/item/lot/base-unit conservation, not a falsely unique row FK"
+    },
+    {
+      "source": "financial_posting.source_group_key",
+      "target": "staff_shift.posting_group_key",
+      "selection": "WORKFORCE domain; analogous source-specific predicates for inventory, charges, claim events and pool-close journals"
+    }
+  ],
+  "tables": [
+    {
+      "name": "facility",
+      "primary_key": [
+        "facility_id"
+      ],
+      "grain": "One fictional hospital; stable identity and geography.",
+      "planned_rows": 3,
+      "source_authority": "ORG_MASTER",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [
+        [
+          "facility_code"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "facility_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Canonical hospital ID.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "facility_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Unique readable hospital code.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "facility_name",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Believable fictional hospital name; no numbered placeholder.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "city",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Fictional hospital's modeled Illinois city.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "state_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "US state postal code.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "postal_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Public postal area, not a copied personal address.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "timezone",
+          "type": "STRING",
+          "nullable": false,
+          "description": "IANA timezone; America/Chicago in v1.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "opened_on",
+          "type": "DATE",
+          "nullable": false,
+          "description": "First operating date.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "closed_on",
+          "type": "DATE",
+          "nullable": true,
+          "description": "Last operating date, exclusive.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "nullable": false,
+          "description": "ISO currency; USD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "fiscal_calendar",
+          "type": "STRING",
+          "nullable": false,
+          "description": "CALENDAR_YEAR in v1.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "NM01",
+        "OR01",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "cost_center",
+      "primary_key": [
+        "cost_center_id"
+      ],
+      "grain": "One stable financial responsibility center; replacements receive a new ID.",
+      "planned_rows": 45,
+      "source_authority": "WORKDAY",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [
+        [
+          "cost_center_code"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "cost_center_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Canonical financial responsibility center.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "facility_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Owning hospital.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "facility.facility_id"
+        },
+        {
+          "name": "parent_cost_center_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Financial parent; acyclic hierarchy.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "cost_center.cost_center_id"
+        },
+        {
+          "name": "cost_center_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Canonical cost-center code.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "cost_center_name",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Realistic named responsibility center.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "center_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Center purpose.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "CLINICAL",
+            "SUPPORT",
+            "ADMINISTRATION",
+            "SHARED"
+          ]
+        },
+        {
+          "name": "active_from",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Activation date.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "active_to",
+          "type": "DATE",
+          "nullable": true,
+          "description": "Exclusive retirement date.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "OR01",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "location",
+      "primary_key": [
+        "location_id"
+      ],
+      "grain": "One department, ward, room or physical bed; hierarchical location, not an occupancy snapshot.",
+      "planned_rows": 150,
+      "source_authority": "ADT_LOCATION",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "150 = 15 departments + 15 units + 48 rooms + 72 beds. Physical parents stay stable; service/staffing closures are bed events.",
+      "unique_keys": [
+        [
+          "facility_id",
+          "location_code"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "location_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable location identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "facility_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Owning hospital.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "facility.facility_id"
+        },
+        {
+          "name": "parent_location_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Location parent in the same hospital.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "location.location_id"
+        },
+        {
+          "name": "cost_center_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Default responsibility; event-time costs retain their actual center.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "cost_center.cost_center_id"
+        },
+        {
+          "name": "location_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Readable location code.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "location_name",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Named ward, room or bed.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "location_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Location grain.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "DEPARTMENT",
+            "UNIT",
+            "ROOM",
+            "BED"
+          ]
+        },
+        {
+          "name": "service_line",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Capability.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ED",
+            "AMBULATORY",
+            "MEDICINE",
+            "SURGERY",
+            "ICU",
+            "STEP_DOWN",
+            "SUPPORT"
+          ]
+        },
+        {
+          "name": "licensed_bed",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "description": "True only on inpatient BED rows counted in licensed capacity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "isolation_capable",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "description": "Placement capability; distinct from current availability.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "active_from",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Commissioning date.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "active_to",
+          "type": "DATE",
+          "nullable": true,
+          "description": "Exclusive retirement date.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "NM01",
+        "OR01",
+        "BD01",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "patient",
+      "primary_key": [
+        "patient_version_id"
+      ],
+      "grain": "One bitemporal demographic version of a persistent synthetic patient.",
+      "planned_rows": 22000,
+      "source_authority": "EHR_REGISTRATION",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "20,000 stable patients + 2,000 demographic revisions. Adult cohort only; no guardian/newborn entity is required.",
+      "unique_keys": [
+        [
+          "patient_id",
+          "revision_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "patient_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable demographic version key.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "patient_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable identity across demographic versions.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "mrn",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable synthetic enterprise medical record number.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "given_name",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Birth-cohort-weighted plausible first name.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "middle_name",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Optional realistic middle name/initial.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "family_name",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Plausible surname; duplicates permitted.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "suffix",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Optional suffix.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "birth_date",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Birth date; event age is derived using local calendar birthdays.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "administrative_sex",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source administrative field, not inferred from name.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "F",
+            "M",
+            "X",
+            "UNKNOWN"
+          ]
+        },
+        {
+          "name": "gender_identity",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Optional self-described administrative attribute, never inferred.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "race_ethnicity",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Configured self-report category, not assigned from surname.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "preferred_language",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Language preference code.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "address_line",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Fictional street address with plausible formatting.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "city",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Modeled city.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "state_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "US state.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "postal_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Geographically consistent postal area.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "test_email",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Non-deliverable contact under .example.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "test_phone",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Reserved fictional contact, not real patient contact.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "deceased_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Known death occurrence; later administrative transactions are permitted.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "revision_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Monotone revision within the stable business identity, starting at 1.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "valid_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Start of business validity; inclusive.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "valid_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "End of business validity; exclusive; null means open.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First source knowledge of this revision; no backdating.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Knowledge supersession time; exclusive; null means not superseded.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM01",
+        "TM02",
+        "NM01",
+        "NM02",
+        "EN03",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "worker_assignment",
+      "primary_key": [
+        "worker_assignment_id"
+      ],
+      "grain": "One bitemporal version of one worker's single exclusive primary assignment.",
+      "planned_rows": 900,
+      "source_authority": "WORKDAY",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "300 stable workers and 600 assignment/name/rate/credential revisions. Temporary worked-unit changes are shift rows; physicians use synthetic provider identifiers, not real NPI identities.",
+      "unique_keys": [
+        [
+          "worker_id",
+          "revision_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "worker_assignment_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable worker/assignment version.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "worker_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable worker identity; same worker across versions.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "employee_number",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable synthetic employee reference.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "given_name",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Plausible first name.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "family_name",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Plausible surname.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "birth_date",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Worker birth date.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "facility_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Primary employer facility.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "facility.facility_id"
+        },
+        {
+          "name": "home_location_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Home clinical/support unit.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "location.location_id"
+        },
+        {
+          "name": "cost_center_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Primary responsibility center.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "cost_center.cost_center_id"
+        },
+        {
+          "name": "manager_worker_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Logical stable worker reference resolved bitemporally, not a FK to a nonunique column.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "role",
+          "type": "STRING",
+          "nullable": false,
+          "description": "One primary role; baseline excludes multiple concurrent assignments.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "PHYSICIAN",
+            "RN",
+            "LPN",
+            "THERAPIST",
+            "TECHNICIAN",
+            "PHARMACIST",
+            "HOUSEKEEPING",
+            "ADMIN"
+          ]
+        },
+        {
+          "name": "specialty",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Role-appropriate specialty or generalist.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "credential_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Primary role credential; secondary credentials outside v1.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "credential_valid_from",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Credential valid start.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "credential_valid_to",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Credential expiry, exclusive.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "worker_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Employment arrangement.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "EMPLOYEE",
+            "AGENCY",
+            "CONTRACT"
+          ]
+        },
+        {
+          "name": "fte",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Contract FTE fraction.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "FTE"
+        },
+        {
+          "name": "hourly_cost_rate",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Loaded hourly cost rate, including employer burden.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "nullable": false,
+          "description": "USD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "hire_date",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Start of employment.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "termination_date",
+          "type": "DATE",
+          "nullable": true,
+          "description": "Employment end, exclusive.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "revision_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Monotone revision within the stable business identity, starting at 1.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "valid_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Start of business validity; inclusive.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "valid_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "End of business validity; exclusive; null means open.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First source knowledge of this revision; no backdating.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Knowledge supersession time; exclusive; null means not superseded.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM01",
+        "TM02",
+        "NM01",
+        "NM02",
+        "WK01",
+        "WK02",
+        "SF02",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "access_scope",
+      "primary_key": [
+        "access_scope_id"
+      ],
+      "grain": "One bitemporal grant/revocation version for a synthetic principal and business scope.",
+      "planned_rows": 1800,
+      "source_authority": "WORKDAY_SECURITY",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [
+        [
+          "grant_id",
+          "revision_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "access_scope_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Grant version identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "grant_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable grant identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "principal_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Synthetic identity-provider subject; no live access is granted.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "worker_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Logical stable worker link, resolved through worker_assignment.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "role",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Read-only demo entitlement.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "NETWORK_ANALYST",
+            "FACILITY_MANAGER",
+            "UNIT_MANAGER",
+            "FINANCE_ANALYST",
+            "HR_ANALYST"
+          ]
+        },
+        {
+          "name": "scope_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Typed scope target.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "NETWORK",
+            "FACILITY",
+            "LOCATION",
+            "COST_CENTER"
+          ]
+        },
+        {
+          "name": "scope_key",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Typed scope key; NETWORK is the explicit ALL_NETWORK sentinel.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "decision",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Grant outcome.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ALLOW",
+            "REVOKED"
+          ]
+        },
+        {
+          "name": "revision_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Monotone revision within the stable business identity, starting at 1.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "valid_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Start of business validity; inclusive.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "valid_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "End of business validity; exclusive; null means open.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First source knowledge of this revision; no backdating.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Knowledge supersession time; exclusive; null means not superseded.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM01",
+        "TM02",
+        "AC01",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "payer_plan",
+      "primary_key": [
+        "payer_plan_id"
+      ],
+      "grain": "One versioned fictional payer product/contract.",
+      "planned_rows": 24,
+      "source_authority": "PAYER_CONTRACT",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [
+        [
+          "plan_code",
+          "valid_from"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "payer_plan_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Contract version identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "plan_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable product code.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "payer_name",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Fictional payer name.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "plan_name",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Readable product name.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "payer_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Payer class.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "MEDICARE",
+            "MEDICAID",
+            "COMMERCIAL",
+            "SELF_PAY"
+          ]
+        },
+        {
+          "name": "reimbursement_method",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Simplified contractual method.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "CASE_RATE",
+            "FEE_SCHEDULE",
+            "PER_DIEM",
+            "SELF_PAY"
+          ]
+        },
+        {
+          "name": "authorization_required",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "description": "Default; service-specific overrides come from source mapping rules.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "allowed_factor",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Configured reimbursement fraction, not a real contract.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "fraction"
+        },
+        {
+          "name": "valid_from",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Contract start.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "valid_to",
+          "type": "DATE",
+          "nullable": true,
+          "description": "Exclusive contract end.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "patient_coverage",
+      "primary_key": [
+        "coverage_version_id"
+      ],
+      "grain": "One bitemporal primary coverage enrollment interval/version.",
+      "planned_rows": 28000,
+      "source_authority": "EHR_COVERAGE",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "One primary payer at an instant; secondary coordination excluded explicitly. 20,000 opening enrollments plus changes/revisions.",
+      "unique_keys": [
+        [
+          "coverage_id",
+          "revision_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "coverage_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable coverage version.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "coverage_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable enrollment identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "patient_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Identity assertion; stable patient consistency checked across versions.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "patient.patient_version_id"
+        },
+        {
+          "name": "payer_plan_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Versioned payer contract.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "payer_plan.payer_plan_id"
+        },
+        {
+          "name": "synthetic_member_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Synthetic insurance membership reference.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "coverage_status",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Enrollment state.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ACTIVE",
+            "EXPIRED",
+            "CANCELLED",
+            "SELF_PAY"
+          ]
+        },
+        {
+          "name": "revision_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Monotone revision within the stable business identity, starting at 1.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "valid_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Start of business validity; inclusive.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "valid_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "End of business validity; exclusive; null means open.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First source knowledge of this revision; no backdating.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Knowledge supersession time; exclusive; null means not superseded.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM01",
+        "TM02",
+        "CV01",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "catalog_item",
+      "primary_key": [
+        "catalog_item_id"
+      ],
+      "grain": "One code/product/account version within a typed, validated vocabulary.",
+      "planned_rows": 3000,
+      "source_authority": "REFERENCE_CATALOG",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "A vocabulary table, not an untyped entity/attribute store. No JSON payloads or hidden clinical line arrays.",
+      "unique_keys": [
+        [
+          "domain",
+          "code_system",
+          "code",
+          "version"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "catalog_item_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Code version key.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "domain",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Typed vocabulary.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "DIAGNOSIS",
+            "PROCEDURE",
+            "OBSERVATION",
+            "LAB",
+            "MEDICATION",
+            "ALLERGEN",
+            "SUPPLY",
+            "ACCOUNT",
+            "DENIAL"
+          ]
+        },
+        {
+          "name": "allergen_catalog_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "MEDICATION product's modeled ingredient/allergen family; target domain ALLERGEN.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "catalog_item.catalog_item_id"
+        },
+        {
+          "name": "code_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "ICD-10-CM/PCS, LOINC, local test service/formulary/account or denial namespace.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Versioned code string.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "version",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Published release or synthetic catalog version.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "display",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Human-readable description; no placeholder labels.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "valid_from",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Code validity start.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "valid_to",
+          "type": "DATE",
+          "nullable": true,
+          "description": "Exclusive code validity end.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "base_unit",
+          "type": "STRING",
+          "nullable": true,
+          "description": "UCUM or documented stock base unit.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "formulation",
+          "type": "STRING",
+          "nullable": true,
+          "description": "MEDICATION-only formulation, such as tablet, oral solution or inhalation product.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "strength_per_base_unit",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "description": "Medication strength per stock base unit; required for medication products.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "strength unit/base unit"
+        },
+        {
+          "name": "strength_unit",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Medication strength unit.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "pack_to_base_factor",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "description": "Positive pack/base conversion.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "base units/pack"
+        },
+        {
+          "name": "account_class",
+          "type": "STRING",
+          "nullable": true,
+          "description": "ACCOUNT-only classification.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ASSET",
+            "LIABILITY",
+            "EQUITY",
+            "REVENUE",
+            "EXPENSE"
+          ]
+        },
+        {
+          "name": "normal_balance",
+          "type": "STRING",
+          "nullable": true,
+          "description": "ACCOUNT-only normal side.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "DEBIT",
+            "CREDIT"
+          ]
+        },
+        {
+          "name": "clinical_group",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Reviewed pathway or service grouping.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "CD01",
+        "CD02",
+        "IV02",
+        "GL01",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "source_key_map",
+      "primary_key": [
+        "mapping_version_id"
+      ],
+      "grain": "One bitemporal typed crosswalk or association mapping.",
+      "planned_rows": 10000,
+      "source_authority": "INTEGRATION_CONTROL",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "Only alternate keys and associations need rows. Default source keys are retained on every business row; no silent fuzzy matching.",
+      "unique_keys": [
+        [
+          "mapping_id",
+          "revision_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "mapping_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable mapping version.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "mapping_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable crosswalk business identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_namespace",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Workday/Axiom/EHR source namespace.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "entity_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Typed target mapping.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "PATIENT",
+            "WORKER",
+            "LOCATION",
+            "COST_CENTER",
+            "CATALOG",
+            "PAYER_PLAN",
+            "UNIT_COST_CENTER"
+          ]
+        },
+        {
+          "name": "source_key",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Opaque source identifier; exact matching only.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "target_key",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Target stable ID or immutable row key, as specified by entity_type.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "mapping_status",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Approved exact mapping or controlled unmapped fault.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "MAPPED",
+            "UNMAPPED"
+          ]
+        },
+        {
+          "name": "revision_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Monotone revision within the stable business identity, starting at 1.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "valid_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Start of business validity; inclusive.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "valid_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "End of business validity; exclusive; null means open.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First source knowledge of this revision; no backdating.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Knowledge supersession time; exclusive; null means not superseded.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM01",
+        "TM02",
+        "SR01",
+        "SR02",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "encounter",
+      "primary_key": [
+        "encounter_version_id"
+      ],
+      "grain": "One knowledge revision of an ED, inpatient or ambulatory encounter.",
+      "planned_rows": 130000,
+      "source_authority": "EHR_ADT",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "56,000 encounters intersecting the window plus 2,000 completed pre-window opening-AR contexts; 68,000 lifecycle revisions and 4,000 corrections. First arrival, admission and discharge facts are separate knowledge revisions, never exposed early.",
+      "unique_keys": [
+        [
+          "encounter_id",
+          "revision_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "encounter_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable encounter revision.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "encounter_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable clinical visit identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "episode_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable cross-encounter grouping; same patient, continuous care episode.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "previous_encounter_version_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Linked predecessor; no cross-patient links.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "encounter.encounter_version_id"
+        },
+        {
+          "name": "patient_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Patient demographics known at encounter creation.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "patient.patient_version_id"
+        },
+        {
+          "name": "facility_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Treating hospital.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "facility.facility_id"
+        },
+        {
+          "name": "location_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Initial treating unit.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "location.location_id"
+        },
+        {
+          "name": "coverage_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Coverage snapshot known at service time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "patient_coverage.coverage_version_id"
+        },
+        {
+          "name": "attending_assignment_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Attending credential/assignment snapshot.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "worker_assignment.worker_assignment_id"
+        },
+        {
+          "name": "encounter_class",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Care setting.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ED",
+            "IPD",
+            "OPD"
+          ]
+        },
+        {
+          "name": "admission_source",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Route.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ED",
+            "ELECTIVE",
+            "DIRECT",
+            "TRANSFER",
+            "WALK_IN"
+          ]
+        },
+        {
+          "name": "initial_acuity",
+          "type": "INT",
+          "nullable": false,
+          "description": "Configured triage category 1-5, distinct from final severity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "arrival_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Arrival/registration instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "admission_decision_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Decision to admit; boarding starts here.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "admitted_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Start of inpatient encounter; null for non-IPD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "medically_ready_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Known discharge readiness; never retrospectively exposed.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "discharged_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Observed encounter end; null when still open.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "disposition",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Observed end or current disposition.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "OPEN",
+            "HOME",
+            "TRANSFER",
+            "DEATH",
+            "DIVERTED",
+            "LEFT_WITHOUT_SEEN",
+            "CANCELLED"
+          ]
+        },
+        {
+          "name": "planned",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "description": "Elective/planned encounter, distinct from readmission exclusion logic.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "carry_in",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "description": "Already active at reporting-window start.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "revision_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Knowledge revision number.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source availability of this revision.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Exclusive supersession, null if current.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "TM03",
+        "CV01",
+        "EN01",
+        "EN02",
+        "EN03",
+        "CN02",
+        "BD01",
+        "BD03",
+        "BD05",
+        "CH01",
+        "SR01",
+        "RS01",
+        "RS02",
+        "CP01",
+        "RP01",
+        "FN01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "clinical_condition",
+      "primary_key": [
+        "condition_version_id"
+      ],
+      "grain": "One diagnosis/problem/allergy assertion version with optional encounter context.",
+      "planned_rows": 95000,
+      "source_authority": "EHR_CLINICAL",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [
+        [
+          "condition_id",
+          "revision_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "condition_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Assertion revision key.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "condition_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable problem/allergy or encounter-diagnosis identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "patient_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Patient assertion identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "patient.patient_version_id"
+        },
+        {
+          "name": "encounter_version_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Encounter diagnosis context; nullable for longitudinal problems/allergies.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "encounter.encounter_version_id"
+        },
+        {
+          "name": "catalog_item_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "DIAGNOSIS for diagnoses/problems; ALLERGEN for modeled drug-allergy substances.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "catalog_item.catalog_item_id"
+        },
+        {
+          "name": "condition_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Typed assertion.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "DIAGNOSIS",
+            "PROBLEM",
+            "ALLERGY"
+          ]
+        },
+        {
+          "name": "status",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Clinical status.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ACTIVE",
+            "RESOLVED",
+            "INACTIVE",
+            "REFUTED",
+            "UNKNOWN"
+          ]
+        },
+        {
+          "name": "diagnosis_rank",
+          "type": "INT",
+          "nullable": false,
+          "description": "Rank >=1 on encounter diagnoses; 0 on other assertion types.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "present_on_admission",
+          "type": "STRING",
+          "nullable": false,
+          "description": "POA status.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "Y",
+            "N",
+            "UNKNOWN",
+            "NOT_APPLICABLE"
+          ]
+        },
+        {
+          "name": "onset_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Observed/reported onset; may precede reporting window.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "resolved_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Known resolution, not invented at cutoff.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "reaction",
+          "type": "STRING",
+          "nullable": true,
+          "description": "ALLERGY-only reaction description.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "severity",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Clinical assertion severity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "MILD",
+            "MODERATE",
+            "SEVERE",
+            "UNKNOWN"
+          ]
+        },
+        {
+          "name": "revision_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Monotone revision within the stable business identity, starting at 1.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "valid_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Start of business validity; inclusive.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "valid_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "End of business validity; exclusive; null means open.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First source knowledge of this revision; no backdating.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Knowledge supersession time; exclusive; null means not superseded.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM01",
+        "TM02",
+        "CD01",
+        "CN01",
+        "CN02",
+        "CE02",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01",
+        "FN01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "clinical_event",
+      "primary_key": [
+        "clinical_event_version_id"
+      ],
+      "grain": "One scalar clinical event/value or text document version; typed event family.",
+      "planned_rows": 580000,
+      "source_authority": "EHR_CLINICAL",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "560,000 distinct clinical events + 20,000 revisions. All modeled formulary administrations and selected diagnostic/clinical variables; not full telemetry or every EHR field.",
+      "unique_keys": [
+        [
+          "clinical_event_id",
+          "revision_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "clinical_event_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable fact/document revision key.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "clinical_event_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable order/result/administration/document identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "encounter_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Encounter context known at documentation time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "encounter.encounter_version_id"
+        },
+        {
+          "name": "catalog_item_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Typed code; null only for document prose with document_type.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "catalog_item.catalog_item_id"
+        },
+        {
+          "name": "parent_event_version_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Order/result provenance; self FK with no cycles.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "clinical_event.clinical_event_version_id"
+        },
+        {
+          "name": "author_assignment_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Authorized clinician's assignment snapshot.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "worker_assignment.worker_assignment_id"
+        },
+        {
+          "name": "event_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Typed event; no unvalidated opaque payload.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ORDER",
+            "OBSERVATION",
+            "LAB_RESULT",
+            "PROCEDURE",
+            "MED_ADMIN",
+            "MED_DISPENSE",
+            "DOCUMENT"
+          ]
+        },
+        {
+          "name": "occurred_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Order placement, measurement, performance, administration or authorship occurrence.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "period_end_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "End of procedure/explicit measurement summary interval.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "order_start_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "ORDER-only intended therapy/service start; must not precede placement unless explicit retrospective documentation.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "order_end_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "ORDER-only intended therapy/service end; null means ongoing at cutoff.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "dose_interval_hours",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "description": "Medication ORDER interval for scheduled doses; not a substitute for PRN maximum.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "hours"
+        },
+        {
+          "name": "as_needed",
+          "type": "BOOLEAN",
+          "nullable": true,
+          "description": "Medication ORDER PRN flag; null for nonmedication events.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "max_doses_per_day",
+          "type": "INT",
+          "nullable": true,
+          "description": "Medication ORDER maximum administrations per local day; positive when applicable.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "administration_sequence",
+          "type": "INT",
+          "nullable": true,
+          "description": "Positive sequence within stable medication order for an administration/dispense.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "specimen_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "LAB_RESULT synthetic specimen identity; shared by its scalar analytes.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "collected_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "LAB_RESULT specimen collection; order precedes collection.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "result_ready_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "LAB_RESULT result availability, not visible before collection/analysis completes.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "document_signed_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "DOCUMENT signature availability; null if legitimately unsigned/open.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "status",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Event lifecycle.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "PLANNED",
+            "COMPLETED",
+            "CANCELLED",
+            "NOT_DONE",
+            "CORRECTED"
+          ]
+        },
+        {
+          "name": "numeric_value",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "description": "Scalar observation/lab result; text_value used for qualitative results.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "value_unit"
+        },
+        {
+          "name": "value_unit",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Result UCUM unit.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "text_value",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Qualitative result or fact-grounded note text.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "reference_low",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "description": "Context-specific reference low, not universal clinical threshold.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "value_unit"
+        },
+        {
+          "name": "reference_high",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "description": "Context-specific reference high.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "value_unit"
+        },
+        {
+          "name": "dose_quantity",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "description": "Ordered/administered dose.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "dose_unit"
+        },
+        {
+          "name": "dose_unit",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Dose unit.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "route",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Medication administration route.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "consumed_base_quantity",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "description": "Actual modeled stock consumption after strength conversion.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "catalog base unit"
+        },
+        {
+          "name": "consumption_group_key",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Lot/unit/day consumption group reconciled to inventory issue quantities.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "document_type",
+          "type": "STRING",
+          "nullable": true,
+          "description": "DOCUMENT-only type.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ED_NOTE",
+            "PROGRESS_NOTE",
+            "DISCHARGE_SUMMARY",
+            "OP_NOTE",
+            "OPERATIVE_NOTE"
+          ]
+        },
+        {
+          "name": "aggregation",
+          "type": "STRING",
+          "nullable": false,
+          "description": "POINT or explicitly labeled daily-summary observation; no fabricated monitor completeness.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "POINT",
+            "DAILY_MIN",
+            "DAILY_MAX",
+            "DAILY_MEAN",
+            "NOT_APPLICABLE"
+          ]
+        },
+        {
+          "name": "revision_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Knowledge revision number.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Knowledge availability of this version.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Exclusive supersession time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "TM03",
+        "CD01",
+        "CE01",
+        "CE02",
+        "CE03",
+        "IV02",
+        "CH01",
+        "SR01",
+        "RS01",
+        "RS02",
+        "CP01",
+        "RP01",
+        "FN01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "appointment",
+      "primary_key": [
+        "appointment_id"
+      ],
+      "grain": "One immutable booked slot; reschedule creates linked replacement, not an overwritten slot.",
+      "planned_rows": 30000,
+      "source_authority": "EHR_SCHEDULING",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [],
+      "columns": [
+        {
+          "name": "appointment_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Booking identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "patient_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Patient snapshot at booking.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "patient.patient_version_id"
+        },
+        {
+          "name": "location_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Booked unit.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "location.location_id"
+        },
+        {
+          "name": "worker_assignment_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Scheduled clinician.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "worker_assignment.worker_assignment_id"
+        },
+        {
+          "name": "replacement_appointment_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Replacement slot after rescheduling.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "appointment.appointment_id"
+        },
+        {
+          "name": "resulting_encounter_version_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Resulting encounter, if attended.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "encounter.encounter_version_id"
+        },
+        {
+          "name": "appointment_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Booked service.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "FOLLOW_UP",
+            "CONSULTATION",
+            "ELECTIVE_ADMISSION",
+            "PROCEDURE"
+          ]
+        },
+        {
+          "name": "booked_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Slot creation.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "scheduled_start",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Planned service start.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "scheduled_end",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Planned service end.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "arrived_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Check-in time, if attended.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "cancelled_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Known cancellation time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "no_show_recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "No-show determination time, never known at booking.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "cancel_reason",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Cancellation/reschedule reason.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "PATIENT",
+            "CAPACITY",
+            "PROVIDER",
+            "RESCHEDULE",
+            "OTHER"
+          ]
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "EN01",
+        "AP01",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "bed_event",
+      "primary_key": [
+        "bed_event_id"
+      ],
+      "grain": "One immutable bed state change/correction or opening-state assertion.",
+      "planned_rows": 80000,
+      "source_authority": "ADT_BED",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [
+        [
+          "bed_location_id",
+          "sequence_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "bed_event_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable event ID; deduplicate repeated deliveries.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "bed_location_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Must reference location_type BED.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "location.location_id"
+        },
+        {
+          "name": "encounter_version_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Occupant context for OCCUPY/VACATE/open occupied states.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "encounter.encounter_version_id"
+        },
+        {
+          "name": "corrects_bed_event_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Earlier assertion being corrected; correction semantics replay full affected bed history.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "bed_event.bed_event_id"
+        },
+        {
+          "name": "transfer_group_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Atomic correlated transfer identifier.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "sequence_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Monotone per bed source sequence; ties use event ID after correction resolution.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "effective_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Business state-change instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "event_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Transition category.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "OPENING",
+            "OCCUPY",
+            "VACATE",
+            "CLEAN_START",
+            "READY",
+            "SERVICE_CHANGE",
+            "STAFF_CHANGE",
+            "RESERVE",
+            "RELEASE",
+            "CORRECTION"
+          ]
+        },
+        {
+          "name": "occupancy_state",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Full post-transition occupancy assertion.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "EMPTY",
+            "OCCUPIED",
+            "DIRTY",
+            "CLEANING"
+          ]
+        },
+        {
+          "name": "service_state",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Physical service state.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "IN_SERVICE",
+            "BLOCKED",
+            "OUT_OF_SERVICE"
+          ]
+        },
+        {
+          "name": "staffing_enabled",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "description": "Physical staffed-capacity flag; labor coverage is separately measured.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "reserved",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "description": "Empty bed reservation; does not imply a second occupant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "reason",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Recorded operational cause.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "delivery_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Simulated event arrival; source recording remains separate.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "BD01",
+        "BD02",
+        "BD03",
+        "BD04",
+        "BD05",
+        "SF02",
+        "SR01",
+        "SR03",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "staff_shift",
+      "primary_key": [
+        "shift_version_id"
+      ],
+      "grain": "One knowledge version of a worker/unit shift or leave block.",
+      "planned_rows": 70000,
+      "source_authority": "ROSTER_TIME",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "56,000 distinct shift/leave blocks + 14,000 revisions. Rate and attendance corrections are versioned, not overwritten.",
+      "unique_keys": [
+        [
+          "shift_id",
+          "revision_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "shift_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable revision.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "shift_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable roster slot identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "worker_assignment_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Worker role/rate validity snapshot.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "worker_assignment.worker_assignment_id"
+        },
+        {
+          "name": "location_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Worked/scheduled unit.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "location.location_id"
+        },
+        {
+          "name": "cost_center_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Actual worked responsibility center.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "cost_center.cost_center_id"
+        },
+        {
+          "name": "shift_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Work or unavailability block.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "WORK",
+            "LEAVE",
+            "UNAVAILABLE"
+          ]
+        },
+        {
+          "name": "planned_start",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Published planned start.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "planned_end",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Published planned end.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "actual_start",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Observed attendance start.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "actual_end",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Observed attendance end.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "worked_hours",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Elapsed attended hours; zero before actual completion.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "hours"
+        },
+        {
+          "name": "productive_hours",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Productive subset of worked hours.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "hours"
+        },
+        {
+          "name": "paid_nonproductive_hours",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Paid attended nonproductive subset.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "hours"
+        },
+        {
+          "name": "unpaid_break_hours",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Unpaid attended subset.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "hours"
+        },
+        {
+          "name": "overtime_hours",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Classified subset of paid hours, not extra elapsed hours.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "hours"
+        },
+        {
+          "name": "loaded_cost",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Loaded payable shift expense under effective rate/multiplier.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "nullable": false,
+          "description": "USD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "posting_group_key",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Deterministic workforce journal source-group key.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "attendance_status",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Known attendance state.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "PUBLISHED",
+            "WORKED",
+            "ABSENT",
+            "CANCELLED",
+            "ON_LEAVE"
+          ]
+        },
+        {
+          "name": "revision_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Roster/attendance revision number.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Publication of this revision.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "known_to",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "Exclusive supersession.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "TM03",
+        "WK01",
+        "SF01",
+        "SF02",
+        "GL02",
+        "SR01",
+        "RS01",
+        "RS02",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "inventory_movement",
+      "primary_key": [
+        "movement_id"
+      ],
+      "grain": "One signed location/item/lot stock movement in base units.",
+      "planned_rows": 60000,
+      "source_authority": "INVENTORY_PHARMACY",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [],
+      "columns": [
+        {
+          "name": "movement_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable movement identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "location_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stock location.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "location.location_id"
+        },
+        {
+          "name": "catalog_item_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "MEDICATION or SUPPLY item.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "catalog_item.catalog_item_id"
+        },
+        {
+          "name": "lot_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Synthetic lot identifier.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "movement_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Signed movement.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "OPENING",
+            "RECEIPT",
+            "CONSUME",
+            "RETURN",
+            "TRANSFER_IN",
+            "TRANSFER_OUT",
+            "EXPIRE",
+            "ADJUSTMENT"
+          ]
+        },
+        {
+          "name": "occurred_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Movement effective time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "quantity_base",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Signed quantity: inflow positive, outflow negative.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "catalog base unit"
+        },
+        {
+          "name": "unit_cost",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Cost per base unit; decimal six-place precision.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "USD/base unit"
+        },
+        {
+          "name": "extended_cost",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Rounded signed quantity times unit cost.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "expires_on",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Lot expiry date.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "transfer_group_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Pair/group for cross-location stock movement.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "consumption_group_key",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Daily item/lot/unit group matching modeled administrations and explicit waste.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "nonpatient_waste_base",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Nonpatient waste component for consumption groups.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "catalog base unit"
+        },
+        {
+          "name": "reverses_movement_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Reversal reference with opposite signed effect.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "inventory_movement.movement_id"
+        },
+        {
+          "name": "posting_group_key",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Deterministic inventory accounting source group.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "nullable": false,
+          "description": "USD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "IV01",
+        "IV02",
+        "IV03",
+        "GL02",
+        "GL03",
+        "SR01",
+        "SR03",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "service_charge",
+      "primary_key": [
+        "charge_id"
+      ],
+      "grain": "One encounter/revenue-category/billing-period charge line with explicit units and interval; not an uncounted list of daily charges.",
+      "planned_rows": 120000,
+      "source_authority": "BILLING",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [],
+      "columns": [
+        {
+          "name": "charge_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable charge identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "encounter_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Charge encounter snapshot.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "encounter.encounter_version_id"
+        },
+        {
+          "name": "catalog_item_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Versioned billable service/procedure or medication/supply category.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "catalog_item.catalog_item_id"
+        },
+        {
+          "name": "clinical_event_version_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Specific billable event if one-to-one; room-day/category charges use their declared scope.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "clinical_event.clinical_event_version_id"
+        },
+        {
+          "name": "cost_center_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Performing responsibility center.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "cost_center.cost_center_id"
+        },
+        {
+          "name": "service_from",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Inclusive local service-period start.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "service_to",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Inclusive local service-period end; line cannot span accounting months.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "revenue_category",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Typed price bucket.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ROOM",
+            "PROCEDURE",
+            "LAB",
+            "PHARMACY",
+            "ED",
+            "AMBULATORY",
+            "OTHER"
+          ]
+        },
+        {
+          "name": "units",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Charge units, with returns represented by linked signed charges.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "unit_code"
+        },
+        {
+          "name": "unit_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Price basis.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "unit_price",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Synthetic price per unit.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "billed_amount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Rounded units times price.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "nullable": false,
+          "description": "USD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "authorization_status",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Known pre-service authorization state.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "NOT_REQUIRED",
+            "PENDING",
+            "APPROVED",
+            "DENIED",
+            "EXPIRED"
+          ]
+        },
+        {
+          "name": "authorization_known_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First knowledge of authorization state.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "reverses_charge_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Credit/reversal reference.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "service_charge.charge_id"
+        },
+        {
+          "name": "posting_group_key",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Charge/recognition source group; cash is never inferred from this field.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "CH01",
+        "CL01",
+        "CL04",
+        "GL02",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "claim",
+      "primary_key": [
+        "claim_id"
+      ],
+      "grain": "One original primary institutional claim; attempts are events, not new original claims.",
+      "planned_rows": 56000,
+      "source_authority": "RCM",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "54,000 current-period original claims plus 2,000 carry-in claims. In-progress claims and self-pay/no-submission episodes are explicit.",
+      "unique_keys": [
+        [
+          "claim_number"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "claim_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Original claim identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "encounter_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Claim encounter snapshot.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "encounter.encounter_version_id"
+        },
+        {
+          "name": "coverage_version_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Payer enrollment known/verified for service.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "patient_coverage.coverage_version_id"
+        },
+        {
+          "name": "claim_number",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source original claim reference.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "service_from",
+          "type": "DATE",
+          "nullable": false,
+          "description": "First service date.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "service_to",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Last observed service date.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Draft identity creation.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "first_submitted_at",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "description": "First submission; null if still draft.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "original_billed_amount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Original submitted claim-line total; changes are adjustment events.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "opening_ar",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Opening carry-in receivable balance only; not billed or collected again.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "opening_contractual_adjustments",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Historical signed contractual reductions included in opening AR; zero on new claims.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "opening_cash_collected",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Historical net settlements before window; not current-period cash; zero on new claims.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "opening_writeoffs",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Historical net write-offs before window; zero on new claims.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "carry_in",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "description": "Open receivable present at reporting-window start.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "nullable": false,
+          "description": "USD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "CV01",
+        "CL01",
+        "CL02",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "claim_line",
+      "primary_key": [
+        "claim_line_id"
+      ],
+      "grain": "One original claim charge line, preserving a one-charge-to-one-line baseline contract.",
+      "planned_rows": 112000,
+      "source_authority": "RCM",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [
+        [
+          "claim_id",
+          "line_no"
+        ],
+        [
+          "charge_id"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "claim_line_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Claim-line identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "claim_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Original claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "claim.claim_id"
+        },
+        {
+          "name": "charge_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Underlying billed charge; a charge cannot be in two live original claims.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "service_charge.charge_id"
+        },
+        {
+          "name": "line_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Positive sequence in claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "billed_amount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Original line charge.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "expected_allowed_amount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Prospective contractual estimate, not final adjudication.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "nullable": false,
+          "description": "USD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "CL01",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01",
+        "FN01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "claim_event",
+      "primary_key": [
+        "claim_event_id"
+      ],
+      "grain": "One signed immutable submission, adjudication, settlement or adjustment event.",
+      "planned_rows": 160000,
+      "source_authority": "RCM_REMITTANCE",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [],
+      "columns": [
+        {
+          "name": "claim_event_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable event ID; repeated delivery has no new economic effect.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "claim_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Original claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "claim.claim_id"
+        },
+        {
+          "name": "claim_line_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Optional line-level detail.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "claim_line.claim_line_id"
+        },
+        {
+          "name": "denial_catalog_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "DENIAL vocabulary row for a denial.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "catalog_item.catalog_item_id"
+        },
+        {
+          "name": "reverses_claim_event_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Earlier event reversed by this event.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "claim_event.claim_event_id"
+        },
+        {
+          "name": "event_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Financial/state event.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "OPENING",
+            "SUBMITTED",
+            "ADJUDICATED",
+            "DENIED",
+            "APPEALED",
+            "RESUBMITTED",
+            "PAYMENT",
+            "PATIENT_PAYMENT",
+            "WRITEOFF",
+            "REFUND",
+            "REVERSAL"
+          ]
+        },
+        {
+          "name": "attempt_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Submission/appeal attempt >=1; OPENING uses 0.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "occurred_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Economic/source occurrence time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "contractual_adjustment_delta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Positive reduction of gross AR; negative reversal.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "payer_liability_delta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Signed change to payer allocated responsibility.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "patient_liability_delta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Signed change to patient responsibility; reclassification does not itself create revenue.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "cash_delta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Receipt positive, refund/reversal negative.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "writeoff_delta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Positive final reduction of AR, negative reversal.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "recognized_revenue_delta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Signed recognition or estimate correction, separate from cash.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "ar_delta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Signed billed-claim AR movement. First submission assigns previously recognized unbilled service AR; it is not new revenue.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "posting_group_key",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Remittance/AR/cash journal group.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "nullable": false,
+          "description": "USD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "CL02",
+        "CL03",
+        "CL04",
+        "GL02",
+        "SR01",
+        "SR03",
+        "RS01",
+        "RS02",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "financial_posting",
+      "primary_key": [
+        "posting_id"
+      ],
+      "grain": "One debit/credit journal line; daily operational source groups or explicit monthly cost-pool close.",
+      "planned_rows": 180000,
+      "source_authority": "SYNTHETIC_GL",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "Daily source groups plus monthly debit-pool/credit-original-expense reclassifications preserve net expense. Allocation targets monthly pool expense lines, keeping patient-month detail within budget. All journal/reclass lines count in 180,000 rows.",
+      "unique_keys": [
+        [
+          "journal_id",
+          "line_no"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "posting_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable posting line.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "journal_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Balanced journal grouping.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "line_no",
+          "type": "INT",
+          "nullable": false,
+          "description": "Positive line sequence.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "facility_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Accounting entity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "facility.facility_id"
+        },
+        {
+          "name": "cost_center_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Responsibility center.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "cost_center.cost_center_id"
+        },
+        {
+          "name": "account_catalog_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "ACCOUNT vocabulary row.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "catalog_item.catalog_item_id"
+        },
+        {
+          "name": "posting_date",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Accounting date.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "service_from",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Start of represented source service interval.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "service_to",
+          "type": "DATE",
+          "nullable": false,
+          "description": "End of represented source service interval.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "debit_amount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Nonnegative debit; exactly one side is positive.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "credit_amount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Nonnegative credit; reversal swaps sides.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "nullable": false,
+          "description": "USD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_domain",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Economic origin.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "OPENING",
+            "WORKFORCE",
+            "INVENTORY",
+            "REVENUE",
+            "AR",
+            "CASH",
+            "OVERHEAD",
+            "ACCRUAL",
+            "RECLASSIFICATION",
+            "COST_POOL_CLOSE"
+          ]
+        },
+        {
+          "name": "source_group_key",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Deterministic daily operational or monthly pool-close key; aggregation never loses the reconciliation predicate.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "allocation_pool_key",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Month/center/category expense pool identity; null for nonexpense postings.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "eligible_for_allocation",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "description": "True only on monthly expense-pool debit/reversal; daily source expenses are reclassified, not allocated a second time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "reverses_posting_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Opposite-side reversal link.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "financial_posting.posting_id"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "When posting is known/available; later adjustments are new postings.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "CD02",
+        "GL01",
+        "GL02",
+        "GL03",
+        "CO01",
+        "AX01",
+        "SR01",
+        "SR03",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "cost_allocation",
+      "primary_key": [
+        "allocation_id"
+      ],
+      "grain": "One eligible monthly expense-pool-posting allocation to an encounter or explicit nonpatient/residual destination.",
+      "planned_rows": 180000,
+      "source_authority": "COST_ACCOUNTING",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [
+        [
+          "posting_id",
+          "allocation_run_id",
+          "allocation_id"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "allocation_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Allocation line identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "posting_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Eligible expense debit or signed reversal pool line.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "financial_posting.posting_id"
+        },
+        {
+          "name": "encounter_version_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Patient allocation destination; null on NONPATIENT/RESIDUAL.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "encounter.encounter_version_id"
+        },
+        {
+          "name": "cost_center_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Destination responsibility center.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "cost_center.cost_center_id"
+        },
+        {
+          "name": "allocation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Selected allocation version; never sum multiple runs.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "destination_type",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Typed destination.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "PATIENT",
+            "NONPATIENT",
+            "RESIDUAL"
+          ]
+        },
+        {
+          "name": "cost_category",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Expense attribution.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "LABOR",
+            "DRUG",
+            "SUPPLY",
+            "OVERHEAD",
+            "OTHER"
+          ]
+        },
+        {
+          "name": "accounting_month",
+          "type": "DATE",
+          "nullable": false,
+          "description": "First day of posting month.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "driver_quantity",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Selected allocation driver amount.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "driver_unit"
+        },
+        {
+          "name": "driver_unit",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Patient-hours, service units or approved cost driver.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "allocation_share",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Share of source signed expense, summing to one within selected run.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "fraction"
+        },
+        {
+          "name": "allocated_amount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "description": "Rounded signed expense times share with deterministic residual apportionment.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "currency",
+          "type": "STRING",
+          "nullable": false,
+          "description": "USD.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "known_from",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First availability of this allocation run.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "supersedes_run_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Earlier run identity, if rerun.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "CO01",
+        "CO02",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01",
+        "FN01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "finance_monthly",
+      "primary_key": [
+        "finance_record_id"
+      ],
+      "grain": "One month/cost-center/account-or-statistical-measure/scenario/vintage/currency-or-unit value.",
+      "planned_rows": 36000,
+      "source_authority": "AXIOM",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "36,000 explicit selected account/statistical series including revisions; no implied dense 45 centers x every code x every monthly forecast. Required series/vintages listed in baseline.",
+      "unique_keys": [
+        [
+          "cost_center_id",
+          "account_catalog_id",
+          "measure_code",
+          "accounting_month",
+          "scenario",
+          "vintage_id",
+          "unit_code"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "finance_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable normalized export value.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "facility_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Financial entity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "facility.facility_id"
+        },
+        {
+          "name": "cost_center_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Responsibility center.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "cost_center.cost_center_id"
+        },
+        {
+          "name": "account_catalog_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "ACCOUNT code for monetary values; null on statistical measures.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "catalog_item.catalog_item_id"
+        },
+        {
+          "name": "measure_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Measure.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ACCOUNT_AMOUNT",
+            "PATIENT_DAYS",
+            "ADMISSIONS",
+            "PRODUCTIVE_HOURS",
+            "FTE"
+          ]
+        },
+        {
+          "name": "accounting_month",
+          "type": "DATE",
+          "nullable": false,
+          "description": "First calendar day of the target accounting month.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "scenario",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Values must not be summed across scenarios.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "allowed_values": [
+            "ACTUAL",
+            "BUDGET",
+            "FORECAST"
+          ]
+        },
+        {
+          "name": "vintage_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Immutable scenario/version identity; forecast knowledge preserved.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "published_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First availability of this vintage.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "amount",
+          "type": "DECIMAL(18,2)",
+          "nullable": true,
+          "description": "Monetary value, null for statistical quantities.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "row currency"
+        },
+        {
+          "name": "quantity",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "description": "Statistical value, null for money.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "unit_code"
+        },
+        {
+          "name": "unit_code",
+          "type": "STRING",
+          "nullable": false,
+          "description": "USD, patient_days, admissions, hours or FTE.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "report_template_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Bounded source report family, not a new business table.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_file_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Synthetic monthly export manifest identity.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "supersedes_vintage_id",
+          "type": "STRING",
+          "nullable": true,
+          "description": "Earlier export/version, if corrected.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "AX01",
+        "AX02",
+        "AX03",
+        "SR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    },
+    {
+      "name": "facility_day_driver",
+      "primary_key": [
+        "facility_day_id"
+      ],
+      "grain": "One facility/local-day external/calendar observation; no future realized data is known early.",
+      "planned_rows": 3288,
+      "source_authority": "EXTERNAL_DRIVER",
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "notes": "",
+      "unique_keys": [
+        [
+          "facility_id",
+          "calendar_date"
+        ]
+      ],
+      "columns": [
+        {
+          "name": "facility_day_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable facility/day key.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "facility_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Facility.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "references": "facility.facility_id"
+        },
+        {
+          "name": "calendar_date",
+          "type": "DATE",
+          "nullable": false,
+          "description": "Local day.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "local calendar date"
+        },
+        {
+          "name": "day_of_week",
+          "type": "INT",
+          "nullable": false,
+          "description": "ISO weekday 1-7.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "holiday",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "description": "Published calendar holiday known in advance.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "season",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Configured season.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "respiratory_index",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Synthetic observed community demand index, not real surveillance.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "index"
+        },
+        {
+          "name": "weather_index",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "description": "Synthetic observed weather disruption index.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "index"
+        },
+        {
+          "name": "calendar_known_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Publication time of advance-known calendar features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "observations_known_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First availability of realized daily indices.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "calendar_source",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Public calendar reference or explicit synthetic assumption.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_system",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Source authority namespace; synthetic source, never a live-system claim.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "source_record_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Stable source record/version key; scoped by source_system.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "Source recording timestamp; knowledge/availability begins no earlier than this instant.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "export_available_at",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "description": "First time this version can appear in an export/delivery; not event time.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal",
+          "unit": "UTC instant"
+        },
+        {
+          "name": "generation_run_id",
+          "type": "STRING",
+          "nullable": false,
+          "description": "Generation manifest identifier; excluded from future model features.",
+          "authority": "table_source",
+          "correction_policy": "append_revision_or_reversal"
+        }
+      ],
+      "rule_ids": [
+        "ID01",
+        "ID02",
+        "TM02",
+        "AX03",
+        "SR01",
+        "DR01",
+        "RS01",
+        "CP01",
+        "RP01"
+      ],
+      "classification": "wholly_synthetic_business_data"
+    }
+  ]
+}

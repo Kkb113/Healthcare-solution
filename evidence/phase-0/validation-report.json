@@ -1,0 +1,228 @@
+{
+  "phase": 0,
+  "validation_scope": "Contract integrity and independently calculated design feasibility only; no generated-data validations have been executed.",
+  "baseline_version": "1.0.0",
+  "passed": true,
+  "check_count": 41,
+  "checks": [
+    {
+      "id": "TABLE_COUNT",
+      "passed": true,
+      "detail": "25 tables; unique names required"
+    },
+    {
+      "id": "BUDGET",
+      "passed": true,
+      "detail": "Planned=1,958,210; reserve=41,790"
+    },
+    {
+      "id": "BUDGET_SYNC",
+      "passed": true,
+      "detail": "Schema and baseline have identical per-table budgets"
+    },
+    {
+      "id": "POSITIVE_BUDGETS",
+      "passed": true,
+      "detail": "Every table has a positive integer envelope"
+    },
+    {
+      "id": "HORIZON",
+      "passed": true,
+      "detail": "1096 days, 36 months including leap year"
+    },
+    {
+      "id": "EXPORT_GRACE",
+      "passed": true,
+      "detail": "December close may arrive in January; no extra clinical/payment outcomes are manufactured"
+    },
+    {
+      "id": "DRIVER_DAYS",
+      "passed": true,
+      "detail": "One facility-day row per local day"
+    },
+    {
+      "id": "DICTIONARY",
+      "passed": true,
+      "detail": "All scalar field definitions, units, keys and history metadata complete"
+    },
+    {
+      "id": "REFERENCES",
+      "passed": true,
+      "detail": "All physical FKs target matching typed primary keys"
+    },
+    {
+      "id": "LOGICAL_REFERENCES",
+      "passed": true,
+      "detail": "Stable identities, typed scopes/crosswalks and source-group predicates are explicitly declared"
+    },
+    {
+      "id": "RULE_CATALOG",
+      "passed": true,
+      "detail": "55 uniquely owned, scoped rules with full table coverage"
+    },
+    {
+      "id": "SOURCES",
+      "passed": true,
+      "detail": "Canonical fields and Workday/Axiom/ADT layouts map to known columns"
+    },
+    {
+      "id": "CLINICAL_MATRIX",
+      "passed": true,
+      "detail": "Every event family has explicit required fields, domain and provenance semantics"
+    },
+    {
+      "id": "SCENARIOS",
+      "passed": true,
+      "detail": "12 causal scenarios with positive coverage, exact fixtures and valid rule dependencies"
+    },
+    {
+      "id": "REALISM_TARGETS",
+      "passed": true,
+      "detail": "All thresholds preregistered with denominators and assumption/source provenance"
+    },
+    {
+      "id": "BED_CAPACITY",
+      "passed": true,
+      "detail": "72 beds = 3 x (4 ICU + 20 medicine/surgery)"
+    },
+    {
+      "id": "OCCUPANCY",
+      "passed": true,
+      "detail": "Licensed=78912, staffed=77950, occupied=62400; staffed occupancy=80.051315%"
+    },
+    {
+      "id": "OPENING",
+      "passed": true,
+      "detail": "57 opening occupied beds linked to 57 in-window carry-in encounters"
+    },
+    {
+      "id": "PATHWAY_ROUTES",
+      "passed": true,
+      "detail": "Case mix sums to one; 5.21-day completed-duration assumption and all 12,000 admission routes reconciled"
+    },
+    {
+      "id": "ENCOUNTER_ROWS",
+      "passed": true,
+      "detail": "56k intersecting +2k opening-only +68k lifecycle +4k correction =130k"
+    },
+    {
+      "id": "PATIENT_WORKER_ROWS",
+      "passed": true,
+      "detail": "Stable persons plus versions reconcile to table envelopes"
+    },
+    {
+      "id": "CLINICAL_ROWS",
+      "passed": true,
+      "detail": "Every event family plus revisions counted"
+    },
+    {
+      "id": "CLINICAL_BUDGET_FAMILIES",
+      "passed": true,
+      "detail": "No omitted/zero clinical event family or uncounted revision class"
+    },
+    {
+      "id": "BED_EVENT_ROWS",
+      "passed": true,
+      "detail": "All opening/transitions/capacity/correction rows counted"
+    },
+    {
+      "id": "BED_INTERVALS",
+      "passed": true,
+      "detail": "15k intervals and allowance for four primary transitions each"
+    },
+    {
+      "id": "TURNAROUND",
+      "passed": true,
+      "detail": "Turnaround allowance 781.25 bed-days fits staffed slack"
+    },
+    {
+      "id": "STAFF_ROWS",
+      "passed": true,
+      "detail": "52k work +4k leave/unavailable +14k versions =70k rows"
+    },
+    {
+      "id": "STAFF_FEASIBILITY",
+      "passed": true,
+      "detail": "RN supply=382200h, modeled requirement=343200h; annual worked=208000h <= contracted capacity=243360h"
+    },
+    {
+      "id": "CLAIM_ROWS",
+      "passed": true,
+      "detail": "54k new +2k opening claims; all 160k lifecycle events budgeted"
+    },
+    {
+      "id": "CHARGE_LINE_CAPACITY",
+      "passed": true,
+      "detail": "One-charge/one-original-line baseline is feasible without duplicating charges"
+    },
+    {
+      "id": "FINANCIAL_SERIES",
+      "passed": true,
+      "detail": "Selected series, not unbudgeted dense account/vintage Cartesian product"
+    },
+    {
+      "id": "FINANCIAL_GRID",
+      "passed": true,
+      "detail": "Account/center/month/vintage products independently recomputed, not just a matching grand total"
+    },
+    {
+      "id": "POSTING_ROWS",
+      "passed": true,
+      "detail": "All source, opening and monthly cost-pool reclassification journal lines counted"
+    },
+    {
+      "id": "POOL_CLOSE_LINES",
+      "passed": true,
+      "detail": "Up to four categories per center/month have counted debit and credit reclassification lines"
+    },
+    {
+      "id": "ALLOCATION_FEASIBILITY",
+      "passed": true,
+      "detail": "Patient/category/month/transfer allocations, nonpatient/residual and revision allowance fit 180k rows"
+    },
+    {
+      "id": "HAND_CALCULATIONS",
+      "passed": true,
+      "detail": "Independent census/stock/debit-credit/rounding arithmetic"
+    },
+    {
+      "id": "AGE_FIXTURES",
+      "passed": true,
+      "detail": "Birthday and configured leap-day convention"
+    },
+    {
+      "id": "SOLUTION_LOCK",
+      "passed": true,
+      "detail": "No generator, datasets, models, dashboards or solution deployment authorized by these design checks"
+    },
+    {
+      "id": "OFFLINE_SCHEMA_ARTIFACTS",
+      "passed": true,
+      "detail": "Offline DDL has 25 PK definitions and 62 FK declarations; dictionary covers every table. No live DDL executed."
+    },
+    {
+      "id": "DOCUMENT_LINKS",
+      "passed": true,
+      "detail": "All local Markdown links resolve across 11 documents"
+    },
+    {
+      "id": "GATE_ARTIFACTS",
+      "passed": true,
+      "detail": "Gate/README/review agree with the contract budget, zero generated records and blocked solution scope"
+    }
+  ],
+  "contract_sha256": {
+    "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
+    "contracts/phase0/clinical-type-matrix.json": "9deaa0fdca2f0310d1cefa5061b59071f93197e1eef52a1ec8b56a1a1ca2d97f",
+    "contracts/phase0/databricks-schema.sql": "ee6db2817180ab84c5bafd227a8c71628d18fb5877745b1f5d5e9a9853e29580",
+    "contracts/phase0/realism-targets.json": "4616bc333586527bdc4deeef9f506d2df14082f899982edfbb2e938563f15e0f",
+    "contracts/phase0/scenarios.json": "56283fa396b1202c73e5e0609ade1aa82fa6df4708c064096902624f24bfbeb2",
+    "contracts/phase0/schema.json": "062d9b070ed687cf0c98e8a2ec16efe47969a7ed1080d11b594126d062168f3c",
+    "contracts/phase0/source-contracts.json": "64911dbf82f7d65c24271fa13a3de9c292b5b9a0f97e2531ad751dd17a8b2413",
+    "contracts/phase0/validation-rules.json": "dffe39411824eae480f1e80e58e3961302a7d6187cdf011c26d862278d30944b"
+  },
+  "business_tables": 25,
+  "planned_records": 1958210,
+  "actual_generated_records": 0,
+  "solution_status": "BLOCKED_FOR_SOLUTION"
+}

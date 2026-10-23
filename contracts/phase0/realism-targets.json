@@ -1,0 +1,123 @@
+{
+  "version": "1.0.0",
+  "targets": [
+    {
+      "id": "AGE",
+      "metric": "Patient age at first in-window service, distinct patients",
+      "denominator": "patients with qualifying service; adult at each service",
+      "target": {
+        "18-34": 0.16,
+        "35-49": 0.2,
+        "50-64": 0.26,
+        "65-79": 0.25,
+        "80-100": 0.13
+      },
+      "tolerance": "Each share within 0.04 absolute; cells n<200 use 95% Wilson interval review",
+      "provenance": "Configured fictional hospital catchment, not a US prevalence estimate",
+      "owner": "Business"
+    },
+    {
+      "id": "OCC",
+      "metric": "Occupied bed-days / staffed bed-days",
+      "denominator": "77950 staffed days, time-weighted",
+      "lower": 0.74,
+      "upper": 0.86,
+      "provenance": "Capacity/demand design calibration",
+      "owner": "Operations"
+    },
+    {
+      "id": "LOS",
+      "metric": "Completed uncensored IPD mean LOS in days",
+      "denominator": "Completed IPD excluding opening-only AR contexts",
+      "lower": 4.4,
+      "upper": 6.2,
+      "provenance": "Configured adult pathway mix; 5.2 clipped occupied days per intersecting episode is a separate budget identity",
+      "owner": "Clinical"
+    },
+    {
+      "id": "TAIL",
+      "metric": "Share of completed IPD stays over 10 days",
+      "denominator": "Completed IPD, adequate followup",
+      "lower": 0.025,
+      "upper": 0.09,
+      "provenance": "Configured long-stay component; not a measured benchmark",
+      "owner": "Clinical"
+    },
+    {
+      "id": "REPEAT",
+      "metric": "Share of patients with >=2 distinct intersecting encounters",
+      "denominator": "Distinct active patients, not demographic versions",
+      "lower": 0.4,
+      "upper": 0.75,
+      "provenance": "Longitudinal cohort design",
+      "owner": "Business"
+    },
+    {
+      "id": "PAYER",
+      "metric": "Coverage at service, by distinct encounter",
+      "denominator": "Intersecting encounters, single primary plan",
+      "target": {
+        "COMMERCIAL": 0.4,
+        "MEDICARE": 0.35,
+        "MEDICAID": 0.15,
+        "SELF_PAY": 0.1
+      },
+      "tolerance": "Each share within 0.05 absolute; cohort/age compatibility checked independently",
+      "provenance": "Fictional configured payer mix",
+      "owner": "Finance"
+    },
+    {
+      "id": "DENIAL",
+      "metric": "Original claims with initial full/partial denial",
+      "denominator": "Current-period originals with observed first adjudication, not attempts or unresolved claims",
+      "lower": 0.08,
+      "upper": 0.12,
+      "provenance": "Configured demonstration mix",
+      "owner": "Finance"
+    },
+    {
+      "id": "READMIT",
+      "metric": "Unplanned network readmission within 30 days",
+      "denominator": "Eligible live discharges with full 30-day followup; continuous transfers excluded",
+      "lower": 0.08,
+      "upper": 0.16,
+      "provenance": "Configured care-pathway mix",
+      "owner": "Clinical"
+    },
+    {
+      "id": "NOTES",
+      "metric": "Exact duplicate normalized note bodies after removing identity/date fields",
+      "denominator": "At least 100 notes per evaluated document_type",
+      "lower": 0.0,
+      "upper": 0.15,
+      "provenance": "Text-diversity design threshold; factual consistency remains a hard rule",
+      "owner": "Clinical"
+    },
+    {
+      "id": "NAMES",
+      "metric": "Weighted name frequencies and collisions",
+      "denominator": "Stable persons, cohort-conditioned sources",
+      "tolerance": "Top-100+OTHER total variation <=0.10 against configured source weights; >=300 distinct given names and >=1000 surnames among 20000 patients; no uniqueness requirement for names",
+      "provenance": "SSA birth-cohort given names and Census 2010 surnames; public aggregates only",
+      "owner": "Business"
+    },
+    {
+      "id": "RN",
+      "metric": "Productive RN hours / configured required RN hours",
+      "denominator": "Unit/shift acuity-weighted requirement, pooled month",
+      "lower": 0.9,
+      "upper": 1.2,
+      "provenance": "5.5 RN hours per patient-day is a modeling input, not a staffing recommendation; shortage scenarios evaluated separately",
+      "owner": "Workforce"
+    },
+    {
+      "id": "SEASON",
+      "metric": "Peak/trough monthly ED arrival rate per active day, pooled network",
+      "denominator": "All 36 months; compare rates rather than raw unequal-month counts",
+      "lower": 1.1,
+      "upper": 1.8,
+      "provenance": "Configured seasonality plus shocks; facility curves differ",
+      "owner": "Operations"
+    }
+  ]
+}

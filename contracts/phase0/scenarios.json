@@ -1,0 +1,230 @@
+{
+  "version": "1.0.0",
+  "scenarios": [
+    {
+      "id": "S01",
+      "title": "Chronic repeat care",
+      "minimum_cases": 300,
+      "tables": [
+        "patient",
+        "clinical_condition",
+        "encounter",
+        "clinical_event",
+        "patient_coverage"
+      ],
+      "expected": "Persistent known condition across >=2 encounters; ages and coverage reflect event date",
+      "rule_ids": [
+        "CN01",
+        "CE02",
+        "CV01"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S02",
+      "title": "Elective care and reschedule",
+      "minimum_cases": 100,
+      "tables": [
+        "appointment",
+        "encounter",
+        "clinical_event",
+        "service_charge",
+        "claim"
+      ],
+      "expected": "Old booking retained; completed procedure has resources/charge; cancelled service has no charge",
+      "rule_ids": [
+        "AP01",
+        "CH01"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S03",
+      "title": "ED to IPD",
+      "minimum_cases": 500,
+      "tables": [
+        "encounter",
+        "bed_event",
+        "clinical_condition"
+      ],
+      "expected": "Two encounters share episode/patient; boarding begins at decision; one network admission",
+      "rule_ids": [
+        "EN01",
+        "BD03"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S04",
+      "title": "Respiratory surge",
+      "minimum_cases": 200,
+      "tables": [
+        "facility_day_driver",
+        "encounter",
+        "clinical_event",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement"
+      ],
+      "expected": "Winter 2024 surge raises related demand and resource use over matched nonshock days; no deterministic individual outcome",
+      "rule_ids": [
+        "RS02",
+        "SF02"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S05",
+      "title": "Bed closure",
+      "minimum_cases": 12,
+      "tables": [
+        "bed_event",
+        "encounter",
+        "appointment"
+      ],
+      "expected": "2024 summer staged empty-bed maintenance reduces staffed capacity; queues/deferment explicit; total lost staffed days budget 962",
+      "rule_ids": [
+        "BD01",
+        "BD02",
+        "BD05"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S06",
+      "title": "Absence and agency",
+      "minimum_cases": 60,
+      "tables": [
+        "worker_assignment",
+        "staff_shift",
+        "financial_posting"
+      ],
+      "expected": "2025 February temporary absence creates replacement/overtime or explicit coverage gap with linked cost",
+      "rule_ids": [
+        "WK01",
+        "SF01",
+        "GL02"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S07",
+      "title": "Stockout and expiry",
+      "minimum_cases": 30,
+      "tables": [
+        "inventory_movement",
+        "clinical_event",
+        "financial_posting"
+      ],
+      "expected": "Lot eligibility constrains issue; substitute/delay and waste explicitly accounted, no negative stock",
+      "rule_ids": [
+        "IV01",
+        "IV02",
+        "IV03"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S08",
+      "title": "Denial appeal and recovery",
+      "minimum_cases": 200,
+      "tables": [
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting"
+      ],
+      "expected": "Reason supported by known facts; original identity retained; partial/final recovery and cash distinct",
+      "rule_ids": [
+        "CL02",
+        "CL03",
+        "CL04"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S09",
+      "title": "Cross-month care and settlement",
+      "minimum_cases": 200,
+      "tables": [
+        "encounter",
+        "service_charge",
+        "claim_event",
+        "financial_posting",
+        "finance_monthly"
+      ],
+      "expected": "Service/recognition/settlement periods differ through explicit journal movements",
+      "rule_ids": [
+        "GL01",
+        "AX01"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S10",
+      "title": "Coverage and workforce reorganization",
+      "minimum_cases": 60,
+      "tables": [
+        "patient_coverage",
+        "worker_assignment",
+        "access_scope",
+        "source_key_map"
+      ],
+      "expected": "Mid-2024/2025 effective change retains old mapping and later-recorded corrections; revocation tested",
+      "rule_ids": [
+        "TM01",
+        "CV01",
+        "AC01"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S11",
+      "title": "Late correction and replay",
+      "minimum_cases": 100,
+      "tables": [
+        "bed_event",
+        "claim_event",
+        "source_key_map"
+      ],
+      "expected": "Late/duplicate delivery converges to independent expected state; historical knowledge not overwritten",
+      "rule_ids": [
+        "TM02",
+        "SR03"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    },
+    {
+      "id": "S12",
+      "title": "Window boundaries",
+      "minimum_cases": 100,
+      "tables": [
+        "encounter",
+        "claim",
+        "claim_event",
+        "inventory_movement",
+        "bed_event"
+      ],
+      "expected": "57 occupied openings, 2000 opening claims/closed-encounter contexts; nonzero final open cases and censored followup",
+      "rule_ids": [
+        "EN03",
+        "CL03",
+        "BD03"
+      ],
+      "owner": "Codex (user-designated baseline reviewer); future generation evidence required",
+      "fixture_required": true
+    }
+  ]
+}

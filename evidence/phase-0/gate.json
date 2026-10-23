@@ -1,0 +1,28 @@
+{
+  "phase": 0,
+  "baseline_version": "1.0.0",
+  "status": "PASSED",
+  "scope": "Design specification, schema/source contracts, record budget, design arithmetic and delegated baseline review only",
+  "review_date": "2026-10-23",
+  "business_owner": "Kkb113",
+  "reviewer": "Codex, explicitly user-designated in the current conversation",
+  "review_record": "docs/phase-0/review-and-gate.md",
+  "validation_evidence": "evidence/phase-0/validation-report.json",
+  "canonical_business_tables": 25,
+  "planned_records": 1958210,
+  "hard_maximum_records": 2000000,
+  "reserve_records": 41790,
+  "actual_generated_business_records": 0,
+  "actual_data_rule_execution": "NOT_STARTED",
+  "live_schema_deployment": "NOT_STARTED",
+  "next_phase": 1,
+  "next_phase_status": "NOT_STARTED",
+  "solution_status": "BLOCKED_FOR_SOLUTION",
+  "unresolved_phase0_blocking_findings": 0,
+  "limitations": [
+    "Baseline clinical and finance assumptions are reviewed design inputs, not independent licensed clinical validation.",
+    "Actual name/code source artifacts will be imported, versioned and hashed before use in subsequent data phases.",
+    "Workday/Axiom contracts simulate stated layouts; no live tenant compatibility is claimed.",
+    "The hard row cap covers canonical business facts; raw repeated export mirrors report separate physical row and byte counts."
+  ]
+}
