@@ -1,17 +1,36 @@
 # Healthcare synthetic data foundation
 
-Phases 0-2 establish the data foundation for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. The deterministic framework now generates and validates realistic full-schema master data. No full healthcare dataset is accepted and no cloud deployment, forecasting model, dashboard, or AI agent has been built.
+Phases 0-3 are complete for their defined data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. The deterministic framework generates full-schema master data and provisional longitudinal clinical histories; Phase 3 passes all exit criteria with 159 tests, 15 clinical check groups and 100 reviewed longitudinal journeys. No full healthcare dataset is accepted and no cloud deployment, forecasting model, dashboard, or AI agent has been built.
 
 The finalized baseline contains **25 business tables and 1,958,210 planned records** across **2023-2025**, with **41,790 records of headroom** below the two-million ceiling. Three fictional Illinois community hospitals have 72 inpatient beds in total. This replaces the earlier provisional 300-bed scale so the budget includes clinical detail and historical revisions.
 
-Start with the [frozen baseline](docs/phase-0/README.md), [framework](docs/phase-1/README.md), [master-data foundation](docs/master-data/README.md), and [implementation plan](synthetic-data-generation-implementation.md). Phase 2 completion makes **Phase 3** eligible to start when requested. The analytics solution stays blocked until final Phase 9 data acceptance.
+Start with the [frozen baseline](docs/phase-0/README.md), [framework](docs/phase-1/README.md), [master-data foundation](docs/master-data/README.md), and [implementation plan](synthetic-data-generation-implementation.md). The [clinical foundation](docs/clinical-histories/README.md) implements Phase 3; its current acceptance status is recorded in the [clinical exit gate](evidence/clinical-histories/acceptance-gate.json). The analytics solution stays blocked until final Phase 9 data acceptance.
 
-## Generate and validate the master-data foundation
+## Generate longitudinal clinical histories
 
 ```powershell
-python scripts/validate_master_foundation.py
-python scripts/generate_master_data.py --output output/master-foundation
-python scripts/validate_master_data.py --output output/master-foundation
+if (-not (Test-Path output/master-foundation/manifest.json)) {
+    python scripts/restore_master_snapshot.py
+}
+python scripts/generate_clinical_histories.py
+python scripts/validate_clinical_data.py
+python scripts/validate_clinical_foundation.py
+```
+
+The [clinical foundation](docs/clinical-histories/README.md) implements linked adult visits, conditions, selected orders/results/treatment courses, operative documentation and fact-grounded notes. Its 58,000 encounter contexts cover the three-year cohort and opening-only contexts, within the unchanged 25-table release schema and existing record envelopes. The clinical candidate contains **840,061 canonical rows across 14 populated business tables**, including 58,000 encounter contexts. The accepted master snapshot is preserved exactly. Full repository tests require the accepted master and completed clinical candidate; the clinical acceptance command prepares the latter before test discovery.
+
+Preserve the accepted historical master snapshot. Running a current master generator into that same directory changes its provenance identifiers; use a different output directory for master experiments. The restoration command reproduces the original accepted snapshot from its exact Git revision. It refuses to overwrite an existing destination.
+
+Clinical timings and outcomes remain provisional until resource integration. Full dataset acceptance and solution development remain blocked. See the [clinical gate](evidence/clinical-histories/acceptance-gate.json), [100-journey review](reviews/clinical-journey-sample.md), and [runbook](docs/clinical-histories/runbook.md).
+
+
+## Optional master-profile experiments
+
+```powershell
+python scripts/generate_master_data.py --output output/master-preview
+python scripts/validate_master_data.py --output output/master-preview
+# Run after preparing the clinical candidate; preserve accepted historical evidence.
+python scripts/validate_master_foundation.py --output output/master-preview --report output/master-validation-report.json --gate output/master-acceptance-gate.json
 ```
 
 The candidate contains **78,922 full-schema rows**: 20,000 stable patients, 300 stable workers, organizations/72 beds, payer/coverage/security histories, source mappings, 3,000 catalog entries and 13,000 opening health assertions. All rows fit within the existing budget; **1,879,288 planned rows remain** for later work. The candidate currently has 11 generated business tables; the complete release retains the frozen 25-table schema. It is not final data acceptance.

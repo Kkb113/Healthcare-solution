@@ -1,0 +1,173 @@
+{
+  "profile": "LONGITUDINAL_CLINICAL",
+  "version": "1.0.0",
+  "seed": 20261023,
+  "master_candidate": "output/master-foundation",
+  "master_business_sha256": "c4e987cfd994c51a6bcf0352d44b386d701a84ef8e35a84240bbed25cf1dc59c",
+  "review_journeys": 100,
+  "window": {
+    "start": "2023-01-01",
+    "end_inclusive": "2025-12-31",
+    "timezone": "America/Chicago",
+    "delivery_grace_end": "2026-01-10T23:59:59Z"
+  },
+  "cohort": {
+    "inpatient": 12000,
+    "inpatient_people": 10680,
+    "readmissions": 1320,
+    "ed_to_inpatient": 6000,
+    "elective": 4800,
+    "carry_in": 57,
+    "opening_only": 2000,
+    "emergency": 27000,
+    "outpatient": 17000,
+    "single_visit_people": 8000,
+    "death_outcomes": 30
+  },
+  "pathways": {
+    "HEART_FAILURE": {
+      "diagnosis": "I509",
+      "weight": 20,
+      "mean_days": "5.6",
+      "medication": "MED-012",
+      "dose": "20",
+      "interval_hours": 24,
+      "days": 7,
+      "procedure": "SVC-025",
+      "observations": [
+        "OBS-007",
+        "OBS-001"
+      ],
+      "labs": [
+        "LAB-006",
+        "LAB-002"
+      ],
+      "symptom": "worsening edema and breathlessness"
+    },
+    "COPD": {
+      "diagnosis": "J449",
+      "weight": 15,
+      "mean_days": "5.2",
+      "medication": "MED-020",
+      "dose": "40",
+      "interval_hours": 24,
+      "days": 5,
+      "procedure": "SVC-026",
+      "observations": [
+        "OBS-001",
+        "OBS-005"
+      ],
+      "labs": [
+        "LAB-011",
+        "LAB-004"
+      ],
+      "symptom": "increased dyspnea with wheezing"
+    },
+    "PNEUMONIA": {
+      "diagnosis": "J189",
+      "weight": 15,
+      "mean_days": "6.6",
+      "medication": "MED-009",
+      "dose": "100",
+      "interval_hours": 12,
+      "days": 7,
+      "procedure": "SVC-015",
+      "observations": [
+        "OBS-006",
+        "OBS-001"
+      ],
+      "labs": [
+        "LAB-011",
+        "LAB-024"
+      ],
+      "symptom": "cough, fever and reduced exercise tolerance"
+    },
+    "GENERAL_MEDICINE": {
+      "diagnosis": "E119",
+      "weight": 10,
+      "mean_days": "4.8",
+      "medication": null,
+      "procedure": "SVC-027",
+      "observations": [
+        "OBS-019",
+        "OBS-004"
+      ],
+      "labs": [
+        "LAB-007",
+        "LAB-006"
+      ],
+      "symptom": "symptomatic hyperglycemia requiring assessment"
+    },
+    "GENERAL_SURGERY": {
+      "diagnosis": "K8010",
+      "weight": 30,
+      "mean_days": "4.8",
+      "medication": "MED-001",
+      "dose": "650",
+      "interval_hours": 6,
+      "days": 5,
+      "procedure": "0FT44ZZ",
+      "observations": [
+        "OBS-009",
+        "OBS-004"
+      ],
+      "labs": [
+        "LAB-012",
+        "LAB-006"
+      ],
+      "symptom": "recurrent biliary pain with chronic calculous cholecystitis"
+    },
+    "ORTHOPEDIC": {
+      "diagnosis": "M1711",
+      "weight": 10,
+      "mean_days": "4.0",
+      "medication": "MED-001",
+      "dose": "650",
+      "interval_hours": 6,
+      "days": 5,
+      "procedure": "0SRC0J9",
+      "observations": [
+        "OBS-009",
+        "OBS-015"
+      ],
+      "labs": [
+        "LAB-012",
+        "LAB-006"
+      ],
+      "symptom": "right knee osteoarthritis limiting mobility"
+    }
+  },
+  "ambulatory_pathways": {
+    "CHEST_PAIN": {
+      "diagnosis": "R079",
+      "medication": null,
+      "procedure": "SVC-003",
+      "observations": [
+        "OBS-001",
+        "OBS-004"
+      ],
+      "labs": [
+        "LAB-022",
+        "LAB-006"
+      ],
+      "symptom": "episodic chest discomfort requiring evaluation"
+    },
+    "ABDOMINAL_PAIN": {
+      "diagnosis": "R1010",
+      "medication": "MED-001",
+      "dose": "650",
+      "interval_hours": 6,
+      "days": 5,
+      "procedure": "SVC-021",
+      "observations": [
+        "OBS-001",
+        "OBS-004"
+      ],
+      "labs": [
+        "LAB-012",
+        "LAB-006"
+      ],
+      "symptom": "intermittent upper abdominal discomfort requiring assessment"
+    }
+  }
+}

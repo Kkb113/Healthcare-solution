@@ -1,11 +1,11 @@
 # Synthetic Data Generation Implementation Plan
 
-**Status:** Phases 0-2 are complete for their defined scopes: the [frozen design baseline](docs/phase-0/review-and-gate.md), [framework and fixture validation](docs/phase-1/review-and-gate.md), and [full-schema master-data foundation](docs/master-data/README.md). Phase 2 produces 78,922 master/opening-context rows with recorded identity review and [exit evidence](evidence/master-data/acceptance-gate.json). Phases 3-9 have not started. No full healthcare dataset is accepted and no healthcare analytics solution or live source integration has been built.
+**Status:** Phases 0-3 are complete for their defined scopes: the [frozen design baseline](docs/phase-0/review-and-gate.md), [framework and fixture validation](docs/phase-1/review-and-gate.md), and [full-schema master-data foundation](docs/master-data/README.md). Phase 2 produces 78,922 master/opening-context rows with recorded identity review and [exit evidence](evidence/master-data/acceptance-gate.json). Phase 3 produces 840,061 total canonical rows across 14 populated tables, with 58,000 encounter contexts, 100 reviewed longitudinal journeys and a passing [clinical exit gate](evidence/clinical-histories/acceptance-gate.json). Its clinical timelines remain provisional until resource integration. Phases 4-9 have not started. No full healthcare dataset is accepted and no healthcare analytics solution or live source integration has been built.
 
 **Prepared:** October 23, 2026  
 **Setting:** Fictional US hospital group, USD, Workday workforce integration, and Axiom healthcare financial planning integration.  
 **Implementation sequence:** Ten phases, numbered Phase 0 through Phase 9.  
-**Current completed deliverables:** This implementation plan, the [frozen baseline](docs/phase-0/README.md), [runnable framework](docs/phase-1/README.md), and [master-data generation, reference packages, review and evidence](docs/master-data/README.md). The user authorized Phase 2 implementation, testing, commit and push. Phase 3 is the next unstarted phase; the full dataset and solution remain blocked. New artifacts use descriptive filenames with phase numbers kept inside their content.
+**Current completed deliverables:** This implementation plan, the [frozen baseline](docs/phase-0/README.md), [runnable framework](docs/phase-1/README.md), and [master-data generation, reference packages, review and evidence](docs/master-data/README.md). The user authorized Phase 3 implementation, end-to-end testing, commit and push. The [clinical foundation, reviewed journeys and passing end-to-end evidence](docs/clinical-histories/README.md) complete Phase 3 with 159 passing tests and all exit criteria satisfied; the full dataset and solution remain blocked. New artifacts use descriptive filenames with phase numbers kept inside their content.
 
 ## 1. Purpose and mandatory delivery boundary
 
@@ -247,6 +247,8 @@ Create believable people and the stable, time-aware master data that connects ev
 
 ## Phase 3 - Longitudinal clinical histories and care pathways
 
+**Implementation status:** Completed for the defined scope on October 23, 2026. See the [generation design](docs/clinical-histories/generation-design.md), [actual counts and review](docs/clinical-histories/validation-and-review.md), [recorded review decision](reviews/clinical-journey-review.json), and [passing acceptance evidence](evidence/clinical-histories/acceptance-gate.json). All 159 repository tests, 15 full-candidate clinical groups, independent file inspection and frozen-design regression pass. Clinical trajectories remain provisional for later resource integration; final data/solution acceptance stays blocked.
+
 ### Objective
 
 Implement patient histories that evolve over time and contain the clinical detail needed to explain operational and financial activity.
@@ -279,10 +281,10 @@ Implement patient histories that evolve over time and contain the clinical detai
 
 ### Exit criteria
 
-- All hard clinical, identity, chronology, and terminology rules pass.
-- Every required pathway and relevant boundary case is represented in fixtures and sampled histories.
-- At least 100 stratified longitudinal journeys, or all if fewer exist, are reviewed across acuity, service, age, repeat visits, and adverse outcomes.
-- The designated clinical/domain reviewer records the scope and result of plausibility review; no unsupported clinical assumptions are marked validated.
+- [x] All hard clinical, identity, chronology, and terminology rules pass.
+- [x] Every required pathway and relevant boundary case is represented in fixtures and sampled histories.
+- [x] At least 100 stratified longitudinal journeys, or all if fewer exist, are reviewed across acuity, service, age, repeat visits, and adverse outcomes.
+- [x] The designated clinical/domain reviewer records the scope and result of plausibility review; no unsupported clinical assumptions are marked validated.
 
 ## Phase 4 - Demand, patient flow, beds, and operational event history
 

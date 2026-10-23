@@ -1,2 +1,4 @@
 * text=auto eol=lf
 *.md whitespace=-blank-at-eol
+# Preserve canonical newlines in the generated, checksummed review artifact.
+reviews/clinical-journey-sample.md whitespace=-blank-at-eof

@@ -1,0 +1,83 @@
+{
+  "implementation_phase": 3,
+  "status": "PASSED",
+  "evaluated_at": "2026-10-23T09:47:38.662930+00:00",
+  "exit_criteria": {
+    "all_hard_clinical_identity_chronology_terminology_rules": {
+      "passed": true,
+      "evidence_tests": [
+        "test_complete_cohort_and_all_hard_clinical_checks",
+        "test_accepted_master_records_are_preserved_exactly",
+        "test_prebirth_and_postdeath_care_are_rejected",
+        "test_lab_collection_and_result_availability_are_enforced",
+        "test_terminology_release_domain_and_unit_are_enforced",
+        "test_allergy_withholding_never_consumes_stock",
+        "test_notes_are_fact_grounded_and_reject_unsupported_prose"
+      ]
+    },
+    "pathways_and_boundaries_in_candidate_fixtures_and_sample": {
+      "passed": true,
+      "evidence_tests": [
+        "test_correlated_trajectories_and_adverse_cases_are_present",
+        "test_cutoff_censoring_and_readmission_denominator",
+        "test_appointment_no_show_cancellation_and_reschedule_chronology",
+        "test_condition_resolution_never_leaks_into_initial_assertion",
+        "test_stratified_hundred_journey_review_is_content_bound"
+      ]
+    },
+    "at_least_100_stratified_longitudinal_journeys_reviewed": {
+      "passed": true,
+      "evidence_tests": [
+        "test_stratified_hundred_journey_review_is_content_bound",
+        "test_note_result_and_future_fact_mutations_are_rejected"
+      ]
+    },
+    "designated_domain_review_scope_and_result_recorded": {
+      "passed": true,
+      "evidence_tests": [
+        "test_stratified_hundred_journey_review_is_content_bound",
+        "test_validator_is_independent_of_generation_and_serializer"
+      ]
+    },
+    "end_to_end_reproducibility_recovery_and_independent_validation": {
+      "passed": true,
+      "evidence_tests": [
+        "test_full_clean_rebuild_and_cached_resume_are_identical",
+        "test_real_process_crash_rolls_back_validation_then_resumes",
+        "test_checkpoint_corruption_fails_closed",
+        "test_independent_persisted_inspector_recomputes_all_rules",
+        "test_accepted_master_can_be_rebuilt_from_exact_git_revision"
+      ]
+    }
+  },
+  "tests_run": 159,
+  "clinical_checks": 15,
+  "business_rows": 840061,
+  "rows_by_table": {
+    "access_scope": 1800,
+    "catalog_item": 3000,
+    "clinical_condition": 79509,
+    "cost_center": 45,
+    "facility": 3,
+    "location": 150,
+    "patient": 22000,
+    "patient_coverage": 28000,
+    "payer_plan": 24,
+    "source_key_map": 10000,
+    "worker_assignment": 900,
+    "encounter": 127941,
+    "appointment": 30000,
+    "clinical_event": 536689
+  },
+  "generated_business_tables": 14,
+  "release_business_tables": 25,
+  "reviewed_longitudinal_journeys": 100,
+  "business_sha256": "a74a03a5b086143cc6db18b1b70e41a914aeab0750e64ea967ffe83e95ccf1ca",
+  "master_business_sha256": "c4e987cfd994c51a6bcf0352d44b386d701a84ef8e35a84240bbed25cf1dc59c",
+  "remaining_planned_rows": 1118149,
+  "full_dataset_accepted": false,
+  "solution_status": "BLOCKED_FOR_SOLUTION",
+  "trajectory_status": "PROVISIONAL_PENDING_RESOURCE_INTEGRATION",
+  "licensed_clinical_endorsement": false,
+  "next_phase": "Demand, patient flow and beds - not started"
+}
