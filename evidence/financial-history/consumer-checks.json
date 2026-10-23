@@ -1,0 +1,106 @@
+{
+  "checked_at": "2026-10-23T19:25:42.252662+00:00",
+  "business_sha256": "773a236ec9c7ec3df5605f38d21f4934a9384eae1bbf04ab4bf164cb51006b72",
+  "status": "PASSED",
+  "scope": "Read-only disposable CLI consumers; no analytics solution deployed",
+  "checks": [
+    {
+      "arguments": [
+        "claims"
+      ],
+      "exit_code": 0,
+      "result": {
+        "original_accounts": 57763,
+        "self_pay_statement_accounts": 8033,
+        "observed_initial_insured_claims": 46525,
+        "initial_denied_insured_claims": 2296,
+        "denial_rate": "0.04934981192907039226222461042",
+        "billed_ar": "14769836.80",
+        "cash": "81642552.91"
+      }
+    },
+    {
+      "arguments": [
+        "costs"
+      ],
+      "exit_code": 0,
+      "result": {
+        "selected_pool_runs": 1673,
+        "totals": {
+          "NONPATIENT": "13895550.22",
+          "PATIENT": "51945602.95"
+        }
+      }
+    },
+    {
+      "arguments": [
+        "monthly",
+        "--month",
+        "2025-12-01",
+        "--known",
+        "2025-12-31T23:59:59Z"
+      ],
+      "exit_code": 0,
+      "result": {
+        "scenario": "ACTUAL",
+        "target_month": "2025-12-01",
+        "known_at": "2025-12-31T23:59:59Z",
+        "rows": 0,
+        "vintages": [],
+        "units": []
+      }
+    },
+    {
+      "arguments": [
+        "monthly",
+        "--month",
+        "2025-12-01",
+        "--known",
+        "2026-01-06T23:59:59Z"
+      ],
+      "exit_code": 0,
+      "result": {
+        "scenario": "ACTUAL",
+        "target_month": "2025-12-01",
+        "known_at": "2026-01-06T23:59:59Z",
+        "rows": 573,
+        "vintages": [
+          "ACTUAL-2025-12-01"
+        ],
+        "units": [
+          "FTE",
+          "USD",
+          "admissions",
+          "hours",
+          "patient_days"
+        ]
+      }
+    },
+    {
+      "arguments": [
+        "monthly",
+        "--month",
+        "2025-12-01",
+        "--known",
+        "2026-01-10T23:59:59Z"
+      ],
+      "exit_code": 0,
+      "result": {
+        "scenario": "ACTUAL",
+        "target_month": "2025-12-01",
+        "known_at": "2026-01-10T23:59:59Z",
+        "rows": 573,
+        "vintages": [
+          "ACTUAL-2025-12-01-FINAL"
+        ],
+        "units": [
+          "FTE",
+          "USD",
+          "admissions",
+          "hours",
+          "patient_days"
+        ]
+      }
+    }
+  ]
+}

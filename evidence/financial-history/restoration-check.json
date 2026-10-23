@@ -1,0 +1,114 @@
+{
+  "status": "PASSED",
+  "checked_at": "2026-10-23T20:48:36.900746+00:00",
+  "accepted_source_commit": "1840da3dbe3edf643b12e7b3e4a1897312d99d86",
+  "business_sha256": "d74687a69f72c7e2b4f63fea2ede2d58e45487c86a2e92a2013ca639f675c439",
+  "business_rows": 1053661,
+  "all_canonical_files_identical": true,
+  "canonical_files": {
+    "cost_center": {
+      "sha256": "59d84db8258a4dcc035a4127d1324bad2037a392c37388e9f1e19d8bab046135",
+      "rows": 45,
+      "bytes": 24180
+    },
+    "facility": {
+      "sha256": "ff3f0b5114089f60a18536b919981166729cfe94ecdd9219c3d58d005b57cc9b",
+      "rows": 3,
+      "bytes": 1524
+    },
+    "location": {
+      "sha256": "5a02e56fdda95cb251d091004f3d3d9b60d585dcc862b85ce77ae83661f6ce6d",
+      "rows": 150,
+      "bytes": 97182
+    },
+    "catalog_item": {
+      "sha256": "1bbfdd3f2621ecaf4658ed55d62012dce2b82f47733a03b92847a5fe1a6636a9",
+      "rows": 3000,
+      "bytes": 2122462
+    },
+    "patient": {
+      "sha256": "7c4235cf024e1e1ac3624b08265cd2df05c1106c2b6ac6e15c5e7a97dacc2cf2",
+      "rows": 22000,
+      "bytes": 20353928
+    },
+    "worker_assignment": {
+      "sha256": "f5fc13f26d5d1d9ab924788e90e3de778f8ddc22521c49d59f167687310dc0ab",
+      "rows": 900,
+      "bytes": 1017756
+    },
+    "payer_plan": {
+      "sha256": "e8b19173a405c0e762dfa722fa1dcff29944c5c91000e916c94ad8f24ce24cde",
+      "rows": 24,
+      "bytes": 12934
+    },
+    "patient_coverage": {
+      "sha256": "7e28df5e9995bbcb6efa4a6f5bb97ec1518410f481eaadd2d0bd926a6087ccab",
+      "rows": 28000,
+      "bytes": 19636793
+    },
+    "access_scope": {
+      "sha256": "885d8eb5cc7d314165634d7066817ebb979abb7dfcca1d0804729501f4200205",
+      "rows": 1800,
+      "bytes": 1267812
+    },
+    "source_key_map": {
+      "sha256": "ce8d1d05f82a51859a48d84e335133c726d21ccaa5f44a4ec1d16306358171a1",
+      "rows": 10000,
+      "bytes": 6705955
+    },
+    "clinical_condition": {
+      "sha256": "076d1777720730bdeccffa0a1f77c94cf05597beaf5dcb4704d476d44d965aac",
+      "rows": 79103,
+      "bytes": 72175662
+    },
+    "appointment": {
+      "sha256": "3a976e0fd3ad4db6e9c74bb8f0bea7391f93d224992537895d44f1638195760f",
+      "rows": 30000,
+      "bytes": 25602014
+    },
+    "bed_event": {
+      "sha256": "50b15ca96a84daa9640642d1cbcabce9b489cf442b28890c8f0c134a135f7824",
+      "rows": 71018,
+      "bytes": 50446055
+    },
+    "clinical_event": {
+      "sha256": "24eb7cff88d5631eb275b646c66e85f6171d83ef8431c7efcf372d30fc599b37",
+      "rows": 561909,
+      "bytes": 814068841
+    },
+    "encounter": {
+      "sha256": "2e0a26af44b5f728df1a0f56100d27fb829945f34e578085f1d0794b664fc877",
+      "rows": 128000,
+      "bytes": 154055785
+    },
+    "facility_day_driver": {
+      "sha256": "c96c563fb4da2b7554bcc451b5d1a4e99eda26cd27635844a97259524310175b",
+      "rows": 3288,
+      "bytes": 2171703
+    },
+    "staff_shift": {
+      "sha256": "cb83ddd9e8c53803a99f0457b6787e95c4bec23fda8a32bc4e6be66967722bfd",
+      "rows": 66582,
+      "bytes": 78575988
+    },
+    "inventory_movement": {
+      "sha256": "d5d826aea972fe7074d65ea0374854ab8da48aa30bce39daadd84860eb1b23e6",
+      "rows": 47839,
+      "bytes": 44371347
+    }
+  },
+  "destination_guards": [
+    {
+      "destination": "output\\resource-foundation",
+      "status": "REJECTED_AS_REQUIRED",
+      "reason": "resource destination already exists; accepted snapshots are never overwritten"
+    },
+    {
+      "destination": "README.md",
+      "status": "REJECTED_AS_REQUIRED",
+      "reason": "destination must be ignored workspace output/data"
+    }
+  ],
+  "verification_sources_and_inputs_unchanged": true,
+  "scope": "Disposable restoration copy of immutable accepted parent, not additional release business facts"
+}

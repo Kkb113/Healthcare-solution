@@ -1,16 +1,44 @@
 # Healthcare synthetic data foundation
 
-Phases 0-5 are complete for their defined data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. The deterministic framework produces full-schema master data, longitudinal clinical histories, capacity-integrated operations, workforce attendance and selected resource/inventory histories. Phase 5 passes all four exit criteria with **238 tests**, **31 clinical/operational/workforce/stock check groups**, independent persisted-file inspection and a recorded 100-case resource review. The full healthcare dataset and analytics solution remain blocked until final Phase 9 data acceptance.
+Phases 0-6 are complete for their defined data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. Phase 6 passes all four exit criteria with **280 tests**, **nine financial control groups**, independent persisted-file inspection, a recorded **60-case financial review**, and exact restoration of all 18 resource-parent files. The full healthcare dataset and analytics solution remain blocked until final Phase 9 data acceptance.
 
-The finalized baseline contains **25 business tables and 1,958,210 planned records** across **2023-2025**, with **41,790 records of headroom** below the two-million ceiling. Three fictional Illinois community hospitals have 72 inpatient beds in total. This replaces the earlier provisional 300-bed scale so the budget includes clinical detail and historical revisions.
+The original frozen baseline contains **25 business tables and 1,958,210 planned records** across **2023-2025**, with **41,790 reserve records**. The reviewed [financial budget amendment](docs/financial-history/record-budget-amendment.md) permits **1,995,215 planned rows and 4,785 reserve rows**, retaining every accepted history within the two-million ceiling. Three fictional Illinois community hospitals have 72 inpatient beds in total. This replaces the earlier provisional 300-bed scale so the budget includes clinical detail and historical revisions.
 
 Start with the [frozen baseline](docs/phase-0/README.md), [framework](docs/phase-1/README.md), [master-data foundation](docs/master-data/README.md), and [implementation plan](synthetic-data-generation-implementation.md). The [clinical foundation](docs/clinical-histories/README.md) implements Phase 3; its current acceptance status is recorded in the [clinical exit gate](evidence/clinical-histories/acceptance-gate.json). The analytics solution stays blocked until final Phase 9 data acceptance.
+
+## Connected financial histories
+
+The [financial foundation](docs/financial-history/README.md) implements Phase 6: service charges, original insured claims and self-pay statements, line-level denials and appeals, patient/payer collections, refunds/reversals, source-derived balanced postings, cost allocations and canonical Axiom actual/budget/forecast vintages. The candidate contains **1,924,164 canonical records across all 25 business tables**. All four [financial exit criteria](evidence/financial-history/acceptance-gate.json) pass, with zero failed or skipped tests and no unresolved critical financial defects.
+
+| Financial table | Canonical rows |
+|---|---:|
+| service_charge | 113,086 |
+| claim | 57,763 |
+| claim_line | 113,002 |
+| claim_event | 218,025 |
+| financial_posting | 174,638 |
+| cost_allocation | 158,527 |
+| finance_monthly | 35,457 |
+
+Seventeen parent tables remain byte-identical; all 3,000 accepted catalog rows are preserved and five local billing codes are appended. Room fees follow actual occupied bed intervals, with separate extended-holding services. Salary top-ups, opening wages, unfinished-shift accruals, inventory valuation, treasury payments and patient/nonpatient allocations reconcile to their counted sources. Budgets and forecasts use source-known information at each publication.
+
+```powershell
+# Preserve existing accepted snapshots; restore only missing inputs.
+if (-not (Test-Path output/resource-foundation/manifest.json)) {
+    python scripts/restore_resource_snapshot.py
+}
+python scripts/generate_financial_history.py
+python scripts/validate_financial_data.py --report output/financial-history/independent-inspection.json
+python scripts/validate_financial_foundation.py
+```
+
+See the [accounting design](docs/financial-history/generation-design.md), [variance lineage](docs/financial-history/variance-lineage.md), [runbook](docs/financial-history/runbook.md), [complete evidence](evidence/financial-history/validation-report.json), and [content-bound 60-case review](reviews/financial-history-review.json). Canonical data, checkpoints and review mirrors are counted separately. The [restoration proof](evidence/financial-history/restoration-check.json) reproduces every immutable parent file; [CLI checks](evidence/financial-history/consumer-checks.json) confirm claim/cash, selected cost runs and monthly vintage selection. Phases 7-9 have not started; analytics development remains blocked.
 
 ## Connected workforce and inventory data
 
 The [resource foundation](docs/resource-foundation/README.md) implements Phase 5 and passes all four [exit criteria](evidence/resource-foundation/acceptance-gate.json). Its three-year candidate contains **1,053,661 canonical rows across 18 populated business tables**, including **66,582 staff-shift versions**, **47,839 inventory movements** and **561,909 clinical events**. All fifteen unchanged parent tables, including encounter/attending and bed histories, remain byte-identical. Actual operative timing, qualified source authors and clinical stock links are integrated and independently revalidated.
 
-The [generation design](docs/resource-foundation/generation-design.md) states workload, historical-knowledge, rate/OT, lot/expiry, quantity and valuation rules. Source costs reconcile without unexplained negative stock or balancing plugs. Thirty operating-unit stockout and thirty circulating-RN absence windows have connected service effects. Selected capture is explicit: this is not complete payroll, all materials or an entire operative/anesthetic team. Financial postings, Axiom scenarios and native source release replay remain later data-foundation phases.
+The [generation design](docs/resource-foundation/generation-design.md) states workload, historical-knowledge, rate/OT, lot/expiry, quantity and valuation rules. Source costs reconcile without unexplained negative stock or balancing plugs. Thirty operating-unit stockout and thirty circulating-RN absence windows have connected service effects. Selected capture is explicit: this is not complete payroll, all materials or an entire operative/anesthetic team. Its immutable snapshot is the parent of the financial foundation above.
 
 ```powershell
 # Restore missing immutable inputs only; preserve existing accepted snapshots.
@@ -28,11 +56,11 @@ python scripts/validate_resource_data.py --report output/resource-foundation/ind
 python scripts/validate_resource_foundation.py
 ```
 
-See the [runbook](docs/resource-foundation/runbook.md), [complete validation evidence](evidence/resource-foundation/validation-report.json), [review decision](reviews/resource-foundation-review.json) and [named case sample](reviews/resource-foundation-sample.md). The acceptance command runs current framework/master, operational and resource tests plus the exact accepted historical clinical tests, with strict source/configuration/review locks and no skipped tests. Phase 6 has not started.
+See the [runbook](docs/resource-foundation/runbook.md), [complete validation evidence](evidence/resource-foundation/validation-report.json), [review decision](reviews/resource-foundation-review.json) and [named case sample](reviews/resource-foundation-sample.md). The acceptance command runs current framework/master, operational and resource tests plus the exact accepted historical clinical tests, with strict source/configuration/review locks and no skipped tests.
 
 ## Capacity-integrated operational data
 
-The [operational foundation](docs/operational-flow/README.md) implements the Phase 4 data scope. Its [acceptance gate](evidence/operational-flow/acceptance-gate.json) passes all four exit criteria. The three-year candidate contains **938,452 canonical records across 16 populated business tables**, including 71,018 immutable bed events. Event-state and independent interval oracles reconcile at all 25,245 census boundaries with zero unexplained differences. The final schema remains 25 tables with 1,958,210 planned records; the 41,790-record reserve is untouched.
+The [operational foundation](docs/operational-flow/README.md) implements the Phase 4 data scope. Its [acceptance gate](evidence/operational-flow/acceptance-gate.json) passes all four exit criteria. The three-year candidate contains **938,452 canonical records across 16 populated business tables**, including 71,018 immutable bed events. Event-state and independent interval oracles reconcile at all 25,245 census boundaries with zero unexplained differences. At operational acceptance, the original 25-table/1,958,210-record plan and 41,790-record reserve were unchanged. The later financial amendment is described above.
 
 ```powershell
 # Restore only missing immutable parent snapshots.
@@ -53,7 +81,7 @@ Existing accepted parents must be preserved. Historical standalone generators bi
 
 Phase 3 evidence is retained against its accepted source commit. To reproduce that accepted data on a later checkout, use `restore_clinical_snapshot.py`. For complete historical clinical regressions, the operational exit gate runs every accepted clinical test against its exact archived generator and the unchanged accepted snapshot. Avoid running a newer standalone generator over that accepted parent directory.
 
-The [clinical foundation](docs/clinical-histories/README.md) implements linked adult visits, conditions, selected orders/results/treatment courses, operative documentation and fact-grounded notes. Its 58,000 encounter contexts cover the three-year cohort and opening-only contexts, within the unchanged 25-table release schema and existing record envelopes. The clinical candidate contains **840,061 canonical rows across 14 populated business tables**, including 58,000 encounter contexts. The accepted master snapshot is preserved exactly. The current operational acceptance command prepares the operational candidate and evaluates current framework/master and operational tests together with the version-bound historical clinical suite.
+The [clinical foundation](docs/clinical-histories/README.md) implements linked adult visits, conditions, selected orders/results/treatment courses, operative documentation and fact-grounded notes. Its 58,000 encounter contexts cover the three-year cohort and opening-only contexts, within the unchanged 25-table release schema and existing record envelopes. The clinical candidate contains **840,061 canonical rows across 14 populated business tables**, including 58,000 encounter contexts. The accepted master snapshot is preserved exactly. The operational gate retains that historical scope; the financial acceptance command above runs all five current and version-bound regression groups.
 
 Preserve the accepted historical master snapshot. Running a current master generator into that same directory changes its provenance identifiers; use a different output directory for master experiments. The restoration command reproduces the original accepted snapshot from its exact Git revision. It refuses to overwrite an existing destination.
 
@@ -69,7 +97,7 @@ python scripts/validate_master_data.py --output output/master-preview
 python scripts/validate_master_foundation.py --output output/master-preview --report output/master-validation-report.json --gate output/master-acceptance-gate.json
 ```
 
-The candidate contains **78,922 full-schema rows**: 20,000 stable patients, 300 stable workers, organizations/72 beds, payer/coverage/security histories, source mappings, 3,000 catalog entries and 13,000 opening health assertions. All rows fit within the existing budget; **1,879,288 planned rows remain** for later work. The candidate currently has 11 generated business tables; the complete release retains the frozen 25-table schema. It is not final data acceptance.
+The original master profile contains **78,922 full-schema rows**: 20,000 stable patients, 300 stable workers, organizations/72 beds, payer/coverage/security histories, source mappings, 3,000 catalog entries and 13,000 opening health assertions. All rows fit within the existing budget; **1,879,288 original planned rows remained** at master-data acceptance. The candidate currently has 11 generated business tables; the complete release retains the frozen 25-table schema. It is not final data acceptance.
 
 See the [master-data gate](evidence/master-data/acceptance-gate.json), [validation evidence](evidence/master-data/validation-report.json), [reviewed 100-patient/50-worker sample](reviews/master-data-identity-sample.md), and [runbook](docs/master-data/runbook.md). Public aggregate references are pinned and generation runs offline. Generated datasets remain under ignored output paths; only selected review/evidence artifacts are versioned. New filenames follow the [repository naming conventions](CONTRIBUTING.md).
 
@@ -84,7 +112,7 @@ python scripts/run_phase1.py --output output/phase1-development
 python scripts/validate_phase1_candidate.py --run-dir output/phase1-development
 ```
 
-The historical framework gate records its original regression and fixture scope. Use the resource acceptance command above for the complete current and version-bound historical regression assessment. See [Phase 1 exit evidence](evidence/phase-1/gate.json). Normal generation produces **30 development rows across 15 declared scalar projections** and **3 Workday/Axiom mirror rows**, never a full business dataset. The [runbook](docs/phase-1/runbook.md) explains recovery, invalidation, quotas and output semantics.
+The historical framework gate records its original regression and fixture scope. Use the financial acceptance command above for the complete current and version-bound historical regression assessment. See [Phase 1 exit evidence](evidence/phase-1/gate.json). Normal generation produces **30 development rows across 15 declared scalar projections** and **3 Workday/Axiom mirror rows**, never a full business dataset. The [runbook](docs/phase-1/runbook.md) explains recovery, invalidation, quotas and output semantics.
 
 ## Reviewable artifacts
 

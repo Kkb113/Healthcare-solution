@@ -1,0 +1,20 @@
+# Financial controls and review
+
+Accepted for the defined scope on October 24, 2026. All four exit criteria pass: 280 tests (121 framework/master, 38 historical clinical, 38 operational, 41 resource and 42 financial), with zero failures/errors/skips; nine full-population financial control groups; 60 reviewed traces; independent persisted inspection; exact 18-file parent restoration; and five passing read-only CLI consumer checks. See the [recorded gate](../../evidence/financial-history/acceptance-gate.json).
+
+The [financial policy](../../contracts/financial-history-policy.json) is the operative synthetic contract. Nine control groups evaluate full canonical facts: schema/identity/budget, service charges, original headers/lines/contracts, immutable claim events, source-derived balanced journals, enterprise AR, allocation, monthly actuals/statistics, and planning vintages.
+
+`financial_oracles.py` imports no financial generator. Separate source predicates recompute shift revision deltas, salary/rate changes, cutoff accruals, stock values, service recognition, claims, treasury settlements, posting-period bridges, expense pools, allocation drivers and monthly plans. Independent cent arithmetic reconstructs rounding/residuals. Actual Axiom values are aggregated independently from journal facts and captured resource activity. Tests deliberately introduce wrong cents, balanced false journals, wrong drivers, duplicated originals, invalid signs/links, future events and wrong units to prove detectors reject plausible-looking errors.
+
+The persisted inspector checks every canonical file's inventory, path containment, SHA, byte/row count and canonical serialization. It verifies every accepted parent row/hash, all five vocabulary additions, every transactional checkpoint payload/checksum, dependency/source/config/runtime fingerprints, stage ownership and physical mirror accounting. It recomputes controls and review hashes from persisted data and requires exact equality with checkpoint/publication. It writes no business data.
+
+| Exit criterion | Required evidence |
+|---|---|
+| All money reconciles at stored precision, no unexplained balancing entries | Independent source-to-journal equality, entity/date/currency balance, signed cash/reversals, opening/billed/unbilled AR, inventory, labor/accrual, allocations, monthly movement/closing balance and statistical/plan controls. |
+| At least 50 complete financial traces | A fixed 60-case named-patient sample, covering payer/self-pay, inpatient/ED/ambulatory, opening, draft, cross-month, denial, appeal recovery, final loss, patient payment, refund, reversal and open AR; complete original lines/events and linked whole source journals/cost allocations. |
+| Designated finance reviewer accepts accounting/allocation/reconciliation | Actual content-bound decision by Codex as the user-designated synthetic reviewer, including budget/statement semantics and findings; no independent accountant endorsement is claimed. |
+| No unresolved critical financial/historical defects | All controls pass, no P0 defects, all five regression groups pass without skips, clean rebuild/hash equality, cached resume, actual crash/rollback/recovery, changed-input invalidation, corrupted-cache rejection and historical-availability/future-leakage tests. |
+
+Reviewers read source group totals as shared journal evidence, never patient-level charges. They distinguish assigned liability from remaining AR and patient cash from treasury cash. A pending denial has no automatic loss; a later appeal is another attempt on the original. Six-place allocation drivers and selected run semantics protect against fan-out and version double-counting. Missing early captured history means unknown, rather than zero activity or a fabricated future actual.
+
+Acceptance evidence includes exact before/after verification hashes and individual test outcomes. The prior gates remain immutable. This gate accepts the Phase 6 financial scope only; source delivery simulation, integrated full-history release validation and final Phase 9 acceptance remain outstanding.

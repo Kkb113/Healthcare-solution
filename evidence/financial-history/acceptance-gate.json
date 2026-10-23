@@ -1,0 +1,160 @@
+{
+  "implementation_phase": 6,
+  "status": "PASSED",
+  "evaluated_at": "2026-10-23T20:48:45.743960+00:00",
+  "exit_criteria": {
+    "all_monetary_reconciliations_pass_at_stored_precision": {
+      "passed": true,
+      "evidence_tests": [
+        "test_all_financial_controls_and_exact_budget_pass",
+        "test_balanced_but_false_journal_fails_independent_source_oracle",
+        "test_inventory_purchase_consumption_and_closing_asset_reconcile",
+        "test_labor_revisions_salary_and_unfinished_shift_accrual_are_costed",
+        "test_billed_plus_unbilled_ar_equals_enterprise_control",
+        "test_treasury_settles_known_obligations_and_cash_stays_funded",
+        "test_direct_and_pooled_expense_is_counted_once",
+        "test_monthly_movement_and_closing_balances_reconcile"
+      ]
+    },
+    "at_least_fifty_complete_stratified_financial_traces_reviewed": {
+      "passed": true,
+      "evidence_tests": [
+        "test_review_has_sixty_complete_bound_stratified_traces",
+        "test_pending_denial_is_not_an_automatic_writeoff",
+        "test_refunds_reversals_and_posting_links_have_opposite_effect",
+        "test_denial_denominator_uses_original_insured_observed_claims"
+      ]
+    },
+    "designated_finance_reviewer_accepts_accounting_allocation_and_reconciliation": {
+      "passed": true,
+      "evidence_tests": [
+        "test_review_has_sixty_complete_bound_stratified_traces",
+        "test_allocation_vintages_are_selected_not_added"
+      ]
+    },
+    "no_unresolved_critical_financial_or_historical_availability_defects": {
+      "passed": true,
+      "evidence_tests": [
+        "test_forecast_and_budget_recompute_from_known_information",
+        "test_future_postings_and_worker_corrections_cannot_change_earlier_plan",
+        "test_header_does_not_publish_future_first_submission",
+        "test_no_postcutoff_economic_events_are_invented",
+        "test_duplicate_delivery_is_idempotent_and_conflicting_duplicate_rejected",
+        "test_clean_rebuild_cached_resume_and_complete_hash_match",
+        "test_real_process_crash_rolls_back_and_resumes",
+        "test_changed_seed_invalidates_descendants_before_injected_failure",
+        "test_corrupt_checkpoint_cannot_publish_ready",
+        "test_parent_histories_remain_byte_identical"
+      ]
+    }
+  },
+  "tests_run": 280,
+  "financial_check_groups": 9,
+  "business_sha256": "773a236ec9c7ec3df5605f38d21f4934a9384eae1bbf04ab4bf164cb51006b72",
+  "accepted_resource_sha256": "d74687a69f72c7e2b4f63fea2ede2d58e45487c86a2e92a2013ca639f675c439",
+  "business_rows": 1924164,
+  "rows_by_table": {
+    "cost_center": 45,
+    "facility": 3,
+    "location": 150,
+    "catalog_item": 3005,
+    "patient": 22000,
+    "worker_assignment": 900,
+    "payer_plan": 24,
+    "patient_coverage": 28000,
+    "access_scope": 1800,
+    "source_key_map": 10000,
+    "clinical_condition": 79103,
+    "appointment": 30000,
+    "bed_event": 71018,
+    "clinical_event": 561909,
+    "encounter": 128000,
+    "facility_day_driver": 3288,
+    "staff_shift": 66582,
+    "inventory_movement": 47839,
+    "service_charge": 113086,
+    "claim": 57763,
+    "claim_event": 218025,
+    "claim_line": 113002,
+    "financial_posting": 174638,
+    "cost_allocation": 158527,
+    "finance_monthly": 35457
+  },
+  "generated_business_tables": 25,
+  "planned_record_envelope": 1995215,
+  "reserve_rows": 4785,
+  "financial_metrics": {
+    "billed_selected_services": "196048930.35",
+    "charged_encounters": 57260,
+    "original_claims": 57763,
+    "carry_in_claims": 1787,
+    "unclaimed_service_lines": 84,
+    "claim_event_types": {
+      "ADJUDICATED": 55512,
+      "APPEALED": 1783,
+      "DENIED": 2296,
+      "OPENING": 1787,
+      "PATIENT_PAYMENT": 44198,
+      "PAYMENT": 50373,
+      "REFUND": 45,
+      "RESUBMITTED": 1778,
+      "REVERSAL": 45,
+      "SUBMITTED": 55825,
+      "WRITEOFF": 4383
+    },
+    "closing_claim_ar": "14769836.80",
+    "open_claims": 18614,
+    "current_cash": "81642552.91",
+    "payment_reversals_and_refunds": 90,
+    "admin_salary": "16600767.74",
+    "unfinished_shift_accrual": "7023.78",
+    "opening_earned_payroll": "7042.18",
+    "treasury_disbursements": "63991902.28",
+    "opening_operating_cash": "6000000.00",
+    "journals": 75327,
+    "eligible_expense_pool_postings": 1673,
+    "linked_posting_reversals": 180,
+    "closing_inventory": "6210.92",
+    "ledger_totals": {
+      "AP": "-46516.46",
+      "AR": "15282131.92",
+      "CASH": "23650650.63",
+      "CONTRA_REVENUE": "96626180.43",
+      "DRUG_DIRECT": "0.00",
+      "DRUG_POOL": "45103.39",
+      "GROSS_REVENUE": "-196048930.35",
+      "INVENTORY": "6210.92",
+      "LABOR_DIRECT": "0.00",
+      "LABOR_POOL": "64259550.44",
+      "OPENING_EQUITY": "-6175336.86",
+      "OTHER_EXPENSE": "2673535.86",
+      "OVERHEAD_DIRECT": "0.00",
+      "OVERHEAD_POOL": "1463028.48",
+      "PAYROLL_PAYABLE": "-1809079.26",
+      "SUPPLY_DIRECT": "0.00",
+      "SUPPLY_POOL": "73470.86"
+    },
+    "monetary_source_predicates": 75327,
+    "unbilled_service_ar": "512295.12",
+    "closing_enterprise_ar": "15282131.92",
+    "selected_allocated_costs": {
+      "NONPATIENT": "13895550.22",
+      "PATIENT": "51945602.95"
+    },
+    "allocation_runs": 1679,
+    "revised_allocation_pools": 6,
+    "finance_series": {
+      "ACTUAL": 21201,
+      "BUDGET": 13392,
+      "FORECAST": 864
+    },
+    "monetary_actual_reconciliations": 18981,
+    "planning_vintages": 17,
+    "independently_recomputed_plan_amounts": 13824
+  },
+  "reviewed_financial_traces": 60,
+  "independent_accountant_endorsement": false,
+  "full_dataset_accepted": false,
+  "solution_status": "BLOCKED_FOR_SOLUTION",
+  "next_phase": "Source-system exports and delivery simulation - not started"
+}

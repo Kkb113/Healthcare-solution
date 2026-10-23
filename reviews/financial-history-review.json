@@ -1,0 +1,77 @@
+{
+  "status": "APPROVED",
+  "reviewer": "Codex, user-designated synthetic finance reviewer",
+  "reviewed_at": "2026-10-23T19:22:18.383377+00:00",
+  "review_scope": "USER_DESIGNATED_SYNTHETIC_FINANCE_REVIEW",
+  "authority": "User explicitly delegated review and finalization: You can review and finalize it, make sure its best.",
+  "independent_accountant_endorsement": false,
+  "cases_reviewed": 60,
+  "sample_sha256": "e20a30e6b8e5ce564a989329e849fd61a1d46b4861471b3c7a9fd362bffa3958",
+  "selected_facts_sha256": "35aa7e865b3cf026ace8d4a9b3dd7fd9a38193d3fc1263d1b9c1475032827566",
+  "business_sha256": "773a236ec9c7ec3df5605f38d21f4934a9384eae1bbf04ab4bf164cb51006b72",
+  "strata_reviewed": {
+    "COMMERCIAL": 3,
+    "ED": 3,
+    "IPD": 3,
+    "MEDICAID": 3,
+    "MEDICARE": 3,
+    "OPD": 3,
+    "SELF_PAY": 3,
+    "appeal_recovery": 3,
+    "cross_month": 3,
+    "draft": 3,
+    "final_writeoff": 3,
+    "holding_no_room": 3,
+    "normal": 3,
+    "open_receivable": 3,
+    "opening": 3,
+    "patient_credit_loss": 3,
+    "patient_payment": 3,
+    "pending_denial": 3,
+    "refund": 3,
+    "reversal": 3
+  },
+  "method": [
+    "Read all sixty named patient financial journeys, original charges and prospective allowed amounts, chronological attempts and exact signed AR steps, final balances and selected patient costs.",
+    "Inspected complete linked source journals in the sample and independently checked every original line total, each running claim AR balance, and every linked whole-journal debit/credit total across all sixty cases.",
+    "Reviewed synthetic recognition, revenue versus cash, liability versus outstanding receivable, carry-in versus current revenue, inventory consumption, payroll accruals, salary top-ups, source-period bridges, pooled expense and selected allocation-run semantics.",
+    "Reviewed monthly monetary versus statistical units, Axiom vintage availability, original/revised budgets and ex-ante forecasts; nine independent full-population financial controls pass with no critical findings. Full regression and recovery evidence is required separately by the technical acceptance gate.",
+    "Confirmed the final policy clarification rebuild leaves all sixty reviewed financial trace bytes identical; rebound the selected source fact hashes to their final generation provenance."
+  ],
+  "resolved_findings": [
+    {
+      "id": "OPENING_RECEIVABLE_RECOGNITION",
+      "resolution": "Exclude historical completed services from current recognition even when their earlier encounter publication lacked final discharge. Opening balances are equity-backed context, not new revenue."
+    },
+    {
+      "id": "PHYSICAL_ROOM_CHARGING",
+      "resolution": "Derive room days from actual occupied bed intervals and physical departure, rather than arrival or clinical admission. Unplaced holding never generates a licensed room charge."
+    },
+    {
+      "id": "MONITORED_HOLDING_SERVICE",
+      "resolution": "Charge explicit local holding-hour services beyond a four-hour bundled allowance. Preserve partial hours, month splits, actual source knowledge and payer estimates without asserting bed occupancy."
+    },
+    {
+      "id": "SALARY_AND_CAPTURED_SHIFTS",
+      "resolution": "Recognize known ADMIN salary entitlement less captured ADMIN shift cost, including late assignment and attendance true-ups. Sample-rostered support workers are not incorrectly excluded from salary."
+    },
+    {
+      "id": "PREWINDOW_EARNED_WAGES",
+      "resolution": "Separate pre-2023 portions of opening overnight shifts into opening payroll/equity rather than allocating them against nonexistent current patient activity."
+    },
+    {
+      "id": "SETTLEMENT_AND_CREDIT_LOSS",
+      "resolution": "Retain variable partial/full collections, aged patient credit losses, pending disputes and explicit final losses. Refunds and reversals have exact linked opposite cash/AR effects."
+    }
+  ],
+  "material_assumptions": [
+    "Fictional adult US hospital network, USD, 2023-2025; synthetic economics and local service prices are not real payer tariffs, a DRG reimbursement engine, statutory accounts or accounting advice.",
+    "The selected service scope includes actual room/holding or attendance plus selected completed ancillary services; remaining care is bundled or outside captured scope. Resource histories are selected capture, with explicit salary and utilities assumptions.",
+    "Self-pay rows are original patient statement accounts and are excluded from the external-payer claim/denial denominator. Patient liability is assigned responsibility, not an outstanding balance.",
+    "Six-place stored allocation drivers, deterministic cent rounding, explicit nonpatient destinations and selected-run semantics preserve pool totals without counting expense twice.",
+    "The original frozen design remains unchanged. An explicit reviewed table-budget amendment retains all accepted clinical/resource facts and all financial history versions while keeping the 25-table envelope below two million records.",
+    "Source export/replay and final integrated release acceptance remain later phases. This review does not authorize building the analytics solution."
+  ],
+  "unresolved_critical_findings": [],
+  "disposition": "Accounting, allocation and reconciliation semantics approved for this synthetic financial scope, conditional on all four Phase 6 technical exit criteria passing. Full dataset release and healthcare analytics solution remain blocked until Phase 9."
+}
