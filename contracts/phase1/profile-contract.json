@@ -1,0 +1,60 @@
+{
+  "version": "1.0.0",
+  "profile": "DEVELOPMENT_FIXTURE",
+  "clock": {
+    "start": "2023-01-01T00:00:00Z",
+    "end": "2026-01-10T23:59:59Z"
+  },
+  "stage_fields": {
+    "identities": [
+      "name_stream"
+    ],
+    "clinical": [
+      "observation_min",
+      "observation_max",
+      "unit",
+      "code_date",
+      "known_at"
+    ],
+    "demand": [
+      "patient_source",
+      "ed_start",
+      "admit",
+      "discharge",
+      "acuity_min",
+      "acuity_max"
+    ],
+    "resources": [
+      "transfer",
+      "shift_start_local",
+      "shift_end_local",
+      "productive",
+      "nonproductive",
+      "break",
+      "stock_opening",
+      "stock_receipt",
+      "stock_consume"
+    ],
+    "billing": [
+      "units",
+      "unit_price",
+      "partial_payment",
+      "refund",
+      "cost_pool",
+      "weights",
+      "month"
+    ],
+    "serialization": [
+      "available_at",
+      "vintage"
+    ],
+    "faults": [
+      "enabled"
+    ],
+    "validation": [
+      "rules"
+    ]
+  },
+  "max_fixture_rows": 500,
+  "projection_policy": "Exactly the declared 15 scalar development projections; bed_interval is a disposable BD04 reconstruction of bed_event, not business table 26. Full Phase 0 schema required before a data release."
+}

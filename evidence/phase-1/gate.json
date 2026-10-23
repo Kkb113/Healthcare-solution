@@ -1,0 +1,77 @@
+{
+  "phase": 1,
+  "status": "PASSED",
+  "evaluated_at": "2026-10-23T06:57:41.661797+00:00",
+  "exit_criteria": {
+    "positive_and_adverse_fixtures": {
+      "passed": true,
+      "evidence_tests": [
+        "test_all_55_positive_and_adverse_cases",
+        "test_all_frozen_rule_families_have_positive_and_negative_controls"
+      ]
+    },
+    "negative_controls_and_independence": {
+      "passed": true,
+      "evidence_tests": [
+        "test_all_123_faults_use_intended_detector_and_block_gate",
+        "test_validator_arithmetic_does_not_use_generator_rounding",
+        "test_validator_module_has_no_generation_imports"
+      ]
+    },
+    "determinism_and_seed_variation": {
+      "passed": true,
+      "evidence_tests": [
+        "test_clean_rebuild_has_identical_business_and_stage_hashes",
+        "test_seed_change_varies_individuals_and_keeps_constraints",
+        "test_streams_do_not_reshuffle_existing_people"
+      ]
+    },
+    "restart_and_invalidation": {
+      "passed": true,
+      "evidence_tests": [
+        "test_every_stage_exception_rolls_back_then_resumes_without_duplicates",
+        "test_real_process_death_before_commit_recovers_wal_and_marks_attempt",
+        "test_failed_changed_upstream_removes_all_stale_descendants"
+      ]
+    },
+    "budgets": {
+      "passed": true,
+      "evidence_tests": [
+        "test_aggregate_budget_counts_child_rows_and_all_versions",
+        "test_budget_exceeded_before_any_stage_publication",
+        "test_no_full_generation_profile_unknown_fields_or_clock_change"
+      ]
+    },
+    "failed_critical_rule_blocks": {
+      "passed": true,
+      "evidence_tests": [
+        "test_critical_failure_blocks_and_defect_resolves_after_upstream_fix",
+        "test_critical_detector_removed_is_caught_by_negative_controls"
+      ]
+    },
+    "source_recovery": {
+      "passed": true,
+      "evidence_tests": [
+        "test_all_seven_source_recovery_behaviors",
+        "test_bad_row_is_atomic_and_repair_restores_certification"
+      ]
+    },
+    "development_only_boundary": {
+      "passed": true,
+      "evidence_tests": [
+        "test_clean_build_cached_resume_and_manifest_accounting",
+        "test_no_full_generation_profile_unknown_fields_or_clock_change"
+      ]
+    }
+  },
+  "reviewer": "Codex technical self-review under user authorization",
+  "review_scope": "Framework engineering and test evidence; no licensed clinical signoff or full-data approval claimed",
+  "tests_run": 89,
+  "microfixture_rule_families": 55,
+  "deliberate_rule_faults": 123,
+  "source_recovery_behaviors": 7,
+  "development_business_rows": 30,
+  "full_dataset_accepted": false,
+  "solution_status": "BLOCKED_FOR_SOLUTION",
+  "next_phase": "Phase 2 - not started"
+}

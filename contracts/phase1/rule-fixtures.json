@@ -1,0 +1,2926 @@
+{
+  "version": "1.0.0",
+  "scope": "Hand-calculated rule-family microfixtures. Every Phase 0 rule has a valid/adverse positive and intended-detector negative controls. These are not full-table rule executors or clinical approval.",
+  "cases": [
+    {
+      "rule_id": "ID01",
+      "severity": "P0",
+      "case_key": "golden/ID01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "P1",
+            "name": "Maya Thompson"
+          },
+          {
+            "key": "P2",
+            "name": "Maya Thompson"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "same-key",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.key",
+              "value": "P1"
+            }
+          ],
+          "reason_contains": "duplicate"
+        },
+        {
+          "name": "null-name",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.name",
+              "value": null
+            }
+          ],
+          "reason_contains": "required scalar"
+        },
+        {
+          "name": "wrong-type",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.key",
+              "value": 15
+            }
+          ],
+          "reason_contains": "wrong-type"
+        }
+      ]
+    },
+    {
+      "rule_id": "ID02",
+      "severity": "P0",
+      "case_key": "golden/ID02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "parents": [
+          "F1"
+        ],
+        "rows": [
+          {
+            "key": "U1",
+            "parent": "F1"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "orphan",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.parent",
+              "value": "F9"
+            }
+          ],
+          "reason_contains": "orphan"
+        }
+      ]
+    },
+    {
+      "rule_id": "TM01",
+      "severity": "P0",
+      "case_key": "golden/TM01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "v1",
+            "person": "P1",
+            "valid_from": "2024-01-01T00:00:00Z",
+            "valid_to": null,
+            "known_from": "2024-01-01T00:00:00Z",
+            "known_to": null
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "empty-valid",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.valid_to",
+              "value": "2024-01-01T00:00:00Z"
+            }
+          ],
+          "reason_contains": "empty temporal"
+        },
+        {
+          "name": "empty-known",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.known_to",
+              "value": "2024-01-01T00:00:00Z"
+            }
+          ],
+          "reason_contains": "empty temporal"
+        },
+        {
+          "name": "rectangle-overlap",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows",
+              "value": [
+                {
+                  "key": "v1",
+                  "person": "P1",
+                  "valid_from": "2024-01-01T00:00:00Z",
+                  "valid_to": null,
+                  "known_from": "2024-01-01T00:00:00Z",
+                  "known_to": null
+                },
+                {
+                  "key": "v2",
+                  "person": "P1",
+                  "valid_from": "2024-01-01T00:00:00Z",
+                  "valid_to": null,
+                  "known_from": "2024-01-01T00:00:00Z",
+                  "known_to": null
+                }
+              ]
+            }
+          ],
+          "reason_contains": "overlapping"
+        }
+      ]
+    },
+    {
+      "rule_id": "TM02",
+      "severity": "P0",
+      "case_key": "golden/TM02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "as_of": "2024-01-01T03:00:00Z",
+        "rows": [
+          {
+            "key": "e1",
+            "recorded": "2024-01-01T01:00:00Z",
+            "available": "2024-01-01T02:00:00Z",
+            "known": "2024-01-01T01:00:00Z",
+            "selected": true
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "early-export",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.available",
+              "value": "2024-01-01T00:00:00Z"
+            }
+          ],
+          "reason_contains": "before source"
+        },
+        {
+          "name": "hindsight",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "as_of",
+              "value": "2024-01-01T01:00:00Z"
+            }
+          ],
+          "reason_contains": "future fact"
+        }
+      ]
+    },
+    {
+      "rule_id": "TM03",
+      "severity": "P0",
+      "case_key": "golden/TM03",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "arrived",
+            "outcome_at": null,
+            "known_from": "2024-01-01T01:00:00Z"
+          },
+          {
+            "key": "discharged",
+            "outcome_at": "2024-01-01T03:00:00Z",
+            "known_from": "2024-01-01T04:00:00Z"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "discharge-leak",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.outcome_at",
+              "value": "2024-01-01T03:00:00Z"
+            }
+          ],
+          "reason_contains": "outcome leaked"
+        }
+      ]
+    },
+    {
+      "rule_id": "NM01",
+      "severity": "P1",
+      "case_key": "golden/NM01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "P1",
+            "name": "Maya Thompson"
+          },
+          {
+            "key": "P2",
+            "name": "Maya Thompson"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "numbered-name",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.name",
+              "value": "Patient 001"
+            }
+          ],
+          "reason_contains": "placeholder"
+        }
+      ]
+    },
+    {
+      "rule_id": "NM02",
+      "severity": "P1",
+      "case_key": "golden/NM02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "P1",
+            "dob": "2004-02-29",
+            "service_date": "2023-02-28",
+            "age": 19,
+            "email": "maya@example.invalid"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "leap-age",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.age",
+              "value": 18
+            }
+          ],
+          "reason_contains": "age at local"
+        },
+        {
+          "name": "live-contact",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.email",
+              "value": "maya@real.test"
+            }
+          ],
+          "reason_contains": "namespace"
+        }
+      ]
+    },
+    {
+      "rule_id": "OR01",
+      "severity": "P0",
+      "case_key": "golden/OR01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "U1",
+            "type": "UNIT",
+            "parent": null,
+            "facility": "F1",
+            "capability": null
+          },
+          {
+            "key": "B1",
+            "type": "BED",
+            "parent": "U1",
+            "facility": "F1",
+            "capability": "ICU"
+          },
+          {
+            "key": "B2",
+            "type": "BED",
+            "parent": "U1",
+            "facility": "F1",
+            "capability": "MED"
+          }
+        ],
+        "expected_beds": {
+          "ICU": 1,
+          "MED": 1
+        },
+        "opening_beds": [
+          "B1",
+          "B2"
+        ]
+      },
+      "faults": [
+        {
+          "name": "cycle",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.parent",
+              "value": "B1"
+            }
+          ],
+          "reason_contains": "cycle"
+        },
+        {
+          "name": "cross-facility",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.facility",
+              "value": "F2"
+            }
+          ],
+          "reason_contains": "cross-facility"
+        },
+        {
+          "name": "missing-opening",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "opening_beds",
+              "value": [
+                "B1"
+              ]
+            }
+          ],
+          "reason_contains": "opening bed"
+        },
+        {
+          "name": "wrong-inventory",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "expected_beds",
+              "value": {
+                "ICU": 2,
+                "MED": 1
+              }
+            }
+          ],
+          "reason_contains": "inventory"
+        }
+      ]
+    },
+    {
+      "rule_id": "WK01",
+      "severity": "P1",
+      "case_key": "golden/WK01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "assignments": [
+          {
+            "key": "v1",
+            "person": "P1",
+            "valid_from": "2024-01-01T00:00:00Z",
+            "valid_to": null,
+            "known_from": "2024-01-01T00:00:00Z",
+            "known_to": "2024-02-01T00:00:00Z",
+            "role": "RN",
+            "rate": "40.00",
+            "credential_end": "2025-01-01T00:00:00Z"
+          },
+          {
+            "key": "w2",
+            "person": "P1",
+            "valid_from": "2024-01-01T00:00:00Z",
+            "valid_to": null,
+            "known_from": "2024-02-01T00:00:00Z",
+            "known_to": null,
+            "role": "RN",
+            "rate": "42.00",
+            "credential_end": "2025-01-01T00:00:00Z"
+          }
+        ],
+        "start": "2024-01-01T01:00:00Z",
+        "end": "2024-01-01T09:00:00Z",
+        "as_of": "2024-01-01T10:00:00Z",
+        "role": "RN",
+        "applied_rate": "40.00"
+      },
+      "faults": [
+        {
+          "name": "retro-hindsight",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "applied_rate",
+              "value": "42.00"
+            }
+          ],
+          "reason_contains": "hindsight"
+        },
+        {
+          "name": "credential-expired",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "assignments.0.credential_end",
+              "value": "2024-01-01T08:00:00Z"
+            }
+          ],
+          "reason_contains": "credential"
+        },
+        {
+          "name": "duplicate-worker",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "assignments",
+              "value": [
+                {
+                  "key": "v1",
+                  "person": "P1",
+                  "valid_from": "2024-01-01T00:00:00Z",
+                  "valid_to": null,
+                  "known_from": "2024-01-01T00:00:00Z",
+                  "known_to": "2024-02-01T00:00:00Z",
+                  "role": "RN",
+                  "rate": "40.00",
+                  "credential_end": "2025-01-01T00:00:00Z"
+                },
+                {
+                  "key": "v1",
+                  "person": "P1",
+                  "valid_from": "2024-01-01T00:00:00Z",
+                  "valid_to": null,
+                  "known_from": "2024-01-01T00:00:00Z",
+                  "known_to": "2024-02-01T00:00:00Z",
+                  "role": "RN",
+                  "rate": "40.00",
+                  "credential_end": "2025-01-01T00:00:00Z"
+                }
+              ]
+            }
+          ],
+          "reason_contains": "unique as of"
+        }
+      ]
+    },
+    {
+      "rule_id": "WK02",
+      "severity": "P0",
+      "case_key": "golden/WK02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "W1",
+            "manager": "W2"
+          },
+          {
+            "key": "W2",
+            "manager": null
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "manager-cycle",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.manager",
+              "value": "W1"
+            }
+          ],
+          "reason_contains": "cycle"
+        },
+        {
+          "name": "missing-manager",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.manager",
+              "value": "W9"
+            }
+          ],
+          "reason_contains": "missing manager"
+        }
+      ]
+    },
+    {
+      "rule_id": "AC01",
+      "severity": "P0",
+      "case_key": "golden/AC01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "targets": {
+          "NETWORK": [
+            "ALL_NETWORK"
+          ],
+          "FACILITY": [
+            "F1"
+          ]
+        },
+        "rows": [
+          {
+            "key": "G1",
+            "scope_type": "NETWORK",
+            "scope": "ALL_NETWORK",
+            "decision": "REVOKE",
+            "read_allowed": false
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "bad-scope",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.scope",
+              "value": "F1"
+            }
+          ],
+          "reason_contains": "scope discriminator"
+        },
+        {
+          "name": "revocation-read",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.read_allowed",
+              "value": true
+            }
+          ],
+          "reason_contains": "revocation"
+        }
+      ]
+    },
+    {
+      "rule_id": "CV01",
+      "severity": "P0",
+      "case_key": "golden/CV01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "enrollments": [
+          {
+            "key": "CV1",
+            "patient": "P1",
+            "start": "2024-01-01T00:00:00Z",
+            "end": "2024-01-01T23:00:00Z"
+          }
+        ],
+        "claim_patient": "P1",
+        "coverage_patient": "P1",
+        "encounter_patient": "P1",
+        "insured": false,
+        "payer": "SELF_PAY"
+      },
+      "faults": [
+        {
+          "name": "primary-overlap",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "enrollments",
+              "value": [
+                {
+                  "key": "CV1",
+                  "patient": "P1",
+                  "start": "2024-01-01T00:00:00Z",
+                  "end": "2024-01-01T23:00:00Z"
+                },
+                {
+                  "key": "CV2",
+                  "patient": "P1",
+                  "start": "2024-01-01T00:00:00Z",
+                  "end": "2024-01-01T23:00:00Z"
+                }
+              ]
+            }
+          ],
+          "reason_contains": "overlap"
+        },
+        {
+          "name": "wrong-patient",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "claim_patient",
+              "value": "P9"
+            }
+          ],
+          "reason_contains": "patient mismatch"
+        },
+        {
+          "name": "missing-selfpay",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "payer",
+              "value": "OTHER"
+            }
+          ],
+          "reason_contains": "self-pay"
+        }
+      ]
+    },
+    {
+      "rule_id": "CD01",
+      "severity": "P1",
+      "case_key": "golden/CD01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "actual_domain": "DIAGNOSIS",
+        "required_domain": "DIAGNOSIS",
+        "actual_unit": "1",
+        "required_unit": "1",
+        "versions": [
+          {
+            "key": "FY24",
+            "start": "2023-10-01",
+            "end": "2024-10-01",
+            "published": "2023-06-01T00:00:00Z"
+          },
+          {
+            "key": "FY25",
+            "start": "2024-10-01",
+            "end": "2025-10-01",
+            "published": "2024-06-01T00:00:00Z"
+          }
+        ],
+        "service_date": "2024-10-01",
+        "as_of": "2024-10-02T00:00:00Z",
+        "selected_version": "FY25"
+      },
+      "faults": [
+        {
+          "name": "old-release",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "selected_version",
+              "value": "FY24"
+            }
+          ],
+          "reason_contains": "effective code"
+        },
+        {
+          "name": "wrong-unit",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "actual_unit",
+              "value": "mg"
+            }
+          ],
+          "reason_contains": "domain/unit"
+        },
+        {
+          "name": "unpublished",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "as_of",
+              "value": "2024-05-01T00:00:00Z"
+            }
+          ],
+          "reason_contains": "effective code"
+        }
+      ]
+    },
+    {
+      "rule_id": "CD02",
+      "severity": "P0",
+      "case_key": "golden/CD02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "allowed_domains": [
+          "DIAGNOSIS"
+        ],
+        "rows": [
+          {
+            "key": "RX",
+            "domain": "MEDICATION",
+            "strength": "5",
+            "base_conversion": "1",
+            "unit": "mg"
+          },
+          {
+            "key": "AR",
+            "domain": "ACCOUNT",
+            "class": "ASSET",
+            "normal": "DEBIT"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "zero-conversion",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.base_conversion",
+              "value": "0"
+            }
+          ],
+          "reason_contains": "conversion"
+        },
+        {
+          "name": "account-domain",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.class",
+              "value": "CLINICAL"
+            }
+          ],
+          "reason_contains": "account discriminator"
+        }
+      ]
+    },
+    {
+      "rule_id": "EN01",
+      "severity": "P0",
+      "case_key": "golden/EN01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "visit_count": 2,
+        "rows": [
+          {
+            "key": "ED1",
+            "patient": "P1",
+            "prior": null
+          },
+          {
+            "key": "IP1",
+            "patient": "P1",
+            "prior": "ED1"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "episode-patient",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.patient",
+              "value": "P2"
+            }
+          ],
+          "reason_contains": "patient mismatch"
+        },
+        {
+          "name": "episode-cycle",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.prior",
+              "value": "IP1"
+            }
+          ],
+          "reason_contains": "cycle"
+        },
+        {
+          "name": "transfer-new-visit",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "visit_count",
+              "value": 3
+            }
+          ],
+          "reason_contains": "extra visit"
+        }
+      ]
+    },
+    {
+      "rule_id": "EN02",
+      "severity": "P0",
+      "case_key": "golden/EN02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "E1",
+            "arrival": "2024-01-01T00:00:00Z",
+            "decision": "2024-01-01T01:00:00Z",
+            "admit": "2024-01-01T02:00:00Z",
+            "discharge": null,
+            "status": "OPEN"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "admit-before-decision",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.admit",
+              "value": "2024-01-01T00:00:00Z"
+            }
+          ],
+          "reason_contains": "chronology"
+        },
+        {
+          "name": "fabricated-discharge",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.discharge",
+              "value": "2024-01-01T03:00:00Z"
+            }
+          ],
+          "reason_contains": "censoring"
+        }
+      ]
+    },
+    {
+      "rule_id": "EN03",
+      "severity": "P0",
+      "case_key": "golden/EN03",
+      "classification": "ADVERSE_OUTCOME",
+      "positive": {
+        "death": "2024-01-01T05:00:00Z",
+        "cutoff": "2024-01-01T06:00:00Z",
+        "rows": [
+          {
+            "key": "care",
+            "domain": "CARE",
+            "at": "2024-01-01T04:00:00Z"
+          },
+          {
+            "key": "bill",
+            "domain": "BILLING",
+            "at": "2024-01-01T07:00:00Z"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "care-after-death",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.at",
+              "value": "2024-01-01T06:00:00Z"
+            }
+          ],
+          "reason_contains": "care after death"
+        },
+        {
+          "name": "beyond-cutoff",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "cutoff",
+              "value": "2024-01-01T03:00:00Z"
+            }
+          ],
+          "reason_contains": "future care"
+        }
+      ]
+    },
+    {
+      "rule_id": "CN01",
+      "severity": "P1",
+      "case_key": "golden/CN01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "all1",
+            "type": "ALLERGY",
+            "encounter": null,
+            "rank": 0,
+            "substance": "penicillin",
+            "reaction": "rash"
+          },
+          {
+            "key": "dx1",
+            "type": "DIAGNOSIS",
+            "encounter": "E1",
+            "rank": 1
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "missing-allergy",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.reaction",
+              "value": null
+            }
+          ],
+          "reason_contains": "substance/reaction"
+        },
+        {
+          "name": "diagnosis-rank",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.rank",
+              "value": 0
+            }
+          ],
+          "reason_contains": "encounter/rank"
+        }
+      ]
+    },
+    {
+      "rule_id": "CN02",
+      "severity": "P0",
+      "case_key": "golden/CN02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "lwbs",
+            "status": "LEFT_WITHOUT_SEEN",
+            "assessed": false,
+            "primary_count": 0,
+            "uncertainty_reviewed": false
+          },
+          {
+            "key": "seen",
+            "status": "COMPLETE",
+            "assessed": true,
+            "primary_count": 1,
+            "uncertainty_reviewed": false
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "lost-primary",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.primary_count",
+              "value": 0
+            }
+          ],
+          "reason_contains": "lacks diagnosis"
+        }
+      ]
+    },
+    {
+      "rule_id": "CE01",
+      "severity": "P0",
+      "case_key": "golden/CE01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "matrix": {
+          "OBSERVATION": {
+            "required": [
+              "value",
+              "unit",
+              "catalog"
+            ],
+            "forbidden": [
+              "document"
+            ]
+          },
+          "DOCUMENT": {
+            "required": [
+              "document"
+            ],
+            "forbidden": [
+              "catalog"
+            ]
+          }
+        },
+        "rows": [
+          {
+            "key": "O1",
+            "type": "OBSERVATION",
+            "value": "97",
+            "unit": "%",
+            "catalog": "SAT",
+            "document": null
+          },
+          {
+            "key": "N1",
+            "type": "DOCUMENT",
+            "document": "Observed saturation 97%.",
+            "catalog": null
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "missing-unit",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.unit",
+              "value": null
+            }
+          ],
+          "reason_contains": "event-specific"
+        },
+        {
+          "name": "fabricated-note-code",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.catalog",
+              "value": "SAT"
+            }
+          ],
+          "reason_contains": "fabricated field"
+        },
+        {
+          "name": "nested-facts",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.value",
+              "value": [
+                97,
+                98
+              ]
+            }
+          ],
+          "reason_contains": "nested facts"
+        }
+      ]
+    },
+    {
+      "rule_id": "CE02",
+      "severity": "P0",
+      "case_key": "golden/CE02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "allowed_routes": [
+          "ORAL"
+        ],
+        "min_dose": "1",
+        "max_dose": "10",
+        "active_allergens": [
+          "penicillin"
+        ],
+        "rows": [
+          {
+            "key": "A1",
+            "order_at": "2024-01-01T01:00:00Z",
+            "at": "2024-01-01T02:00:00Z",
+            "route": "ORAL",
+            "dose": "5",
+            "substance": "acetaminophen"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "before-order",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.at",
+              "value": "2024-01-01T00:00:00Z"
+            }
+          ],
+          "reason_contains": "before order"
+        },
+        {
+          "name": "allergy-conflict",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.substance",
+              "value": "penicillin"
+            }
+          ],
+          "reason_contains": "allergy conflict"
+        },
+        {
+          "name": "dose-range",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.dose",
+              "value": "50"
+            }
+          ],
+          "reason_contains": "dose/route"
+        }
+      ]
+    },
+    {
+      "rule_id": "CE03",
+      "severity": "P1",
+      "case_key": "golden/CE03",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "authored": "2024-01-01T03:00:00Z",
+        "facts": {
+          "f1": {
+            "known": "2024-01-01T02:00:00Z",
+            "polarity": "NEGATED"
+          }
+        },
+        "assertions": [
+          {
+            "fact_key": "f1",
+            "polarity": "NEGATED"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "negation-loss",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "assertions.0.polarity",
+              "value": "POSITIVE"
+            }
+          ],
+          "reason_contains": "lost negation"
+        },
+        {
+          "name": "future-note",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "facts.f1.known",
+              "value": "2024-01-01T04:00:00Z"
+            }
+          ],
+          "reason_contains": "hindsight"
+        }
+      ]
+    },
+    {
+      "rule_id": "AP01",
+      "severity": "P1",
+      "case_key": "golden/AP01",
+      "classification": "ADVERSE_OUTCOME",
+      "positive": {
+        "booked": "2024-01-01T01:00:00Z",
+        "end": "2024-01-01T03:00:00Z",
+        "known": "2024-01-01T04:00:00Z",
+        "status": "NO_SHOW",
+        "replacement": null,
+        "retained_slots": [
+          "S1",
+          "S2"
+        ]
+      },
+      "faults": [
+        {
+          "name": "premature-no-show",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "known",
+              "value": "2024-01-01T02:00:00Z"
+            }
+          ],
+          "reason_contains": "premature"
+        },
+        {
+          "name": "book-after-slot",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "booked",
+              "value": "2024-01-01T04:00:00Z"
+            }
+          ],
+          "reason_contains": "booking chronology"
+        }
+      ]
+    },
+    {
+      "rule_id": "BD01",
+      "severity": "P0",
+      "case_key": "golden/BD01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "BI1",
+            "bed": "B1",
+            "patient": "P1",
+            "start": "2024-01-01T01:00:00Z",
+            "end": "2024-01-01T02:00:00Z",
+            "clean": true,
+            "service": "OPEN",
+            "required": "MED",
+            "capability": "MED"
+          },
+          {
+            "key": "BI2",
+            "bed": "B2",
+            "patient": "P1",
+            "start": "2024-01-01T02:00:00Z",
+            "end": "2024-01-01T04:00:00Z",
+            "clean": true,
+            "service": "OPEN",
+            "required": "MED",
+            "capability": "MED"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "double-patient",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.start",
+              "value": "2024-01-01T01:00:00Z"
+            }
+          ],
+          "reason_contains": "overlap"
+        },
+        {
+          "name": "dirty-bed",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.clean",
+              "value": false
+            }
+          ],
+          "reason_contains": "unclean"
+        },
+        {
+          "name": "incompatible",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.capability",
+              "value": "ICU"
+            }
+          ],
+          "reason_contains": "incompatible"
+        }
+      ]
+    },
+    {
+      "rule_id": "BD02",
+      "severity": "P0",
+      "case_key": "golden/BD02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "b1",
+            "bed": "B1",
+            "effective": "2024-01-01T01:00:00Z",
+            "sequence": 1,
+            "occupancy": "OCCUPIED",
+            "patient": "P1",
+            "service": "OPEN"
+          }
+        ],
+        "expected_current": {
+          "B1": {
+            "key": "b1",
+            "bed": "B1",
+            "effective": "2024-01-01T01:00:00Z",
+            "sequence": 1,
+            "occupancy": "OCCUPIED",
+            "patient": "P1",
+            "service": "OPEN"
+          }
+        }
+      },
+      "faults": [
+        {
+          "name": "occupied-close",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.service",
+              "value": "CLOSED"
+            }
+          ],
+          "reason_contains": "occupied closure"
+        },
+        {
+          "name": "null-occupant",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.patient",
+              "value": null
+            }
+          ],
+          "reason_contains": "occupant/post-state"
+        },
+        {
+          "name": "stale-correction",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "expected_current.B1.patient",
+              "value": "P2"
+            }
+          ],
+          "reason_contains": "correction projection"
+        }
+      ]
+    },
+    {
+      "rule_id": "BD03",
+      "severity": "P0",
+      "case_key": "golden/BD03",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "opening": 5,
+        "admissions": 3,
+        "transfer_in": 1,
+        "discharges": 2,
+        "transfer_out": 1,
+        "closing": 6
+      },
+      "faults": [
+        {
+          "name": "bad-census",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "closing",
+              "value": 7
+            }
+          ],
+          "reason_contains": "census roll-forward"
+        }
+      ]
+    },
+    {
+      "rule_id": "BD04",
+      "severity": "P0",
+      "case_key": "golden/BD04",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "window_start": "2024-01-01T01:00:00Z",
+        "window_end": "2024-01-01T04:00:00Z",
+        "intervals": [
+          {
+            "key": "I1",
+            "start": "2024-01-01T00:00:00Z",
+            "end": "2024-01-01T02:00:00Z"
+          },
+          {
+            "key": "I2",
+            "start": "2024-01-01T02:00:00Z",
+            "end": "2024-01-01T05:00:00Z"
+          }
+        ],
+        "event_integral_seconds": 10800
+      },
+      "faults": [
+        {
+          "name": "wrong-integral",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "event_integral_seconds",
+              "value": 14400
+            }
+          ],
+          "reason_contains": "clipped intervals"
+        }
+      ]
+    },
+    {
+      "rule_id": "BD05",
+      "severity": "P1",
+      "case_key": "golden/BD05",
+      "classification": "ADVERSE_OUTCOME",
+      "positive": {
+        "arrivals": [
+          "P1",
+          "P2",
+          "P3"
+        ],
+        "placed": [
+          "P1"
+        ],
+        "waiting": [
+          "P2"
+        ],
+        "diverted": [
+          "P3"
+        ]
+      },
+      "faults": [
+        {
+          "name": "dropped-arrival",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "waiting",
+              "value": []
+            }
+          ],
+          "reason_contains": "dropped demand"
+        },
+        {
+          "name": "duplicate-disposition",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "placed",
+              "value": [
+                "P1",
+                "P2"
+              ]
+            }
+          ],
+          "reason_contains": "duplicated"
+        }
+      ]
+    },
+    {
+      "rule_id": "SF01",
+      "severity": "P0",
+      "case_key": "golden/SF01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "S1",
+            "worker": "W1",
+            "start": "2024-11-03T05:30:00Z",
+            "end": "2024-11-03T08:30:00Z",
+            "worked": "3",
+            "productive": "2.50",
+            "nonproductive": "0.25",
+            "break": "0.25",
+            "overtime": "0"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "dst-wall-time",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.worked",
+              "value": "2"
+            }
+          ],
+          "reason_contains": "hours disagree"
+        },
+        {
+          "name": "overtime-subset",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.overtime",
+              "value": "3"
+            }
+          ],
+          "reason_contains": "exceeds paid"
+        },
+        {
+          "name": "shift-overlap",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows",
+              "value": [
+                {
+                  "key": "S1",
+                  "worker": "W1",
+                  "start": "2024-11-03T05:30:00Z",
+                  "end": "2024-11-03T08:30:00Z",
+                  "worked": "3",
+                  "productive": "2.50",
+                  "nonproductive": "0.25",
+                  "break": "0.25",
+                  "overtime": "0"
+                },
+                {
+                  "key": "S2",
+                  "worker": "W1",
+                  "start": "2024-11-03T05:30:00Z",
+                  "end": "2024-11-03T08:30:00Z",
+                  "worked": "3",
+                  "productive": "2.50",
+                  "nonproductive": "0.25",
+                  "break": "0.25",
+                  "overtime": "0"
+                }
+              ]
+            }
+          ],
+          "reason_contains": "overlap"
+        }
+      ]
+    },
+    {
+      "rule_id": "SF02",
+      "severity": "P1",
+      "case_key": "golden/SF02",
+      "classification": "ADVERSE_OUTCOME",
+      "positive": {
+        "acuity_groups": [
+          {
+            "patient_days": "2",
+            "hours_per_day": "6"
+          },
+          {
+            "patient_days": "1",
+            "hours_per_day": "10"
+          }
+        ],
+        "productive_hours": "20",
+        "shortage_hours": "2"
+      },
+      "faults": [
+        {
+          "name": "hidden-shortage",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "shortage_hours",
+              "value": "0"
+            }
+          ],
+          "reason_contains": "shortage"
+        }
+      ]
+    },
+    {
+      "rule_id": "IV01",
+      "severity": "P0",
+      "case_key": "golden/IV01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "opening": "10",
+        "closing": "13",
+        "movements": [
+          {
+            "key": "receipt",
+            "qty": "5",
+            "transfer": null
+          },
+          {
+            "key": "consume",
+            "qty": "-2",
+            "transfer": null
+          },
+          {
+            "key": "out",
+            "qty": "-1",
+            "transfer": "T1"
+          },
+          {
+            "key": "in",
+            "qty": "1",
+            "transfer": "T1"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "stock-total",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "closing",
+              "value": "12"
+            }
+          ],
+          "reason_contains": "stock roll-forward"
+        },
+        {
+          "name": "transfer-pair",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "movements.3.transfer",
+              "value": null
+            }
+          ],
+          "reason_contains": "unpaired"
+        }
+      ]
+    },
+    {
+      "rule_id": "IV02",
+      "severity": "P0",
+      "case_key": "golden/IV02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "administrations": [
+          {
+            "key": "A1",
+            "status": "COMPLETE",
+            "dose": "5",
+            "conversion": "0.2"
+          },
+          {
+            "key": "A2",
+            "status": "NOT_DONE",
+            "dose": "5",
+            "conversion": "0.2"
+          }
+        ],
+        "waste": "0.2",
+        "stock_consumptions": [
+          "-1.2"
+        ]
+      },
+      "faults": [
+        {
+          "name": "dose-consume",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "stock_consumptions.0",
+              "value": "-2.2"
+            }
+          ],
+          "reason_contains": "consumption mismatch"
+        }
+      ]
+    },
+    {
+      "rule_id": "IV03",
+      "severity": "P1",
+      "case_key": "golden/IV03",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "L1",
+            "received": "2024-01-01",
+            "issued": "2024-02-01",
+            "expires": "2024-03-01",
+            "qty": "-3",
+            "unit_cost": "0.335",
+            "extended": "-1.01"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "expired-lot",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.issued",
+              "value": "2024-03-01"
+            }
+          ],
+          "reason_contains": "after expiry"
+        },
+        {
+          "name": "valuation-round",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.extended",
+              "value": "-1.00"
+            }
+          ],
+          "reason_contains": "rounding"
+        }
+      ]
+    },
+    {
+      "rule_id": "CH01",
+      "severity": "P0",
+      "case_key": "golden/CH01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "C1",
+            "service_status": "COMPLETE",
+            "room_day_predicate": false,
+            "units": "3",
+            "price": "0.335",
+            "billed": "1.01"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "charge-math",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.billed",
+              "value": "1.00"
+            }
+          ],
+          "reason_contains": "charge arithmetic"
+        },
+        {
+          "name": "cancelled-charge",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.service_status",
+              "value": "CANCELLED"
+            }
+          ],
+          "reason_contains": "provenance"
+        }
+      ]
+    },
+    {
+      "rule_id": "CL01",
+      "severity": "P0",
+      "case_key": "golden/CL01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "patient": "P1",
+        "billed": "100.00",
+        "lines": [
+          {
+            "key": "L1",
+            "charge": "C1",
+            "patient": "P1",
+            "amount": "100.00"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "header-mismatch",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "billed",
+              "value": "99.00"
+            }
+          ],
+          "reason_contains": "header/line"
+        },
+        {
+          "name": "duplicate-charge",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "lines",
+              "value": [
+                {
+                  "key": "L1",
+                  "charge": "C1",
+                  "patient": "P1",
+                  "amount": "50.00"
+                },
+                {
+                  "key": "L2",
+                  "charge": "C1",
+                  "patient": "P1",
+                  "amount": "50.00"
+                }
+              ]
+            }
+          ],
+          "reason_contains": "multiple original"
+        },
+        {
+          "name": "claim-patient",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "lines.0.patient",
+              "value": "P2"
+            }
+          ],
+          "reason_contains": "patient mismatch"
+        }
+      ]
+    },
+    {
+      "rule_id": "CL02",
+      "severity": "P0",
+      "case_key": "golden/CL02",
+      "classification": "ADVERSE_OUTCOME",
+      "positive": {
+        "claim": "C1",
+        "initial": "NEW",
+        "events": [
+          {
+            "state": "OPENING",
+            "opening_state": "SUBMITTED",
+            "ar_delta": "0",
+            "claim": "C1"
+          },
+          {
+            "state": "DENIED",
+            "claim": "C1"
+          },
+          {
+            "state": "RESUBMITTED",
+            "claim": "C1"
+          },
+          {
+            "state": "PAID",
+            "claim": "C1"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "opening-revenue",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "events.0.ar_delta",
+              "value": "100"
+            }
+          ],
+          "reason_contains": "opening counted"
+        },
+        {
+          "name": "new-original",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "events.2.claim",
+              "value": "C2"
+            }
+          ],
+          "reason_contains": "new original"
+        },
+        {
+          "name": "illegal-state",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "events.1.state",
+              "value": "REFUNDED"
+            }
+          ],
+          "reason_contains": "transition"
+        }
+      ]
+    },
+    {
+      "rule_id": "CL03",
+      "severity": "P0",
+      "case_key": "golden/CL03",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "opening_ar": "100",
+        "opening_cash": "0",
+        "events": [
+          {
+            "key": "p1",
+            "type": "PAYMENT",
+            "ar_delta": "-60",
+            "cash_delta": "60",
+            "revenue_delta": "0",
+            "reverses": null
+          },
+          {
+            "key": "r1",
+            "type": "REFUND",
+            "ar_delta": "10",
+            "cash_delta": "-10",
+            "revenue_delta": "0",
+            "reverses": "p1"
+          }
+        ],
+        "closing_ar": "50",
+        "closing_cash": "50"
+      },
+      "faults": [
+        {
+          "name": "ar-total",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "closing_ar",
+              "value": "40"
+            }
+          ],
+          "reason_contains": "roll-forward"
+        },
+        {
+          "name": "unlinked-refund",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "events.1.reverses",
+              "value": "UNKNOWN"
+            }
+          ],
+          "reason_contains": "unlinked"
+        },
+        {
+          "name": "reclass-cash",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "events.0.type",
+              "value": "RECLASS"
+            }
+          ],
+          "reason_contains": "fabricated cash"
+        }
+      ]
+    },
+    {
+      "rule_id": "CL04",
+      "severity": "P1",
+      "case_key": "golden/CL04",
+      "classification": "ADVERSE_OUTCOME",
+      "positive": {
+        "evidence_known": "2024-01-01T01:00:00Z",
+        "decision": "2024-01-01T02:00:00Z",
+        "appeal_state": "OPEN",
+        "final_loss": "0"
+      },
+      "faults": [
+        {
+          "name": "denial-hindsight",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "evidence_known",
+              "value": "2024-01-01T03:00:00Z"
+            }
+          ],
+          "reason_contains": "future"
+        },
+        {
+          "name": "appeal-loss",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "final_loss",
+              "value": "50"
+            }
+          ],
+          "reason_contains": "final loss"
+        }
+      ]
+    },
+    {
+      "rule_id": "GL01",
+      "severity": "P0",
+      "case_key": "golden/GL01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "lines": [
+          {
+            "key": "GL1",
+            "journal": "J1",
+            "entity": "F1",
+            "currency": "USD",
+            "date": "2024-01-01",
+            "account_domain": "ACCOUNT",
+            "debit": "100",
+            "credit": "0"
+          },
+          {
+            "key": "GL2",
+            "journal": "J1",
+            "entity": "F1",
+            "currency": "USD",
+            "date": "2024-01-01",
+            "account_domain": "ACCOUNT",
+            "debit": "0",
+            "credit": "100"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "imbalance",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "lines.1.credit",
+              "value": "99"
+            }
+          ],
+          "reason_contains": "unbalanced"
+        },
+        {
+          "name": "two-sided-line",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "lines.0.credit",
+              "value": "1"
+            }
+          ],
+          "reason_contains": "one positive"
+        },
+        {
+          "name": "wrong-entity",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "lines.1.entity",
+              "value": "F2"
+            }
+          ],
+          "reason_contains": "unbalanced"
+        },
+        {
+          "name": "wrong-account",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "lines.0.account_domain",
+              "value": "MEDICATION"
+            }
+          ],
+          "reason_contains": "non-account"
+        }
+      ]
+    },
+    {
+      "rule_id": "GL02",
+      "severity": "P0",
+      "case_key": "golden/GL02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "source_totals": {
+          "charge": "100",
+          "payment": "60"
+        },
+        "journal_totals": {
+          "charge": "100",
+          "payment": "60"
+        }
+      },
+      "faults": [
+        {
+          "name": "offsetting-grain-errors",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "journal_totals",
+              "value": {
+                "charge": "110",
+                "payment": "50"
+              }
+            }
+          ],
+          "reason_contains": "source journal"
+        },
+        {
+          "name": "missing-group",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "journal_totals",
+              "value": {
+                "charge": "100"
+              }
+            }
+          ],
+          "reason_contains": "missing source"
+        }
+      ]
+    },
+    {
+      "rule_id": "GL03",
+      "severity": "P0",
+      "case_key": "golden/GL03",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "receipt_expense": "0",
+        "receipt_asset": "50",
+        "receipt_ap": "50",
+        "consume_expense": "20",
+        "consume_asset": "-20"
+      },
+      "faults": [
+        {
+          "name": "purchase-double-expense",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "receipt_expense",
+              "value": "50"
+            }
+          ],
+          "reason_contains": "before consumption"
+        },
+        {
+          "name": "consume-pair",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "consume_asset",
+              "value": "-15"
+            }
+          ],
+          "reason_contains": "expense/asset"
+        }
+      ]
+    },
+    {
+      "rule_id": "CO01",
+      "severity": "P0",
+      "case_key": "golden/CO01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "pool": "100",
+        "allocations": [
+          {
+            "key": "A",
+            "amount": "70",
+            "share": "0.7"
+          },
+          {
+            "key": "B",
+            "amount": "20",
+            "share": "0.2"
+          },
+          {
+            "key": "R",
+            "amount": "10",
+            "share": "0.1"
+          }
+        ],
+        "gl_before": "100",
+        "gl_after": "100"
+      },
+      "faults": [
+        {
+          "name": "pool-overallocation",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "allocations.0.amount",
+              "value": "80"
+            }
+          ],
+          "reason_contains": "not conserved"
+        },
+        {
+          "name": "share-total",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "allocations.2.share",
+              "value": "0.2"
+            }
+          ],
+          "reason_contains": "shares"
+        },
+        {
+          "name": "duplicate-expense",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "gl_after",
+              "value": "200"
+            }
+          ],
+          "reason_contains": "duplicated GL"
+        }
+      ]
+    },
+    {
+      "rule_id": "CO02",
+      "severity": "P0",
+      "case_key": "golden/CO02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "A",
+            "destination": "PATIENT",
+            "encounter": "E1",
+            "run": "R1",
+            "selected": true
+          },
+          {
+            "key": "R",
+            "destination": "RESIDUAL",
+            "encounter": null,
+            "run": "R1",
+            "selected": true
+          },
+          {
+            "key": "OLD",
+            "destination": "NONPATIENT",
+            "encounter": null,
+            "run": "R0",
+            "selected": false
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "residual-encounter",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.encounter",
+              "value": "E1"
+            }
+          ],
+          "reason_contains": "destination/encounter"
+        },
+        {
+          "name": "multi-run",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.2.selected",
+              "value": true
+            }
+          ],
+          "reason_contains": "multiple or missing"
+        }
+      ]
+    },
+    {
+      "rule_id": "AX01",
+      "severity": "P0",
+      "case_key": "golden/AX01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "PL/C1/Jan",
+            "class": "EXPENSE",
+            "movement": "100",
+            "opening": "50",
+            "axiom": "100"
+          },
+          {
+            "key": "BS/C1/Jan",
+            "class": "ASSET",
+            "movement": "50",
+            "opening": "200",
+            "axiom": "250"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "BS-as-movement",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.axiom",
+              "value": "50"
+            }
+          ],
+          "reason_contains": "Axiom account"
+        },
+        {
+          "name": "offsetting-accounts",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows",
+              "value": [
+                {
+                  "key": "A",
+                  "class": "EXPENSE",
+                  "movement": "100",
+                  "opening": "0",
+                  "axiom": "110"
+                },
+                {
+                  "key": "B",
+                  "class": "EXPENSE",
+                  "movement": "50",
+                  "opening": "0",
+                  "axiom": "40"
+                }
+              ]
+            }
+          ],
+          "reason_contains": "Axiom account"
+        }
+      ]
+    },
+    {
+      "rule_id": "AX02",
+      "severity": "P0",
+      "case_key": "golden/AX02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "rows": [
+          {
+            "key": "AX1",
+            "month": "2024-01-01",
+            "center": "C1",
+            "measure": "MONEY",
+            "scenario": "ACTUAL",
+            "selected": true,
+            "account": "EXP",
+            "amount": "100",
+            "quantity": null,
+            "unit": "USD"
+          },
+          {
+            "key": "AX0",
+            "month": "2024-01-01",
+            "center": "C1",
+            "measure": "MONEY",
+            "scenario": "ACTUAL",
+            "selected": false,
+            "account": "EXP",
+            "amount": "90",
+            "quantity": null,
+            "unit": "USD"
+          },
+          {
+            "key": "STAT",
+            "month": "2024-01-01",
+            "center": "C1",
+            "measure": "PATIENT_DAYS",
+            "scenario": "ACTUAL",
+            "selected": true,
+            "account": null,
+            "amount": null,
+            "quantity": "20",
+            "unit": "d"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "wrong-month",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.month",
+              "value": "2024-01-02"
+            }
+          ],
+          "reason_contains": "first day"
+        },
+        {
+          "name": "mixed-vintages",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.selected",
+              "value": true
+            }
+          ],
+          "reason_contains": "multiple selected"
+        },
+        {
+          "name": "stat-dollar",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.2.unit",
+              "value": "USD"
+            }
+          ],
+          "reason_contains": "statistical"
+        }
+      ]
+    },
+    {
+      "rule_id": "AX03",
+      "severity": "P0",
+      "case_key": "golden/AX03",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "published": "2024-01-01T03:00:00Z",
+        "input_known": [
+          "2024-01-01T01:00:00Z",
+          "2024-01-01T02:00:00Z"
+        ]
+      },
+      "faults": [
+        {
+          "name": "future-driver",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "input_known.1",
+              "value": "2024-01-01T04:00:00Z"
+            }
+          ],
+          "reason_contains": "future information"
+        }
+      ]
+    },
+    {
+      "rule_id": "SR01",
+      "severity": "P0",
+      "case_key": "golden/SR01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "expected_rows": 2,
+        "canonical": [
+          {
+            "key": "a",
+            "amount": "10"
+          },
+          {
+            "key": "b",
+            "amount": "20"
+          }
+        ],
+        "parsed": [
+          {
+            "key": "b",
+            "amount": "20"
+          },
+          {
+            "key": "a",
+            "amount": "10"
+          }
+        ],
+        "expected_total": "30"
+      },
+      "faults": [
+        {
+          "name": "missing-export-row",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "expected_rows",
+              "value": 3
+            }
+          ],
+          "reason_contains": "row count"
+        },
+        {
+          "name": "roundtrip-value",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "parsed.0.amount",
+              "value": "21"
+            }
+          ],
+          "reason_contains": "round trip"
+        },
+        {
+          "name": "control-total",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "expected_total",
+              "value": "31"
+            }
+          ],
+          "reason_contains": "control total"
+        }
+      ]
+    },
+    {
+      "rule_id": "SR02",
+      "severity": "P0",
+      "case_key": "golden/SR02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "typed_targets": {
+          "PATIENT": [
+            "P1"
+          ]
+        },
+        "rows": [
+          {
+            "key": "s1",
+            "source": "123",
+            "namespace": "EHR",
+            "entity": "PATIENT",
+            "valid_at": "2024-01-01T02:00:00Z",
+            "as_of": "2024-01-01T03:00:00Z"
+          }
+        ],
+        "mappings": [
+          {
+            "key": "v1",
+            "person": "P1",
+            "valid_from": "2024-01-01T00:00:00Z",
+            "valid_to": null,
+            "known_from": "2024-01-01T00:00:00Z",
+            "known_to": null,
+            "source": "123",
+            "namespace": "EHR",
+            "target": "P1"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "unmapped-namespace",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.namespace",
+              "value": "WORKDAY"
+            }
+          ],
+          "reason_contains": "unmapped"
+        },
+        {
+          "name": "wrong-type-target",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "mappings.0.target",
+              "value": "W1"
+            }
+          ],
+          "reason_contains": "typed key"
+        },
+        {
+          "name": "ambiguous-crosswalk",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "mappings",
+              "value": [
+                {
+                  "key": "v1",
+                  "person": "P1",
+                  "valid_from": "2024-01-01T00:00:00Z",
+                  "valid_to": null,
+                  "known_from": "2024-01-01T00:00:00Z",
+                  "known_to": null,
+                  "source": "123",
+                  "namespace": "EHR",
+                  "target": "P1"
+                },
+                {
+                  "key": "v2",
+                  "person": "P1",
+                  "valid_from": "2024-01-01T00:00:00Z",
+                  "valid_to": null,
+                  "known_from": "2024-01-01T00:00:00Z",
+                  "known_to": null,
+                  "source": "123",
+                  "namespace": "EHR",
+                  "target": "P1"
+                }
+              ]
+            }
+          ],
+          "reason_contains": "ambiguous"
+        }
+      ]
+    },
+    {
+      "rule_id": "SR03",
+      "severity": "P0",
+      "case_key": "golden/SR03",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "first_state": {
+          "cash": "50",
+          "bed": "EMPTY"
+        },
+        "repeated_state": {
+          "cash": "50",
+          "bed": "EMPTY"
+        },
+        "independent_expected": {
+          "cash": "50",
+          "bed": "EMPTY"
+        }
+      },
+      "faults": [
+        {
+          "name": "replay-economic-duplicate",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "repeated_state.cash",
+              "value": "100"
+            }
+          ],
+          "reason_contains": "replay altered"
+        }
+      ]
+    },
+    {
+      "rule_id": "DR01",
+      "severity": "P1",
+      "case_key": "golden/DR01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "facilities": [
+          "F1"
+        ],
+        "start": "2024-02-28",
+        "end": "2024-03-01",
+        "rows": [
+          {
+            "facility": "F1",
+            "date": "2024-02-28",
+            "calendar_known": "2023-01-01T00:00:00Z",
+            "observations_known": "2024-02-28T23:59:59Z"
+          },
+          {
+            "facility": "F1",
+            "date": "2024-02-29",
+            "calendar_known": "2023-01-01T00:00:00Z",
+            "observations_known": "2024-02-29T23:59:59Z"
+          },
+          {
+            "facility": "F1",
+            "date": "2024-03-01",
+            "calendar_known": "2023-01-01T00:00:00Z",
+            "observations_known": "2024-03-01T23:59:59Z"
+          }
+        ]
+      },
+      "faults": [
+        {
+          "name": "leap-date-gap",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.1.date",
+              "value": "2024-02-28"
+            }
+          ],
+          "reason_contains": "coverage"
+        },
+        {
+          "name": "driver-knowledge",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows.0.observations_known",
+              "value": "2022-01-01T00:00:00Z"
+            }
+          ],
+          "reason_contains": "knowledge chronology"
+        }
+      ]
+    },
+    {
+      "rule_id": "RS01",
+      "severity": "P1",
+      "case_key": "golden/RS01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "numerator": 10,
+        "denominator": 100,
+        "minimum_sample": 50,
+        "lower": "0.05",
+        "upper": "0.15"
+      },
+      "faults": [
+        {
+          "name": "conditional-rate",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "numerator",
+              "value": 20
+            }
+          ],
+          "reason_contains": "realism band"
+        },
+        {
+          "name": "small-cell",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "denominator",
+              "value": 10
+            }
+          ],
+          "reason_contains": "insufficient"
+        }
+      ]
+    },
+    {
+      "rule_id": "RS02",
+      "severity": "P1",
+      "case_key": "golden/RS02",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "observed_cases": 3,
+        "minimum_cases": 2,
+        "required_domains": [
+          "CLINICAL",
+          "BED",
+          "FINANCE"
+        ],
+        "linked_domains": [
+          "CLINICAL",
+          "BED",
+          "FINANCE"
+        ],
+        "feature_columns": [
+          "patient_id",
+          "amount"
+        ]
+      },
+      "faults": [
+        {
+          "name": "missing-downstream",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "linked_domains",
+              "value": [
+                "CLINICAL"
+              ]
+            }
+          ],
+          "reason_contains": "downstream"
+        },
+        {
+          "name": "scenario-feature",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "feature_columns",
+              "value": [
+                "patient_id",
+                "scenario_id"
+              ]
+            }
+          ],
+          "reason_contains": "labels leaked"
+        }
+      ]
+    },
+    {
+      "rule_id": "CP01",
+      "severity": "P0",
+      "case_key": "golden/CP01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "table_count": 25,
+        "rows_by_table": {
+          "versioned_business_rows": 1958210
+        },
+        "counted_versions": 1958210,
+        "all_versions": 1958210
+      },
+      "faults": [
+        {
+          "name": "row-cap",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rows_by_table.versioned_business_rows",
+              "value": 2000001
+            }
+          ],
+          "reason_contains": "record ceiling"
+        },
+        {
+          "name": "hidden-versions",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "counted_versions",
+              "value": 1958200
+            }
+          ],
+          "reason_contains": "uncounted"
+        },
+        {
+          "name": "table-cap",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "table_count",
+              "value": 26
+            }
+          ],
+          "reason_contains": "table boundary"
+        }
+      ]
+    },
+    {
+      "rule_id": "RP01",
+      "severity": "P0",
+      "case_key": "golden/RP01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "locked_inputs": {
+          "seed": 42,
+          "code": "a",
+          "reference": "b"
+        },
+        "rebuild_inputs": {
+          "seed": 42,
+          "code": "a",
+          "reference": "b"
+        },
+        "first_hash": "abc",
+        "rebuild_hash": "abc"
+      },
+      "faults": [
+        {
+          "name": "different-rebuild",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rebuild_hash",
+              "value": "def"
+            }
+          ],
+          "reason_contains": "rebuild"
+        },
+        {
+          "name": "unlocked-input",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "rebuild_inputs.seed",
+              "value": 43
+            }
+          ],
+          "reason_contains": "input lock"
+        }
+      ]
+    },
+    {
+      "rule_id": "FN01",
+      "severity": "P0",
+      "case_key": "golden/FN01",
+      "classification": "VALID_BUSINESS",
+      "positive": {
+        "target_encounters": [
+          "E1",
+          "E2"
+        ],
+        "facts": [
+          {
+            "encounter": "E1",
+            "amount": "10"
+          },
+          {
+            "encounter": "E1",
+            "amount": "20"
+          },
+          {
+            "encounter": "E2",
+            "amount": "5"
+          }
+        ],
+        "reported": {
+          "E1": "30",
+          "E2": "5"
+        }
+      },
+      "faults": [
+        {
+          "name": "join-multiplied",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "reported.E1",
+              "value": "60"
+            }
+          ],
+          "reason_contains": "join multiplied"
+        },
+        {
+          "name": "offsetting-fact-grains",
+          "classification": "MALFORMED_OR_INCONSISTENT",
+          "changes": [
+            {
+              "path": "reported",
+              "value": {
+                "E1": "35",
+                "E2": "0"
+              }
+            }
+          ],
+          "reason_contains": "join multiplied"
+        }
+      ]
+    }
+  ]
+}

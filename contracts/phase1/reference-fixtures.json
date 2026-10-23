@@ -1,0 +1,71 @@
+{
+  "patients": [
+    {
+      "source_key": "person-a",
+      "name": "Maya Thompson",
+      "dob": "2004-02-29",
+      "service_date": "2024-11-03",
+      "collision_group": "family-name-collision"
+    },
+    {
+      "source_key": "person-b",
+      "name": "Maya Thompson",
+      "dob": "1981-06-17",
+      "service_date": "2024-11-03",
+      "collision_group": "family-name-collision"
+    },
+    {
+      "source_key": "person-c",
+      "names": [
+        "Elena Martinez",
+        "Jordan Chen",
+        "Amara Williams"
+      ],
+      "dob": "1960-09-12",
+      "service_date": "2024-11-03"
+    }
+  ],
+  "codes": [
+    {
+      "domain": "DIAGNOSIS",
+      "code": "FIXTURE_DX",
+      "version": "FY2024",
+      "valid_from": "2023-10-01",
+      "valid_to": "2024-10-01",
+      "published_at": "2023-06-01T00:00:00Z"
+    },
+    {
+      "domain": "DIAGNOSIS",
+      "code": "FIXTURE_DX",
+      "version": "FY2025",
+      "valid_from": "2024-10-01",
+      "valid_to": "2025-10-01",
+      "published_at": "2024-06-01T00:00:00Z"
+    }
+  ],
+  "workers": [
+    {
+      "key": "w-v1",
+      "worker": "worker-a",
+      "name": "Daniel Brooks",
+      "rate": "40.00",
+      "role": "RN",
+      "valid_from": "2024-01-01T00:00:00Z",
+      "valid_to": null,
+      "known_from": "2024-01-01T00:00:00Z",
+      "known_to": "2024-11-10T00:00:00Z"
+    },
+    {
+      "key": "w-v2",
+      "worker": "worker-a",
+      "name": "Daniel Brooks",
+      "rate": "42.00",
+      "role": "RN",
+      "valid_from": "2024-01-01T00:00:00Z",
+      "valid_to": null,
+      "known_from": "2024-11-10T00:00:00Z",
+      "known_to": null
+    }
+  ],
+  "note": "Hand-authored development-only input. FIXTURE_DX is a test namespace, not an ICD code or complete terminology release."
+}

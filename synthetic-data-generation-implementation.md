@@ -1,11 +1,11 @@
 # Synthetic Data Generation Implementation Plan
 
-**Status:** Phase 0 design/contract implementation is complete under baseline 1.0.0; see the [Phase 0 review and gate](docs/phase-0/review-and-gate.md). Phases 1-9 have not started. No generator, patient dataset, live source integration, or healthcare analytics solution has been built.
+**Status:** Phase 0 design/contract implementation is complete under baseline 1.0.0; see the [Phase 0 review and gate](docs/phase-0/review-and-gate.md). Phase 1 framework implementation and development-fixture validation are complete; see the [Phase 1 review and gate](docs/phase-1/review-and-gate.md). Phases 2-9 have not started. No full healthcare dataset is accepted and no healthcare analytics solution or live source integration has been built.
 
 **Prepared:** October 23, 2026  
 **Setting:** Fictional US hospital group, USD, Workday workforce integration, and Axiom healthcare financial planning integration.  
 **Implementation sequence:** Ten phases, numbered Phase 0 through Phase 9.  
-**Current completed deliverable:** This implementation plan plus [Phase 0 scope, schema, rules, source contracts and record budget](docs/phase-0/README.md). The user authorized Phase 0 and delegated its baseline review/finalization to Codex. Phase 1 is the next unstarted phase.
+**Current completed deliverables:** This implementation plan, the [Phase 0 frozen baseline](docs/phase-0/README.md), and the [Phase 1 runnable framework, development fixtures and evidence](docs/phase-1/README.md). The user authorized Phase 1 implementation, testing, commit and push. Phase 2 is the next unstarted phase; the full dataset and solution remain blocked.
 
 ## 1. Purpose and mandatory delivery boundary
 
@@ -167,6 +167,8 @@ Create a complete, feasible specification for realistic three-year data before i
 - Phase 1 may begin; volume generation and solution development remain blocked.
 
 ## Phase 1 - Reproducible generator framework and validation harness
+
+**Implementation:** Complete for the framework/development-fixture scope; [artifacts and runbook](docs/phase-1/README.md), [exit evidence](evidence/phase-1/gate.json). Only 30 scalar development rows and 3 separately counted source-mirror rows are generated. Rule-family microfixtures do not certify full Phase 0 data rules on a future healthcare release.
 
 ### Objective
 

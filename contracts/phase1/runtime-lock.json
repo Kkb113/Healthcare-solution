@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "runtime": {
+    "python": "3.10.10",
+    "implementation": "CPython",
+    "tzdata": "2025.2",
+    "chicago_sha256": "c27b739ff46a7df0594e120d725b439217e11e44ea9a50cdc49130383b5482e7"
+  },
+  "policy": "Fail closed on mismatch. Amend through review and regenerate determinism evidence. Read packaged zone bytes via ZoneInfo.from_file; never the host zone database."
+}

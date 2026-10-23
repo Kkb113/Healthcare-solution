@@ -1,10 +1,23 @@
 # Healthcare synthetic data foundation
 
-Phase 0 defines the data foundation for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. No patient dataset, generator, cloud deployment, forecasting model, dashboard, or AI agent has been built.
+Phases 0 and 1 establish the data foundation for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. Phase 1 adds a runnable, deterministic framework and small development fixtures. No full healthcare dataset is accepted and no cloud deployment, forecasting model, dashboard, or AI agent has been built.
 
 The finalized baseline contains **25 business tables and 1,958,210 planned records** across **2023-2025**, with **41,790 records of headroom** below the two-million ceiling. Three fictional Illinois community hospitals have 72 inpatient beds in total. This replaces the earlier provisional 300-bed scale so the budget includes clinical detail and historical revisions.
 
-Start with the [Phase 0 baseline](docs/phase-0/README.md), then the [implementation plan](synthetic-data-generation-implementation.md). Phase 0 completion permits **Phase 1 data-generation framework work only**. The analytics solution stays blocked until final Phase 9 data acceptance.
+Start with the [Phase 0 baseline](docs/phase-0/README.md), [Phase 1 framework and runbook](docs/phase-1/README.md), and [implementation plan](synthetic-data-generation-implementation.md). Phase 1 completion makes **Phase 2** eligible to start when requested. The analytics solution stays blocked until final Phase 9 data acceptance.
+
+## Run the Phase 1 framework and gate
+
+Use CPython 3.10.10 and `tzdata==2025.2`, pinned by the runtime contract. The existing test environment already contains both.
+
+```powershell
+python -m pip install -r requirements-phase1.txt
+python scripts/validate_phase1.py
+python scripts/run_phase1.py --output output/phase1-development
+python scripts/validate_phase1_candidate.py --run-dir output/phase1-development
+```
+
+The gate runs Phase 0 regression, the complete test suite, clean rebuild/resume checks and independent read-only inspection. See [Phase 1 exit evidence](evidence/phase-1/gate.json). Normal generation produces **30 development rows across 15 declared scalar projections** and **3 Workday/Axiom mirror rows**, never a full business dataset. The [runbook](docs/phase-1/runbook.md) explains recovery, invalidation, quotas and output semantics.
 
 ## Reviewable artifacts
 

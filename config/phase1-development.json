@@ -1,0 +1,238 @@
+{
+  "profile": "DEVELOPMENT_FIXTURE",
+  "seed": 20261023,
+  "fixture_cap": 100,
+  "clock": {
+    "start": "2023-01-01T00:00:00Z",
+    "end": "2026-01-10T23:59:59Z"
+  },
+  "reference": "contracts/phase1/reference-fixtures.json",
+  "stages": {
+    "identities": {
+      "name_stream": "identity-name"
+    },
+    "clinical": {
+      "observation_min": 92,
+      "observation_max": 99,
+      "unit": "%",
+      "code_date": "2024-11-03",
+      "known_at": "2024-11-04T00:00:00Z"
+    },
+    "demand": {
+      "patient_source": "person-a",
+      "ed_start": "2024-11-03T04:30:00Z",
+      "admit": "2024-11-03T06:30:00Z",
+      "discharge": "2024-11-03T09:30:00Z",
+      "acuity_min": 2,
+      "acuity_max": 4
+    },
+    "resources": {
+      "transfer": "2024-11-03T07:30:00Z",
+      "shift_start_local": "2024-11-03T00:30:00",
+      "shift_end_local": "2024-11-03T02:30:00",
+      "productive": "2.50",
+      "nonproductive": "0.25",
+      "break": "0.25",
+      "stock_opening": "10",
+      "stock_receipt": "5",
+      "stock_consume": "-2"
+    },
+    "billing": {
+      "units": "1",
+      "unit_price": "100.00",
+      "partial_payment": "60.00",
+      "refund": "10.00",
+      "cost_pool": "100.00",
+      "weights": {
+        "PATIENT": "7",
+        "NONPATIENT": "2",
+        "RESIDUAL": "1"
+      },
+      "month": "2024-11-01"
+    },
+    "serialization": {
+      "available_at": "2024-12-05T08:00:00Z",
+      "vintage": "v1"
+    },
+    "faults": {
+      "enabled": true
+    },
+    "validation": {
+      "rules": "contracts/phase1/rule-fixtures.json"
+    }
+  },
+  "expectations": {
+    "projection": {
+      "patient": {
+        "rows": 3,
+        "fields": [
+          "key",
+          "name",
+          "dob",
+          "service_date",
+          "age",
+          "email"
+        ]
+      },
+      "worker_assignment": {
+        "rows": 2,
+        "fields": [
+          "key",
+          "worker",
+          "name",
+          "rate",
+          "role",
+          "valid_from",
+          "valid_to",
+          "known_from",
+          "known_to"
+        ]
+      },
+      "catalog_item": {
+        "rows": 2,
+        "fields": [
+          "key",
+          "domain",
+          "code",
+          "version",
+          "valid_from",
+          "valid_to",
+          "published_at"
+        ]
+      },
+      "clinical_event": {
+        "rows": 2,
+        "fields": [
+          "key",
+          "encounter",
+          "at",
+          "value",
+          "unit"
+        ]
+      },
+      "encounter": {
+        "rows": 2,
+        "fields": [
+          "key",
+          "patient",
+          "type",
+          "prior",
+          "start",
+          "end",
+          "acuity"
+        ]
+      },
+      "bed_interval": {
+        "rows": 2,
+        "fields": [
+          "key",
+          "bed",
+          "patient",
+          "start",
+          "end"
+        ]
+      },
+      "staff_shift": {
+        "rows": 1,
+        "fields": [
+          "key",
+          "worker",
+          "start",
+          "end",
+          "worked",
+          "productive",
+          "nonproductive",
+          "break"
+        ]
+      },
+      "inventory_movement": {
+        "rows": 3,
+        "fields": [
+          "key",
+          "qty"
+        ]
+      },
+      "service_charge": {
+        "rows": 1,
+        "fields": [
+          "key",
+          "units",
+          "price",
+          "billed"
+        ]
+      },
+      "claim": {
+        "rows": 1,
+        "fields": [
+          "key",
+          "billed",
+          "opening_ar"
+        ]
+      },
+      "claim_line": {
+        "rows": 1,
+        "fields": [
+          "key",
+          "claim",
+          "charge",
+          "amount"
+        ]
+      },
+      "claim_event": {
+        "rows": 2,
+        "fields": [
+          "key",
+          "claim",
+          "ar_delta",
+          "cash_delta",
+          "reverses"
+        ]
+      },
+      "financial_posting": {
+        "rows": 4,
+        "fields": [
+          "key",
+          "journal",
+          "debit",
+          "credit"
+        ]
+      },
+      "cost_allocation": {
+        "rows": 3,
+        "fields": [
+          "key",
+          "destination",
+          "amount"
+        ]
+      },
+      "finance_monthly": {
+        "rows": 1,
+        "fields": [
+          "key",
+          "month",
+          "scenario",
+          "vintage",
+          "amount",
+          "unit"
+        ]
+      }
+    },
+    "names": [
+      "Maya Thompson",
+      "Elena Martinez",
+      "Jordan Chen",
+      "Amara Williams"
+    ],
+    "observation_min": "92",
+    "observation_max": "99",
+    "observation_unit": "%",
+    "occupied_seconds": 10800,
+    "closing_stock": "13",
+    "closing_ar": "50.00",
+    "closing_cash": "50.00",
+    "pool": "100.00",
+    "code_version": "FY2025",
+    "worker_before_rate": "40.00",
+    "worker_after_rate": "42.00"
+  }
+}

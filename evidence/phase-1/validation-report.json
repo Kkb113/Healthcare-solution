@@ -1,0 +1,5782 @@
+{
+  "phase": 1,
+  "evaluated_at": "2026-10-23T06:57:41.661797+00:00",
+  "scope": "Development framework and microfixtures; no full business-data acceptance",
+  "phase0_generated_artifacts": {
+    "passed": true,
+    "output": "Phase 0 metadata verified: 25 tables, 1,958,210 planned rows. No patient data generated."
+  },
+  "phase0_regression": {
+    "phase": 0,
+    "validation_scope": "Contract integrity and independently calculated design feasibility only; no generated-data validations have been executed.",
+    "baseline_version": "1.0.0",
+    "passed": true,
+    "check_count": 41,
+    "checks": [
+      {
+        "id": "TABLE_COUNT",
+        "passed": true,
+        "detail": "25 tables; unique names required"
+      },
+      {
+        "id": "BUDGET",
+        "passed": true,
+        "detail": "Planned=1,958,210; reserve=41,790"
+      },
+      {
+        "id": "BUDGET_SYNC",
+        "passed": true,
+        "detail": "Schema and baseline have identical per-table budgets"
+      },
+      {
+        "id": "POSITIVE_BUDGETS",
+        "passed": true,
+        "detail": "Every table has a positive integer envelope"
+      },
+      {
+        "id": "HORIZON",
+        "passed": true,
+        "detail": "1096 days, 36 months including leap year"
+      },
+      {
+        "id": "EXPORT_GRACE",
+        "passed": true,
+        "detail": "December close may arrive in January; no extra clinical/payment outcomes are manufactured"
+      },
+      {
+        "id": "DRIVER_DAYS",
+        "passed": true,
+        "detail": "One facility-day row per local day"
+      },
+      {
+        "id": "DICTIONARY",
+        "passed": true,
+        "detail": "All scalar field definitions, units, keys and history metadata complete"
+      },
+      {
+        "id": "REFERENCES",
+        "passed": true,
+        "detail": "All physical FKs target matching typed primary keys"
+      },
+      {
+        "id": "LOGICAL_REFERENCES",
+        "passed": true,
+        "detail": "Stable identities, typed scopes/crosswalks and source-group predicates are explicitly declared"
+      },
+      {
+        "id": "RULE_CATALOG",
+        "passed": true,
+        "detail": "55 uniquely owned, scoped rules with full table coverage"
+      },
+      {
+        "id": "SOURCES",
+        "passed": true,
+        "detail": "Canonical fields and Workday/Axiom/ADT layouts map to known columns"
+      },
+      {
+        "id": "CLINICAL_MATRIX",
+        "passed": true,
+        "detail": "Every event family has explicit required fields, domain and provenance semantics"
+      },
+      {
+        "id": "SCENARIOS",
+        "passed": true,
+        "detail": "12 causal scenarios with positive coverage, exact fixtures and valid rule dependencies"
+      },
+      {
+        "id": "REALISM_TARGETS",
+        "passed": true,
+        "detail": "All thresholds preregistered with denominators and assumption/source provenance"
+      },
+      {
+        "id": "BED_CAPACITY",
+        "passed": true,
+        "detail": "72 beds = 3 x (4 ICU + 20 medicine/surgery)"
+      },
+      {
+        "id": "OCCUPANCY",
+        "passed": true,
+        "detail": "Licensed=78912, staffed=77950, occupied=62400; staffed occupancy=80.051315%"
+      },
+      {
+        "id": "OPENING",
+        "passed": true,
+        "detail": "57 opening occupied beds linked to 57 in-window carry-in encounters"
+      },
+      {
+        "id": "PATHWAY_ROUTES",
+        "passed": true,
+        "detail": "Case mix sums to one; 5.21-day completed-duration assumption and all 12,000 admission routes reconciled"
+      },
+      {
+        "id": "ENCOUNTER_ROWS",
+        "passed": true,
+        "detail": "56k intersecting +2k opening-only +68k lifecycle +4k correction =130k"
+      },
+      {
+        "id": "PATIENT_WORKER_ROWS",
+        "passed": true,
+        "detail": "Stable persons plus versions reconcile to table envelopes"
+      },
+      {
+        "id": "CLINICAL_ROWS",
+        "passed": true,
+        "detail": "Every event family plus revisions counted"
+      },
+      {
+        "id": "CLINICAL_BUDGET_FAMILIES",
+        "passed": true,
+        "detail": "No omitted/zero clinical event family or uncounted revision class"
+      },
+      {
+        "id": "BED_EVENT_ROWS",
+        "passed": true,
+        "detail": "All opening/transitions/capacity/correction rows counted"
+      },
+      {
+        "id": "BED_INTERVALS",
+        "passed": true,
+        "detail": "15k intervals and allowance for four primary transitions each"
+      },
+      {
+        "id": "TURNAROUND",
+        "passed": true,
+        "detail": "Turnaround allowance 781.25 bed-days fits staffed slack"
+      },
+      {
+        "id": "STAFF_ROWS",
+        "passed": true,
+        "detail": "52k work +4k leave/unavailable +14k versions =70k rows"
+      },
+      {
+        "id": "STAFF_FEASIBILITY",
+        "passed": true,
+        "detail": "RN supply=382200h, modeled requirement=343200h; annual worked=208000h <= contracted capacity=243360h"
+      },
+      {
+        "id": "CLAIM_ROWS",
+        "passed": true,
+        "detail": "54k new +2k opening claims; all 160k lifecycle events budgeted"
+      },
+      {
+        "id": "CHARGE_LINE_CAPACITY",
+        "passed": true,
+        "detail": "One-charge/one-original-line baseline is feasible without duplicating charges"
+      },
+      {
+        "id": "FINANCIAL_SERIES",
+        "passed": true,
+        "detail": "Selected series, not unbudgeted dense account/vintage Cartesian product"
+      },
+      {
+        "id": "FINANCIAL_GRID",
+        "passed": true,
+        "detail": "Account/center/month/vintage products independently recomputed, not just a matching grand total"
+      },
+      {
+        "id": "POSTING_ROWS",
+        "passed": true,
+        "detail": "All source, opening and monthly cost-pool reclassification journal lines counted"
+      },
+      {
+        "id": "POOL_CLOSE_LINES",
+        "passed": true,
+        "detail": "Up to four categories per center/month have counted debit and credit reclassification lines"
+      },
+      {
+        "id": "ALLOCATION_FEASIBILITY",
+        "passed": true,
+        "detail": "Patient/category/month/transfer allocations, nonpatient/residual and revision allowance fit 180k rows"
+      },
+      {
+        "id": "HAND_CALCULATIONS",
+        "passed": true,
+        "detail": "Independent census/stock/debit-credit/rounding arithmetic"
+      },
+      {
+        "id": "AGE_FIXTURES",
+        "passed": true,
+        "detail": "Birthday and configured leap-day convention"
+      },
+      {
+        "id": "SOLUTION_LOCK",
+        "passed": true,
+        "detail": "No generator, datasets, models, dashboards or solution deployment authorized by these design checks"
+      },
+      {
+        "id": "OFFLINE_SCHEMA_ARTIFACTS",
+        "passed": true,
+        "detail": "Offline DDL has 25 PK definitions and 62 FK declarations; dictionary covers every table. No live DDL executed."
+      },
+      {
+        "id": "DOCUMENT_LINKS",
+        "passed": true,
+        "detail": "All local Markdown links resolve across 17 documents"
+      },
+      {
+        "id": "GATE_ARTIFACTS",
+        "passed": true,
+        "detail": "Gate/README/review agree with the contract budget, zero generated records and blocked solution scope"
+      }
+    ],
+    "contract_sha256": {
+      "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
+      "contracts/phase0/clinical-type-matrix.json": "9deaa0fdca2f0310d1cefa5061b59071f93197e1eef52a1ec8b56a1a1ca2d97f",
+      "contracts/phase0/databricks-schema.sql": "ee6db2817180ab84c5bafd227a8c71628d18fb5877745b1f5d5e9a9853e29580",
+      "contracts/phase0/realism-targets.json": "4616bc333586527bdc4deeef9f506d2df14082f899982edfbb2e938563f15e0f",
+      "contracts/phase0/scenarios.json": "56283fa396b1202c73e5e0609ade1aa82fa6df4708c064096902624f24bfbeb2",
+      "contracts/phase0/schema.json": "062d9b070ed687cf0c98e8a2ec16efe47969a7ed1080d11b594126d062168f3c",
+      "contracts/phase0/source-contracts.json": "64911dbf82f7d65c24271fa13a3de9c292b5b9a0f97e2531ad751dd17a8b2413",
+      "contracts/phase0/validation-rules.json": "dffe39411824eae480f1e80e58e3961302a7d6187cdf011c26d862278d30944b"
+    },
+    "business_tables": 25,
+    "planned_records": 1958210,
+    "actual_generated_records": 0,
+    "solution_status": "BLOCKED_FOR_SOLUTION"
+  },
+  "phase0_frozen_hashes_unchanged": true,
+  "tests": {
+    "run": 89,
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "cases": [
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_budget_mismatch",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_duplicate_table",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_fk_to_nonunique_stable_identity",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_frozen_baseline",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_grace_cannot_add_another_business_year",
+        "status": "PASS",
+        "seconds": 0.015
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_hidden_nested_business_facts",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_impossible_occupancy",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_insufficient_staff",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_missing_fk_target",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_nullable_primary_key",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_offsetting_financial_grid_errors",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_omitted_clinical_budget_family",
+        "status": "PASS",
+        "seconds": 0.015
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_omitted_clinical_family",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_over_cap",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_premature_data_validation_claim",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_realism_share_sum",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_scenario_refers_to_unknown_rule",
+        "status": "PASS",
+        "seconds": 0.015
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_solution_cannot_unlock",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_unbudgeted_claim_events",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_unbudgeted_cost_pool_journals",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_unbudgeted_encounter_history",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_unfunded_allocation_fanout",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase0_contracts.Phase0ContractTests.test_unknown_source_column",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_aggregate_budget_counts_child_rows_and_all_versions",
+        "status": "PASS",
+        "seconds": 0.078
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_ambient_decimal_settings_do_not_change_business_or_validation",
+        "status": "PASS",
+        "seconds": 0.187
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_budget_exceeded_before_any_stage_publication",
+        "status": "PASS",
+        "seconds": 0.047
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_checkpoint_corruption_fails_closed",
+        "status": "PASS",
+        "seconds": 0.141
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_clean_build_cached_resume_and_manifest_accounting",
+        "status": "PASS",
+        "seconds": 0.125
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_clean_rebuild_has_identical_business_and_stage_hashes",
+        "status": "PASS",
+        "seconds": 0.156
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_code_hash_change_invalidates_every_stage",
+        "status": "PASS",
+        "seconds": 0.156
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_critical_failure_blocks_and_defect_resolves_after_upstream_fix",
+        "status": "PASS",
+        "seconds": 0.157
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_delivery_grace_does_not_allow_post_cutoff_care",
+        "status": "PASS",
+        "seconds": 0.078
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_every_stage_exception_rolls_back_then_resumes_without_duplicates",
+        "status": "PASS",
+        "seconds": 1.015
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_failed_changed_upstream_removes_all_stale_descendants",
+        "status": "PASS",
+        "seconds": 0.282
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_failure_cli_exit_status",
+        "status": "PASS",
+        "seconds": 0.437
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_independent_export_validator_finds_corrupt_source",
+        "status": "PASS",
+        "seconds": 0.094
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_independent_runner_rejects_modified_business_file",
+        "status": "PASS",
+        "seconds": 0.125
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_mandatory_negative_controls_cannot_be_disabled",
+        "status": "PASS",
+        "seconds": 0.062
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_no_full_generation_profile_unknown_fields_or_clock_change",
+        "status": "PASS",
+        "seconds": 0.032
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_projection_detects_arithmetic_and_chronology_changes_independently",
+        "status": "PASS",
+        "seconds": 0.093
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_readonly_independent_candidate_runner",
+        "status": "PASS",
+        "seconds": 0.141
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_real_process_death_before_commit_recovers_wal_and_marks_attempt",
+        "status": "PASS",
+        "seconds": 0.547
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_reconciliation_reports_observed_values_and_differences",
+        "status": "PASS",
+        "seconds": 0.109
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_reference_bytes_change_invalidates_every_stage",
+        "status": "PASS",
+        "seconds": 0.172
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_runtime_lock_mismatch_stops_run",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_second_process_cannot_write_active_run_directory",
+        "status": "PASS",
+        "seconds": 0.468
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_seed_change_varies_individuals_and_keeps_constraints",
+        "status": "PASS",
+        "seconds": 0.172
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_selective_config_invalidation_preserves_ancestors",
+        "status": "PASS",
+        "seconds": 0.157
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_unregistered_tables_nested_rows_and_duplicate_owners_rejected",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_engine.EngineTests.test_validation_only_config_changes_do_not_regenerate_business",
+        "status": "PASS",
+        "seconds": 0.14
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_allocation_conservation_and_reversal",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_canonical_unicode_and_field_order",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_clock_order_ties_and_dynamic_feedback",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_effective_code_release_boundary",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_equivalent_utc_instants",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_fall_fold_is_explicit",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_half_up_signed_rounding",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_leap_birthdays_follow_frozen_phase0_convention",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_no_binary_float_or_naive_instants",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_retroactive_worker_asof",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_row_order_invariance_keeps_duplicates",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_spring_gap_and_elapsed_shift",
+        "status": "PASS",
+        "seconds": 0.015
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_stream_boundaries",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_streams_do_not_reshuffle_existing_people",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_primitives.PrimitiveTests.test_typed_identity_and_name_collisions",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_all_seven_source_recovery_behaviors",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_bad_row_is_atomic_and_repair_restores_certification",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_correction_cycles_and_missing_predecessors_fail",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_csv_roundtrip_unicode_quotes_and_newlines",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_duplicate_version_inside_file_and_conflicting_message",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_exact_decimal_and_row_control_checks",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_implicit_replacement_and_branched_vintages_rejected",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_missing_partition_is_never_zero",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_not_yet_available_delivery_rejected",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_replacement_scope_and_history",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_replayed_file_has_no_economic_effect",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_sources.SourceTests.test_schema_and_unmapped_quarantine_does_not_partially_apply",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_all_123_faults_use_intended_detector_and_block_gate",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_all_55_positive_and_adverse_cases",
+        "status": "PASS",
+        "seconds": 0.016
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_all_frozen_rule_families_have_positive_and_negative_controls",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_critical_detector_removed_is_caught_by_negative_controls",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_defect_ids_stable_across_reason_changes",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_empty_or_invalid_gate_evidence_cannot_pass",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_offsetting_financial_errors_fail_at_declared_grain",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_profile_preserves_null_distinct_and_extrema",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_real_adverse_outcomes_do_not_equal_malformed_data",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_unknown_rule_and_missing_fields_fail_closed",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_validator_arithmetic_does_not_use_generator_rounding",
+        "status": "PASS",
+        "seconds": 0.0
+      },
+      {
+        "test": "test_phase1_validation.ValidationTests.test_validator_module_has_no_generation_imports",
+        "status": "PASS",
+        "seconds": 0.016
+      }
+    ],
+    "failure_details": []
+  },
+  "end_to_end": {
+    "first_manifest": {
+      "profile": "DEVELOPMENT_FIXTURE",
+      "started_at": "2026-10-23T06:57:47.436848+00:00",
+      "status": "FIXTURES_PASSED",
+      "locks": {
+        "runtime": {
+          "python": "3.10.10",
+          "implementation": "CPython",
+          "tzdata": "2025.2",
+          "chicago_sha256": "c27b739ff46a7df0594e120d725b439217e11e44ea9a50cdc49130383b5482e7"
+        },
+        "code": {
+          "src/healthcare_synthetic/__init__.py": "872ab14430bb39fd0baddd2ef66a99075f2f1dedce587f08210a2275e474bed2",
+          "src/healthcare_synthetic/core.py": "be57d625783707220f72b6c8f275d712ef3893faef44dc2212c6f01b8331e78e",
+          "src/healthcare_synthetic/engine.py": "0d014dab88e6c8e31b7c811e17c9fdbde787bd5c1bc2f1d09442ea468822370d",
+          "src/healthcare_synthetic/sources.py": "ca920f32aff7060db33f46912df98331009a5bee47662f99bf66bf68fc12bdc7",
+          "src/healthcare_synthetic/stages.py": "794aa375f2e0960b3b2c7d8049022b6e4ade1e2694f118bf71bade7af3ca460a",
+          "src/healthcare_synthetic/validation.py": "2c743743bfacf33340b9ad238457ea7e7b91808231b60d76579f50175fffec3f"
+        },
+        "contracts": {
+          "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
+          "contracts/phase0/clinical-type-matrix.json": "9deaa0fdca2f0310d1cefa5061b59071f93197e1eef52a1ec8b56a1a1ca2d97f",
+          "contracts/phase0/realism-targets.json": "4616bc333586527bdc4deeef9f506d2df14082f899982edfbb2e938563f15e0f",
+          "contracts/phase0/scenarios.json": "56283fa396b1202c73e5e0609ade1aa82fa6df4708c064096902624f24bfbeb2",
+          "contracts/phase0/schema.json": "062d9b070ed687cf0c98e8a2ec16efe47969a7ed1080d11b594126d062168f3c",
+          "contracts/phase0/source-contracts.json": "64911dbf82f7d65c24271fa13a3de9c292b5b9a0f97e2531ad751dd17a8b2413",
+          "contracts/phase0/validation-rules.json": "dffe39411824eae480f1e80e58e3961302a7d6187cdf011c26d862278d30944b",
+          "contracts/phase1/profile-contract.json": "46879ecca6baff534db4028374f5748f8f3d18d1e911bd2bc30960afb2879e50",
+          "contracts/phase1/reference-fixtures.json": "ae0fdecebb92ae6afe0dfaf77b0ffec94a762c9b6b827654eebf4f54813ecd0b",
+          "contracts/phase1/rule-fixtures.json": "04b7bd1f29ff33d5fa33dec3d60e3487cfa0ebced452018e3c53e8eb76e1dac8",
+          "contracts/phase1/runtime-lock.json": "2e4a7bafaf989370edbf22d92b9f81e8b37f24d39c48a32549cb0a4cd54e18f3"
+        },
+        "reference": {
+          "contracts/phase1/reference-fixtures.json": "ae0fdecebb92ae6afe0dfaf77b0ffec94a762c9b6b827654eebf4f54813ecd0b"
+        },
+        "config_sha256": "217b551fc1bdc71751adafcfab239c1347e3187ba0cef0ee6fcfbe723e077f53"
+      },
+      "executed": [
+        "identities",
+        "clinical",
+        "demand",
+        "resources",
+        "billing",
+        "serialization",
+        "faults",
+        "validation"
+      ],
+      "reused": [],
+      "invalidated": [],
+      "dataset_accepted": false,
+      "solution_status": "BLOCKED_FOR_SOLUTION",
+      "gate": {
+        "status": "FIXTURES_PASSED",
+        "blocking_rules": [],
+        "dataset_accepted": false,
+        "solution_status": "BLOCKED_FOR_SOLUTION"
+      },
+      "business_sha256": "8d0cc4f44533bf8b0efb36edc555c34d9df3fca39452188b6a9eb1fee007a57f",
+      "stage_checksums": {
+        "identities": "0fb0f0709533a955fb4f158a5b2eb4982c69d60b2adce4bd1b23e93233213799",
+        "clinical": "50a6a68e7e305a1f3a9ff3d6fc73c019907865ba50250b619074a5ab9b0df6b3",
+        "demand": "9702f2004cbbc1559edb8c213936bbc42cf11b4264423d6d953f051100decb5f",
+        "resources": "81a850c8c4f6251d3fbfb6514970fc7fd22adbb08291088b48f90f794c01b212",
+        "billing": "5b664242c0af2ba05110256aff55f56d6abf600f0ffc7ce2d9b0dc8cabc23320",
+        "serialization": "65d07affba403e310126c615a27387ae150ad3f2804f4b7073f6489a431e62d2",
+        "faults": "fd3203ea7317dfb4c188d7d5fe6665365ecf33f599d4ba0f867d9fd7b4a91923",
+        "validation": "d6258538b9412537364f94ef9d68896303c5df54c3aabaf969fa80eb9bef8804"
+      },
+      "business_rows": 30,
+      "business_rows_by_projection": {
+        "patient": 3,
+        "worker_assignment": 2,
+        "catalog_item": 2,
+        "encounter": 2,
+        "clinical_event": 2,
+        "bed_interval": 2,
+        "staff_shift": 1,
+        "inventory_movement": 3,
+        "service_charge": 1,
+        "claim": 1,
+        "claim_line": 1,
+        "claim_event": 2,
+        "financial_posting": 4,
+        "cost_allocation": 3,
+        "finance_monthly": 1
+      },
+      "serialized_mirror_rows": 3,
+      "serialized_mirror_bytes": 348,
+      "release_business_table_count": 25,
+      "fixture_projection_count": 15,
+      "fixture_cap": 100,
+      "finished_at": "2026-10-23T06:57:47.490755+00:00"
+    },
+    "clean_rebuild_business_sha256": "8d0cc4f44533bf8b0efb36edc555c34d9df3fca39452188b6a9eb1fee007a57f",
+    "clean_rebuild_stage_checksums": {
+      "identities": "0fb0f0709533a955fb4f158a5b2eb4982c69d60b2adce4bd1b23e93233213799",
+      "clinical": "50a6a68e7e305a1f3a9ff3d6fc73c019907865ba50250b619074a5ab9b0df6b3",
+      "demand": "9702f2004cbbc1559edb8c213936bbc42cf11b4264423d6d953f051100decb5f",
+      "resources": "81a850c8c4f6251d3fbfb6514970fc7fd22adbb08291088b48f90f794c01b212",
+      "billing": "5b664242c0af2ba05110256aff55f56d6abf600f0ffc7ce2d9b0dc8cabc23320",
+      "serialization": "65d07affba403e310126c615a27387ae150ad3f2804f4b7073f6489a431e62d2",
+      "faults": "fd3203ea7317dfb4c188d7d5fe6665365ecf33f599d4ba0f867d9fd7b4a91923",
+      "validation": "d6258538b9412537364f94ef9d68896303c5df54c3aabaf969fa80eb9bef8804"
+    },
+    "resume_reused_stages": [
+      "identities",
+      "clinical",
+      "demand",
+      "resources",
+      "billing",
+      "serialization",
+      "faults",
+      "validation"
+    ],
+    "deterministic": true,
+    "validation": {
+      "coverage_scope": "Microfixtures and declared scalar development projections only; full Phase 0 data rules remain unexecuted on release data.",
+      "defects": [],
+      "gate": {
+        "blocking_rules": [],
+        "dataset_accepted": false,
+        "solution_status": "BLOCKED_FOR_SOLUTION",
+        "status": "FIXTURES_PASSED"
+      },
+      "negative_controls": [
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "duplicate primary key",
+                "record_key": "golden/ID01/same-key"
+              }
+            ],
+            "rule_id": "ID01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "duplicate",
+          "fault": "same-key",
+          "rule_id": "ID01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "required scalar name",
+                "record_key": "golden/ID01/null-name"
+              }
+            ],
+            "rule_id": "ID01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "required scalar",
+          "fault": "null-name",
+          "rule_id": "ID01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "missing or wrong-type key",
+                "record_key": "golden/ID01/wrong-type"
+              }
+            ],
+            "rule_id": "ID01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "wrong-type",
+          "fault": "wrong-type",
+          "rule_id": "ID01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "orphan reference U1",
+                "record_key": "golden/ID02/orphan"
+              }
+            ],
+            "rule_id": "ID02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "orphan",
+          "fault": "orphan",
+          "rule_id": "ID02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "empty temporal interval",
+                "record_key": "golden/TM01/empty-valid"
+              }
+            ],
+            "rule_id": "TM01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "empty temporal",
+          "fault": "empty-valid",
+          "rule_id": "TM01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "empty temporal interval",
+                "record_key": "golden/TM01/empty-known"
+              }
+            ],
+            "rule_id": "TM01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "empty temporal",
+          "fault": "empty-known",
+          "rule_id": "TM01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "overlapping business/knowledge rectangles",
+                "record_key": "golden/TM01/rectangle-overlap"
+              }
+            ],
+            "rule_id": "TM01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "overlapping",
+          "fault": "rectangle-overlap",
+          "rule_id": "TM01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "export before source recording",
+                "record_key": "golden/TM02/early-export"
+              }
+            ],
+            "rule_id": "TM02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "before source",
+          "fault": "early-export",
+          "rule_id": "TM02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "future fact in as-of projection",
+                "record_key": "golden/TM02/hindsight"
+              }
+            ],
+            "rule_id": "TM02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "future fact",
+          "fault": "hindsight",
+          "rule_id": "TM02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "outcome leaked into earlier lifecycle version",
+                "record_key": "golden/TM03/discharge-leak"
+              }
+            ],
+            "rule_id": "TM03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "outcome leaked",
+          "fault": "discharge-leak",
+          "rule_id": "TM03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "placeholder human name",
+                "record_key": "golden/NM01/numbered-name"
+              }
+            ],
+            "rule_id": "NM01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "placeholder",
+          "fault": "numbered-name",
+          "rule_id": "NM01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "age at local service date",
+                "record_key": "golden/NM02/leap-age"
+              }
+            ],
+            "rule_id": "NM02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "age at local",
+          "fault": "leap-age",
+          "rule_id": "NM02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "contact outside test namespace",
+                "record_key": "golden/NM02/live-contact"
+              }
+            ],
+            "rule_id": "NM02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "namespace",
+          "fault": "live-contact",
+          "rule_id": "NM02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "hierarchy cycle",
+                "record_key": "golden/OR01/cycle"
+              }
+            ],
+            "rule_id": "OR01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "cycle",
+          "fault": "cycle",
+          "rule_id": "OR01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "cross-facility hierarchy",
+                "record_key": "golden/OR01/cross-facility"
+              }
+            ],
+            "rule_id": "OR01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "cross-facility",
+          "fault": "cross-facility",
+          "rule_id": "OR01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "missing opening bed state",
+                "record_key": "golden/OR01/missing-opening"
+              }
+            ],
+            "rule_id": "OR01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "opening bed",
+          "fault": "missing-opening",
+          "rule_id": "OR01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "bed inventory mismatch",
+                "record_key": "golden/OR01/wrong-inventory"
+              }
+            ],
+            "rule_id": "OR01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "inventory",
+          "fault": "wrong-inventory",
+          "rule_id": "OR01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "retroactive rate selected with hindsight",
+                "record_key": "golden/WK01/retro-hindsight"
+              }
+            ],
+            "rule_id": "WK01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "hindsight",
+          "fault": "retro-hindsight",
+          "rule_id": "WK01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "ineligible credential/role",
+                "record_key": "golden/WK01/credential-expired"
+              }
+            ],
+            "rule_id": "WK01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "credential",
+          "fault": "credential-expired",
+          "rule_id": "WK01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "worker assignment not unique as of both times",
+                "record_key": "golden/WK01/duplicate-worker"
+              }
+            ],
+            "rule_id": "WK01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "unique as of",
+          "fault": "duplicate-worker",
+          "rule_id": "WK01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "self management or manager cycle",
+                "record_key": "golden/WK02/manager-cycle"
+              }
+            ],
+            "rule_id": "WK02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "cycle",
+          "fault": "manager-cycle",
+          "rule_id": "WK02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "missing manager stable identity",
+                "record_key": "golden/WK02/missing-manager"
+              }
+            ],
+            "rule_id": "WK02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "missing manager",
+          "fault": "missing-manager",
+          "rule_id": "WK02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "wrong scope discriminator/key",
+                "record_key": "golden/AC01/bad-scope"
+              }
+            ],
+            "rule_id": "AC01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "scope discriminator",
+          "fault": "bad-scope",
+          "rule_id": "AC01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "revocation did not deny",
+                "record_key": "golden/AC01/revocation-read"
+              }
+            ],
+            "rule_id": "AC01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "revocation",
+          "fault": "revocation-read",
+          "rule_id": "AC01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "overlap CV1 / CV2",
+                "record_key": "golden/CV01/primary-overlap"
+              }
+            ],
+            "rule_id": "CV01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "overlap",
+          "fault": "primary-overlap",
+          "rule_id": "CV01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "coverage patient mismatch",
+                "record_key": "golden/CV01/wrong-patient"
+              }
+            ],
+            "rule_id": "CV01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "patient mismatch",
+          "fault": "wrong-patient",
+          "rule_id": "CV01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "missing self-pay classification",
+                "record_key": "golden/CV01/missing-selfpay"
+              }
+            ],
+            "rule_id": "CV01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "self-pay",
+          "fault": "missing-selfpay",
+          "rule_id": "CV01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "wrong effective code release",
+                "record_key": "golden/CD01/old-release"
+              }
+            ],
+            "rule_id": "CD01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "effective code",
+          "fault": "old-release",
+          "rule_id": "CD01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "code domain/unit",
+                "record_key": "golden/CD01/wrong-unit"
+              }
+            ],
+            "rule_id": "CD01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "domain/unit",
+          "fault": "wrong-unit",
+          "rule_id": "CD01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "wrong effective code release",
+                "record_key": "golden/CD01/unpublished"
+              }
+            ],
+            "rule_id": "CD01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "effective code",
+          "fault": "unpublished",
+          "rule_id": "CD01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "medication conversion missing",
+                "record_key": "golden/CD02/zero-conversion"
+              }
+            ],
+            "rule_id": "CD02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "conversion",
+          "fault": "zero-conversion",
+          "rule_id": "CD02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "invalid account discriminator",
+                "record_key": "golden/CD02/account-domain"
+              }
+            ],
+            "rule_id": "CD02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "account discriminator",
+          "fault": "account-domain",
+          "rule_id": "CD02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "linked episode patient mismatch",
+                "record_key": "golden/EN01/episode-patient"
+              }
+            ],
+            "rule_id": "EN01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "patient mismatch",
+          "fault": "episode-patient",
+          "rule_id": "EN01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "encounter cycle",
+                "record_key": "golden/EN01/episode-cycle"
+              }
+            ],
+            "rule_id": "EN01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "cycle",
+          "fault": "episode-cycle",
+          "rule_id": "EN01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "bed transfer created an extra visit",
+                "record_key": "golden/EN01/transfer-new-visit"
+              }
+            ],
+            "rule_id": "EN01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "extra visit",
+          "fault": "transfer-new-visit",
+          "rule_id": "EN01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "encounter chronology",
+                "record_key": "golden/EN02/admit-before-decision"
+              }
+            ],
+            "rule_id": "EN02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "chronology",
+          "fault": "admit-before-decision",
+          "rule_id": "EN02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "open/discharge censoring",
+                "record_key": "golden/EN02/fabricated-discharge"
+              }
+            ],
+            "rule_id": "EN02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "censoring",
+          "fault": "fabricated-discharge",
+          "rule_id": "EN02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "care after death",
+                "record_key": "golden/EN03/care-after-death"
+              }
+            ],
+            "rule_id": "EN03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "care after death",
+          "fault": "care-after-death",
+          "rule_id": "EN03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "future care outcome",
+                "record_key": "golden/EN03/beyond-cutoff"
+              }
+            ],
+            "rule_id": "EN03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "future care",
+          "fault": "beyond-cutoff",
+          "rule_id": "EN03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "allergy substance/reaction",
+                "record_key": "golden/CN01/missing-allergy"
+              }
+            ],
+            "rule_id": "CN01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "substance/reaction",
+          "fault": "missing-allergy",
+          "rule_id": "CN01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "diagnosis requires encounter/rank",
+                "record_key": "golden/CN01/diagnosis-rank"
+              }
+            ],
+            "rule_id": "CN01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "encounter/rank",
+          "fault": "diagnosis-rank",
+          "rule_id": "CN01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "assessed encounter lacks diagnosis",
+                "record_key": "golden/CN02/lost-primary"
+              }
+            ],
+            "rule_id": "CN02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "lacks diagnosis",
+          "fault": "lost-primary",
+          "rule_id": "CN02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "missing event-specific scalar",
+                "record_key": "golden/CE01/missing-unit"
+              }
+            ],
+            "rule_id": "CE01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "event-specific",
+          "fault": "missing-unit",
+          "rule_id": "CE01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "fabricated field for event type",
+                "record_key": "golden/CE01/fabricated-note-code"
+              }
+            ],
+            "rule_id": "CE01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "fabricated field",
+          "fault": "fabricated-note-code",
+          "rule_id": "CE01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "uncounted nested facts",
+                "record_key": "golden/CE01/nested-facts"
+              }
+            ],
+            "rule_id": "CE01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "nested facts",
+          "fault": "nested-facts",
+          "rule_id": "CE01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "administration before order",
+                "record_key": "golden/CE02/before-order"
+              }
+            ],
+            "rule_id": "CE02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "before order",
+          "fault": "before-order",
+          "rule_id": "CE02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "active drug allergy conflict",
+                "record_key": "golden/CE02/allergy-conflict"
+              }
+            ],
+            "rule_id": "CE02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "allergy conflict",
+          "fault": "allergy-conflict",
+          "rule_id": "CE02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "pathway dose/route",
+                "record_key": "golden/CE02/dose-range"
+              }
+            ],
+            "rule_id": "CE02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "dose/route",
+          "fault": "dose-range",
+          "rule_id": "CE02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "note hindsight or lost negation",
+                "record_key": "golden/CE03/negation-loss"
+              }
+            ],
+            "rule_id": "CE03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "lost negation",
+          "fault": "negation-loss",
+          "rule_id": "CE03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "note hindsight or lost negation",
+                "record_key": "golden/CE03/future-note"
+              }
+            ],
+            "rule_id": "CE03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "hindsight",
+          "fault": "future-note",
+          "rule_id": "CE03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "premature no-show",
+                "record_key": "golden/AP01/premature-no-show"
+              }
+            ],
+            "rule_id": "AP01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "premature",
+          "fault": "premature-no-show",
+          "rule_id": "AP01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "appointment booking chronology",
+                "record_key": "golden/AP01/book-after-slot"
+              }
+            ],
+            "rule_id": "AP01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "booking chronology",
+          "fault": "book-after-slot",
+          "rule_id": "AP01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "overlap BI1 / BI2",
+                "record_key": "golden/BD01/double-patient"
+              }
+            ],
+            "rule_id": "BD01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "overlap",
+          "fault": "double-patient",
+          "rule_id": "BD01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "incompatible/unclean/closed bed",
+                "record_key": "golden/BD01/dirty-bed"
+              }
+            ],
+            "rule_id": "BD01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "unclean",
+          "fault": "dirty-bed",
+          "rule_id": "BD01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "incompatible/unclean/closed bed",
+                "record_key": "golden/BD01/incompatible"
+              }
+            ],
+            "rule_id": "BD01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "incompatible",
+          "fault": "incompatible",
+          "rule_id": "BD01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "occupied closure",
+                "record_key": "golden/BD02/occupied-close"
+              }
+            ],
+            "rule_id": "BD02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "occupied closure",
+          "fault": "occupied-close",
+          "rule_id": "BD02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "occupant/post-state mismatch",
+                "record_key": "golden/BD02/null-occupant"
+              }
+            ],
+            "rule_id": "BD02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "occupant/post-state",
+          "fault": "null-occupant",
+          "rule_id": "BD02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "correction projection differs from expected current state",
+                "record_key": "golden/BD02/stale-correction"
+              }
+            ],
+            "rule_id": "BD02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "correction projection",
+          "fault": "stale-correction",
+          "rule_id": "BD02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "census roll-forward",
+                "record_key": "golden/BD03/bad-census"
+              }
+            ],
+            "rule_id": "BD03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "census roll-forward",
+          "fault": "bad-census",
+          "rule_id": "BD03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "event integral differs from clipped intervals",
+                "record_key": "golden/BD04/wrong-integral"
+              }
+            ],
+            "rule_id": "BD04",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "clipped intervals",
+          "fault": "wrong-integral",
+          "rule_id": "BD04",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "dropped demand",
+                "record_key": "golden/BD05/dropped-arrival"
+              }
+            ],
+            "rule_id": "BD05",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "dropped demand",
+          "fault": "dropped-arrival",
+          "rule_id": "BD05",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "demand disposition duplicated",
+                "record_key": "golden/BD05/duplicate-disposition"
+              }
+            ],
+            "rule_id": "BD05",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "duplicated",
+          "fault": "duplicate-disposition",
+          "rule_id": "BD05",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "elapsed/worked/component hours disagree",
+                "record_key": "golden/SF01/dst-wall-time"
+              }
+            ],
+            "rule_id": "SF01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "hours disagree",
+          "fault": "dst-wall-time",
+          "rule_id": "SF01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "overtime exceeds paid hours",
+                "record_key": "golden/SF01/overtime-subset"
+              }
+            ],
+            "rule_id": "SF01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "exceeds paid",
+          "fault": "overtime-subset",
+          "rule_id": "SF01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "overlap S1 / S2",
+                "record_key": "golden/SF01/shift-overlap"
+              }
+            ],
+            "rule_id": "SF01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "overlap",
+          "fault": "shift-overlap",
+          "rule_id": "SF01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "unexplained staffing shortage",
+                "record_key": "golden/SF02/hidden-shortage"
+              }
+            ],
+            "rule_id": "SF02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "shortage",
+          "fault": "hidden-shortage",
+          "rule_id": "SF02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "stock roll-forward",
+                "record_key": "golden/IV01/stock-total"
+              }
+            ],
+            "rule_id": "IV01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "stock roll-forward",
+          "fault": "stock-total",
+          "rule_id": "IV01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "unpaired stock transfer",
+                "record_key": "golden/IV01/transfer-pair"
+              }
+            ],
+            "rule_id": "IV01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "unpaired",
+          "fault": "transfer-pair",
+          "rule_id": "IV01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "dose/base-unit consumption mismatch",
+                "record_key": "golden/IV02/dose-consume"
+              }
+            ],
+            "rule_id": "IV02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "consumption mismatch",
+          "fault": "dose-consume",
+          "rule_id": "IV02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "lot issued before arrival/after expiry",
+                "record_key": "golden/IV03/expired-lot"
+              }
+            ],
+            "rule_id": "IV03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "after expiry",
+          "fault": "expired-lot",
+          "rule_id": "IV03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "lot valuation rounding",
+                "record_key": "golden/IV03/valuation-round"
+              }
+            ],
+            "rule_id": "IV03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "rounding",
+          "fault": "valuation-round",
+          "rule_id": "IV03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "charge arithmetic",
+                "record_key": "golden/CH01/charge-math"
+              }
+            ],
+            "rule_id": "CH01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "charge arithmetic",
+          "fault": "charge-math",
+          "rule_id": "CH01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "unperformed charge provenance",
+                "record_key": "golden/CH01/cancelled-charge"
+              }
+            ],
+            "rule_id": "CH01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "provenance",
+          "fault": "cancelled-charge",
+          "rule_id": "CH01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "claim original header/line sum",
+                "record_key": "golden/CL01/header-mismatch"
+              }
+            ],
+            "rule_id": "CL01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "header/line",
+          "fault": "header-mismatch",
+          "rule_id": "CL01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "charge billed in multiple original lines",
+                "record_key": "golden/CL01/duplicate-charge"
+              }
+            ],
+            "rule_id": "CL01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "multiple original",
+          "fault": "duplicate-charge",
+          "rule_id": "CL01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "claim line patient mismatch",
+                "record_key": "golden/CL01/claim-patient"
+              }
+            ],
+            "rule_id": "CL01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "patient mismatch",
+          "fault": "claim-patient",
+          "rule_id": "CL01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "opening counted as new submission",
+                "record_key": "golden/CL02/opening-revenue"
+              }
+            ],
+            "rule_id": "CL02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "opening counted",
+          "fault": "opening-revenue",
+          "rule_id": "CL02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "resubmission created a new original claim",
+                "record_key": "golden/CL02/new-original"
+              }
+            ],
+            "rule_id": "CL02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "new original",
+          "fault": "new-original",
+          "rule_id": "CL02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "invalid claim transition",
+                "record_key": "golden/CL02/illegal-state"
+              }
+            ],
+            "rule_id": "CL02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "transition",
+          "fault": "illegal-state",
+          "rule_id": "CL02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "AR/cash roll-forward",
+                "record_key": "golden/CL03/ar-total"
+              }
+            ],
+            "rule_id": "CL03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "roll-forward",
+          "fault": "ar-total",
+          "rule_id": "CL03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "unlinked/excess refund",
+                "record_key": "golden/CL03/unlinked-refund"
+              }
+            ],
+            "rule_id": "CL03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "unlinked",
+          "fault": "unlinked-refund",
+          "rule_id": "CL03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "reclassification fabricated cash/revenue",
+                "record_key": "golden/CL03/reclass-cash"
+              }
+            ],
+            "rule_id": "CL03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "fabricated cash",
+          "fault": "reclass-cash",
+          "rule_id": "CL03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "denial evidence from future",
+                "record_key": "golden/CL04/denial-hindsight"
+              }
+            ],
+            "rule_id": "CL04",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "future",
+          "fault": "denial-hindsight",
+          "rule_id": "CL04",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "open appeal treated as final loss",
+                "record_key": "golden/CL04/appeal-loss"
+              }
+            ],
+            "rule_id": "CL04",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "final loss",
+          "fault": "appeal-loss",
+          "rule_id": "CL04",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "unbalanced entity/currency/date/journal",
+                "record_key": "golden/GL01/imbalance"
+              }
+            ],
+            "rule_id": "GL01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "unbalanced",
+          "fault": "imbalance",
+          "rule_id": "GL01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "one positive journal side required",
+                "record_key": "golden/GL01/two-sided-line"
+              }
+            ],
+            "rule_id": "GL01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "one positive",
+          "fault": "two-sided-line",
+          "rule_id": "GL01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "unbalanced entity/currency/date/journal",
+                "record_key": "golden/GL01/wrong-entity"
+              }
+            ],
+            "rule_id": "GL01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "unbalanced",
+          "fault": "wrong-entity",
+          "rule_id": "GL01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "non-account journal code",
+                "record_key": "golden/GL01/wrong-account"
+              }
+            ],
+            "rule_id": "GL01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "non-account",
+          "fault": "wrong-account",
+          "rule_id": "GL01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "source journal mismatch charge",
+                "record_key": "golden/GL02/offsetting-grain-errors"
+              }
+            ],
+            "rule_id": "GL02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "source journal",
+          "fault": "offsetting-grain-errors",
+          "rule_id": "GL02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "missing source journal group",
+                "record_key": "golden/GL02/missing-group"
+              }
+            ],
+            "rule_id": "GL02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "missing source",
+          "fault": "missing-group",
+          "rule_id": "GL02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "purchase expensed before consumption",
+                "record_key": "golden/GL03/purchase-double-expense"
+              }
+            ],
+            "rule_id": "GL03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "before consumption",
+          "fault": "purchase-double-expense",
+          "rule_id": "GL03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "consumption expense/asset mismatch",
+                "record_key": "golden/GL03/consume-pair"
+              }
+            ],
+            "rule_id": "GL03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "expense/asset",
+          "fault": "consume-pair",
+          "rule_id": "GL03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "cost pool not conserved",
+                "record_key": "golden/CO01/pool-overallocation"
+              }
+            ],
+            "rule_id": "CO01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "not conserved",
+          "fault": "pool-overallocation",
+          "rule_id": "CO01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "allocation shares not one",
+                "record_key": "golden/CO01/share-total"
+              }
+            ],
+            "rule_id": "CO01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "shares",
+          "fault": "share-total",
+          "rule_id": "CO01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "analytical allocation duplicated GL expense",
+                "record_key": "golden/CO01/duplicate-expense"
+              }
+            ],
+            "rule_id": "CO01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "duplicated GL",
+          "fault": "duplicate-expense",
+          "rule_id": "CO01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "wrong cost destination/encounter",
+                "record_key": "golden/CO02/residual-encounter"
+              }
+            ],
+            "rule_id": "CO02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "destination/encounter",
+          "fault": "residual-encounter",
+          "rule_id": "CO02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "multiple or missing selected cost runs",
+                "record_key": "golden/CO02/multi-run"
+              }
+            ],
+            "rule_id": "CO02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "multiple or missing",
+          "fault": "multi-run",
+          "rule_id": "CO02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "Axiom account/center/month mismatch BS/C1/Jan",
+                "record_key": "golden/AX01/BS-as-movement"
+              }
+            ],
+            "rule_id": "AX01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "Axiom account",
+          "fault": "BS-as-movement",
+          "rule_id": "AX01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "Axiom account/center/month mismatch A",
+                "record_key": "golden/AX01/offsetting-accounts"
+              }
+            ],
+            "rule_id": "AX01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "Axiom account",
+          "fault": "offsetting-accounts",
+          "rule_id": "AX01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "Axiom month must be first day",
+                "record_key": "golden/AX02/wrong-month"
+              }
+            ],
+            "rule_id": "AX02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "first day",
+          "fault": "wrong-month",
+          "rule_id": "AX02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "multiple selected vintages",
+                "record_key": "golden/AX02/mixed-vintages"
+              }
+            ],
+            "rule_id": "AX02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "multiple selected",
+          "fault": "mixed-vintages",
+          "rule_id": "AX02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "statistical grain/unit",
+                "record_key": "golden/AX02/stat-dollar"
+              }
+            ],
+            "rule_id": "AX02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "statistical",
+          "fault": "stat-dollar",
+          "rule_id": "AX02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "future information in forecast vintage",
+                "record_key": "golden/AX03/future-driver"
+              }
+            ],
+            "rule_id": "AX03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "future information",
+          "fault": "future-driver",
+          "rule_id": "AX03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "export row count",
+                "record_key": "golden/SR01/missing-export-row"
+              }
+            ],
+            "rule_id": "SR01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "row count",
+          "fault": "missing-export-row",
+          "rule_id": "SR01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "round trip scope/values",
+                "record_key": "golden/SR01/roundtrip-value"
+              }
+            ],
+            "rule_id": "SR01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "round trip",
+          "fault": "roundtrip-value",
+          "rule_id": "SR01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "export control total",
+                "record_key": "golden/SR01/control-total"
+              }
+            ],
+            "rule_id": "SR01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "control total",
+          "fault": "control-total",
+          "rule_id": "SR01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "unmapped/ambiguous/incorrectly typed key",
+                "record_key": "golden/SR02/unmapped-namespace"
+              }
+            ],
+            "rule_id": "SR02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "unmapped",
+          "fault": "unmapped-namespace",
+          "rule_id": "SR02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "unmapped/ambiguous/incorrectly typed key",
+                "record_key": "golden/SR02/wrong-type-target"
+              }
+            ],
+            "rule_id": "SR02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "typed key",
+          "fault": "wrong-type-target",
+          "rule_id": "SR02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "unmapped/ambiguous/incorrectly typed key",
+                "record_key": "golden/SR02/ambiguous-crosswalk"
+              }
+            ],
+            "rule_id": "SR02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "ambiguous",
+          "fault": "ambiguous-crosswalk",
+          "rule_id": "SR02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "replay altered economic/current state",
+                "record_key": "golden/SR03/replay-economic-duplicate"
+              }
+            ],
+            "rule_id": "SR03",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "replay altered",
+          "fault": "replay-economic-duplicate",
+          "rule_id": "SR03",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "driver facility/date coverage",
+                "record_key": "golden/DR01/leap-date-gap"
+              }
+            ],
+            "rule_id": "DR01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "coverage",
+          "fault": "leap-date-gap",
+          "rule_id": "DR01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "realized driver knowledge chronology",
+                "record_key": "golden/DR01/driver-knowledge"
+              }
+            ],
+            "rule_id": "DR01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "knowledge chronology",
+          "fault": "driver-knowledge",
+          "rule_id": "DR01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "preregistered realism band",
+                "record_key": "golden/RS01/conditional-rate"
+              }
+            ],
+            "rule_id": "RS01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "realism band",
+          "fault": "conditional-rate",
+          "rule_id": "RS01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "insufficient realism denominator requires review",
+                "record_key": "golden/RS01/small-cell"
+              }
+            ],
+            "rule_id": "RS01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "insufficient",
+          "fault": "small-cell",
+          "rule_id": "RS01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "scenario missing downstream effects",
+                "record_key": "golden/RS02/missing-downstream"
+              }
+            ],
+            "rule_id": "RS02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "downstream",
+          "fault": "missing-downstream",
+          "rule_id": "RS02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "scenario labels leaked to business features",
+                "record_key": "golden/RS02/scenario-feature"
+              }
+            ],
+            "rule_id": "RS02",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P1",
+            "status": "FAIL"
+          },
+          "expected_detector": "labels leaked",
+          "fault": "scenario-feature",
+          "rule_id": "RS02",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "canonical business record ceiling",
+                "record_key": "golden/CP01/row-cap"
+              }
+            ],
+            "rule_id": "CP01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "record ceiling",
+          "fault": "row-cap",
+          "rule_id": "CP01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "uncounted business histories",
+                "record_key": "golden/CP01/hidden-versions"
+              }
+            ],
+            "rule_id": "CP01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "uncounted",
+          "fault": "hidden-versions",
+          "rule_id": "CP01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "business table boundary",
+                "record_key": "golden/CP01/table-cap"
+              }
+            ],
+            "rule_id": "CP01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "table boundary",
+          "fault": "table-cap",
+          "rule_id": "CP01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "clean rebuild/input lock mismatch",
+                "record_key": "golden/RP01/different-rebuild"
+              }
+            ],
+            "rule_id": "RP01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "rebuild",
+          "fault": "different-rebuild",
+          "rule_id": "RP01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "clean rebuild/input lock mismatch",
+                "record_key": "golden/RP01/unlocked-input"
+              }
+            ],
+            "rule_id": "RP01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "input lock",
+          "fault": "unlocked-input",
+          "rule_id": "RP01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "join multiplied independent facts",
+                "record_key": "golden/FN01/join-multiplied"
+              }
+            ],
+            "rule_id": "FN01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "join multiplied",
+          "fault": "join-multiplied",
+          "rule_id": "FN01",
+          "status": "PASS"
+        },
+        {
+          "detector_result": {
+            "failures": [
+              {
+                "error_type": "ValueError",
+                "reason": "join multiplied independent facts",
+                "record_key": "golden/FN01/offsetting-fact-grains"
+              }
+            ],
+            "rule_id": "FN01",
+            "scope": "DEVELOPMENT_MICROFIXTURE",
+            "severity": "P0",
+            "status": "FAIL"
+          },
+          "expected_detector": "join multiplied",
+          "fault": "offsetting-fact-grains",
+          "rule_id": "FN01",
+          "status": "PASS"
+        }
+      ],
+      "profiling": {
+        "bed_interval": {
+          "columns": {
+            "bed": {
+              "distinct": 2,
+              "max": "fixture-bed-b",
+              "min": "fixture-bed-a",
+              "nulls": 0
+            },
+            "end": {
+              "distinct": 2,
+              "max": "2024-11-03T09:30:00Z",
+              "min": "2024-11-03T07:30:00Z",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 2,
+              "max": "interval_ff0c5d2013d4ed510135adfd48d67b67",
+              "min": "interval_0d525d37a8e8c55b8d49049ba8763414",
+              "nulls": 0
+            },
+            "patient": {
+              "distinct": 1,
+              "max": "patient_7b22c8c3e2e50dcb17a6815cbcc20b08",
+              "min": "patient_7b22c8c3e2e50dcb17a6815cbcc20b08",
+              "nulls": 0
+            },
+            "start": {
+              "distinct": 2,
+              "max": "2024-11-03T07:30:00Z",
+              "min": "2024-11-03T06:30:00Z",
+              "nulls": 0
+            }
+          },
+          "rows": 2
+        },
+        "catalog_item": {
+          "columns": {
+            "code": {
+              "distinct": 1,
+              "max": "FIXTURE_DX",
+              "min": "FIXTURE_DX",
+              "nulls": 0
+            },
+            "domain": {
+              "distinct": 1,
+              "max": "DIAGNOSIS",
+              "min": "DIAGNOSIS",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 2,
+              "max": "catalog_ea652337be15fbef69053dbadf825945",
+              "min": "catalog_8e430f82c4647b46b5d9c7624caf98d0",
+              "nulls": 0
+            },
+            "published_at": {
+              "distinct": 2,
+              "max": "2024-06-01T00:00:00Z",
+              "min": "2023-06-01T00:00:00Z",
+              "nulls": 0
+            },
+            "valid_from": {
+              "distinct": 2,
+              "max": "2024-10-01",
+              "min": "2023-10-01",
+              "nulls": 0
+            },
+            "valid_to": {
+              "distinct": 2,
+              "max": "2025-10-01",
+              "min": "2024-10-01",
+              "nulls": 0
+            },
+            "version": {
+              "distinct": 2,
+              "max": "FY2025",
+              "min": "FY2024",
+              "nulls": 0
+            }
+          },
+          "rows": 2
+        },
+        "claim": {
+          "columns": {
+            "billed": {
+              "distinct": 1,
+              "max": "100.00",
+              "min": "100.00",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 1,
+              "max": "claim_9cace493a74e66c0095bb4c82eab47f2",
+              "min": "claim_9cace493a74e66c0095bb4c82eab47f2",
+              "nulls": 0
+            },
+            "opening_ar": {
+              "distinct": 1,
+              "max": "100.00",
+              "min": "100.00",
+              "nulls": 0
+            }
+          },
+          "rows": 1
+        },
+        "claim_event": {
+          "columns": {
+            "ar_delta": {
+              "distinct": 2,
+              "max": "10.00",
+              "min": "-60.00",
+              "nulls": 0
+            },
+            "cash_delta": {
+              "distinct": 2,
+              "max": "60.00",
+              "min": "-10.00",
+              "nulls": 0
+            },
+            "claim": {
+              "distinct": 1,
+              "max": "claim_9cace493a74e66c0095bb4c82eab47f2",
+              "min": "claim_9cace493a74e66c0095bb4c82eab47f2",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 2,
+              "max": "refund_bc09d00f70571c249686b37655961c3a",
+              "min": "payment_66e1ca9c23f385217b404582a1bf31bb",
+              "nulls": 0
+            },
+            "reverses": {
+              "distinct": 1,
+              "max": "payment_66e1ca9c23f385217b404582a1bf31bb",
+              "min": "payment_66e1ca9c23f385217b404582a1bf31bb",
+              "nulls": 1
+            }
+          },
+          "rows": 2
+        },
+        "claim_line": {
+          "columns": {
+            "amount": {
+              "distinct": 1,
+              "max": "100.00",
+              "min": "100.00",
+              "nulls": 0
+            },
+            "charge": {
+              "distinct": 1,
+              "max": "charge_23bee824b60d1047663dfa8f1e8a84d8",
+              "min": "charge_23bee824b60d1047663dfa8f1e8a84d8",
+              "nulls": 0
+            },
+            "claim": {
+              "distinct": 1,
+              "max": "claim_9cace493a74e66c0095bb4c82eab47f2",
+              "min": "claim_9cace493a74e66c0095bb4c82eab47f2",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 1,
+              "max": "claimline_ca0b6ead0bdc395ee85c0e267b4ea103",
+              "min": "claimline_ca0b6ead0bdc395ee85c0e267b4ea103",
+              "nulls": 0
+            }
+          },
+          "rows": 1
+        },
+        "clinical_event": {
+          "columns": {
+            "at": {
+              "distinct": 2,
+              "max": "2024-11-03T06:30:00Z",
+              "min": "2024-11-03T04:30:00Z",
+              "nulls": 0
+            },
+            "encounter": {
+              "distinct": 2,
+              "max": "encounter_df0822e3e8ccb5f0241e387c5a7749c6",
+              "min": "encounter_1377906556607e040cbbc968235cc63b",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 2,
+              "max": "observation_a6c2562e510f4c572fbedf59423d555b",
+              "min": "observation_8fef42ee45ef72efbb0d7ed958da20d5",
+              "nulls": 0
+            },
+            "unit": {
+              "distinct": 1,
+              "max": "%",
+              "min": "%",
+              "nulls": 0
+            },
+            "value": {
+              "distinct": 2,
+              "max": "98",
+              "min": "93",
+              "nulls": 0
+            }
+          },
+          "rows": 2
+        },
+        "cost_allocation": {
+          "columns": {
+            "amount": {
+              "distinct": 3,
+              "max": "70",
+              "min": "10",
+              "nulls": 0
+            },
+            "destination": {
+              "distinct": 3,
+              "max": "RESIDUAL",
+              "min": "NONPATIENT",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 3,
+              "max": "cost_ecb6faed3f63dd9a8b77f7c2239ef1d1",
+              "min": "cost_0885118270d6c5b269e642c5d2e62c32",
+              "nulls": 0
+            }
+          },
+          "rows": 3
+        },
+        "encounter": {
+          "columns": {
+            "acuity": {
+              "distinct": 1,
+              "max": 4,
+              "min": 4,
+              "nulls": 0
+            },
+            "end": {
+              "distinct": 2,
+              "max": "2024-11-03T09:30:00Z",
+              "min": "2024-11-03T06:30:00Z",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 2,
+              "max": "encounter_df0822e3e8ccb5f0241e387c5a7749c6",
+              "min": "encounter_1377906556607e040cbbc968235cc63b",
+              "nulls": 0
+            },
+            "patient": {
+              "distinct": 1,
+              "max": "patient_7b22c8c3e2e50dcb17a6815cbcc20b08",
+              "min": "patient_7b22c8c3e2e50dcb17a6815cbcc20b08",
+              "nulls": 0
+            },
+            "prior": {
+              "distinct": 1,
+              "max": "encounter_1377906556607e040cbbc968235cc63b",
+              "min": "encounter_1377906556607e040cbbc968235cc63b",
+              "nulls": 1
+            },
+            "start": {
+              "distinct": 2,
+              "max": "2024-11-03T06:30:00Z",
+              "min": "2024-11-03T04:30:00Z",
+              "nulls": 0
+            },
+            "type": {
+              "distinct": 2,
+              "max": "IPD",
+              "min": "ED",
+              "nulls": 0
+            }
+          },
+          "rows": 2
+        },
+        "finance_monthly": {
+          "columns": {
+            "amount": {
+              "distinct": 1,
+              "max": "100.00",
+              "min": "100.00",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 1,
+              "max": "finance_fd01165396512c271994ecd6bd2a5123",
+              "min": "finance_fd01165396512c271994ecd6bd2a5123",
+              "nulls": 0
+            },
+            "month": {
+              "distinct": 1,
+              "max": "2024-11-01",
+              "min": "2024-11-01",
+              "nulls": 0
+            },
+            "scenario": {
+              "distinct": 1,
+              "max": "ACTUAL",
+              "min": "ACTUAL",
+              "nulls": 0
+            },
+            "unit": {
+              "distinct": 1,
+              "max": "USD",
+              "min": "USD",
+              "nulls": 0
+            },
+            "vintage": {
+              "distinct": 1,
+              "max": "v1",
+              "min": "v1",
+              "nulls": 0
+            }
+          },
+          "rows": 1
+        },
+        "financial_posting": {
+          "columns": {
+            "credit": {
+              "distinct": 3,
+              "max": "60.00",
+              "min": "0.00",
+              "nulls": 0
+            },
+            "debit": {
+              "distinct": 3,
+              "max": "60.00",
+              "min": "0.00",
+              "nulls": 0
+            },
+            "journal": {
+              "distinct": 2,
+              "max": "refund_bc09d00f70571c249686b37655961c3a",
+              "min": "payment_66e1ca9c23f385217b404582a1bf31bb",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 4,
+              "max": "posting_916ecb27345927cff1df7c3391685939",
+              "min": "posting_142a66ce2bc09d647c1e6db52091d7c8",
+              "nulls": 0
+            }
+          },
+          "rows": 4
+        },
+        "inventory_movement": {
+          "columns": {
+            "key": {
+              "distinct": 3,
+              "max": "stock_9115229385546440172264f0f978b970",
+              "min": "stock_41d90ccc18e6e2904a6746997167cb0b",
+              "nulls": 0
+            },
+            "qty": {
+              "distinct": 3,
+              "max": "5",
+              "min": "-2",
+              "nulls": 0
+            }
+          },
+          "rows": 3
+        },
+        "patient": {
+          "columns": {
+            "age": {
+              "distinct": 3,
+              "max": 64,
+              "min": 20,
+              "nulls": 0
+            },
+            "dob": {
+              "distinct": 3,
+              "max": "2004-02-29",
+              "min": "1960-09-12",
+              "nulls": 0
+            },
+            "email": {
+              "distinct": 3,
+              "max": "patient_f5b45c3fc7f185362b92bbb868f8d725@example.invalid",
+              "min": "patient_542e5421a30f047ad945bdd061ef182e@example.invalid",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 3,
+              "max": "patient_f5b45c3fc7f185362b92bbb868f8d725",
+              "min": "patient_542e5421a30f047ad945bdd061ef182e",
+              "nulls": 0
+            },
+            "name": {
+              "distinct": 2,
+              "max": "Maya Thompson",
+              "min": "Jordan Chen",
+              "nulls": 0
+            },
+            "service_date": {
+              "distinct": 1,
+              "max": "2024-11-03",
+              "min": "2024-11-03",
+              "nulls": 0
+            }
+          },
+          "rows": 3
+        },
+        "service_charge": {
+          "columns": {
+            "billed": {
+              "distinct": 1,
+              "max": "100.00",
+              "min": "100.00",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 1,
+              "max": "charge_23bee824b60d1047663dfa8f1e8a84d8",
+              "min": "charge_23bee824b60d1047663dfa8f1e8a84d8",
+              "nulls": 0
+            },
+            "price": {
+              "distinct": 1,
+              "max": "100.00",
+              "min": "100.00",
+              "nulls": 0
+            },
+            "units": {
+              "distinct": 1,
+              "max": "1",
+              "min": "1",
+              "nulls": 0
+            }
+          },
+          "rows": 1
+        },
+        "staff_shift": {
+          "columns": {
+            "break": {
+              "distinct": 1,
+              "max": "0.25",
+              "min": "0.25",
+              "nulls": 0
+            },
+            "end": {
+              "distinct": 1,
+              "max": "2024-11-03T08:30:00Z",
+              "min": "2024-11-03T08:30:00Z",
+              "nulls": 0
+            },
+            "key": {
+              "distinct": 1,
+              "max": "shift_51af9551f5b64951e585fbd2b3d6fe5a",
+              "min": "shift_51af9551f5b64951e585fbd2b3d6fe5a",
+              "nulls": 0
+            },
+            "nonproductive": {
+              "distinct": 1,
+              "max": "0.25",
+              "min": "0.25",
+              "nulls": 0
+            },
+            "productive": {
+              "distinct": 1,
+              "max": "2.50",
+              "min": "2.50",
+              "nulls": 0
+            },
+            "start": {
+              "distinct": 1,
+              "max": "2024-11-03T05:30:00Z",
+              "min": "2024-11-03T05:30:00Z",
+              "nulls": 0
+            },
+            "worked": {
+              "distinct": 1,
+              "max": "3",
+              "min": "3",
+              "nulls": 0
+            },
+            "worker": {
+              "distinct": 1,
+              "max": "worker_1da871ebd8f0dffea951fda2bfc1c012",
+              "min": "worker_1da871ebd8f0dffea951fda2bfc1c012",
+              "nulls": 0
+            }
+          },
+          "rows": 1
+        },
+        "worker_assignment": {
+          "columns": {
+            "key": {
+              "distinct": 2,
+              "max": "worker_version_617398fd87278e48a6b3d374046b9024",
+              "min": "worker_version_1a888e76bab9e8c6da7da4008fd8b512",
+              "nulls": 0
+            },
+            "known_from": {
+              "distinct": 2,
+              "max": "2024-11-10T00:00:00Z",
+              "min": "2024-01-01T00:00:00Z",
+              "nulls": 0
+            },
+            "known_to": {
+              "distinct": 1,
+              "max": "2024-11-10T00:00:00Z",
+              "min": "2024-11-10T00:00:00Z",
+              "nulls": 1
+            },
+            "name": {
+              "distinct": 1,
+              "max": "Daniel Brooks",
+              "min": "Daniel Brooks",
+              "nulls": 0
+            },
+            "rate": {
+              "distinct": 2,
+              "max": "42.00",
+              "min": "40.00",
+              "nulls": 0
+            },
+            "role": {
+              "distinct": 1,
+              "max": "RN",
+              "min": "RN",
+              "nulls": 0
+            },
+            "valid_from": {
+              "distinct": 1,
+              "max": "2024-01-01T00:00:00Z",
+              "min": "2024-01-01T00:00:00Z",
+              "nulls": 0
+            },
+            "valid_to": {
+              "distinct": 0,
+              "max": null,
+              "min": null,
+              "nulls": 2
+            },
+            "worker": {
+              "distinct": 1,
+              "max": "worker_1da871ebd8f0dffea951fda2bfc1c012",
+              "min": "worker_1da871ebd8f0dffea951fda2bfc1c012",
+              "nulls": 0
+            }
+          },
+          "rows": 2
+        }
+      },
+      "reconciliation": {
+        "closing_ar": {
+          "difference": "0.00",
+          "expected": "50.00",
+          "observed": "50.00",
+          "scope": "DEVELOPMENT_PROJECTION"
+        },
+        "closing_cash": {
+          "difference": "0.00",
+          "expected": "50.00",
+          "observed": "50.00",
+          "scope": "DEVELOPMENT_PROJECTION"
+        },
+        "closing_stock": {
+          "difference": "0",
+          "expected": "13",
+          "observed": "13",
+          "scope": "DEVELOPMENT_PROJECTION"
+        },
+        "occupied_seconds": {
+          "difference": "0",
+          "expected": "10800",
+          "observed": "10800",
+          "scope": "DEVELOPMENT_PROJECTION"
+        },
+        "pool": {
+          "difference": "0.00",
+          "expected": "100.00",
+          "observed": "100",
+          "scope": "DEVELOPMENT_PROJECTION"
+        }
+      },
+      "results": [
+        {
+          "failures": [],
+          "rule_id": "ID01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "ID02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "TM01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "TM02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "TM03",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NM01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NM02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "OR01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "WK01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "WK02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "AC01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CV01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CD01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CD02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "EN01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "EN02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "EN03",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CN01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CN02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CE01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CE02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CE03",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "AP01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "BD01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "BD02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "BD03",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "BD04",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "BD05",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "SF01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "SF02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "IV01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "IV02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "IV03",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CH01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CL01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CL02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CL03",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CL04",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "GL01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "GL02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "GL03",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CO01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CO02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "AX01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "AX02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "AX03",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "SR01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "SR02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "SR03",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "DR01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "RS01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "RS02",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P1",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "CP01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "RP01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "FN01",
+          "scope": "DEVELOPMENT_MICROFIXTURE",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "P1_SHAPE",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "P1_IDENTITIES",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "P1_CHRONOLOGY",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "P1_REFERENCES",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "P1_RESOURCES",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "P1_FINANCE",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "P1_EXPORTS",
+          "scope": "DEVELOPMENT_SOURCE_PROJECTION",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "F_CORRUPT",
+          "scope": "SOURCE_RECOVERY",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "F_DUP",
+          "scope": "SOURCE_RECOVERY",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "F_LATE",
+          "scope": "SOURCE_RECOVERY",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "F_MISSING",
+          "scope": "SOURCE_RECOVERY",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "F_REPLACE",
+          "scope": "SOURCE_RECOVERY",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "F_SCHEMA",
+          "scope": "SOURCE_RECOVERY",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "F_UNMAPPED",
+          "scope": "SOURCE_RECOVERY",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_ID01:same-key",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_ID01:null-name",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_ID01:wrong-type",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_ID02:orphan",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_TM01:empty-valid",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_TM01:empty-known",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_TM01:rectangle-overlap",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_TM02:early-export",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_TM02:hindsight",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_TM03:discharge-leak",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_NM01:numbered-name",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_NM02:leap-age",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_NM02:live-contact",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_OR01:cycle",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_OR01:cross-facility",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_OR01:missing-opening",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_OR01:wrong-inventory",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_WK01:retro-hindsight",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_WK01:credential-expired",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_WK01:duplicate-worker",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_WK02:manager-cycle",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_WK02:missing-manager",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_AC01:bad-scope",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_AC01:revocation-read",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CV01:primary-overlap",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CV01:wrong-patient",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CV01:missing-selfpay",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CD01:old-release",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CD01:wrong-unit",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CD01:unpublished",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CD02:zero-conversion",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CD02:account-domain",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_EN01:episode-patient",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_EN01:episode-cycle",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_EN01:transfer-new-visit",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_EN02:admit-before-decision",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_EN02:fabricated-discharge",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_EN03:care-after-death",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_EN03:beyond-cutoff",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CN01:missing-allergy",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CN01:diagnosis-rank",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CN02:lost-primary",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CE01:missing-unit",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CE01:fabricated-note-code",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CE01:nested-facts",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CE02:before-order",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CE02:allergy-conflict",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CE02:dose-range",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CE03:negation-loss",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CE03:future-note",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_AP01:premature-no-show",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_AP01:book-after-slot",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_BD01:double-patient",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_BD01:dirty-bed",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_BD01:incompatible",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_BD02:occupied-close",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_BD02:null-occupant",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_BD02:stale-correction",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_BD03:bad-census",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_BD04:wrong-integral",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_BD05:dropped-arrival",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_BD05:duplicate-disposition",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SF01:dst-wall-time",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SF01:overtime-subset",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SF01:shift-overlap",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SF02:hidden-shortage",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_IV01:stock-total",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_IV01:transfer-pair",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_IV02:dose-consume",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_IV03:expired-lot",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_IV03:valuation-round",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CH01:charge-math",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CH01:cancelled-charge",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL01:header-mismatch",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL01:duplicate-charge",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL01:claim-patient",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL02:opening-revenue",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL02:new-original",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL02:illegal-state",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL03:ar-total",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL03:unlinked-refund",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL03:reclass-cash",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL04:denial-hindsight",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CL04:appeal-loss",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_GL01:imbalance",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_GL01:two-sided-line",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_GL01:wrong-entity",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_GL01:wrong-account",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_GL02:offsetting-grain-errors",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_GL02:missing-group",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_GL03:purchase-double-expense",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_GL03:consume-pair",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CO01:pool-overallocation",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CO01:share-total",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CO01:duplicate-expense",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CO02:residual-encounter",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CO02:multi-run",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_AX01:BS-as-movement",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_AX01:offsetting-accounts",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_AX02:wrong-month",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_AX02:mixed-vintages",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_AX02:stat-dollar",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_AX03:future-driver",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SR01:missing-export-row",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SR01:roundtrip-value",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SR01:control-total",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SR02:unmapped-namespace",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SR02:wrong-type-target",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SR02:ambiguous-crosswalk",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_SR03:replay-economic-duplicate",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_DR01:leap-date-gap",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_DR01:driver-knowledge",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_RS01:conditional-rate",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_RS01:small-cell",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_RS02:missing-downstream",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_RS02:scenario-feature",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CP01:row-cap",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CP01:hidden-versions",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_CP01:table-cap",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_RP01:different-rebuild",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_RP01:unlocked-input",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_FN01:join-multiplied",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "NEGATIVE_FN01:offsetting-fact-grains",
+          "scope": "NEGATIVE_CONTROL",
+          "severity": "P0",
+          "status": "PASS"
+        },
+        {
+          "failures": [],
+          "rule_id": "P1_ASOF_LOOKUPS",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "severity": "P0",
+          "status": "PASS"
+        }
+      ],
+      "source_recovery": [
+        {
+          "fault_id": "F_CORRUPT",
+          "observed": "F_CORRUPT: file checksum/byte length",
+          "status": "PASS"
+        },
+        {
+          "fault_id": "F_DUP",
+          "observed": "exact delivery deduplicated",
+          "status": "PASS"
+        },
+        {
+          "fault_id": "F_LATE",
+          "observed": "effective order/correction converges; historical availability preserved",
+          "status": "PASS"
+        },
+        {
+          "fault_id": "F_MISSING",
+          "observed": "F_MISSING: requested source partition incomplete",
+          "status": "PASS"
+        },
+        {
+          "fault_id": "F_REPLACE",
+          "observed": "90 current; 100 historical; no 190 total",
+          "status": "PASS"
+        },
+        {
+          "fault_id": "F_SCHEMA",
+          "observed": "F_SCHEMA: incompatible source contract",
+          "status": "PASS"
+        },
+        {
+          "fault_id": "F_UNMAPPED",
+          "observed": "F_UNMAPPED: u1 target C2",
+          "status": "PASS"
+        }
+      ]
+    },
+    "independent_validation": {
+      "validation_scope": "DEVELOPMENT_PROJECTIONS_ONLY",
+      "results": [
+        {
+          "rule_id": "P1_SHAPE",
+          "severity": "P0",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "status": "PASS",
+          "failures": []
+        },
+        {
+          "rule_id": "P1_IDENTITIES",
+          "severity": "P0",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "status": "PASS",
+          "failures": []
+        },
+        {
+          "rule_id": "P1_CHRONOLOGY",
+          "severity": "P0",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "status": "PASS",
+          "failures": []
+        },
+        {
+          "rule_id": "P1_REFERENCES",
+          "severity": "P0",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "status": "PASS",
+          "failures": []
+        },
+        {
+          "rule_id": "P1_RESOURCES",
+          "severity": "P0",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "status": "PASS",
+          "failures": []
+        },
+        {
+          "rule_id": "P1_FINANCE",
+          "severity": "P0",
+          "scope": "DEVELOPMENT_PROJECTION",
+          "status": "PASS",
+          "failures": []
+        },
+        {
+          "rule_id": "P1_EXPORTS",
+          "severity": "P0",
+          "scope": "DEVELOPMENT_SOURCE_PROJECTION",
+          "status": "PASS",
+          "failures": []
+        },
+        {
+          "rule_id": "P1_FRAMEWORK_GATE",
+          "severity": "P0",
+          "scope": "MANIFEST",
+          "status": "PASS",
+          "failures": []
+        }
+      ],
+      "gate": {
+        "status": "FIXTURES_PASSED",
+        "blocking_rules": [],
+        "dataset_accepted": false,
+        "solution_status": "BLOCKED_FOR_SOLUTION"
+      },
+      "defects": [],
+      "profiling": {
+        "bed_interval": {
+          "rows": 2,
+          "columns": {
+            "bed": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "fixture-bed-a",
+              "max": "fixture-bed-b"
+            },
+            "end": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "2024-11-03T07:30:00Z",
+              "max": "2024-11-03T09:30:00Z"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "interval_0d525d37a8e8c55b8d49049ba8763414",
+              "max": "interval_ff0c5d2013d4ed510135adfd48d67b67"
+            },
+            "patient": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "patient_7b22c8c3e2e50dcb17a6815cbcc20b08",
+              "max": "patient_7b22c8c3e2e50dcb17a6815cbcc20b08"
+            },
+            "start": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "2024-11-03T06:30:00Z",
+              "max": "2024-11-03T07:30:00Z"
+            }
+          }
+        },
+        "catalog_item": {
+          "rows": 2,
+          "columns": {
+            "code": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "FIXTURE_DX",
+              "max": "FIXTURE_DX"
+            },
+            "domain": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "DIAGNOSIS",
+              "max": "DIAGNOSIS"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "catalog_8e430f82c4647b46b5d9c7624caf98d0",
+              "max": "catalog_ea652337be15fbef69053dbadf825945"
+            },
+            "published_at": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "2023-06-01T00:00:00Z",
+              "max": "2024-06-01T00:00:00Z"
+            },
+            "valid_from": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "2023-10-01",
+              "max": "2024-10-01"
+            },
+            "valid_to": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "2024-10-01",
+              "max": "2025-10-01"
+            },
+            "version": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "FY2024",
+              "max": "FY2025"
+            }
+          }
+        },
+        "claim": {
+          "rows": 1,
+          "columns": {
+            "billed": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "100.00",
+              "max": "100.00"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "claim_9cace493a74e66c0095bb4c82eab47f2",
+              "max": "claim_9cace493a74e66c0095bb4c82eab47f2"
+            },
+            "opening_ar": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "100.00",
+              "max": "100.00"
+            }
+          }
+        },
+        "claim_event": {
+          "rows": 2,
+          "columns": {
+            "ar_delta": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "-60.00",
+              "max": "10.00"
+            },
+            "cash_delta": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "-10.00",
+              "max": "60.00"
+            },
+            "claim": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "claim_9cace493a74e66c0095bb4c82eab47f2",
+              "max": "claim_9cace493a74e66c0095bb4c82eab47f2"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "payment_66e1ca9c23f385217b404582a1bf31bb",
+              "max": "refund_bc09d00f70571c249686b37655961c3a"
+            },
+            "reverses": {
+              "nulls": 1,
+              "distinct": 1,
+              "min": "payment_66e1ca9c23f385217b404582a1bf31bb",
+              "max": "payment_66e1ca9c23f385217b404582a1bf31bb"
+            }
+          }
+        },
+        "claim_line": {
+          "rows": 1,
+          "columns": {
+            "amount": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "100.00",
+              "max": "100.00"
+            },
+            "charge": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "charge_23bee824b60d1047663dfa8f1e8a84d8",
+              "max": "charge_23bee824b60d1047663dfa8f1e8a84d8"
+            },
+            "claim": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "claim_9cace493a74e66c0095bb4c82eab47f2",
+              "max": "claim_9cace493a74e66c0095bb4c82eab47f2"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "claimline_ca0b6ead0bdc395ee85c0e267b4ea103",
+              "max": "claimline_ca0b6ead0bdc395ee85c0e267b4ea103"
+            }
+          }
+        },
+        "clinical_event": {
+          "rows": 2,
+          "columns": {
+            "at": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "2024-11-03T04:30:00Z",
+              "max": "2024-11-03T06:30:00Z"
+            },
+            "encounter": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "encounter_1377906556607e040cbbc968235cc63b",
+              "max": "encounter_df0822e3e8ccb5f0241e387c5a7749c6"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "observation_8fef42ee45ef72efbb0d7ed958da20d5",
+              "max": "observation_a6c2562e510f4c572fbedf59423d555b"
+            },
+            "unit": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "%",
+              "max": "%"
+            },
+            "value": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "93",
+              "max": "98"
+            }
+          }
+        },
+        "cost_allocation": {
+          "rows": 3,
+          "columns": {
+            "amount": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": "10",
+              "max": "70"
+            },
+            "destination": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": "NONPATIENT",
+              "max": "RESIDUAL"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": "cost_0885118270d6c5b269e642c5d2e62c32",
+              "max": "cost_ecb6faed3f63dd9a8b77f7c2239ef1d1"
+            }
+          }
+        },
+        "encounter": {
+          "rows": 2,
+          "columns": {
+            "acuity": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": 4,
+              "max": 4
+            },
+            "end": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "2024-11-03T06:30:00Z",
+              "max": "2024-11-03T09:30:00Z"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "encounter_1377906556607e040cbbc968235cc63b",
+              "max": "encounter_df0822e3e8ccb5f0241e387c5a7749c6"
+            },
+            "patient": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "patient_7b22c8c3e2e50dcb17a6815cbcc20b08",
+              "max": "patient_7b22c8c3e2e50dcb17a6815cbcc20b08"
+            },
+            "prior": {
+              "nulls": 1,
+              "distinct": 1,
+              "min": "encounter_1377906556607e040cbbc968235cc63b",
+              "max": "encounter_1377906556607e040cbbc968235cc63b"
+            },
+            "start": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "2024-11-03T04:30:00Z",
+              "max": "2024-11-03T06:30:00Z"
+            },
+            "type": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "ED",
+              "max": "IPD"
+            }
+          }
+        },
+        "finance_monthly": {
+          "rows": 1,
+          "columns": {
+            "amount": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "100.00",
+              "max": "100.00"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "finance_fd01165396512c271994ecd6bd2a5123",
+              "max": "finance_fd01165396512c271994ecd6bd2a5123"
+            },
+            "month": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "2024-11-01",
+              "max": "2024-11-01"
+            },
+            "scenario": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "ACTUAL",
+              "max": "ACTUAL"
+            },
+            "unit": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "USD",
+              "max": "USD"
+            },
+            "vintage": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "v1",
+              "max": "v1"
+            }
+          }
+        },
+        "financial_posting": {
+          "rows": 4,
+          "columns": {
+            "credit": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": "0.00",
+              "max": "60.00"
+            },
+            "debit": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": "0.00",
+              "max": "60.00"
+            },
+            "journal": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "payment_66e1ca9c23f385217b404582a1bf31bb",
+              "max": "refund_bc09d00f70571c249686b37655961c3a"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 4,
+              "min": "posting_142a66ce2bc09d647c1e6db52091d7c8",
+              "max": "posting_916ecb27345927cff1df7c3391685939"
+            }
+          }
+        },
+        "inventory_movement": {
+          "rows": 3,
+          "columns": {
+            "key": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": "stock_41d90ccc18e6e2904a6746997167cb0b",
+              "max": "stock_9115229385546440172264f0f978b970"
+            },
+            "qty": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": "-2",
+              "max": "5"
+            }
+          }
+        },
+        "patient": {
+          "rows": 3,
+          "columns": {
+            "age": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": 20,
+              "max": 64
+            },
+            "dob": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": "1960-09-12",
+              "max": "2004-02-29"
+            },
+            "email": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": "patient_542e5421a30f047ad945bdd061ef182e@example.invalid",
+              "max": "patient_f5b45c3fc7f185362b92bbb868f8d725@example.invalid"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 3,
+              "min": "patient_542e5421a30f047ad945bdd061ef182e",
+              "max": "patient_f5b45c3fc7f185362b92bbb868f8d725"
+            },
+            "name": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "Jordan Chen",
+              "max": "Maya Thompson"
+            },
+            "service_date": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "2024-11-03",
+              "max": "2024-11-03"
+            }
+          }
+        },
+        "service_charge": {
+          "rows": 1,
+          "columns": {
+            "billed": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "100.00",
+              "max": "100.00"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "charge_23bee824b60d1047663dfa8f1e8a84d8",
+              "max": "charge_23bee824b60d1047663dfa8f1e8a84d8"
+            },
+            "price": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "100.00",
+              "max": "100.00"
+            },
+            "units": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "1",
+              "max": "1"
+            }
+          }
+        },
+        "staff_shift": {
+          "rows": 1,
+          "columns": {
+            "break": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "0.25",
+              "max": "0.25"
+            },
+            "end": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "2024-11-03T08:30:00Z",
+              "max": "2024-11-03T08:30:00Z"
+            },
+            "key": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "shift_51af9551f5b64951e585fbd2b3d6fe5a",
+              "max": "shift_51af9551f5b64951e585fbd2b3d6fe5a"
+            },
+            "nonproductive": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "0.25",
+              "max": "0.25"
+            },
+            "productive": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "2.50",
+              "max": "2.50"
+            },
+            "start": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "2024-11-03T05:30:00Z",
+              "max": "2024-11-03T05:30:00Z"
+            },
+            "worked": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "3",
+              "max": "3"
+            },
+            "worker": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "worker_1da871ebd8f0dffea951fda2bfc1c012",
+              "max": "worker_1da871ebd8f0dffea951fda2bfc1c012"
+            }
+          }
+        },
+        "worker_assignment": {
+          "rows": 2,
+          "columns": {
+            "key": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "worker_version_1a888e76bab9e8c6da7da4008fd8b512",
+              "max": "worker_version_617398fd87278e48a6b3d374046b9024"
+            },
+            "known_from": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "2024-01-01T00:00:00Z",
+              "max": "2024-11-10T00:00:00Z"
+            },
+            "known_to": {
+              "nulls": 1,
+              "distinct": 1,
+              "min": "2024-11-10T00:00:00Z",
+              "max": "2024-11-10T00:00:00Z"
+            },
+            "name": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "Daniel Brooks",
+              "max": "Daniel Brooks"
+            },
+            "rate": {
+              "nulls": 0,
+              "distinct": 2,
+              "min": "40.00",
+              "max": "42.00"
+            },
+            "role": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "RN",
+              "max": "RN"
+            },
+            "valid_from": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "2024-01-01T00:00:00Z",
+              "max": "2024-01-01T00:00:00Z"
+            },
+            "valid_to": {
+              "nulls": 2,
+              "distinct": 0,
+              "min": null,
+              "max": null
+            },
+            "worker": {
+              "nulls": 0,
+              "distinct": 1,
+              "min": "worker_1da871ebd8f0dffea951fda2bfc1c012",
+              "max": "worker_1da871ebd8f0dffea951fda2bfc1c012"
+            }
+          }
+        }
+      },
+      "reconciliation": {
+        "occupied_seconds": {
+          "scope": "DEVELOPMENT_PROJECTION",
+          "expected": "10800",
+          "observed": "10800",
+          "difference": "0"
+        },
+        "closing_stock": {
+          "scope": "DEVELOPMENT_PROJECTION",
+          "expected": "13",
+          "observed": "13",
+          "difference": "0"
+        },
+        "closing_ar": {
+          "scope": "DEVELOPMENT_PROJECTION",
+          "expected": "50.00",
+          "observed": "50.00",
+          "difference": "0.00"
+        },
+        "closing_cash": {
+          "scope": "DEVELOPMENT_PROJECTION",
+          "expected": "50.00",
+          "observed": "50.00",
+          "difference": "0.00"
+        },
+        "pool": {
+          "scope": "DEVELOPMENT_PROJECTION",
+          "expected": "100.00",
+          "observed": "100",
+          "difference": "0.00"
+        }
+      }
+    }
+  },
+  "test_and_runner_sha256": {
+    "tests/test_phase0_contracts.py": "65b1c76e1ba4d39c15b89c7fd3f9c815933568ae83078d2e658f9e59084b4a03",
+    "tests/test_phase1_engine.py": "7e4709239de635896f6cc506e52cf0b4eaf31d893c0f02acae0d109d49180b94",
+    "tests/test_phase1_primitives.py": "760cb2544aab0e8738be337700060bfde71d6600d386f977f90b7cedf28f0c0e",
+    "tests/test_phase1_sources.py": "8c5e03613cd53ad48a775e538b58a6c92c15e040a17f232212e8a38333f05869",
+    "tests/test_phase1_validation.py": "013caff512253a536ab25b373ecfc9e9de3292c528a2d9d4646bbf3d16a77f55",
+    "scripts/run_phase1.py": "98ae5b8274d455945bfbcf9ffe45542e5adbc39c29306416d675a18c45740a9a",
+    "scripts/validate_phase1.py": "4184c2717f4da33135e5292c4e13fc29e0e71822e726014fdf27e0b228d0a087",
+    "scripts/validate_phase1_candidate.py": "9ba49e397ce53a2925ba6b2afb15c38f1f7cf8ab1989cb51fbf41c8e0b501344"
+  },
+  "passed": true
+}

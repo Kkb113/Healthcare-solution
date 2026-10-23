@@ -1,0 +1,2 @@
+# Only third-party runtime dependency; no cloud or patient data access.
+tzdata==2025.2
