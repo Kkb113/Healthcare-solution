@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "implementation_phase": 7,
+  "accepted_financial_commit": "eb20bfa55eb7ac9850f9b3f5b4037a247a4f3f82",
+  "accepted_business_sha256": "773a236ec9c7ec3df5605f38d21f4934a9384eae1bbf04ab4bf164cb51006b72",
+  "canonical_business_rows": 1924164,
+  "business_tables": 25,
+  "challenge_allowance": 64,
+  "challenge_budget_policy": "Count every published malformed record copy against 64 rows allocated from the 4785 reserve, even when it mirrors an existing fact. No new valid business facts. Remaining unallocated reserve 4721. Canonical per-table envelopes remain unchanged.",
+  "axiom_inventory": {
+    "estimated_customer_exports": 900,
+    "provided_customer_layouts": 0,
+    "synthetic_archetypes_modeled": 12,
+    "unmodeled_estimated_inventory_slots": 888,
+    "coverage_basis": "Twelve illustrative archetypes, not twelve verified customer reports. The approximately 900 inventory was described, not supplied. No claim that the 888 remaining reports share these layouts.",
+    "families": ["actual-long", "actual-wide-months", "actual-with-adjustments", "budget-original", "budget-revised", "forecast-amount", "forecast-drivers", "statistics-volume", "statistics-workforce", "variance-comparison", "account-mapping", "center-mapping"]
+  },
+  "source_modes": ["IMMUTABLE_VERSION_DELTA", "ADDITIVE_TRANSACTION", "EVENT_ARCHIVE", "FULL_SNAPSHOT", "REPLACE_DECLARED_SCOPE_VERSION", "APPEND_VINTAGE", "DERIVED_MIRROR"],
+  "workday": {
+    "weekly_snapshot": "Sunday 07:00 UTC, 2023-01-01 through 2025-12-31",
+    "daily_changes": "07:00 UTC daily; next scheduled batch after source availability, including explicit empty batches and closing grace",
+    "opening_context": "2022-12-18 Sunday snapshot; prewindow deltas retain their actual source availability",
+    "snapshot_semantics": "All source-known immutable revisions, not just active workers; effective and knowledge times remain separate. Managers are references, not an invented additional worker table. Revocations are explicit decisions; omission is never a grant.",
+    "excluded": "Scheduling, timecards and payroll are separate ROSTER_TIME exports. No payroll or scheduling assumed in the Workday HR feed."
+  },
+  "timestamp_policy": "CSV and JSON archive files retain per-record source availability. Archive creation is not delivery time. Monthly event archives contain individual record envelopes; scheduled Workday files have a distinct batch arrival that can be later than original source availability. Replay gates on both.",
+  "finance_cadence_precedence": "Preserve the actual publication/delivery timestamps and vintage lineage reviewed in the accepted Phase 6 financial policy. They supersede the illustrative Phase 0 cadence strings (including 08:00 UTC close and first-business-day forecast). Do not redate accepted close or forecast knowledge to make it fit an illustrative schedule. Budget statistics retain the AX_BUDGET contract rather than masquerading as actual monthly statistics.",
+  "identity_policy": "Explicit field-typed transport dictionaries bind source identifiers to existing accepted canonical keys; never infer missing keys. These serialization dictionaries are mirrors, not new source_key_map business histories. Existing legacy source_key_map rows are exported unchanged in meaning.",
+  "vendor_certified": false,
+  "production_integrations_built": false,
+  "full_dataset_accepted": false,
+  "solution_status": "BLOCKED_FOR_SOLUTION"
+}

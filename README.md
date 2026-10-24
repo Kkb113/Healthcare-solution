@@ -1,10 +1,28 @@
 # Healthcare synthetic data foundation
 
-Phases 0-6 are complete for their defined data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. Phase 6 passes all four exit criteria with **280 tests**, **nine financial control groups**, independent persisted-file inspection, a recorded **60-case financial review**, and exact restoration of all 18 resource-parent files. The full healthcare dataset and analytics solution remain blocked until final Phase 9 data acceptance.
+Phases 0-7 are complete for their defined data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. Phase 7 passes all four source-simulation exit criteria with **58 source tests**, exact persisted-file reconstruction of all **25 business tables**, a recorded **27-case native-source review**, and **15 verified fault/delivery outcomes**. The earlier 280 domain tests retain byte-identical implementation/input evidence; twelve legacy source tests are also rerun within the 58-test suite, so these counts overlap. The full healthcare dataset and analytics solution remain blocked until final Phase 9 data acceptance.
 
 The original frozen baseline contains **25 business tables and 1,958,210 planned records** across **2023-2025**, with **41,790 reserve records**. The reviewed [financial budget amendment](docs/financial-history/record-budget-amendment.md) permits **1,995,215 planned rows and 4,785 reserve rows**, retaining every accepted history within the two-million ceiling. Three fictional Illinois community hospitals have 72 inpatient beds in total. This replaces the earlier provisional 300-bed scale so the budget includes clinical detail and historical revisions.
 
 Start with the [frozen baseline](docs/phase-0/README.md), [framework](docs/phase-1/README.md), [master-data foundation](docs/master-data/README.md), and [implementation plan](synthetic-data-generation-implementation.md). The [clinical foundation](docs/clinical-histories/README.md) implements Phase 3; its current acceptance status is recorded in the [clinical exit gate](evidence/clinical-histories/acceptance-gate.json). The analytics solution stays blocked until final Phase 9 data acceptance.
+
+## Source exports and delivery simulation
+
+The [source foundation](docs/source-delivery/README.md) implements Phase 7: complete EHR/operational event archives, Workday workforce/hierarchy/security extracts, separate roster/time and inventory inputs, revenue-cycle/ERP files, Axiom exports, typed source dictionaries, delivery manifests and controlled challenge inputs. All four [source exit criteria](evidence/source-delivery/acceptance-gate.json) pass with no failed or skipped tests and zero unexplained canonical/export differences.
+
+The package contains **3,444 source data files and six derived report files**, preserving **1,924,164 canonical business rows**. All 3,444 deliveries reload idempotently; four actual-close replacement scopes retain historical values without double addition. Independent calendar checks verify 1,106 daily dates per worker/security feed, 159 weekly dates per worker/center feed, all 318 snapshots and all 304 Axiom file headers. Clean rebuild, complete cached reuse, actual export process interruption/resume, SQLite transaction process death/recovery and corrupted-cache rejection pass.
+
+The [source policy](contracts/source-delivery-policy.json) allocates 64 reserve slots for challenges. The actual **22 published challenge/control records** produce **1,924,186 cap-counted release rows**, within two million. Scheduled snapshots (108,440 rows), transport key dictionaries (4,902,165 mappings), derived reports (21,686 rows / 50,888 scalar fact mirrors) and the selected review (27 rows / 53 scalar mirrors) are separately counted physical mirrors. All accepted canonical files remain unchanged.
+
+Twelve illustrative Axiom layout families are modeled; no customer layouts were supplied for the approximately 900-export inventory, and the remaining approximately 888 inventory slots are unmodeled. Workday/Axiom formats are simulated, not vendor-certified. No production source integrations or analytics solution have been built. Phases 8-9 remain outstanding.
+
+```powershell
+python scripts/generate_source_delivery.py
+python scripts/run_source_regressions.py
+python scripts/validate_source_delivery.py
+```
+
+See the [source contracts](docs/source-delivery/source-contracts.md), [delivery/fault accounting](docs/source-delivery/delivery-and-faults.md), [runbook](docs/source-delivery/runbook.md), [recorded review](reviews/source-delivery-review.json) and [detailed passing evidence](evidence/source-delivery/validation-report.json).
 
 ## Connected financial histories
 

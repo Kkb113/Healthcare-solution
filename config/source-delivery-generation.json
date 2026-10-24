@@ -1,0 +1,7 @@
+{
+  "profile": "ACCEPTED_SOURCE_DELIVERY",
+  "parent_candidate": "output/financial-history",
+  "parent_business_sha256": "773a236ec9c7ec3df5605f38d21f4934a9384eae1bbf04ab4bf164cb51006b72",
+  "schema_version": "synthetic-source-1",
+  "closing_grace": "2026-01-10T23:59:59Z"
+}
