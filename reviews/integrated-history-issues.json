@@ -1,0 +1,120 @@
+{
+  "implementation_phase": 8,
+  "issues": [
+    {
+      "issue_id": "DENIAL-CALIBRATION",
+      "severity": "P1",
+      "status": "CLOSED",
+      "root_cause": "The Phase 6 450-basis-point base probability produced 2296 denials among 46525 observed initial insured originals (4.93498%), below the frozen 8-12% target. Structural financial tests did not enforce that target.",
+      "correction": "Use a preregistered 900-basis-point base probability in the new integrated configuration. Preserve authorization causes, censoring, originals and SELF_PAY exclusions. Do not change the frozen target.",
+      "affected_dependencies": [
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "native source exports",
+        "source reports",
+        "reviews",
+        "integrated evidence"
+      ],
+      "regressions": [
+        "All three configured seeds must pass the original DENIAL target",
+        "Full source reconstruction and signed monetary reconciliations",
+        "Original-insured denominator fixture",
+        "Fresh full financial-domain controls"
+      ],
+      "closure_condition": "The integrated gate independently requires all three observed denial-rate checks and all changed financial/native-file checks to pass. This issue cannot waive a failed gate."
+    },
+    {
+      "issue_id": "PAYER-COHORT-CALIBRATION",
+      "severity": "P1",
+      "status": "CLOSED",
+      "root_cause": "Original renewal/change rules excluded too many age-eligible Medicare members: encounter shares Medicare22.47% and Medicaid22.30% miss frozen 35%/15% targets.",
+      "correction": "Apply preregistered prospective age-eligible weights at every enrollment, preserving enrollment/knowledge intervals and IDs. Retain original plan products when their class matches; otherwise select an eligible existing stable product. Regenerate finance and all source payloads. Old/new dataset baselines must not be incrementally merged.",
+      "regressions": [
+        "All original payer mix targets on all three seeds",
+        "Fresh coverage eligibility/interval checks",
+        "Whitelisted master-context difference audit",
+        "All financial/native-source controls"
+      ],
+      "closure_condition": "Gate requires all configured seeds and unchanged original payer tolerances; no waiver of a failing target."
+    },
+    {
+      "issue_id": "RESOURCE-CHECKPOINT-CELL-LIMIT",
+      "severity": "P1",
+      "status": "CLOSED",
+      "root_cause": "A complete resource-context payload exceeds the SQLite single-cell string limit when serialized as one checkpoint value.",
+      "correction": "Write context as checksum/count-bound scalar files and checkpoint their complete digest. A cached context is verified from actual bytes before loading. Disclose all context rows as mirrors.",
+      "regressions": [
+        "Complete primary generation",
+        "Real process death and resume",
+        "Subset rebuild",
+        "Actual-byte snapshot verification"
+      ]
+    },
+    {
+      "issue_id": "PATIENT-CALENDAR-BOUNDARY-TRAP",
+      "severity": "P1",
+      "status": "CLOSED",
+      "root_cause": "Registered seed20261025 produced an ordinary repeat visit overlapping a late inpatient stay. Forward-only day increments exhausted the window although an earlier unpublished free slot existed.",
+      "correction": "Preserve original forward placement. For ordinary ED/OPD proposals only, search earlier free in-window days when forward placement is impossible; retain OPD weekday rules. Never move linked urgent admission chains backward. Reassess a chronic complaint if its supporting assertion is not yet known at the earlier proposal. No delivered appointment is backdated, no visit is dropped and no seed is replaced.",
+      "affected_dependencies": [
+        "current generation code",
+        "all experimental candidates and their checks",
+        "current source exports and reviews"
+      ],
+      "unaffected_primary_sha256": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
+      "unaffected_comparison24_sha256": "418bca4051506cf8c8732ea4d4a8f70534ca31cd262991da1ae4fa01386c40c1",
+      "regressions": [
+        "Half-open/forward/boundary/impossible/linked-admission calendar fixtures",
+        "Unchanged primary and successful comparison golden bytes",
+        "All three registered connected experiments, causal diagnosis and appointment rules"
+      ],
+      "historical_evidence": "The original clinical generator code is retained at git bfd89b22d54bac051a3daf4ea27adcae0c5475b2. Prior tests validate that pinned older implementation, not this fix. Fresh boundary and integrated tests validate current code."
+    },
+    {
+      "issue_id": "CLOSED-MONTH-BED-PROJECTION-SCOPE",
+      "severity": "P1",
+      "status": "CLOSED",
+      "root_cause": "Registered seed20261025 exposed a late VACATE followed by a delivered OCCUPY in the month after a requested actual period. The month statistic projected all known history, so the unrelated later-period delivery gap raised overlap while computing an already complete earlier month.",
+      "correction": "Restrict bed-event effective scope to before the target month boundary in both the producer and independently implemented statistical oracle. Clip occupied intervals to the requested period as before. Unresolved gaps inside the requested month continue to block.",
+      "regressions": [
+        "Future-month out-of-order delivery cannot change closed-month patient-days",
+        "A true target-month gap still raises in both implementations",
+        "All seed monthly actual/statistical comparisons",
+        "Unchanged unaffected candidate golden digests"
+      ],
+      "historical_evidence": "Original financial planning/oracle source is version-bound to Git bfd89b22d54bac051a3daf4ea27adcae0c5475b2; fresh scope and integrated tests validate the corrections."
+    },
+    {
+      "issue_id": "WORKER-BIRTHDAY-IMPUTATION",
+      "severity": "P1",
+      "status": "CLOSED",
+      "root_cause": "282 worker identities had June15 and 18 had January15 as fixed month/day. Source birth-year variation alone did not provide realistic birthdays.",
+      "correction": "Reviewed master-context migration preserves birth years and varies actual calendar-valid month/day by stable worker key consistently across all versions. Rebuild sources and checks."
+    },
+    {
+      "issue_id": "FIXED-CATCHMENT-SEED-CONTEXT",
+      "severity": "P2",
+      "status": "ACCEPTED_SCOPED_LIMITATION",
+      "scope_constraint": "The two additional seeds regenerate connected operational and financial histories against the same fictional master population. They test causal-history sensitivity, not independent demographic sampling."
+    },
+    {
+      "issue_id": "SELECTED-RESOURCE-AND-SOURCE-SCOPE",
+      "severity": "P2",
+      "status": "ACCEPTED_SCOPED_LIMITATION",
+      "scope_constraint": "Selected billing, stock and sparse support/admin attendance are not complete hospital activity/cost/payroll. Access grants are a selected revocation cohort. Axiom layouts are illustrative with no tenant certification or claim of implementing 900 actual reports."
+    },
+    {
+      "issue_id": "BOUNDARY-OUTCOME-COHORT",
+      "severity": "P2",
+      "status": "ACCEPTED_SCOPED_LIMITATION",
+      "scope_constraint": "The configured 30 terminal outcomes deliberately exercise late-window death/censoring boundaries. This selected synthetic cohort is not a mortality-incidence or population survival series; mortality forecasting and epidemiologic inference are outside the accepted scope."
+    }
+  ],
+  "unresolved_p0_p1": 0,
+  "full_dataset_accepted": false,
+  "solution_status": "BLOCKED_FOR_SOLUTION"
+}

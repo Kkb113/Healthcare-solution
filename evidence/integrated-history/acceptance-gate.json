@@ -1,0 +1,36 @@
+{
+  "implementation_phase": 8,
+  "status": "PASSED",
+  "evaluated_at": "2026-10-24T18:52:24.687575+00:00",
+  "exit_criteria": {
+    "no_unresolved_p0_p1_or_unexplained_reconciliation_differences": true,
+    "all_consumer_contracts_faults_and_point_in_time_checks_pass": true,
+    "user_designated_domain_review_accepts_scoped_realism_and_limits": true,
+    "eligible_for_release_certification_solution_still_blocked": true
+  },
+  "fresh_integrated_tests": 59,
+  "fresh_domain_checks_per_seed": [
+    58,
+    58,
+    58
+  ],
+  "configured_seeds": [
+    20261023,
+    20261024,
+    20261025
+  ],
+  "business_tables": 25,
+  "business_rows": 1936663,
+  "published_challenge_record_copies": 22,
+  "cap_counted_release_rows": 1936685,
+  "canonical_business_sha256": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
+  "source_package_sha256": "7f1b5a5dbe567ae3b28936e6ff6684f5c6cdeb767a73e321a2f1f628f71ab431",
+  "source_files": 3444,
+  "unexplained_differences": 0,
+  "unresolved_p0_p1": 0,
+  "reviewed_cases": 136,
+  "canonical_rule_catalog_entries": 55,
+  "full_dataset_accepted": false,
+  "solution_status": "BLOCKED_FOR_SOLUTION",
+  "next_phase": "Reproducible release, certification and explicit data acceptance - not started"
+}

@@ -1,0 +1,287 @@
+{
+  "reviewed_cases": 136,
+  "reviewed_patient_cases": 112,
+  "reviewed_worker_cases": 24,
+  "monthly_facility_strata": 108,
+  "classes": {
+    "OPD": 34,
+    "IPD": 31,
+    "ED": 47
+  },
+  "encounter_ids": [
+    "encounter_d7e4307f01f08ac55327d35673129670",
+    "encounter_213c01e5f3a3ec522734d9649220f3a3",
+    "encounter_67365b782724879d6d49022842b19469",
+    "encounter_f1e83016e921db7764899c5e00b5dcd0",
+    "encounter_4dc854b4066983b9b44dceaed6b27703",
+    "encounter_73d0b4364dd3d52ba9da7eaa80cbb227",
+    "encounter_ad651a961532a44d7327c37385c64a06",
+    "encounter_6cd23953449995ffe711760fe68a19dc",
+    "encounter_534ed4cf67595c226d6b0e4b12dad19f",
+    "encounter_8f676c332c7c0a1d0ac9763146c236c6",
+    "encounter_4122a194145581f8b5b1d840be9b3d0c",
+    "encounter_6be29b636155d933283e901df4c22e10",
+    "encounter_44d9b38ef6bf9e8b870622a25048a7fa",
+    "encounter_0b6e7ab38c16631c12462354e5b14719",
+    "encounter_880bfe873a11af1aafac1c8071ca48e1",
+    "encounter_633e381e9f2e6fb2f4d4bdebdf2619ff",
+    "encounter_dacedb2d8f36f545018e150879c2e8fd",
+    "encounter_2fecbe2bd50562e3252d4c7243ca776a",
+    "encounter_b4d458f70b1d92b52d3d9a6ec77f11b5",
+    "encounter_0d7c0582a04e744281870b9d64050905",
+    "encounter_3f9c29dc35361156460041f15da95e07",
+    "encounter_642b621b011846068a8d401906ec8ae8",
+    "encounter_c466ef0bb972ac84d50819b9e30ffb12",
+    "encounter_a5f7df83d1d84773b15c35d2398cd38c",
+    "encounter_74e5947828b02f9bf912564f35be9753",
+    "encounter_416052facf839954e5810404da26d299",
+    "encounter_060c5ad073effc73a5263db51d4b5219",
+    "encounter_b7f1d8716b0dda49ecef8aacdfad60e3",
+    "encounter_5961af1bd3e2f83751f3a848eb6094da",
+    "encounter_e85fdf8af56b7812fd213e0509f85bf2",
+    "encounter_92700436225dc0628d75758317dbe31d",
+    "encounter_4d26d571b5d635ff7731954fc59d31f5",
+    "encounter_8772350787ab84594b75bc14f3f0264c",
+    "encounter_26ab5d9368414f31cfc291f7a11cce51",
+    "encounter_ca68e68f74d495f655a7c726da0aa2db",
+    "encounter_77deac4e6ee09da8f12a521f2a34f34a",
+    "encounter_2fd172f087a28523af19206f9a6c5535",
+    "encounter_33ddfc9e5fd6e3116a1f443bb31b3504",
+    "encounter_fa856722d7bc3b1d541ff69312e51681",
+    "encounter_667c514d75f706eaf25cf04123d70c9d",
+    "encounter_9ba59c81abdac5272169011ce8b165aa",
+    "encounter_7cb89ce7827a5e2bbdae46057083cacf",
+    "encounter_5ed55c726c8e71e3f7acea5e8e48cee2",
+    "encounter_10f6be71b21668f1e2fdb6da9491510d",
+    "encounter_f006243ac2550f36b6fa777cb9629a8f",
+    "encounter_3722fb1ef325730664ac539c49db3c05",
+    "encounter_ce6bdf534b556808c2d84464292f8b24",
+    "encounter_1c42f98710ef1e3115e5cf9f13dd818b",
+    "encounter_99e39b67dd0e2806e5ac34105fefe8da",
+    "encounter_9d82976e41c51e87bdfa835d07d8b050",
+    "encounter_831fae0b2e99782aa42b2e44c5585468",
+    "encounter_c0f9c31f01a93d412b4fc99afa4cf740",
+    "encounter_25e41ad4cb0105e60141c7cb7c936d7c",
+    "encounter_461ba1205b524904fd55bc35030757ff",
+    "encounter_332781a0a8e0107012314cbfe9ec14a3",
+    "encounter_5a83d5c4447c43beea4b00676cf7292a",
+    "encounter_3db0e9f3c5c8c9622079aac0dd0d45f8",
+    "encounter_ff4c6aa24318d768e364da874ec13108",
+    "encounter_4407594f6582f403b207db3d3bf22bc9",
+    "encounter_84e2dad0de4caad72392dcd2635e21ee",
+    "encounter_31392dcf12ffe7028aae5cbc01ad0ee0",
+    "encounter_1c9b016860c182465ca7edc9f539a756",
+    "encounter_e6c82379abe126016ca405343e57691a",
+    "encounter_a9ffa43b388cdbab6a8fee2aca7ccacb",
+    "encounter_d74d275598d4eae5ca6e07856e5d8fd4",
+    "encounter_55b360019ae6b9f61e64f2b9692bf3c0",
+    "encounter_138e08073b87376332448cf159608c58",
+    "encounter_53aa32bb892a35b858db4cb645b53654",
+    "encounter_142f1fd730cdea03a57e88f013e0ed1f",
+    "encounter_eac8313a103134f849e8c429c1121c5c",
+    "encounter_4c863bc04e2a9c0b0966e3b635b75706",
+    "encounter_6c4aa8d2d5ffbcaa07ab9a89c996ba19",
+    "encounter_d3d43aecc02591cdc7a03b9d8a8e1ddb",
+    "encounter_a3ab794e85b43a34f031f202b85a0c60",
+    "encounter_96e887828eebad82a31513055be66f0c",
+    "encounter_b8d36a4cd50da78eb21cce18f99524da",
+    "encounter_e388d3ac624f2977018a3d3c6c17a88f",
+    "encounter_06c9d0fd599d0cba60670cfa1250f041",
+    "encounter_2cd72adf631d069af56a3f28e9d471c6",
+    "encounter_b2fc1fa0d308510d081bc3dadd830a85",
+    "encounter_04b937bd6db532930ad1c81a39d89898",
+    "encounter_4e8e391cc05336f78e3e0b6752a553cc",
+    "encounter_38446b5f26a7f5c5cef139fe00b86861",
+    "encounter_c56077382c8964eaea23ad28c9b928bd",
+    "encounter_bb4a2cfacc78b3e7d408dc037241c17b",
+    "encounter_78dd535f80901f2e500089a748094407",
+    "encounter_454974a0e9865a09fb1daf666fe6f202",
+    "encounter_dddd6eb77d03e8da12dcd29416206ae2",
+    "encounter_30c2ae16bc50417c9f100dd159840b83",
+    "encounter_87cc3c29b9d6c328ea355a117570d9f8",
+    "encounter_bb0c01218262dfcbe2557efc67d27dca",
+    "encounter_d117687564bec6bbc66d3e4370390007",
+    "encounter_38f875e3cd3f35ff24c7c53c50fd2b51",
+    "encounter_14670082cc6e6c572ca3d71ca1db9724",
+    "encounter_45fe1a0111bf54b176f1d0c16cf7284f",
+    "encounter_0fde5680799872d7c2db4bfc6835f458",
+    "encounter_866964dba7d5a73923bf4574552ae5e6",
+    "encounter_27ced95d7d99bfcb4dd3bc7e4149eb4c",
+    "encounter_7222b62782398af8d9728f80da0cd2d7",
+    "encounter_ec585e8afb8d145e770177152a885a0c",
+    "encounter_ee13a5934b1ba9c6a00921326138359e",
+    "encounter_f239bc1d77128fc41ca733edca42fae7",
+    "encounter_efaed6ed159b1ed5f9398ec15aaa5f67",
+    "encounter_8ffbae2f4bacc5f63a981756162d2a2e",
+    "encounter_5e2e77f4674c9de654e6b10c9ae8d7cd",
+    "encounter_7e6a161ac12170eeb8a8dea1e76cfe12",
+    "encounter_3a768a2ade63119aa34610cd84999fb6",
+    "encounter_5594ebf7197736000df7b8675f8e32d1",
+    "encounter_42f234def2cc1c4126bb5076731fb42d",
+    "encounter_22fb25f61df0e9bc81b03923b5b4385e",
+    "encounter_c9781c1ed88a8fd698c103b6de1a7972",
+    "encounter_3abd946c1fe439e45ad102682d51dbb2"
+  ],
+  "worker_ids": [
+    "worker_03a5f536f251b226b699141ebd898853",
+    "worker_08e63f36732feefbe85a401852fb528b",
+    "worker_0c66ba6335323a53bddf6c3dd85fefd4",
+    "worker_2b5ebe842b048db88907a83c0be3fa47",
+    "worker_41dfd5dcc175259b3862cd0c21f9dc4b",
+    "worker_48d4c8bc169266601bd777e6ef25e122",
+    "worker_49f88ba3fd6b1f13c25b70870f611a20",
+    "worker_4a689858484e36c69f6ae65a453f5e1a",
+    "worker_4bd35af9a8fd6829cd68588c8790c9f4",
+    "worker_4dedfc02b4416ec1d46e57a283d75c72",
+    "worker_542058c7430d2df05074e70b66908388",
+    "worker_6224748ba666f77f8af12fde65818390",
+    "worker_6a305774b2a3db94f9e5a2b67d88505a",
+    "worker_6ceab4bd45b54a803017bd7924152174",
+    "worker_8316412c787c6346c09dc3c31ff8e90d",
+    "worker_8e62f113136396e3e979e74867832c3d",
+    "worker_a9403a7a530db4a84ede3ea4e5016ad2",
+    "worker_b0858bd836004665f9a01f3db3d373bc",
+    "worker_b7ed5a4d4390dbff64736ddcc2d925b6",
+    "worker_c793c5544fa4e36ef72477baff513c43",
+    "worker_dbac64adc9d6e9dd92d20d5c0f81a883",
+    "worker_e78edda418970ba4e516551f0b034ee4",
+    "worker_f5e1e6992f221b7f31bf020da6920de9",
+    "worker_ffc7b96000c87a2f08deb84017b39b99"
+  ],
+  "sample_sha256": "870664373e51c90e6595e2a27f13768d0cb61032fbf46ff201c9c14fa63667bb",
+  "selected_facts_sha256": "eed2293416698fa447e79bc0fe5e6832f74aed2bf4a51cb03fd79bccf51622ca",
+  "canonical_business_sha256": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
+  "realism_profiles_sha256": "c936666b3504e1c1fe79750055b982c92230f9eeb70093a929118ec3e55c190d",
+  "review_mirror_case_summaries": 136,
+  "review_bytes": 37713,
+  "selected_source_fact_mirrors": 970,
+  "implementation_phase": 8,
+  "status": "APPROVED_CONDITIONAL_ON_TECHNICAL_GATES",
+  "reviewed_at": "2026-10-24T18:17:58.061167+00:00",
+  "reviewer": "Codex acting as the user-designated synthetic business, clinical, workforce, finance and engineering reviewer",
+  "authority": "The user explicitly delegated review and finalization: You can review and finalize it, make sure its best.",
+  "review_method": "Read all 112 recorded patient/financial summaries and 24 named workforce summaries selected by the recorded hash strata; inspect 12 complete clinical notes selected across all year/quarter strata. Review full-population marginal/joint profiles, independent consumer results, point-in-time evidence and issue dispositions. Rechecked refreshed draft/open labels and recorded limitations; the reviewed source-fact digest is unchanged.",
+  "deep_clinical_note_selection": "Minimum SHA256 of quarter/encounter key among selected patient contexts with a note, one per quarter; no appearance-based substitution.",
+  "deep_clinical_notes_reviewed": 12,
+  "deep_clinical_cases": [
+    {
+      "quarter": [
+        "2023",
+        1
+      ],
+      "encounter_id": "encounter_73d0b4364dd3d52ba9da7eaa80cbb227",
+      "clinical_event_id": "clinical_event_70cad42246e20d6ab1151b1e8f08989c"
+    },
+    {
+      "quarter": [
+        "2023",
+        2
+      ],
+      "encounter_id": "encounter_6be29b636155d933283e901df4c22e10",
+      "clinical_event_id": "clinical_event_087660b1981deee72eac6c44a17997e6"
+    },
+    {
+      "quarter": [
+        "2023",
+        3
+      ],
+      "encounter_id": "encounter_416052facf839954e5810404da26d299",
+      "clinical_event_id": "clinical_event_18cd1b7ddb829c5121353be747a103d0"
+    },
+    {
+      "quarter": [
+        "2023",
+        4
+      ],
+      "encounter_id": "encounter_e85fdf8af56b7812fd213e0509f85bf2",
+      "clinical_event_id": "clinical_event_e10af5a7656f64dfff44d9aceeb07918"
+    },
+    {
+      "quarter": [
+        "2024",
+        1
+      ],
+      "encounter_id": "encounter_2fd172f087a28523af19206f9a6c5535",
+      "clinical_event_id": "clinical_event_1a45e7bbd4bef8ce2f867adf4b0faf3a"
+    },
+    {
+      "quarter": [
+        "2024",
+        2
+      ],
+      "encounter_id": "encounter_3722fb1ef325730664ac539c49db3c05",
+      "clinical_event_id": "clinical_event_28413e3c6c46b7fbab1e62cba4a33bd2"
+    },
+    {
+      "quarter": [
+        "2024",
+        3
+      ],
+      "encounter_id": "encounter_4407594f6582f403b207db3d3bf22bc9",
+      "clinical_event_id": "clinical_event_20b79320d136d7a307752f5ca74bc1b8"
+    },
+    {
+      "quarter": [
+        "2024",
+        4
+      ],
+      "encounter_id": "encounter_4c863bc04e2a9c0b0966e3b635b75706",
+      "clinical_event_id": "clinical_event_364aedac5efcaaed0b3215847a33bcad"
+    },
+    {
+      "quarter": [
+        "2025",
+        1
+      ],
+      "encounter_id": "encounter_d3d43aecc02591cdc7a03b9d8a8e1ddb",
+      "clinical_event_id": "clinical_event_b600ad3e469b45360e6f9c6dc6edd745"
+    },
+    {
+      "quarter": [
+        "2025",
+        2
+      ],
+      "encounter_id": "encounter_bb4a2cfacc78b3e7d408dc037241c17b",
+      "clinical_event_id": "clinical_event_78a54e46867be328595ac2f51c87bf23"
+    },
+    {
+      "quarter": [
+        "2025",
+        3
+      ],
+      "encounter_id": "encounter_7222b62782398af8d9728f80da0cd2d7",
+      "clinical_event_id": "clinical_event_3df97357fb3d72b9a0cbb4caad8d58f8"
+    },
+    {
+      "quarter": [
+        "2025",
+        4
+      ],
+      "encounter_id": "encounter_3a768a2ade63119aa34610cd84999fb6",
+      "clinical_event_id": "clinical_event_30d965e12a18c637d7ac341e5d887637"
+    }
+  ],
+  "findings": [
+    "Realistic fictional identities, age-at-arrival, payer, acuity and encounter history are internally consistent across monthly/facility and rare-case contexts. Worker roles, assignment revisions, FTE and credentials remain visible.",
+    "Quarterly note review covers pneumonia, COPD, diabetes, chest pain, osteoarthritis and cholecystitis contexts. Narrative facts are grounded to available observations, problems and performed services; full clinical validators independently enforce causal timing and discriminator rules.",
+    "Carry-in, continuous-transfer, death, draft original-account and open unbilled contexts remain distinct. Zero claim AR on an unsubmitted draft does not mean zero enterprise/unbilled AR.",
+    "The denial and payer calibrations correct misses against original targets without relaxing tolerances. Worker month/day changes preserve birth years and assignment history.",
+    "Current primary and comparison-20261024 golden bytes are unchanged by patient-calendar and closed-month projection fixes. The registered third seed retains the formerly failing visit without replacing the seed or dropping proposals.",
+    "Selected costs, signed cash, original-account balances and monetary finance-series reconciliations have zero unexplained differences in fresh independent consumers. Final approval still requires all current seed/source/fault/recovery technical gates."
+  ],
+  "limitations_accepted": true,
+  "limitations": [
+    "Configured fictional adult pathways and template-driven notes are not population epidemiology, clinical effectiveness or treatment guidance.",
+    "Thirty selected late-window terminal outcomes are boundary tests, not a mortality or survival population series. Mortality forecasting is outside this accepted scope.",
+    "Selected services, stock and sparse support/admin attendance do not represent complete hospital billing, cost or payroll. Bundled demonstration charges are not a validated reimbursement tariff.",
+    "Access grants are a selected revocation-history cohort, not every active authorized user.",
+    "The fixed fictional catchment and public name distributions are shared across seeds; additional seeds test connected history sensitivity rather than independent demographic sampling.",
+    "Joint-cell Wilson intervals are descriptive within month/facility/class. Repeat visits are correlated; sparse cells receive counts, intervals and domain constraints rather than arbitrary percentage gates or population-inference claims.",
+    "Axiom covers twelve illustrative archetypes, with no customer layout/vendor certification and no claim of implementing approximately 900 customer reports. Workday/Axiom interfaces are local source simulations.",
+    "Age 100 at the opening baseline may naturally age to 103. Unknown/censored outcomes, missing plans and zero plans remain separate.",
+    "Phase 9 clean-environment release certification and explicit final data acceptance are pending. No analytics solution, live integration, forecasting model, dashboard or agent is authorized by this review."
+  ],
+  "external_professional_endorsement": false,
+  "full_dataset_accepted": false,
+  "solution_status": "BLOCKED_FOR_SOLUTION"
+}

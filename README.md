@@ -1,10 +1,16 @@
 # Healthcare synthetic data foundation
 
-Phases 0-7 are complete for their defined data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. Phase 7 passes all four source-simulation exit criteria with **58 source tests**, exact persisted-file reconstruction of all **25 business tables**, a recorded **27-case native-source review**, and **15 verified fault/delivery outcomes**. The earlier 280 domain tests retain byte-identical implementation/input evidence; twelve legacy source tests are also rerun within the 58-test suite, so these counts overlap. The full healthcare dataset and analytics solution remain blocked until final Phase 9 data acceptance.
+Phases 0-8 are complete for their defined synthetic data-foundation scopes for a fictional US healthcare group on Azure Databricks. Microsoft Fabric is excluded. Phase 8 passes all four integrated exit criteria with **59 fresh tests**, **58 domain-control groups on each of three full-scale seeds**, **41 frozen-design checks**, exact native reconstruction of all **25 business tables**, and zero unexplained reconciliation differences. Earlier snapshots and their version-bound evidence remain retained; the 326 unique historical test cases are not claimed as newly rerun. Final dataset certification and the healthcare analytics solution remain blocked until explicit Phase 9 data acceptance.
 
 The original frozen baseline contains **25 business tables and 1,958,210 planned records** across **2023-2025**, with **41,790 reserve records**. The reviewed [financial budget amendment](docs/financial-history/record-budget-amendment.md) permits **1,995,215 planned rows and 4,785 reserve rows**, retaining every accepted history within the two-million ceiling. Three fictional Illinois community hospitals have 72 inpatient beds in total. This replaces the earlier provisional 300-bed scale so the budget includes clinical detail and historical revisions.
 
 Start with the [frozen baseline](docs/phase-0/README.md), [framework](docs/phase-1/README.md), [master-data foundation](docs/master-data/README.md), and [implementation plan](synthetic-data-generation-implementation.md). The [clinical foundation](docs/clinical-histories/README.md) implements Phase 3; its current acceptance status is recorded in the [clinical exit gate](evidence/clinical-histories/acceptance-gate.json). The analytics solution stays blocked until final Phase 9 data acceptance.
+
+## Integrated candidate validation
+
+Phase 8 is complete. The [integrated candidate](docs/integrated-history/README.md) passes six independent consumer contracts, eleven point-in-time controls, all registered seed experiments, native replay/fault checks and actual generator crash/resume/subset rebuild. The primary contains **1,936,663 canonical records across 25 tables**, plus **22 cap-counted challenge/control copies**, totaling **1,936,685 release records**. Its [realism scorecard](docs/integrated-history/realism-scorecard.md) and [136-case delegated review](reviews/integrated-history-review.json) record the accepted fictional scope and limitations. Explicit payer/denial and worker-birthday corrections form a new baseline; earlier accepted snapshots remain immutable.
+
+The [integrated policy](contracts/integrated-validation-policy.json) reassigns 20,000 unused slots to claim-event history while retaining 1,995,215 planned rows plus 4,785 reserve. The passing [integrated exit gate](evidence/integrated-history/acceptance-gate.json) makes the candidate eligible for Phase 9 certification. Phase 9 has not started; the full dataset remains unaccepted and solution development stays blocked.
 
 ## Source exports and delivery simulation
 
@@ -14,7 +20,7 @@ The package contains **3,444 source data files and six derived report files**, p
 
 The [source policy](contracts/source-delivery-policy.json) allocates 64 reserve slots for challenges. The actual **22 published challenge/control records** produce **1,924,186 cap-counted release rows**, within two million. Scheduled snapshots (108,440 rows), transport key dictionaries (4,902,165 mappings), derived reports (21,686 rows / 50,888 scalar fact mirrors) and the selected review (27 rows / 53 scalar mirrors) are separately counted physical mirrors. All accepted canonical files remain unchanged.
 
-Twelve illustrative Axiom layout families are modeled; no customer layouts were supplied for the approximately 900-export inventory, and the remaining approximately 888 inventory slots are unmodeled. Workday/Axiom formats are simulated, not vendor-certified. No production source integrations or analytics solution have been built. Phases 8-9 remain outstanding.
+Twelve illustrative Axiom layout families are modeled; no customer layouts were supplied for the approximately 900-export inventory, and the remaining approximately 888 inventory slots are unmodeled. Workday/Axiom formats are simulated, not vendor-certified. No production source integrations or analytics solution were built in Phase 7. The integrated candidate section above records subsequent work.
 
 ```powershell
 python scripts/generate_source_delivery.py

@@ -7,6 +7,7 @@ from decimal import Decimal
 
 from .core import age_on, chicago, draw, instant, stable_id
 from .master_generation import MasterGenerator
+from .trajectory_scheduling import patient_slot
 
 START = datetime(2023, 1, 1, 6, tzinfo=timezone.utc)
 CUTOFF = datetime(2026, 1, 1, 6, tzinfo=timezone.utc)
@@ -115,11 +116,20 @@ class ClinicalGenerator:
         def add(pid, identity, kind, begin, duration, path, route='WALK_IN', previous=None, episode=None, carry=False, opening=False, readmit=False, death=False):
             end = begin + duration
             if not carry and not opening:
-                while any(begin < b and a < end for a, b in busy[pid]):
-                    begin += timedelta(days=1)
-                    end = begin + duration
-                    if begin >= CUTOFF:
-                        raise ValueError('connected trajectory has no free in-window slot')
+                original = begin
+                ordinary_visit = kind in ('ED','OPD') and identity.startswith(kind+'/')
+                begin = patient_slot(begin,duration,busy[pid],START,CUTOFF,allow_backwards=ordinary_visit,
+                                     fallback_weekday_zone=self.zone if kind=='OPD' else None)
+                end = begin+duration
+                if begin < original and path in ('HEART_FAILURE','COPD','GENERAL_MEDICINE'):
+                    # Earlier placement cannot inherit a problem assertion that
+                    # only becomes known at the later inpatient presentation.
+                    code = self.cfg['pathways'][path]['diagnosis']
+                    opening_known = any(c['condition_type']=='PROBLEM' and c['known_from']<=stamp(begin)
+                                        and self.by_catalog[c['catalog_item_id']]['code']==code for c in self.opening[pid])
+                    prior_known = any(p['kind']=='IPD' and p['path']==path and p['begin']+timedelta(minutes=25)<begin for p in plans_by_person[pid])
+                    if not opening_known and not prior_known:
+                        path = 'CHEST_PAIN' if self.n(identity,'free-slot-episodic-assessment',2)==0 else 'ABDOMINAL_PAIN'
             busy[pid].append((begin, end))
             eid = stable_id('encounter', identity)
             fid = self.facilities[self.n(pid, 'home-hospital', 3)]

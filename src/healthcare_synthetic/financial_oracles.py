@@ -234,7 +234,9 @@ def allocation_weights(tables):
 
 def statistical_values(tables,period,known):
     enc={r['encounter_version_id']:r for r in tables['encounter']};locations={r['location_id']:r for r in tables['location']};values=defaultdict(lambda:defaultdict(Decimal))
-    for bid,eid,a,z in bed_intervals(tables['bed_event'],enc,known):
+    boundary=local(following(period))
+    relevant=[event for event in tables['bed_event'] if instant(event['effective_at'])<boundary]
+    for bid,eid,a,z in bed_intervals(relevant,enc,known):
         a=max(instant(a),local(period));z=min(instant(z),local(following(period)))
         if z>a:values[locations[bid]['cost_center_id']]['PATIENT_DAYS']+=Decimal(str((z-a).total_seconds()))/86400
     care={};staff={}

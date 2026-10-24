@@ -15,7 +15,11 @@ def statistics(tables,period,known):
     """Captured actual activity at publication; no completed future shifts or stays."""
     enc={r['encounter_version_id']:r for r in tables['encounter']};loc={r['location_id']:r for r in tables['location']}
     values=defaultdict(lambda:defaultdict(Decimal));m=str(period)[:7]
-    for bid,eid,a,z in bed_intervals(tables['bed_event'],enc,known):
+    # The publication may observe an incomplete later-month stream. Only
+    # effective events before this target month's boundary are needed here.
+    target_end=stamp(at(next_month(period)))
+    period_events=[r for r in tables['bed_event'] if r['effective_at']<target_end]
+    for bid,eid,a,z in bed_intervals(period_events,enc,known):
         start=max(instant(a),at(period));end=min(instant(z),at(next_month(period)))
         if end>start:values[loc[bid]['cost_center_id']]['PATIENT_DAYS']+=Decimal(str((end-start).total_seconds()))/86400
     for e in latest(tables['encounter'],'encounter_id',known=known).values():
