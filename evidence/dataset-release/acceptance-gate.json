@@ -1,0 +1,101 @@
+{
+  "implementation_phase": 9,
+  "status": "PASSED",
+  "evaluated_at": "2026-10-25T14:08:07.104221+00:00",
+  "release_id": "healthcare-synthetic-v1.0.2",
+  "descriptor_sha256": "755532094c862c12163fabd1e4eff62206046fde8644c1415e5a4d5c80323be4",
+  "technical_certification": "PASSED",
+  "definition_of_done": [
+    {
+      "id": "phase_gates",
+      "passed": true,
+      "evidence": "Version-bound prior gates/evidence plus current release checks; final owner gate evaluated here"
+    },
+    {
+      "id": "history_scope_tables_and_cap",
+      "passed": true,
+      "evidence": "25 tables, 36 months, three-year window, all actual counts and release allowance verified"
+    },
+    {
+      "id": "fictional_identity_and_event_age",
+      "passed": true,
+      "evidence": "Fresh full master/clinical checks and current hash-bound delegated identity review"
+    },
+    {
+      "id": "coherent_reviewed_longitudinal_histories",
+      "passed": true,
+      "evidence": "Fresh clinical/operations/resource checks on published files; unchanged reviewed facts"
+    },
+    {
+      "id": "historical_version_resolution",
+      "passed": true,
+      "evidence": "Source-known/delivery/effective selection and three historical native snapshots"
+    },
+    {
+      "id": "required_grain_reconciliations",
+      "passed": true,
+      "evidence": "Fresh six independent consumers, full financial/resource rules and native reports"
+    },
+    {
+      "id": "adverse_open_and_censored_outcomes",
+      "passed": true,
+      "evidence": "Fresh point-in-time checks preserve unknown outcomes and actual open histories"
+    },
+    {
+      "id": "source_contracts_and_roundtrip",
+      "passed": true,
+      "evidence": "All published native payloads reconstructed exactly; complete duplicate replay"
+    },
+    {
+      "id": "controlled_fault_detectors_and_recovery",
+      "passed": true,
+      "evidence": "15 fresh fault/delivery outcomes and retained unchanged recovery regressions"
+    },
+    {
+      "id": "downstream_grains_and_no_future_leakage",
+      "passed": true,
+      "evidence": "Fresh six consumers and eleven point-in-time controls"
+    },
+    {
+      "id": "realism_and_repeat_seed_checks",
+      "passed": true,
+      "evidence": "Fresh published full-population profiles; unchanged three full-scale seed experiments retained"
+    },
+    {
+      "id": "no_critical_defect_or_unexplained_difference",
+      "passed": true,
+      "evidence": "Zero unresolved P0/P1 and zero unexplained state/monetary differences"
+    },
+    {
+      "id": "required_designated_reviews",
+      "passed": true,
+      "evidence": "All five required delegated synthetic-data review domains attached and bound"
+    },
+    {
+      "id": "clean_rebuild_and_actual_release_checksums",
+      "passed": true,
+      "evidence": "Seven cold lineage stages and complete staged/published payload verification"
+    },
+    {
+      "id": "complete_reproducible_release_package",
+      "passed": true,
+      "evidence": "Contracts, references, provenance, source bundle, pinned wheel, evidence and offline checks"
+    },
+    {
+      "id": "explicit_business_owner_acceptance",
+      "passed": true,
+      "evidence": "Exact release descriptor and limitations hash accepted by the identified human owner"
+    }
+  ],
+  "fresh_release_tool_tests": 70,
+  "fresh_published_domain_checks": 58,
+  "cap_counted_release_rows": 1936685,
+  "business_tables": 25,
+  "unresolved_p0_p1": 0,
+  "unexplained_differences": 0,
+  "full_dataset_accepted": true,
+  "foundation_status": "DATA_ACCEPTED",
+  "solution_status": "DATA_ACCEPTED",
+  "solution_implementation_started": false,
+  "separate_solution_authorization_required": true
+}

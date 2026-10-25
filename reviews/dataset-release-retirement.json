@@ -1,0 +1,10 @@
+{
+  "release_id": "healthcare-synthetic-v1.0.0",
+  "descriptor_sha256": "ecca3fcd7cf563e9d6b6397b88a58391eadfee3971f958a5faf68194f1f96d02",
+  "reason": "Offline distribution check failed: main-only bundle cloned with host default master instead of selecting main. Never business-accepted. Preserve payload; recertify corrected packaging as v1.0.1.",
+  "replacement": null,
+  "retired_at": "2026-10-25T12:43:23.396299+00:00",
+  "status": "RETIRED",
+  "solution_status": "BLOCKED_FOR_SOLUTION",
+  "payload_deleted": false
+}

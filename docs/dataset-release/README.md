@@ -1,0 +1,19 @@
+# Certified synthetic healthcare dataset
+
+The release contains the fictional Illinois hospital group's January 2023 through December 2025 history: 25 canonical business tables, 1,936,663 canonical records and 22 separately labeled challenge/control copies. The cap-counted total is 1,936,685. Three hospitals have 72 licensed inpatient beds. Every calendar month is represented, including leap-year 2024.
+
+The release is published to a create-once, versioned local directory under `data/releases/`. Large data files remain outside Git; the repository carries tooling, checksums, certification evidence and acceptance records. Local publication does not claim an Azure storage deployment or a GitHub-hosted copy of the dataset.
+
+`dataset/` contains only canonical files and their producer manifest. `native/` contains clinical/operational, Workday-style, roster/time, inventory, financial and Axiom-style source files, typed dictionaries, six reports and controlled challenge inputs. Never union native snapshots or dictionaries into the canonical tables. The recorded physical-copy disclosure distinguishes technical mirrors from business facts.
+
+`schema/tables.json` is the final effective schema and per-table envelope. `contracts/` supplies business rules, logical/physical relationships, source contracts, scenario catalog and realism targets. `references/` contains pinned public aggregates and dated code subsets with provenance. Historical design documents preserve their original assumptions; reviewed integrated amendments and the effective schema define this release.
+
+`evidence/` binds the clean seven-stage lineage, isolated runtime, fresh checks on these published files, independent consumers, historical cutoffs, full native reconstruction and fault outcomes. `reviews/` attaches the hash-bound domain review. `producers/` includes the exact producer archives and a complete Git bundle; `reproducibility/` includes the release tools and tests. The normalized business content matches the accepted Phase 8 candidate exactly.
+
+The current integrated review is `reviews/integrated-history-review.json`, with its sample and issue register. Earlier reviews and gates retain their historical scopes and are attached for lineage/reproduction; they do not independently approve changed fields. A fresh selection/profile binding proves that the published named-case facts still match the current integrated review.
+
+Trust the descriptor SHA256 recorded outside this directory in the repository's certification evidence. The manifest cannot authenticate itself: `verify` requires that external descriptor hash and checks every file, counts and required contracts. Ordinary local storage is not WORM or an authorization boundary. Checksum verification and create-once publication detect mutation and prevent these tools from overwriting a version.
+
+Producer manifests retain their historical generation/acceptance flags. They do not grant final data acceptance. The external release registry and the final Phase 9 gate record the business owner's decision against this exact descriptor and the [limitations](limitations.md). Without that decision, the overall state remains `BLOCKED_FOR_SOLUTION`. After explicit acceptance it becomes `DATA_ACCEPTED`; no solution product starts automatically.
+
+See [rebuild and verification](rebuild.md), [change control and retirement](change-control.md) and [modeled limitations](limitations.md). Microsoft Fabric is excluded. Databricks ingestion, forecasting models, dashboards, streaming products, agents and live source integrations remain a separate, subsequently authorized workstream.

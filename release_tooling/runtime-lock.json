@@ -1,0 +1,17 @@
+{
+  "python": "3.10.10",
+  "implementation": "CPython",
+  "certified_platform": "Windows x64, isolated venv on the execution host",
+  "base_binaries": {
+    "python.exe": "47942e1f899c5b0ccd23ba0730adbbc979b1488e0f2e5274abf398360877b7ec",
+    "python310.dll": "2bf761bae584ba67d9a41507b45ebd41ab6ae51755b1782496d0bc60cc1d41d5"
+  },
+  "packages": {"pip": "22.3.1", "setuptools": "65.5.0", "tzdata": "2025.2"},
+  "wheel": {
+    "name": "tzdata-2025.2-py2.py3-none-any.whl",
+    "sha256": "1a403fada01ff9221ca8044d701868fa132215d84beb92242d9acd2147f667a8",
+    "bytes": 347839,
+    "origin": "https://pypi.org/project/tzdata/2025.2/"
+  },
+  "chicago_sha256": "c27b739ff46a7df0594e120d725b439217e11e44ea9a50cdc49130383b5482e7"
+}

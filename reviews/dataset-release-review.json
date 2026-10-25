@@ -1,0 +1,39 @@
+{
+  "implementation_phase": 9,
+  "status": "APPROVED_FOR_BUSINESS_OWNER_DECISION",
+  "release_id": "healthcare-synthetic-v1.0.2",
+  "descriptor_sha256": "755532094c862c12163fabd1e4eff62206046fde8644c1415e5a4d5c80323be4",
+  "limitations_sha256": "63e3a19a3d4c7556ac0d8940826b4df10edaea5a7b40b78e489af008aa671130",
+  "reviewed_at": "2026-10-25T14:02:45.688922+00:00",
+  "reviewer": "Codex acting as the user-designated synthetic business, clinical, operations/workforce, finance and engineering reviewer",
+  "authority": "User delegation: You can review and finalize it, make sure its best. Final direct human business-owner acceptance remains separate.",
+  "reviewed_domains": [
+    "IDENTITY",
+    "CLINICAL",
+    "OPERATIONS_WORKFORCE",
+    "FINANCE",
+    "DATA_ENGINEERING"
+  ],
+  "review_method": "Review schema, rules, source mappings, scenario and issue registers, complete scoped limitations, new clean-rebuild and actual published-file certification, independent consumers, profiles, temporal controls and native faults. Carry forward the recorded 136-case and twelve-note designated review only after a fresh published-fact/profile/sample-byte binding confirms no changed reviewed facts. Check corrected real bundle distribution and all 70 shipped tests.",
+  "findings": {
+    "IDENTITY": "22,000 fictional stable patient identities; calendar-valid event ages and worker birthday variation pass. Native and canonical identities round-trip exactly.",
+    "CLINICAL": "Fresh clinical checks and all realism targets pass. Longitudinal and causal timing remain intact; 112 patient contexts and twelve quarterly notes retain the reviewed facts. Configured clinical scope and boundary mortality limitations acknowledged.",
+    "OPERATIONS_WORKFORCE": "Fresh bed, census, staffing, eligibility and stock controls pass with 72 inpatient beds; 24 worker review contexts are unchanged. Selected capture does not represent full enterprise payroll or resource activity.",
+    "FINANCE": "Fresh connected claims, cash/AR, selected expense/allocation and Axiom actual/budget/forecast consumers reconcile at their defined grains with zero unexplained differences. Missing/zero plans and draft/unbilled care stay distinct.",
+    "DATA_ENGINEERING": "Seven cold lineage stages match pinned anchors with zero generated/checkpoint inputs imported. All actual payload checks, 3,444 source and duplicate deliveries, six reports, 318 snapshots, 304 Axiom headers, three historical cutoffs and fifteen faults pass. New main-only bundle regression and actual offline distribution pass; old version remains retired."
+  },
+  "integrated_review_sha256": "7f077379577642cf9bed5ce27c80275266395f1e502981695cd19c4c2e377522",
+  "fresh_review_binding_sha256": "0abc4dafab4be754e0d1556430a7c94efe2186b29a1344c4f32fe1e5f218170a",
+  "certification_sha256": "21a9d6c09020a601a0befd4ea1514a5aa8ddf4a94c713dbf3f160674f3a19abd",
+  "release_issue_register_sha256": "525453b5289cbc9e7ec52501d80ca89753692d23444a28ff1c89e6232a4a068e",
+  "offline_check_sha256": "13c92e2eb1841718dd80dc80eb6c2316f52df4addf4e96258ebd997eed55cf5f",
+  "release_tests_sha256": "ef7e901c217c7370a0e8bbbc28de3004b84ebfea0e18741c4752ce3a0bc0c044",
+  "canonical_business_sha256": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
+  "source_package_sha256": "7f1b5a5dbe567ae3b28936e6ff6684f5c6cdeb767a73e321a2f1f628f71ab431",
+  "limitations_accepted_for_delegated_review": true,
+  "external_professional_endorsement": false,
+  "unresolved_p0_p1": 0,
+  "unexplained_differences": 0,
+  "full_dataset_accepted": false,
+  "solution_implementation_started": false
+}

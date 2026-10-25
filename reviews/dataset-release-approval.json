@@ -1,0 +1,15 @@
+{
+  "decision": "ACCEPT_DATA_RELEASE",
+  "release_id": "healthcare-synthetic-v1.0.2",
+  "descriptor_sha256": "755532094c862c12163fabd1e4eff62206046fde8644c1415e5a4d5c80323be4",
+  "limitations_sha256": "63e3a19a3d4c7556ac0d8940826b4df10edaea5a7b40b78e489af008aa671130",
+  "limitations_acknowledged": true,
+  "business_owner": "Requesting business owner of Kkb113/Healthcare-solution, identified by the direct acceptance in this chat",
+  "authority": "DIRECT_HUMAN_USER_APPROVAL",
+  "approval_message": "Accept release and documented limitations",
+  "approval_question": "Do you accept healthcare-synthetic-v1.0.2 and the modeled scope and limitations in the completed review packet (C:/HealthCare_Solution/reviews/dataset-release-review.md)? The exact descriptor SHA256 is 755532094c862c12163fabd1e4eff62206046fde8644c1415e5a4d5c80323be4; limitations SHA256 is 63e3a19a3d4c7556ac0d8940826b4df10edaea5a7b40b78e489af008aa671130. All technical checks and delegated domain reviews pass. Acceptance lets me record DATA_ACCEPTED, finalize Phase 9, commit and push. It does not start the analytics solution.",
+  "approval_source": "Direct human reply to request_user_input_async in the current task",
+  "observed_at": "2026-10-25T14:05:31.586383+00:00",
+  "final_release_review_sha256": "71db8318615431df9acc20d255852d13e33563438a4eb0637542e61ceadd5583",
+  "separate_solution_authorization_required": true
+}
