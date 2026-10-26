@@ -44,17 +44,19 @@ V1_1 = {
     **V1_0,
     'version': '1.1',
     'producer_commit': V1_1_PRODUCER,
-    # Version 1.1 regenerates every care, capacity, workforce, stock and finance
-    # domain from the accepted master snapshot in one integrated stage.
-    'lineage': (
-        V1_0['lineage'][0],
+    # The six accepted, pinned version 1.0 stages rebuild unchanged: the master
+    # snapshot is the generation parent, and the Phase 6/7 outputs supply the
+    # frozen source-schema, cost-center and worker-delivery anchors that the
+    # certification validators compare against. The version 1.1 integrated
+    # stage then regenerates every care, capacity, workforce, stock and
+    # finance domain from the master snapshot.
+    'lineage': V1_0['lineage'][:-1] + (
         ('integrated-history', V1_1_PRODUCER, 'generate_integrated_history.py',
          '12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b'),
     ),
     'business_sha256': '12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b',
     'source_sha256': 'af91c63033f751850585509370b2a8a41db25ea47b49f04abe5289a97dad60db',
     'business_rows': 1937925, 'source_files': 3445,
-    'historical_native_control': False,
     'certification_root': 'output/release-certification-v1.1.0',
     'evidence_dir': 'evidence/dataset-release-v1.1.0',
     'review': 'reviews/dataset-release-v1.1.0-review.json',

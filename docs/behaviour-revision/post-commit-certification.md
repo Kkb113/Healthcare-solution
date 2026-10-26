@@ -6,7 +6,7 @@ Run these steps from the repository root, in order, after committing every track
 # 1. Release-tool fixtures, bound to the exact tools and prior evidence (about 1 minute)
 python -m release_tooling.run_tests
 
-# 2. Cold lineage: pinned master snapshot, then the version 1.1 integrated stage, in a fresh venv (about 25 minutes)
+# 2. Cold lineage: six accepted version 1.0 stages, then the version 1.1 integrated stage, in a fresh venv (about 90 minutes)
 python -m release_tooling.rebuild --release-id healthcare-synthetic-v1.1.0 --output output/release-certification-v1.1.0/clean-build --wheel data/releases/healthcare-synthetic-v1.0.2/runtime/tzdata-2025.2-py2.py3-none-any.whl
 
 # 3. Stage and certify the exact payload with the frozen validators (about 1 to 1.5 hours)
