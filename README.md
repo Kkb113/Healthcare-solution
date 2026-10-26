@@ -6,6 +6,23 @@ The original frozen baseline contains **25 business tables and 1,958,210 planned
 
 Start with the [frozen baseline](docs/phase-0/README.md), [framework](docs/phase-1/README.md), [master-data foundation](docs/master-data/README.md), and [implementation plan](synthetic-data-generation-implementation.md). The [clinical foundation](docs/clinical-histories/README.md) implements Phase 3; its current acceptance status is recorded in the [clinical exit gate](evidence/clinical-histories/acceptance-gate.json). The analytics solution stays blocked until final Phase 9 data acceptance.
 
+## Version 1.1.0 behaviour revision
+
+Version 1.1.0 replaces six fixed-rule behaviours that limited forecasting, real-time and agent use cases: ED stay length, medically-ready-to-discharge timing and the daytime discharge window, bed placement and cleaning response, weekday spreading of outpatient and elective visits, person-level no-show propensity, claim-level denial propensity and seasonal RN absences. Scale, master data, schema, frozen totals and every other rule are unchanged. Every seed, including the primary, regenerates all care, capacity, workforce, stock and finance domains from the accepted master snapshot. A full regeneration with the unchanged code first reproduced v1.0.2 exactly, so every difference comes from the revision.
+
+The primary candidate holds **1,937,925 canonical rows across 25 tables** (business SHA256 `12859a18…`) and 3,445 native delivery files. All three registered seeds pass the 58 fresh domain controls, 324 partitions, six consumers with zero unexplained differences, eleven point-in-time controls, every frozen realism target and the new behaviour-revision checks. The integrated, source, framework/master and release-tool suites pass. 3,000 unused `bed_event` slots move to `staff_shift`; the planned total is unchanged. See the [behaviour revision](docs/behaviour-revision/README.md), its [post-commit certification steps](docs/behaviour-revision/post-commit-certification.md) and the updated [limitations](docs/dataset-release/limitations.md).
+
+```powershell
+python scripts/generate_integrated_history.py --seed 20261023 --output output/integrated-history
+python scripts/export_integrated_sources.py
+python scripts/inspect_integrated_history.py
+python scripts/validate_behaviour_revision.py
+python scripts/run_integrated_regressions.py
+python scripts/validate_integrated_foundation.py
+```
+
+Version 1.1.0 is certified and published only after the producer commit, following the post-commit steps. Until it is accepted, v1.0.2 below remains the accepted release.
+
 ## Final data release certification
 
 The versioned local package is `data/releases/healthcare-synthetic-v1.0.2/`, with 7,109 payload files. Its [release decision packet](reviews/dataset-release-review.md), [delegated review](reviews/dataset-release-review.json), [certification evidence](evidence/dataset-release/validation-report.json), [final gate](evidence/dataset-release/acceptance-gate.json) and [rebuild/change-control runbooks](docs/dataset-release/README.md) identify the exact scope, limitations and checksums. The [explicit human acceptance](reviews/dataset-release-acceptance.json) is recorded against this exact descriptor and limitations hash; Phase 9 is `PASSED` and the foundation is `DATA_ACCEPTED`. Version 1.0.0 was never accepted and is [retired](reviews/dataset-release-retirement.json); the corrected distribution passes the recorded [issue closure](reviews/dataset-release-issues.json). Generated data stays outside Git.

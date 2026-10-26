@@ -112,9 +112,34 @@
       "severity": "P2",
       "status": "ACCEPTED_SCOPED_LIMITATION",
       "scope_constraint": "The configured 30 terminal outcomes deliberately exercise late-window death/censoring boundaries. This selected synthetic cohort is not a mortality-incidence or population survival series; mortality forecasting and epidemiologic inference are outside the accepted scope."
+    },
+    {
+      "issue_id": "V1.1-FIXED-BEHAVIOUR-RULES",
+      "severity": "P1",
+      "status": "CLOSED",
+      "scope_constraint": "Version 1.0.2 produced six behaviours as fixed rules (constant ED stay, one-hour discharge delay, uniform discharge hour, ten-minute placement and cleaning start, Monday piling of weekend visits, rule-based no-shows, flat denial and near-zero RN absence). Version 1.1.0 replaces them with graded, overlapping behaviour; behaviour-revision.json checks pass for all three seeds."
+    },
+    {
+      "issue_id": "V1.1-STAFF-SHIFT-ENVELOPE",
+      "severity": "P2",
+      "status": "CLOSED",
+      "scope_constraint": "Realistic RN absences need retained roster history beyond the 70000 staff_shift envelope on seed 20261024 (70054). Reassigned 3000 unused bed_event slots to staff_shift; total planned rows and reserve unchanged. No facts removed or sampled away."
+    },
+    {
+      "issue_id": "V1.1-RN-OVERTIME-SCOPE",
+      "severity": "P3",
+      "status": "ACCEPTED_SCOPED_LIMITATION",
+      "scope_constraint": "RN overtime stays under 1% of RN hours because the fixed master workforce has about 88 RNs per hospital for about 14 RN shifts a day. Changing it would change workforce scale. Overtime forecasting is outside the accepted scope."
+    },
+    {
+      "issue_id": "V1.0-TRANSFER-DISCHARGE-LABS",
+      "severity": "P3",
+      "status": "ACCEPTED_SCOPED_LIMITATION",
+      "scope_constraint": "Pre-existing since version 1.0: an inpatient transferred out after 24 hours awaiting a compatible bed receives a discharge summary whose final labs already show recovery (625 capacity transfers in version 1.1). Not a causal-timing violation; template narrative realism only."
     }
   ],
   "unresolved_p0_p1": 0,
   "full_dataset_accepted": false,
-  "solution_status": "BLOCKED_FOR_SOLUTION"
+  "solution_status": "BLOCKED_FOR_SOLUTION",
+  "dataset_version": "1.1.0"
 }

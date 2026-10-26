@@ -72,6 +72,7 @@ def render():
                '- Fixed public name distributions and catchment identities are shared across seeds; seeds test connected histories, not new population demographics.',
                '- Axiom native layouts are illustrative archetypes. Customer-specific layout/vendor certification and the estimated 900-report inventory are not implemented.',
                '- Clinical/care, roster and close outcomes remain censored or unknown at the cutoff when not observed. No unknown is recoded as a successful or negative outcome.',
+               '- Version 1.1 ED stay, discharge timing, bed placement/cleaning, weekday mix, no-show, denial and RN absence behaviours are configured assumptions checked for internal plausibility, not benchmarks of a real hospital. RN overtime stays low because the fixed RN pool exceeds shift demand.',
                '- Phase 9 clean-environment release certification and explicit release acceptance remain pending; solution development stays blocked.','']
         text='\n'.join(body);return text,{'reviewed_cases':len(reviewed)+len(worker_facts),'reviewed_patient_cases':len(reviewed),'reviewed_worker_cases':len(worker_facts),
             'monthly_facility_strata':len(groups),'classes':dict(classes),'encounter_ids':reviewed,'worker_ids':sorted(worker_facts),

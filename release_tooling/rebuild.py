@@ -16,23 +16,11 @@ from pathlib import Path
 
 from .common import ROOT, digest, ignored_path, inventory, read, save, sha_file
 
-PRODUCER_COMMIT = '0f398f3c09be70d34a1811283e80aa0de57dc8ed'
-LINEAGE = (
-    ('master-foundation', 'f7d512673e21f032065774b8afcde6800df28f72', 'generate_master_data.py',
-     'c4e987cfd994c51a6bcf0352d44b386d701a84ef8e35a84240bbed25cf1dc59c'),
-    ('clinical-histories', '691435db3708939196b83d9cbade39b3e5db4785', 'generate_clinical_histories.py',
-     'a74a03a5b086143cc6db18b1b70e41a914aeab0750e64ea967ffe83e95ccf1ca'),
-    ('operational-flow', '51ef26af7a1002e6a6074f96b72059f74dbbe5dc', 'generate_operational_flow.py',
-     'f0ffb9bb73ef93375cd24dac8294ffefa05c2a6b48252493047011f5fb0e2eed'),
-    ('resource-foundation', '1840da3dbe3edf643b12e7b3e4a1897312d99d86', 'generate_resource_foundation.py',
-     'd74687a69f72c7e2b4f63fea2ede2d58e45487c86a2e92a2013ca639f675c439'),
-    ('financial-history', 'eb20bfa55eb7ac9850f9b3f5b4037a247a4f3f82', 'generate_financial_history.py',
-     '773a236ec9c7ec3df5605f38d21f4934a9384eae1bbf04ab4bf164cb51006b72'),
-    ('source-delivery', 'bfd89b22d54bac051a3daf4ea27adcae0c5475b2', 'generate_source_delivery.py',
-     '773a236ec9c7ec3df5605f38d21f4934a9384eae1bbf04ab4bf164cb51006b72'),
-    ('integrated-history', PRODUCER_COMMIT, 'generate_integrated_history.py',
-     '61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e'),
-)
+from .profiles import CURRENT_RELEASE, lineage, profile
+
+# Version 1.0 lineage, retained for callers that predate per-release profiles.
+PRODUCER_COMMIT = profile()['producer_commit']
+LINEAGE = profile()['lineage']
 
 
 def extract_archive(archive, destination):
@@ -146,22 +134,32 @@ def copy_parent(parent, target):
             shutil.copy2(parent / name, target / name)
 
 
-def rebuild(output, wheel):
+def committed_head():
+    """The producer commit for an unpinned release: HEAD, with no uncommitted tracked change."""
+    if subprocess.run(['git', 'status', '--porcelain', '--untracked-files=no'], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip():
+        raise ValueError('commit all tracked producer changes before a clean rebuild')
+    return subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+
+
+def rebuild(output, wheel, identifier=CURRENT_RELEASE):
+    release = profile(identifier)
     output = ignored_path(output)
     if output.exists():
         raise ValueError('clean certification workspace already exists; choose a new run directory')
+    producer = release['producer_commit'] or committed_head()
+    stages = lineage(release, producer)
     output.mkdir(parents=True)
     controller_paths = [ROOT / 'release_tooling' / name for name in
-                        ('__init__.py', 'common.py', 'rebuild.py', 'runtime-lock.json')]
+                        ('__init__.py', 'common.py', 'profiles.py', 'rebuild.py', 'runtime-lock.json')]
     bindings = {p.relative_to(ROOT).as_posix(): sha_file(p) for p in controller_paths}
-    report = {'status': 'RUNNING', 'started_at': datetime.now(timezone.utc).isoformat(),
+    report = {'status': 'RUNNING', 'release_id': identifier, 'producer_commit': producer, 'started_at': datetime.now(timezone.utc).isoformat(),
               'controller_bindings': bindings, 'generated_inputs_imported': 0,
               'checkpoint_inputs_imported': 0, 'external_network_used_during_rebuild': False, 'stages': []}
     save(output / 'clean-rebuild.json', report)
     try:
         python = create_runtime(output, wheel)
         built = {}
-        for name, commit, script, expected in LINEAGE:
+        for name, commit, script, expected in stages:
             begin = time.monotonic()
             print('Clean rebuild starting: ' + name, flush=True)
             archive = output / 'archives' / (name + '.tar')
@@ -201,7 +199,7 @@ def rebuild(output, wheel):
         if any(sha_file(ROOT / p) != h for p, h in bindings.items()):
             raise ValueError('clean rebuild controller changed during execution')
         report.update(status='PASS', finished_at=datetime.now(timezone.utc).isoformat(),
-                      producer_commit=PRODUCER_COMMIT, controller_unchanged=True)
+                      producer_commit=producer, controller_unchanged=True)
         save(output / 'clean-rebuild.json', report)
         return report
     except Exception as exc:
@@ -214,6 +212,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--wheel', type=Path, required=True)
+    parser.add_argument('--release-id', default=CURRENT_RELEASE)
     args = parser.parse_args()
-    result = rebuild(args.output, args.wheel)
+    result = rebuild(args.output, args.wheel, args.release_id)
     print(json.dumps({'status': result['status'], 'lineage_stages': len(result['stages'])}))

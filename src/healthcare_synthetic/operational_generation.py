@@ -26,7 +26,8 @@ def connect_site_transfers(generator, journeys, number, operational):
     for old in selected:
         eid = old['encounter_id']; begin = instant(old['arrival_at']) + timedelta(days=3)
         final_end = instant(old['discharged_at'])
-        original_final = histories[eid][-1] if histories[eid][-1]['revision_no'] == 3 else max(histories[eid],key=lambda r:r['revision_no'])
+        ready_gap = final_end - instant(old['medically_ready_at']) if old['medically_ready_at'] else timedelta(hours=1)
+        original_final =histories[eid][-1] if histories[eid][-1]['revision_no'] == 3 else max(histories[eid],key=lambda r:r['revision_no'])
         for r in histories[eid]:
             if r['revision_no'] == 2: r['known_to'] = stamp(begin)
         original_final.update(known_from=stamp(begin), recorded_at=stamp(begin), export_available_at=stamp(begin+timedelta(hours=2)),
@@ -46,7 +47,7 @@ def connect_site_transfers(generator, journeys, number, operational):
             arrival_at=stamp(at), disposition='OPEN', planned=False, carry_in=False)
         state, rows = base, []
         for rev,(known,changes) in enumerate(((at,{}),(at+timedelta(minutes=15),{'admission_decision_at':stamp(at),'admitted_at':stamp(at+timedelta(minutes=15))}),
-                    (final_end,{'discharged_at':stamp(final_end),'medically_ready_at':stamp(final_end-timedelta(hours=1)),'disposition':'HOME'})),1):
+                    (final_end,{'discharged_at':stamp(final_end),'medically_ready_at':stamp(final_end-ready_gap),'disposition':'HOME'})),1):
             state = {**state, **changes}
             row = generator.row('encounter', f'{new_id}/v{rev}', known, encounter_version_id=stable_id('encounter_version',new_id,rev),
                 revision_no=rev, known_from=stamp(known), known_to=None, **state)
@@ -163,9 +164,16 @@ class FlowSimulator:
         self.intervals.append((bid,eid,stamp(begin),stamp(at)))
         self.emit(bid,at,'VACATE',reason,group,occupancy_state='DIRTY',encounter_version_id=self.context_at(eid,at),reserved=False)
         self.state[bid]['encounter_version_id']=None
-        self.push(at+timedelta(minutes=10),1,'clean',bid)
-        self.push(at+timedelta(minutes=60+self.g.n(bid+stamp(at),'clean-minutes',31)),1,'ready',bid)
+        # Environmental services response varies, and is slower overnight.
+        key=bid+stamp(at);hour=at.astimezone(self.g.zone).hour
+        start=10+self.g.n(key,'clean-start-minutes',41)+(self.g.n(key,'night-clean-start-minutes',61) if hour>=23 or hour<6 else 0)
+        self.push(at+timedelta(minutes=start),1,'clean',bid)
+        self.push(at+timedelta(minutes=start+40+self.g.n(key,'clean-minutes',41)),1,'ready',bid)
         return bid
+
+    def placement_minutes(self,eid):
+        """Bed assignment, handover and transport after a compatible bed is reserved."""
+        return timedelta(minutes=self.cfg['reservation_minutes']+self.g.n(eid,'placement-minutes',81))
 
     def occupy(self,eid,bid,at,reason,group=None):
         if eid in self.placement_notes:reason+=';PRIVATE_ISOLATION_PLACEMENT'
@@ -225,7 +233,7 @@ class FlowSimulator:
                 self.vacate(eid,at,'INTERNAL_STEPDOWN_OUT',group)
                 self.occupy(eid,bid,at,'INTERNAL_STEPDOWN_IN',group)
             else:
-                due=at+timedelta(minutes=self.cfg['reservation_minutes'])
+                due=at+self.placement_minutes(eid)
                 if e['disposition']=='DEATH' and due>=instant(e['discharged_at']):
                     self.waiting[eid]=(icu,request); continue
                 self.reserving[eid]=bid
@@ -286,6 +294,7 @@ class FlowSimulator:
                         delta=max(timedelta(hours=1),end+timedelta(hours=5)-instant(e['arrival_at']));move_encounter(self,key,delta)
                         self.push(instant(e['admitted_at']),3,'admit',key)
                         if e['discharged_at']:self.push(instant(e['discharged_at']),0,'discharge',key)
+                        extend_completion(self,key,timedelta(0))
                         continue
                 icu=not e['planned'] and e['admission_source']!='TRANSFER' and (e['initial_acuity']==1 or e['initial_acuity']==2 and self.g.n(key,'icu-stabilization',100)<self.cfg['icu_selection_percent'])
                 self.waiting[key]=(icu,at)
@@ -293,10 +302,11 @@ class FlowSimulator:
             elif kind=='place':
                 bid=self.reserving.pop(key)
                 e=self.latest[key]
-                delay=at-instant(e['admitted_at'])-timedelta(minutes=self.cfg['reservation_minutes'])
+                delay=at-instant(e['admitted_at'])-self.placement_minutes(key)
                 if e['planned']:
                     move_encounter(self,key,delay)
                     if e['discharged_at']:self.push(instant(e['discharged_at']),0,'discharge',key)
+                    extend_completion(self,key,timedelta(0))
                 else:extend_completion(self,key,delay)
                 reason='SITE_TRANSFER_IN' if key in self.site_pairs and self.latest[key]['admission_source']=='TRANSFER' else ('FIRST_PLACEMENT_AFTER_WAIT:'+','.join(sorted(self.queue_causes[key])) if key in self.queue_causes else 'FIRST_PLACEMENT')
                 requested_icu=not e['planned'] and e['admission_source']!='TRANSFER' and (e['initial_acuity']==1 or e['initial_acuity']==2 and self.g.n(key,'icu-stabilization',100)<self.cfg['icu_selection_percent'])

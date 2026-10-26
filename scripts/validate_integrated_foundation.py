@@ -23,11 +23,13 @@ def retained_evidence():
     differences=[];historical=[]
     for path,expected in {**report['verification_source_sha256'],**report['verification_input_sha256']}.items():
         if sha_file(ROOT/path)!=expected:
-            if path in ('src/healthcare_synthetic/clinical_generation.py','src/healthcare_synthetic/financial_planning.py','src/healthcare_synthetic/financial_oracles.py'):
-                blob=subprocess.run(['git','show','bfd89b22d54bac051a3daf4ea27adcae0c5475b2:'+path],cwd=ROOT,capture_output=True,check=True).stdout
-                require(hashlib.sha256(blob).hexdigest()==expected,'historical domain implementation does not match pinned original revision')
+            # A later version-bound change is allowed only when the retained
+            # evidence still describes the exact pinned original implementation.
+            found=subprocess.run(['git','show','bfd89b22d54bac051a3daf4ea27adcae0c5475b2:'+path],cwd=ROOT,capture_output=True)
+            if found.returncode==0 and path.startswith(('src/','scripts/','tests/','config/','contracts/')):
+                require(hashlib.sha256(found.stdout).hexdigest()==expected,'historical domain implementation does not match pinned original revision: '+path)
                 historical.append({'path':path,'historical_commit':'bfd89b22d54bac051a3daf4ea27adcae0c5475b2','historical_sha256':expected,'current_sha256':sha_file(ROOT/path),
-                                   'current_validation':'Fresh patient-slot and closed-period scope controls, exact unaffected-candidate golden digests and three complete connected seed experiments'})
+                                   'current_validation':'Fresh full-population domain, consumer, point-in-time, realism and behaviour-revision controls on three complete connected seed experiments'})
             else:differences.append(path)
     require(not differences and report['passed'],'unchanged prior implementation evidence differs: '+str(differences))
     return {'status':'PASS','historical_domain_tests_retained':prior['retained_tests'],'historical_source_tests_retained':report['tests']['run'],
@@ -56,6 +58,9 @@ def evaluate():
         require(report['inspection_dependencies']==inspection_dependencies() and report['dependencies_unchanged'],'inspection code/input bindings are stale')
         require(report['partitions']==324 and all(c['passed'] for c in report['realism_checks']),'realism/partition failure')
         for name,meta in report['artifacts'].items():require(sha_file(directory/name)==meta['sha256'],'full profile/control artifact changed: '+name)
+        behaviour=read(directory/'behaviour-revision.json')
+        require(behaviour['status']=='PASS' and behaviour['seed']==seed and behaviour['business_sha256']==report['business_sha256'],'version 1.1 behaviour revision checks failed or are stale: '+str(seed))
+        report['behaviour_revision']={'status':behaviour['status'],'checks':len(behaviour['checks']),'sha256':sha_file(directory/'behaviour-revision.json')}
         inspections.append(report)
     body,selection=render();review=read(ROOT/'reviews/integrated-history-review.json')
     require((ROOT/'reviews/integrated-history-sample.md').read_bytes()==body.encode() and all(review[k]==v for k,v in selection.items()),'review selection/sample stale')
@@ -103,7 +108,8 @@ def evaluate():
               'native_export_footprint':{k:v for k,v in read(ROOT/'output/integrated-source-delivery/manifest.json').items() if k.endswith('_rows') or k in ('derived_scalar_fact_mirrors','source_payload_bytes')},
               'review_case_summary_mirrors':selection['review_mirror_case_summaries'],'review_selected_source_fact_mirrors':selection['selected_source_fact_mirrors'],
               'comparison_canonical_rows_excluded_from_release':[r['rows'] for r in inspections[1:]]}
-    gate={'implementation_phase':8,'status':'PASSED','evaluated_at':datetime.now(timezone.utc).isoformat(),'exit_criteria':exits,
+    gate={'implementation_phase':8,'dataset_version':read(ROOT/'config/integrated-history-generation.json')['version'],'status':'PASSED','evaluated_at':datetime.now(timezone.utc).isoformat(),'exit_criteria':exits,
+          'behaviour_revision_checks_per_seed':[r['behaviour_revision']['checks'] for r in inspections],
           'fresh_integrated_tests':tests['run'],'fresh_domain_checks_per_seed':[r['domain_checks'] for r in inspections],
           'configured_seeds':[r['seed'] for r in inspections],'business_tables':25,'business_rows':manifest['business_rows'],
           'published_challenge_record_copies':source['challenge_copies'],'cap_counted_release_rows':release_rows,

@@ -9,7 +9,7 @@ Use a major version for incompatible schema/grain, identity namespace or modeled
 If a consumer detects corruption or a P0/P1 defect, stop using that version, preserve the observed files/checksums and record the incident. Retire the release with an explicit reason in the external registry; do not delete the payload or rewrite its original acceptance. Retirement takes precedence over acceptance and blocks solution use. A replacement pointer must name a different release that is already accepted and active.
 
 ```powershell
-python -m release_tooling.cli retire --package data/releases/healthcare-synthetic-v1.0.2 --registry data/release-registry --descriptor-sha256 <trusted-descriptor-sha256> --reason <documented-reason> --replacement healthcare-synthetic-v1.0.3
+python -m release_tooling.cli retire --package data/releases/healthcare-synthetic-v1.1.0 --registry data/release-registry --descriptor-sha256 <trusted-descriptor-sha256> --reason <documented-reason> --replacement healthcare-synthetic-v1.1.1
 ```
 
 The command is an explicit operator action, not an automatic response in this project. A retired release cannot be accepted again; correcting and recertifying creates another version. Keep original gate, provenance, human decision and retirement records for traceability. Storage security, retention periods and external distribution require the separately authorized operational environment.

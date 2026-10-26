@@ -5,6 +5,7 @@ from pathlib import Path
 
 from .common import ROOT, inventory, read, save, sha_file
 from .package import DESCRIPTOR, verify_healthcare_release
+from .profiles import profile
 from .registry import state
 from .verification import retained_bindings, tool_bindings
 
@@ -19,26 +20,27 @@ def require_closed_critical_issues(register):
 def evaluate(package, registry, descriptor_sha256):
     package = Path(package).resolve();registry = Path(registry).resolve()
     verified = verify_healthcare_release(package, descriptor_sha256)
+    release = profile(verified['release_id']);certification_root = ROOT / release['certification_root']
     certificate = read(package / 'evidence/certification.json')
     inspection = read(package / 'evidence/inspection.json')
     source = read(package / 'evidence/source-inspection.json')
     review_binding = read(package / 'evidence/review-binding.json')
-    if review_binding['status'] != 'PASS' or not review_binding['reviewed_facts_unchanged'] or review_binding['selection']['reviewed_cases'] != 136:
+    if review_binding['status'] != 'PASS' or not review_binding['reviewed_facts_unchanged'] or review_binding['selection']['reviewed_cases'] != release['reviewed_cases']:
         raise ValueError('fresh published-fact domain review binding failed')
-    if inspection['status'] != 'PASS' or inspection['domain_checks'] != 58 or inspection['domain_defects'] or inspection['partitions'] != 324 or not all(c['passed'] for c in inspection['realism_checks']):
+    if inspection['status'] != 'PASS' or inspection['domain_checks'] != release['domain_checks'] or inspection['domain_defects'] or inspection['partitions'] != 324 or not all(c['passed'] for c in inspection['realism_checks']):
         raise ValueError('published full-population/realism checks incomplete')
     if inspection['consumer_controls']['unexplained_differences'] or inspection['point_in_time']['future_fact_failures'] or not inspection['point_in_time']['unknown_outcomes_preserved'] or len(inspection['point_in_time']['checks']) != 11:
         raise ValueError('published consumer/point-in-time checks failed')
-    if source['status'] != 'PASS' or source['source_files'] != source['duplicate_deliveries_checked'] or source['source_files'] != 3444 or source['roundtrip_rows'] != 1936663 or source['challenge_copies'] != 22 or source['unexplained_differences']:
+    if source['status'] != 'PASS' or source['source_files'] != source['duplicate_deliveries_checked'] or source['source_files'] != release['source_files'] or source['roundtrip_rows'] != release['business_rows'] or source['challenge_copies'] != release['challenge_copies'] or source['unexplained_differences']:
         raise ValueError('published native roundtrip/replay/count controls failed')
-    if source['delivery_calendar']['snapshots_checked'] != 318 or source['delivery_calendar']['axiom_file_headers_reconciled_to_records'] != 304 or source['faults']['unresolved_release_blocking_faults'] or len(source['faults']['outcomes']) != 15 or not all(o['status']=='PASS' for o in source['faults']['outcomes']):
+    if source['delivery_calendar']['snapshots_checked'] != release['snapshots'] or source['delivery_calendar']['axiom_file_headers_reconciled_to_records'] != release['axiom_headers'] or source['faults']['unresolved_release_blocking_faults'] or len(source['faults']['outcomes']) != release['fault_outcomes'] or not all(o['status']=='PASS' for o in source['faults']['outcomes']):
         raise ValueError('published calendars/fault outcomes incomplete')
     for name, meta in certificate['validation_artifacts'].items():
         p = package / 'evidence' / name
         if sha_file(p) != meta['sha256'] or p.stat().st_size != meta['bytes']:
             raise ValueError('fresh published-file validation artifact differs: ' + name)
-    tests = read(ROOT / 'output/release-certification/release-tests.json')
-    offline = read(ROOT / 'output/release-certification/offline-source-check.json')
+    tests = read(certification_root / 'release-tests.json')
+    offline = read(certification_root / 'offline-source-check.json')
     if not tests['passed'] or tests['failures'] or tests['errors'] or tests['skipped'] or not tests['tools_unchanged'] or not tests['inputs_unchanged']:
         raise ValueError('release-tool tests incomplete/failed')
     if tests['tool_bindings'] != tool_bindings() or tests['retained_prior_bindings'] != retained_bindings():
@@ -56,11 +58,11 @@ def evaluate(package, registry, descriptor_sha256):
         raise ValueError('offline distribution verification incomplete/stale')
     if certificate['release_tool_bindings'] != tests['tool_bindings']:
         raise ValueError('certification tool/input bindings are stale')
-    issues = read(ROOT / 'reviews/dataset-release-issues.json')
+    issues = read(ROOT / release['issues'])
     require_closed_critical_issues(issues)
-    if issues['descriptor_sha256'] != descriptor_sha256 or issues['offline_check_sha256'] != sha_file(ROOT / 'output/release-certification/offline-source-check.json'):
+    if issues['descriptor_sha256'] != descriptor_sha256 or issues['offline_check_sha256'] != sha_file(certification_root / 'offline-source-check.json'):
         raise ValueError('release issue closure evidence is stale')
-    review = read(ROOT / 'reviews/dataset-release-review.json')
+    review = read(ROOT / release['review'])
     if review['status'] != 'APPROVED_FOR_BUSINESS_OWNER_DECISION' or review['descriptor_sha256'] != descriptor_sha256 or review['limitations_sha256'] != sha_file(package / 'docs/limitations.md'):
         raise ValueError('final designated domain review missing or stale')
     if review['integrated_review_sha256'] != sha_file(package / 'reviews/integrated-history-review.json') or review['fresh_review_binding_sha256'] != sha_file(package / 'evidence/review-binding.json') or review['certification_sha256'] != sha_file(package / 'evidence/certification.json'):
@@ -84,7 +86,7 @@ def evaluate(package, registry, descriptor_sha256):
         ('realism_and_repeat_seed_checks', True, 'Fresh published full-population profiles; unchanged three full-scale seed experiments retained'),
         ('no_critical_defect_or_unexplained_difference', True, 'Zero unresolved P0/P1 and zero unexplained state/monetary differences'),
         ('required_designated_reviews', True, 'All five required delegated synthetic-data review domains attached and bound'),
-        ('clean_rebuild_and_actual_release_checksums', True, 'Seven cold lineage stages and complete staged/published payload verification'),
+        ('clean_rebuild_and_actual_release_checksums', True, f"{len(release['lineage'])} cold lineage stages and complete staged/published payload verification"),
         ('complete_reproducible_release_package', True, 'Contracts, references, provenance, source bundle, pinned wheel, evidence and offline checks'),
         ('explicit_business_owner_acceptance', owner_accepted, 'Exact release descriptor and limitations hash accepted by the identified human owner')]
     passed = all(value for _, value, _ in items)
@@ -106,8 +108,8 @@ def evaluate(package, registry, descriptor_sha256):
                 'acceptance_record_sha256': sha_file(registry / verified['release_id'] / 'acceptance.json') if (registry / verified['release_id'] / 'acceptance.json').exists() else None,
                 'retirement_record_sha256': sha_file(registry / verified['release_id'] / 'retirement.json') if (registry / verified['release_id'] / 'retirement.json').exists() else None,
                 'certificate': certificate}
-    save(ROOT / 'evidence/dataset-release/validation-report.json', evidence)
-    save(ROOT / 'evidence/dataset-release/acceptance-gate.json', gate)
+    save(ROOT / release['evidence_dir'] / 'validation-report.json', evidence)
+    save(ROOT / release['evidence_dir'] / 'acceptance-gate.json', gate)
     return gate
 
 
@@ -119,7 +121,7 @@ if __name__ == '__main__':
         result = evaluate(a.package, a.registry, a.descriptor_sha256)
     except Exception as exc:
         result = {'implementation_phase':9,'status':'BLOCKED','error':str(exc),'full_dataset_accepted':False,'solution_status':'BLOCKED_FOR_SOLUTION'}
-        save(ROOT / 'evidence/dataset-release/acceptance-gate.json',result)
+        save(ROOT / profile(read(Path(a.package) / DESCRIPTOR)['release_id'])['evidence_dir'] / 'acceptance-gate.json',result)
         print(result);raise SystemExit(1)
     print(result)
     raise SystemExit(0 if result['status']=='PASSED' else 2)

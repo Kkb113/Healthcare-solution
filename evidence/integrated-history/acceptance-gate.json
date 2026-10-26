@@ -1,13 +1,19 @@
 {
   "implementation_phase": 8,
+  "dataset_version": "1.1.0",
   "status": "PASSED",
-  "evaluated_at": "2026-10-24T18:52:24.687575+00:00",
+  "evaluated_at": "2026-10-25T22:20:34.074860+00:00",
   "exit_criteria": {
     "no_unresolved_p0_p1_or_unexplained_reconciliation_differences": true,
     "all_consumer_contracts_faults_and_point_in_time_checks_pass": true,
     "user_designated_domain_review_accepts_scoped_realism_and_limits": true,
     "eligible_for_release_certification_solution_still_blocked": true
   },
+  "behaviour_revision_checks_per_seed": [
+    35,
+    34,
+    34
+  ],
   "fresh_integrated_tests": 59,
   "fresh_domain_checks_per_seed": [
     58,
@@ -20,12 +26,12 @@
     20261025
   ],
   "business_tables": 25,
-  "business_rows": 1936663,
+  "business_rows": 1937925,
   "published_challenge_record_copies": 22,
-  "cap_counted_release_rows": 1936685,
-  "canonical_business_sha256": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
-  "source_package_sha256": "7f1b5a5dbe567ae3b28936e6ff6684f5c6cdeb767a73e321a2f1f628f71ab431",
-  "source_files": 3444,
+  "cap_counted_release_rows": 1937947,
+  "canonical_business_sha256": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b",
+  "source_package_sha256": "af91c63033f751850585509370b2a8a41db25ea47b49f04abe5289a97dad60db",
+  "source_files": 3445,
   "unexplained_differences": 0,
   "unresolved_p0_p1": 0,
   "reviewed_cases": 136,

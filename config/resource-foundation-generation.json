@@ -22,6 +22,13 @@
   "retain_initial_roster_every": 16,
   "late_attendance_corrections": 120,
   "february_absences": 60,
+  "staff_shift_row_envelope": 73000,
+  "rn_absence_per_thousand": {
+    "base": 20,
+    "winter": 32,
+    "surge": 40
+  },
+  "replacement_agency_percent": 35,
   "operative_absence_cases": 30,
   "stockout_cases": 30,
   "shortage_delay_minutes": 15,

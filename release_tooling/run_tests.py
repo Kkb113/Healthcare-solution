@@ -5,6 +5,7 @@ import unittest
 from datetime import datetime, timezone
 
 from .common import ROOT, save
+from .profiles import CURRENT_RELEASE, profile
 from .verification import retained_bindings, tool_bindings
 
 
@@ -34,7 +35,7 @@ def run(output=None):
               'tool_bindings': before, 'retained_prior_bindings': prior,
               'tools_unchanged': before == tool_bindings(), 'inputs_unchanged': prior == retained_bindings(),
               'failure_details': [text for _, text in result.failures + result.errors]}
-    save(output or ROOT / 'output/release-certification/release-tests.json', report)
+    save(output or ROOT / profile(CURRENT_RELEASE)['certification_root'] / 'release-tests.json', report)
     if not passed:print(stream.getvalue())
     print(json.dumps({k: report[k] for k in ('passed','run','failures','errors','skipped')}))
     return report

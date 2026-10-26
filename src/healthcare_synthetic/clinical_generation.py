@@ -1,8 +1,9 @@
 """Counted, full-schema adult clinical histories; provisional before resource integration."""
 from __future__ import annotations
 
+from bisect import bisect_right
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, time, timedelta, timezone
 from decimal import Decimal
 
 from .core import age_on, chicago, draw, instant, stable_id
@@ -105,6 +106,55 @@ class ClinicalGenerator:
         hours = int(mean * 24) - 18 + self.n(eid, 'los-a', 31) + self.n(eid, 'los-b', 25) - 22
         return timedelta(hours=max(36, hours + (18 if readmit else 0)))
 
+    def weekday_slot(self, begin, key):
+        """Move a weekend draw to a seeded weekday instead of piling every one onto Monday."""
+        weekday = begin.astimezone(self.zone).weekday()
+        if weekday < 5:
+            return begin
+        target = self.n(key, 'weekday-remap', 5)
+        forward = begin + timedelta(days=7 - weekday + target)
+        return forward if forward < CUTOFF - timedelta(days=3) else begin - timedelta(days=weekday - target)
+
+    def booking_lead(self, key, tail):
+        """Booking lead in days: most within two weeks, with a longer tail of advance bookings."""
+        lead = 2 + self.n(key, 'booking-lead', 14)
+        if self.n(key, 'booking-lead-tail', 100) < tail:
+            lead += self.n(key, 'booking-lead-extra', 31)
+        return lead
+
+    def ed_duration(self, key, admitted):
+        """Right-skewed ED time; admitted visits include decision and inpatient handover."""
+        if admitted:
+            minutes = 150 + self.n(key, 'ed-admit-a', 181) + self.n(key, 'ed-admit-b', 181)
+            if self.n(key, 'ed-admit-tail', 100) < 8:
+                minutes += 120 + self.n(key, 'ed-admit-tail-minutes', 481)
+        else:
+            minutes = 55 + self.n(key, 'ed-visit-a', 121) + self.n(key, 'ed-visit-b', 121)
+            if self.n(key, 'ed-visit-tail', 100) < 6:
+                minutes += 60 + self.n(key, 'ed-visit-tail-minutes', 301)
+        return timedelta(minutes=minutes)
+
+    def discharge_window(self, eid, at):
+        """Home discharges complete in the daytime; later completions wait for the next morning."""
+        local = at.astimezone(self.zone)
+        if 9 <= local.hour < 20:
+            return at
+        day = local.date() if local.hour < 9 else local.date() + timedelta(days=1)
+        return (datetime.combine(day, time(9, 30), self.zone) + timedelta(minutes=self.n(eid, 'overnight-hold', 151))).astimezone(timezone.utc)
+
+    def discharge_plan(self, eid, begin, nominal):
+        """Readiness is declared on ward rounds; discharge follows medication, transport and paperwork."""
+        day = nominal.astimezone(self.zone).date()
+        if day.weekday() >= 5 and self.n(eid, 'weekend-readiness', 100) < 35:
+            day += timedelta(days=7 - day.weekday()) if self.n(eid, 'weekend-readiness-side', 2) else -timedelta(days=day.weekday() - 4)
+        ready = (datetime.combine(day, time(8), self.zone) + timedelta(minutes=self.n(eid, 'ready-minutes', 181))).astimezone(timezone.utc)
+        if ready < begin + timedelta(hours=20):
+            ready = nominal
+        delay = 45 + self.n(eid, 'discharge-delay-a', 151) + self.n(eid, 'discharge-delay-b', 151)
+        if self.n(eid, 'discharge-delay-tail', 100) < 12:
+            delay += 120 + self.n(eid, 'discharge-delay-tail-minutes', 361)
+        return ready, self.discharge_window(eid, ready + timedelta(minutes=delay))
+
     def journeys(self):
         cohort = self.cfg['cohort']
         # Only older adults can contribute the December 2022 opening contexts.
@@ -147,9 +197,7 @@ class ClinicalGenerator:
             readmission_index = cohort['carry_in'] + cohort['elective'] <= i < cohort['carry_in'] + cohort['elective'] + cohort['readmissions']
             begin = START + timedelta(days=4 + self.n(pid, 'ipd-day', 1020 if readmission_index else 1087), hours=self.n(pid, 'ipd-hour', 24), minutes=self.n(pid, 'ipd-minute', 60))
             if elective:
-                begin = begin.replace(hour=13 + self.n(pid, 'elective-admission-hour', 3))
-                while begin.astimezone(self.zone).weekday() >= 5:
-                    begin += timedelta(days=1)
+                begin = self.weekday_slot(begin.replace(hour=13 + self.n(pid, 'elective-admission-hour', 3)), pid)
             duration = self.duration(eid, path)
             death = cohort['inpatient_people'] - cohort['death_outcomes'] <= i
             if death and path == 'GENERAL_MEDICINE':
@@ -162,15 +210,25 @@ class ClinicalGenerator:
                 duration = timedelta(hours=24 + self.n(pid, 'terminal-los', 16))
             elif i >= cohort['inpatient_people'] - 80:
                 begin = CUTOFF - timedelta(hours=2 + self.n(pid, 'open-hours', 36))
+            gap = None
+            if not death and i < cohort['inpatient_people'] - 80:
+                ready, discharge = self.discharge_plan(eid, begin, begin + duration)
+                duration, gap = discharge - begin, discharge - ready
             ip = add(pid, f'IPD/{pid}', 'IPD', begin, duration, path, route, carry=carry, death=death)
+            ip['ready_gap'] = gap
             if route == 'ED':
-                ed = add(pid, f'ED-ADMIT/{pid}', 'ED', begin - timedelta(hours=4), timedelta(hours=4), path, episode=ip['episode'])
+                stay = self.ed_duration(f'ED-ADMIT/{pid}', True)
+                ed = add(pid, f'ED-ADMIT/{pid}', 'ED', begin - stay, stay, path, episode=ip['episode'])
                 ip['previous'] = ed['eid']
             if readmission_index:
                 # Acute unplanned return is a new episode, with explicit preceding live discharge.
-                back = add(pid, f'RETURN/{pid}', 'IPD', ip['end'] + timedelta(days=8 + self.n(pid, 'return-gap', 18)),
-                           self.duration(stable_id('encounter', f'RETURN/{pid}'), path, True), path, 'ED', previous=ip['eid'], readmit=True)
-                ed = add(pid, f'RETURN-ED/{pid}', 'ED', back['begin'] - timedelta(hours=4), timedelta(hours=4), path, previous=ip['eid'], episode=back['episode'])
+                rid = stable_id('encounter', f'RETURN/{pid}')
+                rbegin = ip['end'] + timedelta(days=8 + self.n(pid, 'return-gap', 18))
+                ready, discharge = self.discharge_plan(rid, rbegin, rbegin + self.duration(rid, path, True))
+                back = add(pid, f'RETURN/{pid}', 'IPD', rbegin, discharge - rbegin, path, 'ED', previous=ip['eid'], readmit=True)
+                back['ready_gap'] = discharge - ready
+                stay = self.ed_duration(f'RETURN-ED/{pid}', True)
+                ed = add(pid, f'RETURN-ED/{pid}', 'ED', back['begin'] - stay, stay, path, previous=ip['eid'], episode=back['episode'])
                 back['previous'] = ed['eid']
 
         # 4,680 initial ED arrivals + 1,320 returning ED arrivals = 6,000 admissions.
@@ -187,8 +245,7 @@ class ClinicalGenerator:
             day = 2 + self.n(str(i), 'visit-day', 1060 if pid in terminal_people else 1092)
             begin = START + timedelta(days=day, hours=hour, minutes=self.n(str(i), 'visit-minute', 60))
             if kind == 'OPD':
-                while begin.astimezone(self.zone).weekday() >= 5:
-                    begin += timedelta(days=1)
+                begin = self.weekday_slot(begin, str(i))
             # Chronic follow-up uses only opening assertions or an already-started earlier admission.
             # Other visits have episodic symptoms; a person is not assigned one acute diagnosis forever.
             prior_codes = {self.by_catalog[c['catalog_item_id']]['code'] for c in self.opening[pid] if c['condition_type'] == 'PROBLEM' and c['known_from'] <= stamp(begin)}
@@ -203,7 +260,8 @@ class ClinicalGenerator:
                 choice = self.n(str(i), 'episodic-complaint', 100)
                 path = 'CHEST_PAIN' if choice < 50 else ('ABDOMINAL_PAIN' if choice < 96 else 'PNEUMONIA')
             # Mild same-day episodes have shorter, varied observation and assessment periods.
-            add(pid, f'{kind}/{i}/{pid}', kind, begin, timedelta(minutes=(35 if kind == 'OPD' else 100) + self.n(str(i), 'visit-length', 80)), path)
+            length = timedelta(minutes=35 + self.n(str(i), 'visit-length', 80)) if kind == 'OPD' else self.ed_duration(str(i), False)
+            add(pid, f'{kind}/{i}/{pid}', kind, begin, length, path)
         for i, pid in enumerate(people[:cohort['opening_only']]):
             add(pid, f'OPENING/{pid}', 'OPD', START - timedelta(days=5 + self.n(pid, 'opening-day', 9)), timedelta(hours=2), self.pathway(pid), opening=True)
 
@@ -242,9 +300,11 @@ class ClinicalGenerator:
                     disposition = 'TRANSFER'
                 if p['kind'] == 'ED' and p['episode'] not in ipd_episodes and self.n(eid, 'left-unseen', 100) < 2:
                     disposition = 'LEFT_WITHOUT_SEEN'
+                    # People who leave before assessment go early in the wait, not after a full work-up.
+                    end = min(end, begin + timedelta(minutes=20 + self.n(eid, 'left-unseen-minutes', 100)))
                 final = {'discharged_at': stamp(end), 'disposition': disposition}
                 if p['kind'] == 'IPD':
-                    final['medically_ready_at'] = stamp(end - timedelta(hours=1)) if disposition == 'HOME' else None
+                    final['medically_ready_at'] = stamp(end - (p.get('ready_gap') or timedelta(hours=1))) if disposition == 'HOME' else None
                 changes.append((end, final))
             rows, state = [], base
             for rev, (known, values) in enumerate(changes, 1):
@@ -300,7 +360,7 @@ class ClinicalGenerator:
             if e['arrival_at'] < stamp(START) or not (e['encounter_class'] == 'OPD' or e['planned']):
                 continue
             at = instant(e['arrival_at'])
-            booked = at - timedelta(days=2 + self.n(e['encounter_id'], 'booking-lead', 14))
+            booked = at - timedelta(days=self.booking_lead(e['encounter_id'], 30))
             if booked < datetime(2022, 12, 15, 8, tzinfo=timezone.utc):
                 booked = datetime(2022, 12, 15, 8, tzinfo=timezone.utc)
             pid = self.by_patient_version[e['patient_version_id']]['patient_id']
@@ -311,19 +371,52 @@ class ClinicalGenerator:
                                  appointment_type='ELECTIVE_ADMISSION' if e['encounter_class'] == 'IPD' else ('FOLLOW_UP' if e['previous_encounter_version_id'] else 'CONSULTATION'),
                                  booked_at=stamp(booked), scheduled_start=stamp(at), scheduled_end=stamp(at + timedelta(minutes=45)), arrived_at=stamp(at)))
         attended = sorted(rows, key=lambda r: r['appointment_id'])
+        # Missed visits come from a person-level attendance propensity: younger
+        # adults, Medicaid/self-pay coverage, long booking leads and an earlier
+        # miss raise it. Outcome counts stay at the frozen contract totals.
+        office = [r for r in attended if r['appointment_type'] != 'ELECTIVE_ADMISSION']
+        payer_type = {r['payer_plan_id']: r['payer_type'] for r in self.t.get('payer_plan', [])}
+        stays = defaultdict(list)
+        for e in latest.values():
+            if e['encounter_class'] == 'IPD':
+                stays[self.by_patient_version[e['patient_version_id']]['patient_id']].append((instant(e['arrival_at']), instant(e['discharged_at']) if e['discharged_at'] else CUTOFF))
+        weights, total = [], 0
+        for r in office:
+            pid = self.by_patient_version[r['patient_version_id']]['patient_id']
+            age = age_on(self.patients[pid][0]['birth_date'], r['scheduled_start'][:10])
+            known = [c for c in self.coverage[pid] if c['valid_from'] <= r['booked_at'] and (c['valid_to'] is None or r['booked_at'] < c['valid_to'])
+                     and c['known_from'] <= r['booked_at'] and (c['known_to'] is None or r['booked_at'] < c['known_to'])]
+            cover = payer_type.get(known[0]['payer_plan_id'], 'COMMERCIAL') if len(known) == 1 else 'COMMERCIAL'
+            weight = (160 if age < 35 else 125 if age < 50 else 100 if age < 65 else 75 if age < 80 else 90)
+            weight = weight * {'MEDICAID': 170, 'SELF_PAY': 190, 'MEDICARE': 80}.get(cover, 100) // 100
+            weight = weight * (50 + self.n(pid, 'attendance-propensity', 200)) // 100
+            total += weight
+            weights.append(total)
         for i in range(8200):
             base = attended[i % len(attended)]
+            kind = 'FOLLOW_UP'
+            if 3000 <= i < 7000:
+                base = office[bisect_right(weights, self.n(str(i), 'missed-visit-person', total))]
+                kind = 'CONSULTATION' if self.n(str(i), 'missed-visit-type', 100) < 25 else 'FOLLOW_UP'
             pid = self.by_patient_version[base['patient_version_id']]['patient_id']
-            at = START + timedelta(days=21 + self.n(str(i), 'unattended-day', 1000), hours=10)
-            booked, recorded = at - timedelta(days=14), at + timedelta(hours=1)
+            # Same office-hour convention as attended visits.
+            at = self.weekday_slot(START + timedelta(days=21 + self.n(str(i), 'unattended-day', 1000), hours=8 + self.n(str(i), 'unattended-hour', 8),
+                                                     minutes=15 * self.n(str(i), 'unattended-quarter', 4)), str(i))
+            for _ in range(14):
+                if not any(a - timedelta(hours=2) < at < b + timedelta(hours=24) for a, b in stays[pid]):
+                    break
+                at = self.weekday_slot(at + timedelta(days=1), str(i) + '/after-stay')
+            lead = self.booking_lead(str(i), 55 if 3000 <= i < 7000 else 30)
+            booked = max(at - timedelta(days=lead), datetime(2022, 12, 15, 8, tzinfo=timezone.utc))
+            recorded = at + timedelta(hours=1)
             fields = {}
             if i < 3000:
-                recorded = at - timedelta(days=1)
+                recorded = max(booked + timedelta(hours=1), at - timedelta(days=1 + self.n(str(i), 'cancel-notice', max(1, lead - 1))))
                 fields = dict(cancelled_at=stamp(recorded), cancel_reason=['PATIENT', 'PROVIDER', 'CAPACITY'][i % 3])
             elif i < 7000:
                 fields = dict(no_show_recorded_at=stamp(recorded))
             elif i < 8000:
-                booked = instant(base['booked_at']) - timedelta(days=14)
+                booked = instant(base['booked_at']) - timedelta(days=7 + self.n(str(i), 'rescheduled-lead', 21))
                 recorded = instant(base['booked_at'])
                 at = instant(base['scheduled_start']) - timedelta(days=1)
                 fields = dict(cancelled_at=stamp(recorded), cancel_reason='RESCHEDULE', replacement_appointment_id=base['appointment_id'])
@@ -334,7 +427,7 @@ class ClinicalGenerator:
             booked = max(booked, datetime(2022, 12, 15, 8, tzinfo=timezone.utc))
             rows.append(self.row('appointment', f'unattended/{i}', recorded, appointment_id=stable_id('appointment', 'unattended', i),
                                  patient_version_id=source_version(self.patients[pid], booked)['patient_version_id'], location_id=base['location_id'],
-                                 appointment_type='FOLLOW_UP', booked_at=stamp(booked), scheduled_start=stamp(at), scheduled_end=stamp(at + timedelta(minutes=45)), **fields))
+                                 appointment_type=kind, booked_at=stamp(booked), scheduled_start=stamp(at), scheduled_end=stamp(at + timedelta(minutes=45)), **fields))
         return {'appointment': rows}
 
     def adverse_outcome(self, encounter):

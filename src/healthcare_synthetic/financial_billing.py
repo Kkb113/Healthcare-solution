@@ -122,11 +122,43 @@ def billing(tables, cfg, run_id):
     return {'tables':{'catalog_item':extended['catalog_item'],'service_charge':charges},'controls':{'billing_catalog_rows_added':len(additions),'scope':'Selected ancillary itemization plus local facility charges'}}
 
 
+def denial_risk(c, e, payer, charges_):
+    """Relative initial-denial propensity for an insured original claim."""
+    cid=stable_id('claim',e['encounter_id'])
+    risk=Decimal({'MEDICAID':'1.35','COMMERCIAL':'1.10','MEDICARE':'0.70'}[payer['payer_type']])
+    risk*=Decimal('1.15' if e['planned'] else '1.50') if e['encounter_class']=='IPD' else Decimal('0.95' if e['encounter_class']=='ED' else '0.65')
+    if e['admitted_at'] and instant(e['discharged_at'])-instant(e['admitted_at'])>timedelta(days=7):risk*=Decimal('1.30')
+    if len(charges_)>=6:risk*=Decimal('1.20')
+    if c.pick(cid,'billing-lag',5)>=3:risk*=Decimal('1.40')
+    if payer['authorization_required'] and e['planned']:risk*=Decimal('1.20')
+    return risk
+
+
+def denial_reason(c, cid, e, payer, charges_):
+    """Non-authorization denial reason, weighted by what drove the claim's risk."""
+    weights={'DEN-08':40,'DEN-13':20,'DEN-05':10,'DEN-04':0,'DEN-12':0}
+    if e['encounter_class']=='IPD':
+        weights['DEN-13']+=40+(20 if instant(e['discharged_at'])-instant(e['admitted_at'] or e['arrival_at'])>timedelta(days=7) else 0)
+    else:weights['DEN-05']+=15
+    if c.pick(cid,'billing-lag',5)>=3:weights['DEN-08']+=40
+    if payer['payer_type']=='MEDICAID':weights['DEN-04']+=25
+    if len(charges_)>=6:weights['DEN-12']+=15
+    k=c.pick(cid,'denial-reason-weighted',sum(weights.values()))
+    for code,weight in weights.items():
+        if k<weight:return code
+        k-=weight
+
+
 def claims(tables,cfg,run_id):
     c=Context(tables,cfg,run_id);by_enc=defaultdict(list)
     for r in tables['service_charge']:by_enc[c.enc[r['encounter_version_id']]['encounter_id']].append(r)
     headers=[];lines=[];events=[];encounter_history=defaultdict(list)
     for r in tables['encounter']:encounter_history[r['encounter_id']].append(r)
+    # Payer denial propensity follows payer, setting, stay, claim complexity and
+    # billing delay. It is normalized so the configured rate stays the average.
+    risks={eid:denial_risk(c,c.latest[eid],c.payer(c.latest[eid]),charges_) for eid,charges_ in by_enc.items()
+           if c.latest[eid]['discharged_at'] and c.latest[eid]['discharged_at']>=stamp(START) and c.payer(c.latest[eid])['payer_type']!='SELF_PAY'}
+    mean_risk=sum(risks.values(),Decimal(0))/len(risks)
     for eid,charges_ in sorted(by_enc.items()):
         e=c.latest[eid];payer=c.payer(e)
         if not e['discharged_at']:continue
@@ -192,7 +224,7 @@ def claims(tables,cfg,run_id):
         adjud=submitted+timedelta(days=14+c.pick(cid,'adjudication-delay',32))
         if adjud>=CUTOFF:continue
         charge_by_id={r['charge_id']:r for r in charges_};authorization={r['authorization_status'] for r in charges_}
-        denied=bool(authorization&{'DENIED','EXPIRED'}) or c.pick(cid,'denial',10000)<(cfg['pending_authorization_denial_basis_points'] if 'PENDING' in authorization else cfg['denial_basis_points'])
+        denied=bool(authorization&{'DENIED','EXPIRED'}) or c.pick(cid,'denial',10000)<(cfg['pending_authorization_denial_basis_points'] if 'PENDING' in authorization else cfg['denial_basis_points']*risks[eid]/mean_risk)
         priority={'DENIED':3,'EXPIRED':2,'PENDING':1,'APPROVED':0,'NOT_REQUIRED':0}
         denied_line=max(claim_lines,key=lambda r:(priority[charge_by_id[r['charge_id']]['authorization_status']],Decimal(r['expected_allowed_amount']))) if denied else None
         denied_amount=Decimal(denied_line['expected_allowed_amount']) if denied else Decimal(0)
@@ -205,7 +237,7 @@ def claims(tables,cfg,run_id):
                   payer_liability_delta=payer_amount,patient_liability_delta=patient)
         if denied:
             status=charge_by_id[denied_line['charge_id']]['authorization_status']
-            reason='DEN-02' if status=='EXPIRED' else 'DEN-01' if status in ('PENDING','DENIED') else ('DEN-08' if c.pick(cid,'denial-reason',2) else 'DEN-13')
+            reason='DEN-02' if status=='EXPIRED' else 'DEN-01' if status in ('PENDING','DENIED') else denial_reason(c,cid,e,payer,charges_)
             event('DENIED',adjud,line=denied_line['claim_line_id'],denial=c.code(reason,day(adjud)))
         paytime=adjud+timedelta(days=7+c.pick(cid,'payment-delay',45))
         fraction=Decimal('0.70') if c.pick(cid,'partial-payment',20)==0 else Decimal(1)

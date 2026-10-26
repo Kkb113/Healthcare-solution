@@ -1,5 +1,24 @@
 # Full-history realism scorecard
 
+## Version 1.1.0
+
+All three preregistered seeds were regenerated with the [behaviour revision](../behaviour-revision/README.md) and passed fresh full-population inspection and the behaviour-revision checks. Frozen targets and tolerances are unchanged.
+
+| Seed | Canonical records | Domain groups | Mean / P95 IPD stay (days) | Initial insured denials / observed originals | Denial rate | Joint profile cells |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 20261023 | 1,937,925 | 58 | 5.079 / 8.648 | 4,658 / 50,066 | 9.304% | 13,203 |
+| 20261024 | 1,938,655 | 58 | 5.125 / 8.972 | 4,583 / 50,023 | 9.162% | 13,150 |
+| 20261025 | 1,934,530 | 58 | 5.063 / 9.124 | 4,527 / 50,101 | 9.036% | 13,157 |
+
+| Payer share of intersecting visits | Frozen target (+/-5 percentage points) | 20261023 | 20261024 | 20261025 |
+| --- | ---: | ---: | ---: | ---: |
+| COMMERCIAL | 40% | 40.288% | 39.731% | 40.195% |
+| MEDICARE | 35% | 37.481% | 37.747% | 37.844% |
+| MEDICAID | 15% | 14.493% | 14.761% | 14.395% |
+| SELF_PAY | 10% | 7.738% | 7.761% | 7.566% |
+
+## Version 1.0.2 (retained)
+
 All three preregistered seeds passed fresh full-population inspection. Each covers 36 local calendar months, three hospitals and 324 month/facility/encounter-class partitions. These are configured fictional healthcare distributions, not estimates of US population prevalence. Overall acceptance additionally requires the [integrated exit gate](../../evidence/integrated-history/acceptance-gate.json).
 
 | Seed | Canonical records | Domain groups | Mean / P95 IPD stay (days) | Initial insured denials / observed originals | Denial rate | Joint profile cells |

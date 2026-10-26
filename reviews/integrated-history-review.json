@@ -35,7 +35,7 @@
     "encounter_a5f7df83d1d84773b15c35d2398cd38c",
     "encounter_74e5947828b02f9bf912564f35be9753",
     "encounter_416052facf839954e5810404da26d299",
-    "encounter_060c5ad073effc73a5263db51d4b5219",
+    "encounter_037ccb9cafbeb7f05cd928acf423290f",
     "encounter_b7f1d8716b0dda49ecef8aacdfad60e3",
     "encounter_5961af1bd3e2f83751f3a848eb6094da",
     "encounter_e85fdf8af56b7812fd213e0509f85bf2",
@@ -48,7 +48,7 @@
     "encounter_2fd172f087a28523af19206f9a6c5535",
     "encounter_33ddfc9e5fd6e3116a1f443bb31b3504",
     "encounter_fa856722d7bc3b1d541ff69312e51681",
-    "encounter_667c514d75f706eaf25cf04123d70c9d",
+    "encounter_faa24913f983839baa56a6adfc81d289",
     "encounter_9ba59c81abdac5272169011ce8b165aa",
     "encounter_7cb89ce7827a5e2bbdae46057083cacf",
     "encounter_5ed55c726c8e71e3f7acea5e8e48cee2",
@@ -148,101 +148,110 @@
     "worker_f5e1e6992f221b7f31bf020da6920de9",
     "worker_ffc7b96000c87a2f08deb84017b39b99"
   ],
-  "sample_sha256": "870664373e51c90e6595e2a27f13768d0cb61032fbf46ff201c9c14fa63667bb",
-  "selected_facts_sha256": "eed2293416698fa447e79bc0fe5e6832f74aed2bf4a51cb03fd79bccf51622ca",
-  "canonical_business_sha256": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
-  "realism_profiles_sha256": "c936666b3504e1c1fe79750055b982c92230f9eeb70093a929118ec3e55c190d",
+  "sample_sha256": "aba27c102ad081021b021b4e0ba63ef4619ee89809b3542abe96e90ed191d267",
+  "selected_facts_sha256": "50880da9cb6f69a98a7d64c73a2789468915ccb76dfb1bb59bf3df89127026dd",
+  "canonical_business_sha256": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b",
+  "realism_profiles_sha256": "5810e453acfbc768c950286633a90da24d4d14ea6b0cd9598c25926115854315",
   "review_mirror_case_summaries": 136,
-  "review_bytes": 37713,
-  "selected_source_fact_mirrors": 970,
+  "review_bytes": 37944,
+  "selected_source_fact_mirrors": 967,
   "implementation_phase": 8,
+  "dataset_version": "1.1.0",
   "status": "APPROVED_CONDITIONAL_ON_TECHNICAL_GATES",
-  "reviewed_at": "2026-10-24T18:17:58.061167+00:00",
-  "reviewer": "Codex acting as the user-designated synthetic business, clinical, workforce, finance and engineering reviewer",
-  "authority": "The user explicitly delegated review and finalization: You can review and finalize it, make sure its best.",
-  "review_method": "Read all 112 recorded patient/financial summaries and 24 named workforce summaries selected by the recorded hash strata; inspect 12 complete clinical notes selected across all year/quarter strata. Review full-population marginal/joint profiles, independent consumer results, point-in-time evidence and issue dispositions. Rechecked refreshed draft/open labels and recorded limitations; the reviewed source-fact digest is unchanged.",
+  "reviewed_at": "2026-10-25T18:33:44.788111+00:00",
+  "reviewer": "Claude (Anthropic) acting as the user-designated synthetic business, clinical, workforce, finance and engineering reviewer",
+  "authority": "The user directed the version 1.1 revision and its checks: \"Make sure once fix are done do full integrity and other data check so there would be no loose ends\" and \"do whatever makes the data good, don't change anything drastically\". Release acceptance remains the user's separate decision.",
+  "review_method": "Read all 112 recorded patient/financial summaries and 24 named workforce summaries selected by the unchanged hash strata; inspected 13 complete quarterly clinical-note contexts (minimum SHA256 of quarter/encounter among selected contexts with a note), comparing note timing with arrival, readiness and discharge. Reviewed full-population marginal/joint profiles, independent consumer results, point-in-time evidence, the behaviour-revision checks and v1.0.2-to-v1.1 differences in capacity transfers.",
   "deep_clinical_note_selection": "Minimum SHA256 of quarter/encounter key among selected patient contexts with a note, one per quarter; no appearance-based substitution.",
-  "deep_clinical_notes_reviewed": 12,
+  "deep_clinical_notes_reviewed": 13,
   "deep_clinical_cases": [
     {
       "quarter": [
+        "2022",
+        4
+      ],
+      "encounter_id": "encounter_42f234def2cc1c4126bb5076731fb42d",
+      "clinical_event_id": "clinical_event_32bafbf05584520628624e5dbc4e917c"
+    },
+    {
+      "quarter": [
         "2023",
         1
       ],
-      "encounter_id": "encounter_73d0b4364dd3d52ba9da7eaa80cbb227",
-      "clinical_event_id": "clinical_event_70cad42246e20d6ab1151b1e8f08989c"
+      "encounter_id": "encounter_f1e83016e921db7764899c5e00b5dcd0",
+      "clinical_event_id": "clinical_event_d5e9a1a12f08bac56160c8de4eb9bbfb"
     },
     {
       "quarter": [
         "2023",
         2
       ],
-      "encounter_id": "encounter_6be29b636155d933283e901df4c22e10",
-      "clinical_event_id": "clinical_event_087660b1981deee72eac6c44a17997e6"
+      "encounter_id": "encounter_dacedb2d8f36f545018e150879c2e8fd",
+      "clinical_event_id": "clinical_event_052f1caad9b7d71fee1fdd20c9bb5740"
     },
     {
       "quarter": [
         "2023",
         3
       ],
-      "encounter_id": "encounter_416052facf839954e5810404da26d299",
-      "clinical_event_id": "clinical_event_18cd1b7ddb829c5121353be747a103d0"
+      "encounter_id": "encounter_3f9c29dc35361156460041f15da95e07",
+      "clinical_event_id": "clinical_event_455866e69c22e1dcc1cc704a7ebfc2c0"
     },
     {
       "quarter": [
         "2023",
         4
       ],
-      "encounter_id": "encounter_e85fdf8af56b7812fd213e0509f85bf2",
-      "clinical_event_id": "clinical_event_e10af5a7656f64dfff44d9aceeb07918"
+      "encounter_id": "encounter_92700436225dc0628d75758317dbe31d",
+      "clinical_event_id": "clinical_event_2be5bd0f29757f879efa63eba18d1c20"
     },
     {
       "quarter": [
         "2024",
         1
       ],
-      "encounter_id": "encounter_2fd172f087a28523af19206f9a6c5535",
-      "clinical_event_id": "clinical_event_1a45e7bbd4bef8ce2f867adf4b0faf3a"
+      "encounter_id": "encounter_faa24913f983839baa56a6adfc81d289",
+      "clinical_event_id": "clinical_event_90a8cb707a4b8f43a6984a525c7962a6"
     },
     {
       "quarter": [
         "2024",
         2
       ],
-      "encounter_id": "encounter_3722fb1ef325730664ac539c49db3c05",
-      "clinical_event_id": "clinical_event_28413e3c6c46b7fbab1e62cba4a33bd2"
+      "encounter_id": "encounter_ce6bdf534b556808c2d84464292f8b24",
+      "clinical_event_id": "clinical_event_c783a5e3c3a15ebed00c67b92be3941c"
     },
     {
       "quarter": [
         "2024",
         3
       ],
-      "encounter_id": "encounter_4407594f6582f403b207db3d3bf22bc9",
-      "clinical_event_id": "clinical_event_20b79320d136d7a307752f5ca74bc1b8"
+      "encounter_id": "encounter_1c9b016860c182465ca7edc9f539a756",
+      "clinical_event_id": "clinical_event_6de450132441ae56688faf5eb47fcc1d"
     },
     {
       "quarter": [
         "2024",
         4
       ],
-      "encounter_id": "encounter_4c863bc04e2a9c0b0966e3b635b75706",
-      "clinical_event_id": "clinical_event_364aedac5efcaaed0b3215847a33bcad"
+      "encounter_id": "encounter_6c4aa8d2d5ffbcaa07ab9a89c996ba19",
+      "clinical_event_id": "clinical_event_97da7ceedf4e70f0964f08bdb4fc3e85"
     },
     {
       "quarter": [
         "2025",
         1
       ],
-      "encounter_id": "encounter_d3d43aecc02591cdc7a03b9d8a8e1ddb",
-      "clinical_event_id": "clinical_event_b600ad3e469b45360e6f9c6dc6edd745"
+      "encounter_id": "encounter_04b937bd6db532930ad1c81a39d89898",
+      "clinical_event_id": "clinical_event_ffc82f149cb9a8b7f937fb64ab8dcab9"
     },
     {
       "quarter": [
         "2025",
         2
       ],
-      "encounter_id": "encounter_bb4a2cfacc78b3e7d408dc037241c17b",
-      "clinical_event_id": "clinical_event_78a54e46867be328595ac2f51c87bf23"
+      "encounter_id": "encounter_38446b5f26a7f5c5cef139fe00b86861",
+      "clinical_event_id": "clinical_event_fbc7f4cdc44fe2215a52ee41ec4add40"
     },
     {
       "quarter": [
@@ -257,17 +266,17 @@
         "2025",
         4
       ],
-      "encounter_id": "encounter_3a768a2ade63119aa34610cd84999fb6",
-      "clinical_event_id": "clinical_event_30d965e12a18c637d7ac341e5d887637"
+      "encounter_id": "encounter_5e2e77f4674c9de654e6b10c9ae8d7cd",
+      "clinical_event_id": "clinical_event_821ada97c69222bd187d4ba4258d98a5"
     }
   ],
   "findings": [
-    "Realistic fictional identities, age-at-arrival, payer, acuity and encounter history are internally consistent across monthly/facility and rare-case contexts. Worker roles, assignment revisions, FTE and credentials remain visible.",
-    "Quarterly note review covers pneumonia, COPD, diabetes, chest pain, osteoarthritis and cholecystitis contexts. Narrative facts are grounded to available observations, problems and performed services; full clinical validators independently enforce causal timing and discriminator rules.",
-    "Carry-in, continuous-transfer, death, draft original-account and open unbilled contexts remain distinct. Zero claim AR on an unsubmitted draft does not mean zero enterprise/unbilled AR.",
-    "The denial and payer calibrations correct misses against original targets without relaxing tolerances. Worker month/day changes preserve birth years and assignment history.",
-    "Current primary and comparison-20261024 golden bytes are unchanged by patient-calendar and closed-month projection fixes. The registered third seed retains the formerly failing visit without replacing the seed or dropping proposals.",
-    "Selected costs, signed cash, original-account balances and monetary finance-series reconciliations have zero unexplained differences in fresh independent consumers. Final approval still requires all current seed/source/fault/recovery technical gates."
+    "Identities, ages at arrival, payer, acuity and encounter history are internally consistent across all 108 month/facility strata and the carry-in, continuous-transfer, death and open-stay strata. Worker roles, assignment revisions, FTE and credentials are unchanged from version 1.0.2.",
+    "Revised timing reads naturally in local time: inpatient home discharges fall in the late morning to evening after a ward-round readiness time; treat-and-release ED visits last roughly 1.5 to 8 hours; admitted ED visits carry a boarding tail; left-without-being-seen visits end within an hour.",
+    "Quarterly notes cover COPD, pneumonia, diabetes, chest pain and abdominal pain contexts. Note times match encounter arrival and discharge; facts are grounded to recorded observations, problems and dispensed medication.",
+    "Denials, appeals, write-offs, self-pay balances and draft-at-cutoff accounts appear across payers and settings in proportions consistent with the full-population checks.",
+    "Capacity-driven external transfers rose from 539 to 625 because bed turnaround and placement now take realistic time; one patient died while awaiting placement and is handled as a boarding death. This is a moderate, explained change.",
+    "Pre-existing (version 1.0) observation, unchanged: an inpatient transferred out after 24 hours awaiting a compatible bed receives a discharge summary whose final labs already show recovery. Recorded as P3 in the issue register; not a release blocker."
   ],
   "limitations_accepted": true,
   "limitations": [
@@ -279,7 +288,9 @@
     "Joint-cell Wilson intervals are descriptive within month/facility/class. Repeat visits are correlated; sparse cells receive counts, intervals and domain constraints rather than arbitrary percentage gates or population-inference claims.",
     "Axiom covers twelve illustrative archetypes, with no customer layout/vendor certification and no claim of implementing approximately 900 customer reports. Workday/Axiom interfaces are local source simulations.",
     "Age 100 at the opening baseline may naturally age to 103. Unknown/censored outcomes, missing plans and zero plans remain separate.",
-    "Phase 9 clean-environment release certification and explicit final data acceptance are pending. No analytics solution, live integration, forecasting model, dashboard or agent is authorized by this review."
+    "Version 1.1 ED stay, discharge timing, bed placement/cleaning, weekday mix, no-show, denial and RN absence behaviours are configured assumptions checked for internal plausibility, not benchmarks of a real hospital.",
+    "RN overtime remains under 1% of RN hours because the fixed RN pool exceeds shift demand; overtime forecasting is outside the accepted scope.",
+    "Phase 9 clean-environment release certification and explicit final data acceptance of version 1.1.0 are pending. No analytics solution, live integration, forecasting model, dashboard or agent is authorized by this review."
   ],
   "external_professional_endorsement": false,
   "full_dataset_accepted": false,

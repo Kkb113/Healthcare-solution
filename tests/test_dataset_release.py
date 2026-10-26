@@ -247,22 +247,28 @@ class ArchiveAndColdStartTests(WorkspaceTest):
 
 class BusinessMetadataTests(unittest.TestCase):
     def setUp(self):
+        # The fixture follows the release version of the current Phase 8 evidence.
+        from release_tooling.profiles import profile
         prior=read(ROOT/'evidence/integrated-history/validation-report.json')
         canonical=prior['source_inspection']['canonical_roundtrip']
-        self.c={'business_sha256':BUSINESS_SHA,'business_rows':1936663,'business_tables':25,'canonical_files':copy.deepcopy(canonical)}
-        self.d={'profile':PROFILE,'technical_status':'PASSED','canonical_business_sha256':BUSINESS_SHA,
-                'source_package_sha256':SOURCE_SHA,'cap_counted_release_rows':1936685,'business_tables':25}
+        version=prior['gate'].get('dataset_version');identifier='healthcare-synthetic-v'+version if version else None
+        release=profile(identifier);business,source=release['business_sha256'],release['source_sha256']
+        self.rows=sum(m['rows'] for m in canonical.values());self.assertEqual(self.rows,release['business_rows'])
+        self.c={'business_sha256':business,'business_rows':self.rows,'business_tables':25,'canonical_files':copy.deepcopy(canonical)}
+        self.d={'profile':PROFILE,'technical_status':'PASSED','canonical_business_sha256':business,
+                'source_package_sha256':source,'cap_counted_release_rows':self.rows+22,'business_tables':25}
+        if identifier:self.d['release_id']=identifier
         self.cert={'status':'PASSED','unresolved_p0_p1':0,'unexplained_differences':0,'domain_checks':58,
-            'source_files':3444,'fault_outcomes':15,'future_fact_failures':0,'unknown_outcomes_preserved':True,
-            'clean_rebuild_passed':True,'phase8_unchanged_evidence_verified':True,'source_package_sha256':SOURCE_SHA}
+            'source_files':release['source_files'],'fault_outcomes':15,'future_fact_failures':0,'unknown_outcomes_preserved':True,
+            'clean_rebuild_passed':True,'phase8_unchanged_evidence_verified':True,'source_package_sha256':source}
         files=[{'role':'PRIMARY','table':t,'expected_rows':m['rows']} for t,m in canonical.items()]
-        files += [{'role':'SNAPSHOT','table':'worker_assignment','expected_rows':0} for _ in range(3444-len(files))]
-        self.native={'business_sha256':BUSINESS_SHA,'canonical_business_rows':1936663,'files':files,'reports':[{} for _ in range(6)]}
+        files += [{'role':'SNAPSHOT','table':'worker_assignment','expected_rows':0} for _ in range(release['source_files']-len(files))]
+        self.native={'business_sha256':business,'canonical_business_rows':self.rows,'files':files,'reports':[{} for _ in range(6)]}
         self.schema={'tables':[{'name':t} for t in canonical]};self.challenges={'published_challenge_record_copies':22}
 
     def check(self):return check_healthcare_metadata(self.d,self.cert,self.c,self.native,self.schema,self.challenges)
 
-    def test_valid_metadata_controls_are_consistent(self):self.assertEqual(self.check(),(1936663,22))
+    def test_valid_metadata_controls_are_consistent(self):self.assertEqual(self.check(),(self.rows,22))
     def test_missing_essential_table_blocks(self):
         self.c['canonical_files'].pop('patient')
         with self.assertRaises(ValueError):self.check()
@@ -411,3 +417,29 @@ class PublicationTests(WorkspaceTest):
             with self.assertRaises(OSError):publish(self.root,self.destination,self.anchor)
         self.assertTrue(self.root.exists());self.assertFalse(self.destination.exists())
         self.assertFalse((self.destination.parent/(self.destination.name+'.publish-lock')).exists())
+
+
+class ReleaseProfileTests(unittest.TestCase):
+    def test_each_version_resolves_its_own_frozen_profile(self):
+        from release_tooling.profiles import V1_0, V1_1, profile
+        self.assertIs(profile(None), V1_0);self.assertIs(profile('healthcare-synthetic-v1.0.2'), V1_0)
+        self.assertIs(profile('healthcare-synthetic-v1.1.0'), V1_1)
+        with self.assertRaisesRegex(ValueError,'no release profile'):profile('healthcare-synthetic-v2.0.0')
+        self.assertEqual(V1_0['business_sha256'],BUSINESS_SHA);self.assertEqual(V1_0['source_sha256'],SOURCE_SHA)
+
+    def test_version_profiles_never_share_business_anchors(self):
+        from release_tooling.profiles import V1_0, V1_1
+        self.assertNotEqual(V1_0['business_sha256'],V1_1['business_sha256'])
+        self.assertNotEqual(V1_0['certification_root'],V1_1['certification_root']);self.assertNotEqual(V1_0['evidence_dir'],V1_1['evidence_dir'])
+        self.assertEqual(V1_1['lineage'][0],V1_0['lineage'][0])
+        self.assertEqual(V1_1['lineage'][-1][3],V1_1['business_sha256']);self.assertEqual(V1_0['lineage'][-1][3],V1_0['business_sha256'])
+
+    def test_metadata_check_uses_the_descriptor_release_version(self):
+        from release_tooling.profiles import V1_1
+        descriptor={'profile':PROFILE,'technical_status':'PASSED','release_id':'healthcare-synthetic-v1.1.0',
+                    'canonical_business_sha256':BUSINESS_SHA,'source_package_sha256':SOURCE_SHA}
+        certificate={'status':'PASSED','unresolved_p0_p1':0,'unexplained_differences':0,'domain_checks':58,'source_files':V1_1['source_files'],
+                     'fault_outcomes':15,'future_fact_failures':0,'unknown_outcomes_preserved':True,'clean_rebuild_passed':True,
+                     'phase8_unchanged_evidence_verified':True,'source_package_sha256':SOURCE_SHA}
+        with self.assertRaisesRegex(ValueError,'accepted Phase 8 candidate'):
+            check_healthcare_metadata(descriptor,certificate,{'business_sha256':BUSINESS_SHA},{},{},{})

@@ -83,7 +83,7 @@ class WorkforceGenerator:
         return all(self.week_hours[wid, week]+hours <= Decimal(self.cfg['maximum_weekly_hours'])
                    for week, hours in week_parts(start, end, self.zone))
 
-    def choose(self, fid, role, start, end, specialties=None, agency=False, exclude=None):
+    def choose(self, fid, role, start, end, specialties=None, agency=False, exclude=None, pickup=None):
         pool = []
         week = (start.astimezone(self.zone).date()-timedelta(days=start.astimezone(self.zone).weekday())).isoformat()
         for wid, w in self.info.items():
@@ -98,6 +98,10 @@ class WorkforceGenerator:
             # employee capacity first, balanced against contracted FTE.
             preference = (current['worker_type'] != 'AGENCY') if agency else (current['worker_type'] == 'AGENCY')
             score = self.week_hours[wid, week] / Decimal(current['fte'])
+            if pickup:
+                # A short-notice pickup goes to a rested colleague already working
+                # that week, not to the least-loaded one, so some become overtime.
+                score = -self.week_hours[wid, week] * 10000 + draw(self.cfg['seed'], pickup + '/' + wid, 'pickup-acceptance', upper=10000)
             pool.append((preference, score, len(self.committed[wid]), wid))
         if not pool:
             raise ValueError(f'no eligible rested {role} for {fid} at {stamp(start)}: {specialties}')
@@ -115,7 +119,8 @@ class WorkforceGenerator:
             # were attended; the replacement is a distinct identity and cost.
             self.committed[wid].append((start, end))
             actual_start = forced_late if isinstance(forced_late,datetime) else start + timedelta(minutes=25) if forced_late else start
-            replacement = self.choose(fid, role, actual_start, end, specialties, agency=True, exclude=wid)
+            agency = draw(self.cfg['seed'], key, 'replacement-source', upper=100) < self.cfg['replacement_agency_percent']
+            replacement = self.choose(fid, role, actual_start, end, specialties, agency=agency, exclude=wid, pickup=None if agency else key)
             self.controls['agency_replacements' if self.info[replacement]['worker_type']=='AGENCY' else 'employee_replacements'] += 1
             self.controls['absences'] += 1
             original_id = stable_id('shift', key)
@@ -124,10 +129,20 @@ class WorkforceGenerator:
         self.committed[wid].append((actual_start, end))
         for week, hours in week_parts(actual_start, end, self.zone):
             self.week_hours[wid, week] += hours
+        # The absent shift keeps its roster history; the replacement keeps only its
+        # attendance, within the frozen staffing row envelope.
         job = dict(key=key, fid=fid, role=role, scope=scope, start=start, end=end, actual_start=actual_start,
-                   wid=wid, absent=False, force_history=absence, productive=productive)
+                   wid=wid, absent=False, force_history=absence and scope == 'OR', productive=productive)
         self.jobs.append(job)
         return job
+
+    def absence_rate(self, at):
+        """Unplanned RN absences per thousand shifts, higher in winter and the respiratory surge."""
+        rates = self.cfg['rn_absence_per_thousand']
+        local = at.astimezone(self.zone).date().isoformat()
+        if '2024-01-08' <= local < '2024-02-26':
+            return rates['surge']
+        return rates['winter'] if local[5:7] in ('12', '01', '02') else rates['base']
 
     def census_requirement(self, fid, scope, at, hours):
         total = Decimal(0)
@@ -213,7 +228,7 @@ class WorkforceGenerator:
         forced = set(feb)
         for ordinal,(a,b,key,fid,role,scope,skills,absence,late,productive) in enumerate(sorted(agenda,key=lambda x:(x[0],x[2]))):
             if ordinal%5000==0:logging.getLogger(__name__).info('Scheduling attendance block %s/%s',ordinal,len(agenda))
-            baseline_absence = role=='RN' and scope!='OR' and key.endswith('/0') and draw(self.cfg['seed'],key,'reported-absence',upper=1000)<5
+            baseline_absence = role=='RN' and scope!='OR' and draw(self.cfg['seed'],key,'reported-absence',upper=1000)<self.absence_rate(a)
             self.add_job(key,fid,role,scope,a,b,skills,absence or key in forced or baseline_absence,late,productive)
         # Selected ordinary support work and paid/nonpaid leave are retained source
         # activity, not invented full payroll or continuous contractor coverage.
@@ -354,7 +369,8 @@ class WorkforceGenerator:
                         currency='USD',posting_group_key='paid-leave/'+wid+'/'+a.astimezone(self.zone).date().isoformat(),attendance_status='ON_LEAVE',
                         revision_no=1,known_from=stamp(at)))
                     self.controls['leave_blocks']+=1
-        if len(self.rows)>70000:raise ValueError('complete staffing source history exceeds frozen 70000-row envelope: '+str(len(self.rows)))
+        envelope=self.cfg.get('staff_shift_row_envelope',70000)
+        if len(self.rows)>envelope:raise ValueError(f'complete staffing source history exceeds frozen {envelope}-row envelope: '+str(len(self.rows)))
         self.controls['late_attendance_corrections']=self.cfg['late_attendance_corrections']-correction_budget
         return {'tables':{'staff_shift':self.rows},'controls':dict(self.controls)}
 

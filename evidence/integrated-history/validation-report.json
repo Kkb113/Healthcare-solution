@@ -3,14 +3,15 @@
   "passed": true,
   "verification_source_sha256": {
     "src/healthcare_synthetic/__init__.py": "872ab14430bb39fd0baddd2ef66a99075f2f1dedce587f08210a2275e474bed2",
-    "src/healthcare_synthetic/clinical_generation.py": "25e6981071b84a95c96aee0b8a784252d5105c98ead579c47c40e970b8a31053",
+    "src/healthcare_synthetic/behaviour_revision.py": "93d1e146b89fd45174e7e03d7cded606d0065f70048143d56db4d376186689f4",
+    "src/healthcare_synthetic/clinical_generation.py": "f1dba9eb177063a2db97deb0e6ced0b37b1e885ecfa6f5ddb3bf7132c996bbab",
     "src/healthcare_synthetic/clinical_pipeline.py": "d968110266f7d9de0e69450860d651b1a54ee05745cc8c7927186677a89b30ba",
     "src/healthcare_synthetic/clinical_review.py": "b77bcaed803a26cc8f6369159f87703f239a65e6c57608ea766b15575658c276",
     "src/healthcare_synthetic/clinical_validation.py": "b8d5886d4bada380c2b1b4ec92ef16a6c11372b07b69f8674611907f16a63b1d",
     "src/healthcare_synthetic/core.py": "be57d625783707220f72b6c8f275d712ef3893faef44dc2212c6f01b8331e78e",
     "src/healthcare_synthetic/engine.py": "0d014dab88e6c8e31b7c811e17c9fdbde787bd5c1bc2f1d09442ea468822370d",
     "src/healthcare_synthetic/financial_allocations.py": "97ef7e718f3ad22038fe14cfa6e52d320c406c606fa61e6eb4ee9fd7714a1893",
-    "src/healthcare_synthetic/financial_billing.py": "d11bc4d3f3eb1def2cd57a987145f511b7b09b91a53f93b86bd6a9f4f0c8e8e8",
+    "src/healthcare_synthetic/financial_billing.py": "bcf7e6976a0283844642d8f569c9cab6a37cd53115219976dab423cf11ff9c8c",
     "src/healthcare_synthetic/financial_common.py": "524b9ec7307172e92cc864299e5da64142dd853ea3ba18a94473065e99d34e70",
     "src/healthcare_synthetic/financial_oracles.py": "529128891766b534053ce0487acf89c42214bd5185d5d21b2c3c64501e2a2a7f",
     "src/healthcare_synthetic/financial_pipeline.py": "62d6f7a817579a827bcd2c5cabc8863abd8fe53d74c024da1037b3f1281102d6",
@@ -22,21 +23,21 @@
     "src/healthcare_synthetic/financial_validation.py": "198ccec8273389df9dec862dcb67baa4a85157b16f4f858c5a53ed4b6f32c94d",
     "src/healthcare_synthetic/integrated_consumers.py": "7552bd841129c82e568d39aed634a1e9ccf1636ea003ead7d11012e57b9f566b",
     "src/healthcare_synthetic/integrated_exports.py": "4f3d5fd0a117a83d7a02e20f03df8375c749f2490eaf7d9dfbb0d657817388c7",
-    "src/healthcare_synthetic/integrated_generation.py": "a722bd112a5b497d3a4ec1960b325a4dffba2d5671dcd1c0f515d331d4234a1c",
+    "src/healthcare_synthetic/integrated_generation.py": "6e352342f0d779e134e0264da4d4d92595b61760d1c7ef3c586f29651dd117af",
     "src/healthcare_synthetic/integrated_master_context.py": "5cf1778887c9d56b4ae738e7db882bdc4c6e49b14d305e6922011b479f08d570",
     "src/healthcare_synthetic/integrated_source_validation.py": "cca0abc963265f1ff532f13e0b2c882a1c2bba47f1bdb93a08f7009b4caa1486",
-    "src/healthcare_synthetic/integrated_validation.py": "4b6aa5daa4fd4bb22935861c23e4fa8714e2509ba24815278df8991dd92680fa",
+    "src/healthcare_synthetic/integrated_validation.py": "bc9608e4e14c71bd8ff67ee71dfda81b52102943c52148fb8d9c9c6c9282219d",
     "src/healthcare_synthetic/master_generation.py": "8abf762b1c18a999b4c6254121af200c5659f82283a31bd957ada7273c63da07",
     "src/healthcare_synthetic/master_pipeline.py": "7724714dc67b69f38c1511863de77add804cb2d38436968af3736e862016e77e",
     "src/healthcare_synthetic/master_queries.py": "65276ea5ba9251beb199318c809d578ba3e9ccd5651304613f248f9c633dc644",
     "src/healthcare_synthetic/master_review.py": "62f19a72859b906507abe7a9c4d10175a4f989758c7c1037defc4f5f6588a55d",
     "src/healthcare_synthetic/master_validation.py": "613590557fbcc165bf111bdcb93095aadd2b624b9e16f5776dfafef0d193f1e7",
     "src/healthcare_synthetic/operational_demand.py": "ecfc6eca745ac283f5bf546721b43b6a9ab77f9465bedf0c1dc9f210d4c9de1b",
-    "src/healthcare_synthetic/operational_generation.py": "29f12820d300c3dc85ec4d709132cd8e124e91b1f38d8792e9b899f049e3ea7d",
+    "src/healthcare_synthetic/operational_generation.py": "5126ef02c9cc327003c6bf3cbbfeda06c1dae571d75c259f4b568bfe406568f7",
     "src/healthcare_synthetic/operational_pipeline.py": "2740d1218a7a3d752fda17b3576e934e4b5e5c3d2c8f295cb31964236f33a8db",
     "src/healthcare_synthetic/operational_queries.py": "1b8c72a47f383d67a558056bfce38cd4a565441a444581e5934ea1118a5f8c18",
     "src/healthcare_synthetic/operational_review.py": "7bbdeaca35416cca028a046b64d4b604bc99c04961ebce96f6e4de01d2402adb",
-    "src/healthcare_synthetic/operational_timing.py": "d6c0fff265ad84e6cf28b58301f4d1fc183e8f7d12af325874327d0e9bf1430c",
+    "src/healthcare_synthetic/operational_timing.py": "64b199e32838912d920e6c39a19dbaad34ccd40a7b9974680b513ad887ac3381",
     "src/healthcare_synthetic/operational_validation.py": "b9686a898fe57fa054abab5e08a4a42758858b46007797ec62d7223b2a381d47",
     "src/healthcare_synthetic/resource_generation.py": "ce9b54a794c47733a83ca2563fa0de3718a0d150ceba56102e314664263ce60b",
     "src/healthcare_synthetic/resource_inventory.py": "1860220d43f01b6941cc862833e0736703e1c8799c4dd8c6fb62164a41c68cb9",
@@ -45,7 +46,7 @@
     "src/healthcare_synthetic/resource_review.py": "0d1ceb8ac3a51d0d78892c9c2cef69f772687a25906a13d397ef86463c7f8716",
     "src/healthcare_synthetic/resource_stock_validation.py": "0137ae52e08fa15fe8e14acd34702a0957ad647ce4c976143e823d60cd9d68bd",
     "src/healthcare_synthetic/resource_validation.py": "10c6c4a47915368dedcb8ad68fc3a761bb551decc119f2d6d0366402c65f2437",
-    "src/healthcare_synthetic/resource_workforce.py": "4b1cf87df3e617362d237c840594f098e4ddde77848813aef5f8eb6c28b93762",
+    "src/healthcare_synthetic/resource_workforce.py": "d73b66ef769d072317e093ffc4edc961da3f1f7290ad492b4608397dddb33d45",
     "src/healthcare_synthetic/source_delivery.py": "83f6d5f3538b41150c9567dbdda70853afb8c73142757776194ee468ad394b18",
     "src/healthcare_synthetic/source_export.py": "d806f6a07981d2ee1e9049f4d1c8fdc2760a9aeafe64badce818252d3067d1ab",
     "src/healthcare_synthetic/source_faults.py": "a7bc423e987642cb3c9d1959d1be112e6b1d8829c057c3324ea25427e43b65e1",
@@ -60,8 +61,9 @@
     "src/healthcare_synthetic/trajectory_scheduling.py": "4989a72d1a5990210cdb6c3c7438fa322836e31087ebc1903ff71e98fb7e7467",
     "src/healthcare_synthetic/validation.py": "2c743743bfacf33340b9ad238457ea7e7b91808231b60d76579f50175fffec3f",
     "tests/test_clinical_histories.py": "5af38734c4b6dff6eca9be55f8128041d6933f2ea1f79964f490b119d1980840",
+    "tests/test_dataset_release.py": "4e3f09256dcdbb62969706698532a26c11d9a09ca2ff38e0fa18682021ee90ea",
     "tests/test_financial_history.py": "a61561b670d1dba297502e9e03cb470a9abd50d2be0e1d67984f670086ef0806",
-    "tests/test_integrated_history.py": "021cf85f547fd452f489fb65d39c4ad75fc22a50512d9990a08886f706afdf0c",
+    "tests/test_integrated_history.py": "f0b71e974cfc4770ea33a69d7c89f7d718b24553fdcd19ee551bd534dcc3b02f",
     "tests/test_master_data.py": "a7a99352f6d78a98f166fe0756197774832f8f9deb820efe73468be8ce39caf7",
     "tests/test_operational_flow.py": "c94ca1ab78910af60085a8a7539286983b8d02a9039e4ca0c758ba2872226fe0",
     "tests/test_phase0_contracts.py": "65b1c76e1ba4d39c15b89c7fd3f9c815933568ae83078d2e658f9e59084b4a03",
@@ -90,7 +92,7 @@
     "scripts/restore_master_snapshot.py": "5f03b627f9bc3dda7df001fe03dbf3ec56cbad28ae29d366c6eaa870b9daca42",
     "scripts/restore_operational_snapshot.py": "1abab5a257e66cb6af8f31e830e5a354578ff36fee07aa47843058e777eb08b5",
     "scripts/restore_resource_snapshot.py": "a94db73460a5388aaddd0d5ecf47fc7c9d05287cb2543f6c6b86efbb2ef43148",
-    "scripts/review_integrated_history.py": "b80538f538fdf5f5278f3a10dee0a275a78133a30c05b3f4f6c34f7798038045",
+    "scripts/review_integrated_history.py": "90c0aaafa140ec977a46e280c1f565f7ce07f20fb08bdcea1d166b8115aa37b0",
     "scripts/review_source_delivery.py": "9cb862e1f6494f2166ef81386a8991cc09849ef7755c795118e0bd46c0832a42",
     "scripts/run_financial_regressions.py": "06327a41e62b476a0661078d3336e888517c1121c1a43e9430c6fa8dd78ca966",
     "scripts/run_foundation_regressions.py": "ac2f6bdcf741a6c95dbae0764234f184aa8a949cd2649261a4ba1c2ac43084fe",
@@ -98,16 +100,17 @@
     "scripts/run_phase1.py": "98ae5b8274d455945bfbcf9ffe45542e5adbc39c29306416d675a18c45740a9a",
     "scripts/run_resource_regressions.py": "981d3a08e40eec599b1b117b1fee0d7b34bbdd646bc8cfadc97521f8485113b0",
     "scripts/run_source_regressions.py": "c18a429e766503f6881af00e84d7539d39cedf52111ef0b52b54be59ddf4b0f4",
+    "scripts/validate_behaviour_revision.py": "2390f85c0cf88d43b9f75dae8e579d7c5c76b4dd18d1aa56d7c5e6c76538cb73",
     "scripts/validate_clinical_data.py": "2f1c96450d5fa7d562b278685a8d9d981ed1e19a6818dcf566606847e15df5f0",
     "scripts/validate_clinical_foundation.py": "03bc3c95781444928e8a967d1df4f1fe627cdcf30a3a78bd36fb6f951d9f6e7b",
     "scripts/validate_financial_data.py": "bb1fe5815bf3f03afb3aec3352eec10ac4c2c0349cc90b036d4390ea945d73ea",
     "scripts/validate_financial_foundation.py": "6d559ad954f45192886fa038410f20a00ead832b572bf46ac7bb2a6ee198fc40",
-    "scripts/validate_integrated_foundation.py": "a259b1cafacfe6f72dc0fd9129c753d40c90c7513631ae0cd3e4a9c95e8b9215",
+    "scripts/validate_integrated_foundation.py": "8024e4bd1816422105ce209a669345423147f184eba92b2f6a6942824c77cf3a",
     "scripts/validate_master_data.py": "87148fb557804d538349cbf9b43614c8947245fa36daf79c17b0e01c185c8548",
     "scripts/validate_master_foundation.py": "5fed118fae6cb1d04ada344591edfd3bb0a610ef962c923bd62124969896e48f",
     "scripts/validate_operational_data.py": "883cdccbfcd2a7a9320d925ee704afbfa3552a3f3ce31f351db8bbeca506701a",
     "scripts/validate_operational_foundation.py": "da184c3fdf633faa68c11d6f0e26d30a31f0ca14d4520b836f492239d0511719",
-    "scripts/validate_phase0.py": "aab950fdcd2f36f271e296dec8c64838387a4f37b0594ce174b8ba4ef529f858",
+    "scripts/validate_phase0.py": "9614a99a6dfc77fe60e4e1f246505e160a5b11617c49dcfaaa4d3b4b7216db5b",
     "scripts/validate_phase1.py": "4184c2717f4da33135e5292c4e13fc29e0e71822e726014fdf27e0b228d0a087",
     "scripts/validate_phase1_candidate.py": "9ba49e397ce53a2925ba6b2afb15c38f1f7cf8ab1989cb51fbf41c8e0b501344",
     "scripts/validate_resource_data.py": "41fc80ea46d34c1ff839f048a595c250d0f6725c95308718eab42a376563c7d1",
@@ -117,15 +120,15 @@
   "verification_input_sha256": {
     "config/clinical-history-generation.json": "d688f9a18afe171c2afe202ed346292801d4204aad82c057f4001a47eb2072a9",
     "config/financial-history-generation.json": "675d198f24cc1d2d8e1b71f7e8b9970a2a4d78ee2849f844a937087693575d08",
-    "config/integrated-history-generation.json": "e8033fbc7260526a38e44c6e5c8816a3431ec12b249513f210cafc9799f1e479",
+    "config/integrated-history-generation.json": "33d4a054173b69d01fa2e6e2414885ed5ba388dca6962c1455953928afce985b",
     "config/master-data-generation.json": "bde91a78e04589e2dc27e0e367c929ecb107e053bc0ad21be51aa2ddc00bcb64",
     "config/operational-flow-generation.json": "a5b37fdbc66e397b38136ccd8934c3890e30ce9b539a50ab153224d6604ca282",
     "config/phase1-development.json": "e9d533d855bdc09a7813ece57266c5a3b01da9483a9fedd612cc56317718a8d7",
-    "config/resource-foundation-generation.json": "811085eb40f6c181981d0f1169597148f1e2decc5cc8ba4fe73a4db1f3ec9811",
+    "config/resource-foundation-generation.json": "d08f8a27ed699fab4cfc085919c15061d0b9aa2a75f9b53e1a12fe7a09471757",
     "config/source-delivery-generation.json": "510204bcfebc26dafe1286b54f2f13a230a6a2cbec30aba320a463d2c9e35ceb",
     "contracts/clinical-history-policy.json": "fe6b0470c2fa5adcfeafc0d70e1ef17486298058f64c03090073349d666dd427",
     "contracts/financial-history-policy.json": "fb4a6079bd185b01a7feecd125102fd8bf86fd471a851fdc4f5e85f4c27d4360",
-    "contracts/integrated-validation-policy.json": "4faac0fd83d3cf82025ef2c11fc521ca21a0386880f66b9fb33204058922d8b0",
+    "contracts/integrated-validation-policy.json": "2558bdefe2fcb3d94f0bcc4f792f0c5a94da1bfdf7a32d8dd8e90a02c3dbd232",
     "contracts/master-data-policy.json": "619830491bd2eaffda711b92b8c3ac86561dfca4e82e9eb27e65f1a589ce7d31",
     "contracts/operational-flow-policy.json": "42d55e3f40135d5d4ba733b7baeed066c74b3ada3178bea9755192b524af9ffc",
     "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
@@ -143,16 +146,22 @@
     "contracts/resource-foundation-policy.json": "2df32ca42010daf34e5ceacb05489b4f26283b8e30230edf676f885c5295310d",
     "contracts/source-delivery-policy.json": "81e1b70f49413724dd224b39542683b976e2ce2cd8ed96cb9fc3ae926e399154",
     "reviews/clinical-journey-review.json": "4408ef9591585622aae7d43a7d4849f7b48a9d8f9a2d9ae82453fcb30eb434bf",
+    "reviews/dataset-release-acceptance.json": "ae31434b0f832b8f1ce9219a433f1f7669dfbec6bf154c4241119f72989d8dc9",
+    "reviews/dataset-release-approval.json": "0d89eb8f28216de604ca3f24ebe7f48fbcfd450b796b2c14c060770e287a5437",
+    "reviews/dataset-release-issues.json": "525453b5289cbc9e7ec52501d80ca89753692d23444a28ff1c89e6232a4a068e",
+    "reviews/dataset-release-retirement.json": "c5084865e23e45cfefebd7e795648238fe61a38d54e00bb7c0850207854d524e",
+    "reviews/dataset-release-review.json": "71db8318615431df9acc20d255852d13e33563438a4eb0637542e61ceadd5583",
     "reviews/financial-history-review.json": "d94ae3bda17576dd39ae4f9fe5486df0a8e6f336b05235c87d55a3d8fe522ae4",
-    "reviews/integrated-history-issues.json": "9d31c6e5afd89bc186f0b12a921785aab8cfae3b996e840037a66773a202aad4",
-    "reviews/integrated-history-review.json": "7f077379577642cf9bed5ce27c80275266395f1e502981695cd19c4c2e377522",
+    "reviews/integrated-history-issues.json": "a9f359095f531dbacb5255dc3f1a43b0c07bb028b400de5ad1939efd5e7ae161",
+    "reviews/integrated-history-review.json": "ef54bc8cbff6ee5edc70f3a8914076c441786b307b178138005f346b582c5803",
     "reviews/master-data-realism-review.json": "45d3ab1a80367a73e27519aec0a40e4f0e7f9965793dff5140e57860d340ed6f",
     "reviews/operational-flow-review.json": "29545861309df673f6c5f20be11e45840b2fbc582a89f71ee1a944027a8206a0",
     "reviews/resource-foundation-review.json": "1dd6e9bdf10e7ddb21ecc09416e38bb04a1705e0d3048f7cdd6998d68f141c53",
     "reviews/source-delivery-review.json": "94a6ae1d712a65bc7d2b9d0e341d4aae084200bb738cdd9512225d3186ee8b11",
     "reviews/clinical-journey-sample.md": "cd4f07fa2f7765dde189494e91ca3dec8b24a0ac91cf68b7a87ad43963d69ca6",
+    "reviews/dataset-release-review.md": "cf1fe9fa24d795d43756db722412337e179eeffcc530c93e2afa8ccdb508e138",
     "reviews/financial-history-sample.md": "e20a30e6b8e5ce564a989329e849fd61a1d46b4861471b3c7a9fd362bffa3958",
-    "reviews/integrated-history-sample.md": "870664373e51c90e6595e2a27f13768d0cb61032fbf46ff201c9c14fa63667bb",
+    "reviews/integrated-history-sample.md": "aba27c102ad081021b021b4e0ba63ef4619ee89809b3542abe96e90ed191d267",
     "reviews/master-data-identity-sample.md": "e327e56cf774a3a42a43e11a1461dbda4d541fcf9a247dbdb348aabc9c92f52c",
     "reviews/operational-flow-sample.md": "d3a38769e160addda89fe64fbb7fa0a7cf2bd64132d287e3cb1a20169f641ed6",
     "reviews/resource-foundation-sample.md": "001385843371c8c83de208f728d00139c1c1239cdfc069c00b4bff2ba6a4fffd",
@@ -167,10 +176,10 @@
     "evidence/source-delivery/validation-report.json": "395ed54bbb49fd0f4259c065252052ef70622148c3ab7192bcd4db3aba6fde21"
   },
   "candidate_bindings": {
-    "integrated-history": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
-    "integrated-comparison-20261024": "418bca4051506cf8c8732ea4d4a8f70534ca31cd262991da1ae4fa01386c40c1",
-    "integrated-comparison-20261025": "0e6d19750cad964e55796b1a1f4f68718f0118ba07ed2d1930778faa94acf534",
-    "native_sources": "7f1b5a5dbe567ae3b28936e6ff6684f5c6cdeb767a73e321a2f1f628f71ab431"
+    "integrated-history": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b",
+    "integrated-comparison-20261024": "eb914767717b452c168d415b95261bbe582793f86d049df30641a933aa967d3a",
+    "integrated-comparison-20261025": "eaa3c6761ab68a44834cbd1e047d17f2f7ae71ad0504cc3cbef0f8591b75b2d9",
+    "native_sources": "af91c63033f751850585509370b2a8a41db25ea47b49f04abe5289a97dad60db"
   },
   "frozen_design_regression": {
     "phase": 0,
@@ -377,7 +386,7 @@
       {
         "id": "DOCUMENT_LINKS",
         "passed": true,
-        "detail": "All local Markdown links resolve across 169 documents"
+        "detail": "All local Markdown links resolve across 67 documents"
       },
       {
         "id": "GATE_ARTIFACTS",
@@ -421,12 +430,12 @@
       {
         "test": "test_integrated_history.ConsumerContractTests.test_budget_reassignment_conserves_total",
         "status": "PASS",
-        "seconds": 0.016
+        "seconds": 0.031
       },
       {
         "test": "test_integrated_history.ConsumerContractTests.test_changed_upstream_assumption_invalidates_descendants",
         "status": "PASS",
-        "seconds": 0.266
+        "seconds": 0.187
       },
       {
         "test": "test_integrated_history.ConsumerContractTests.test_claim_duplicate_delivery_has_no_economic_effect",
@@ -446,7 +455,7 @@
       {
         "test": "test_integrated_history.ConsumerContractTests.test_closed_month_ignores_unrelated_later_month_delivery_gap",
         "status": "PASS",
-        "seconds": 0.015
+        "seconds": 0.016
       },
       {
         "test": "test_integrated_history.ConsumerContractTests.test_conflicting_claim_duplicate_fails",
@@ -471,7 +480,7 @@
       {
         "test": "test_integrated_history.ConsumerContractTests.test_foreign_generation_profile_preserves_existing_ready_marker",
         "status": "PASS",
-        "seconds": 0.047
+        "seconds": 0.031
       },
       {
         "test": "test_integrated_history.ConsumerContractTests.test_frozen_denial_target_is_not_relaxed",
@@ -516,7 +525,7 @@
       {
         "test": "test_integrated_history.ConsumerContractTests.test_negative_label_waits_for_source_completeness_after_day_thirty",
         "status": "PASS",
-        "seconds": 0.015
+        "seconds": 0.0
       },
       {
         "test": "test_integrated_history.ConsumerContractTests.test_patient_slot_boundary_trap_resolves_without_lost_visit",
@@ -631,17 +640,17 @@
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_cent_mutation_at_individual_pool_is_detected",
         "status": "PASS",
-        "seconds": 28.86
+        "seconds": 25.016
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_current_profile_scalar_checks_are_not_a_vacuous_sample",
         "status": "PASS",
-        "seconds": 0.094
+        "seconds": 0.078
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_failed_export_recovery_and_complete_resume",
         "status": "PASS",
-        "seconds": 245.812
+        "seconds": 246.875
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_foreign_export_profile_preserves_existing_ready_marker",
@@ -651,69 +660,70 @@
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_full_history_all_configured_seed_experiments_pass",
         "status": "PASS",
-        "seconds": 0.0
+        "seconds": 0.016
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_full_history_denial_calibration_passes_original_target",
         "status": "PASS",
-        "seconds": 0.063
+        "seconds": 0.046
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_full_history_exact_parent_preservation",
         "status": "PASS",
-        "seconds": 0.515
+        "seconds": 1.25
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_full_history_fresh_domain_catalog_passes",
         "status": "PASS",
-        "seconds": 0.016
+        "seconds": 0.0
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_full_history_point_in_time_and_unknown_labels",
         "status": "PASS",
-        "seconds": 25.734
+        "seconds": 24.547
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_full_history_six_consumers_and_fanout",
         "status": "PASS",
-        "seconds": 46.954
+        "seconds": 43.782
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_full_native_inspection_reports_and_faults",
         "status": "PASS",
-        "seconds": 778.437
+        "seconds": 693.109
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_old_and_new_master_baselines_cannot_be_incrementally_mixed",
         "status": "PASS",
-        "seconds": 0.219
+        "seconds": 0.172
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_real_candidate_process_crash_and_resume",
         "status": "PASS",
-        "seconds": 492.5
+        "seconds": 615.39
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_registered_boundary_seed_really_exercises_slot_fallback",
         "status": "PASS",
-        "seconds": 19.703
+        "seconds": 19.532
       },
       {
         "test": "test_integrated_history.IntegratedHistoryTests.test_wrong_actual_at_one_series_is_detected",
         "status": "PASS",
-        "seconds": 22.609
+        "seconds": 20.593
       }
     ],
     "verification_source_sha256": {
       "src/healthcare_synthetic/__init__.py": "872ab14430bb39fd0baddd2ef66a99075f2f1dedce587f08210a2275e474bed2",
-      "src/healthcare_synthetic/clinical_generation.py": "25e6981071b84a95c96aee0b8a784252d5105c98ead579c47c40e970b8a31053",
+      "src/healthcare_synthetic/behaviour_revision.py": "93d1e146b89fd45174e7e03d7cded606d0065f70048143d56db4d376186689f4",
+      "src/healthcare_synthetic/clinical_generation.py": "f1dba9eb177063a2db97deb0e6ced0b37b1e885ecfa6f5ddb3bf7132c996bbab",
       "src/healthcare_synthetic/clinical_pipeline.py": "d968110266f7d9de0e69450860d651b1a54ee05745cc8c7927186677a89b30ba",
       "src/healthcare_synthetic/clinical_review.py": "b77bcaed803a26cc8f6369159f87703f239a65e6c57608ea766b15575658c276",
       "src/healthcare_synthetic/clinical_validation.py": "b8d5886d4bada380c2b1b4ec92ef16a6c11372b07b69f8674611907f16a63b1d",
       "src/healthcare_synthetic/core.py": "be57d625783707220f72b6c8f275d712ef3893faef44dc2212c6f01b8331e78e",
       "src/healthcare_synthetic/engine.py": "0d014dab88e6c8e31b7c811e17c9fdbde787bd5c1bc2f1d09442ea468822370d",
       "src/healthcare_synthetic/financial_allocations.py": "97ef7e718f3ad22038fe14cfa6e52d320c406c606fa61e6eb4ee9fd7714a1893",
-      "src/healthcare_synthetic/financial_billing.py": "d11bc4d3f3eb1def2cd57a987145f511b7b09b91a53f93b86bd6a9f4f0c8e8e8",
+      "src/healthcare_synthetic/financial_billing.py": "bcf7e6976a0283844642d8f569c9cab6a37cd53115219976dab423cf11ff9c8c",
       "src/healthcare_synthetic/financial_common.py": "524b9ec7307172e92cc864299e5da64142dd853ea3ba18a94473065e99d34e70",
       "src/healthcare_synthetic/financial_oracles.py": "529128891766b534053ce0487acf89c42214bd5185d5d21b2c3c64501e2a2a7f",
       "src/healthcare_synthetic/financial_pipeline.py": "62d6f7a817579a827bcd2c5cabc8863abd8fe53d74c024da1037b3f1281102d6",
@@ -725,21 +735,21 @@
       "src/healthcare_synthetic/financial_validation.py": "198ccec8273389df9dec862dcb67baa4a85157b16f4f858c5a53ed4b6f32c94d",
       "src/healthcare_synthetic/integrated_consumers.py": "7552bd841129c82e568d39aed634a1e9ccf1636ea003ead7d11012e57b9f566b",
       "src/healthcare_synthetic/integrated_exports.py": "4f3d5fd0a117a83d7a02e20f03df8375c749f2490eaf7d9dfbb0d657817388c7",
-      "src/healthcare_synthetic/integrated_generation.py": "a722bd112a5b497d3a4ec1960b325a4dffba2d5671dcd1c0f515d331d4234a1c",
+      "src/healthcare_synthetic/integrated_generation.py": "6e352342f0d779e134e0264da4d4d92595b61760d1c7ef3c586f29651dd117af",
       "src/healthcare_synthetic/integrated_master_context.py": "5cf1778887c9d56b4ae738e7db882bdc4c6e49b14d305e6922011b479f08d570",
       "src/healthcare_synthetic/integrated_source_validation.py": "cca0abc963265f1ff532f13e0b2c882a1c2bba47f1bdb93a08f7009b4caa1486",
-      "src/healthcare_synthetic/integrated_validation.py": "4b6aa5daa4fd4bb22935861c23e4fa8714e2509ba24815278df8991dd92680fa",
+      "src/healthcare_synthetic/integrated_validation.py": "bc9608e4e14c71bd8ff67ee71dfda81b52102943c52148fb8d9c9c6c9282219d",
       "src/healthcare_synthetic/master_generation.py": "8abf762b1c18a999b4c6254121af200c5659f82283a31bd957ada7273c63da07",
       "src/healthcare_synthetic/master_pipeline.py": "7724714dc67b69f38c1511863de77add804cb2d38436968af3736e862016e77e",
       "src/healthcare_synthetic/master_queries.py": "65276ea5ba9251beb199318c809d578ba3e9ccd5651304613f248f9c633dc644",
       "src/healthcare_synthetic/master_review.py": "62f19a72859b906507abe7a9c4d10175a4f989758c7c1037defc4f5f6588a55d",
       "src/healthcare_synthetic/master_validation.py": "613590557fbcc165bf111bdcb93095aadd2b624b9e16f5776dfafef0d193f1e7",
       "src/healthcare_synthetic/operational_demand.py": "ecfc6eca745ac283f5bf546721b43b6a9ab77f9465bedf0c1dc9f210d4c9de1b",
-      "src/healthcare_synthetic/operational_generation.py": "29f12820d300c3dc85ec4d709132cd8e124e91b1f38d8792e9b899f049e3ea7d",
+      "src/healthcare_synthetic/operational_generation.py": "5126ef02c9cc327003c6bf3cbbfeda06c1dae571d75c259f4b568bfe406568f7",
       "src/healthcare_synthetic/operational_pipeline.py": "2740d1218a7a3d752fda17b3576e934e4b5e5c3d2c8f295cb31964236f33a8db",
       "src/healthcare_synthetic/operational_queries.py": "1b8c72a47f383d67a558056bfce38cd4a565441a444581e5934ea1118a5f8c18",
       "src/healthcare_synthetic/operational_review.py": "7bbdeaca35416cca028a046b64d4b604bc99c04961ebce96f6e4de01d2402adb",
-      "src/healthcare_synthetic/operational_timing.py": "d6c0fff265ad84e6cf28b58301f4d1fc183e8f7d12af325874327d0e9bf1430c",
+      "src/healthcare_synthetic/operational_timing.py": "64b199e32838912d920e6c39a19dbaad34ccd40a7b9974680b513ad887ac3381",
       "src/healthcare_synthetic/operational_validation.py": "b9686a898fe57fa054abab5e08a4a42758858b46007797ec62d7223b2a381d47",
       "src/healthcare_synthetic/resource_generation.py": "ce9b54a794c47733a83ca2563fa0de3718a0d150ceba56102e314664263ce60b",
       "src/healthcare_synthetic/resource_inventory.py": "1860220d43f01b6941cc862833e0736703e1c8799c4dd8c6fb62164a41c68cb9",
@@ -748,7 +758,7 @@
       "src/healthcare_synthetic/resource_review.py": "0d1ceb8ac3a51d0d78892c9c2cef69f772687a25906a13d397ef86463c7f8716",
       "src/healthcare_synthetic/resource_stock_validation.py": "0137ae52e08fa15fe8e14acd34702a0957ad647ce4c976143e823d60cd9d68bd",
       "src/healthcare_synthetic/resource_validation.py": "10c6c4a47915368dedcb8ad68fc3a761bb551decc119f2d6d0366402c65f2437",
-      "src/healthcare_synthetic/resource_workforce.py": "4b1cf87df3e617362d237c840594f098e4ddde77848813aef5f8eb6c28b93762",
+      "src/healthcare_synthetic/resource_workforce.py": "d73b66ef769d072317e093ffc4edc961da3f1f7290ad492b4608397dddb33d45",
       "src/healthcare_synthetic/source_delivery.py": "83f6d5f3538b41150c9567dbdda70853afb8c73142757776194ee468ad394b18",
       "src/healthcare_synthetic/source_export.py": "d806f6a07981d2ee1e9049f4d1c8fdc2760a9aeafe64badce818252d3067d1ab",
       "src/healthcare_synthetic/source_faults.py": "a7bc423e987642cb3c9d1959d1be112e6b1d8829c057c3324ea25427e43b65e1",
@@ -763,8 +773,9 @@
       "src/healthcare_synthetic/trajectory_scheduling.py": "4989a72d1a5990210cdb6c3c7438fa322836e31087ebc1903ff71e98fb7e7467",
       "src/healthcare_synthetic/validation.py": "2c743743bfacf33340b9ad238457ea7e7b91808231b60d76579f50175fffec3f",
       "tests/test_clinical_histories.py": "5af38734c4b6dff6eca9be55f8128041d6933f2ea1f79964f490b119d1980840",
+      "tests/test_dataset_release.py": "4e3f09256dcdbb62969706698532a26c11d9a09ca2ff38e0fa18682021ee90ea",
       "tests/test_financial_history.py": "a61561b670d1dba297502e9e03cb470a9abd50d2be0e1d67984f670086ef0806",
-      "tests/test_integrated_history.py": "021cf85f547fd452f489fb65d39c4ad75fc22a50512d9990a08886f706afdf0c",
+      "tests/test_integrated_history.py": "f0b71e974cfc4770ea33a69d7c89f7d718b24553fdcd19ee551bd534dcc3b02f",
       "tests/test_master_data.py": "a7a99352f6d78a98f166fe0756197774832f8f9deb820efe73468be8ce39caf7",
       "tests/test_operational_flow.py": "c94ca1ab78910af60085a8a7539286983b8d02a9039e4ca0c758ba2872226fe0",
       "tests/test_phase0_contracts.py": "65b1c76e1ba4d39c15b89c7fd3f9c815933568ae83078d2e658f9e59084b4a03",
@@ -793,7 +804,7 @@
       "scripts/restore_master_snapshot.py": "5f03b627f9bc3dda7df001fe03dbf3ec56cbad28ae29d366c6eaa870b9daca42",
       "scripts/restore_operational_snapshot.py": "1abab5a257e66cb6af8f31e830e5a354578ff36fee07aa47843058e777eb08b5",
       "scripts/restore_resource_snapshot.py": "a94db73460a5388aaddd0d5ecf47fc7c9d05287cb2543f6c6b86efbb2ef43148",
-      "scripts/review_integrated_history.py": "b80538f538fdf5f5278f3a10dee0a275a78133a30c05b3f4f6c34f7798038045",
+      "scripts/review_integrated_history.py": "90c0aaafa140ec977a46e280c1f565f7ce07f20fb08bdcea1d166b8115aa37b0",
       "scripts/review_source_delivery.py": "9cb862e1f6494f2166ef81386a8991cc09849ef7755c795118e0bd46c0832a42",
       "scripts/run_financial_regressions.py": "06327a41e62b476a0661078d3336e888517c1121c1a43e9430c6fa8dd78ca966",
       "scripts/run_foundation_regressions.py": "ac2f6bdcf741a6c95dbae0764234f184aa8a949cd2649261a4ba1c2ac43084fe",
@@ -801,16 +812,17 @@
       "scripts/run_phase1.py": "98ae5b8274d455945bfbcf9ffe45542e5adbc39c29306416d675a18c45740a9a",
       "scripts/run_resource_regressions.py": "981d3a08e40eec599b1b117b1fee0d7b34bbdd646bc8cfadc97521f8485113b0",
       "scripts/run_source_regressions.py": "c18a429e766503f6881af00e84d7539d39cedf52111ef0b52b54be59ddf4b0f4",
+      "scripts/validate_behaviour_revision.py": "2390f85c0cf88d43b9f75dae8e579d7c5c76b4dd18d1aa56d7c5e6c76538cb73",
       "scripts/validate_clinical_data.py": "2f1c96450d5fa7d562b278685a8d9d981ed1e19a6818dcf566606847e15df5f0",
       "scripts/validate_clinical_foundation.py": "03bc3c95781444928e8a967d1df4f1fe627cdcf30a3a78bd36fb6f951d9f6e7b",
       "scripts/validate_financial_data.py": "bb1fe5815bf3f03afb3aec3352eec10ac4c2c0349cc90b036d4390ea945d73ea",
       "scripts/validate_financial_foundation.py": "6d559ad954f45192886fa038410f20a00ead832b572bf46ac7bb2a6ee198fc40",
-      "scripts/validate_integrated_foundation.py": "a259b1cafacfe6f72dc0fd9129c753d40c90c7513631ae0cd3e4a9c95e8b9215",
+      "scripts/validate_integrated_foundation.py": "8024e4bd1816422105ce209a669345423147f184eba92b2f6a6942824c77cf3a",
       "scripts/validate_master_data.py": "87148fb557804d538349cbf9b43614c8947245fa36daf79c17b0e01c185c8548",
       "scripts/validate_master_foundation.py": "5fed118fae6cb1d04ada344591edfd3bb0a610ef962c923bd62124969896e48f",
       "scripts/validate_operational_data.py": "883cdccbfcd2a7a9320d925ee704afbfa3552a3f3ce31f351db8bbeca506701a",
       "scripts/validate_operational_foundation.py": "da184c3fdf633faa68c11d6f0e26d30a31f0ca14d4520b836f492239d0511719",
-      "scripts/validate_phase0.py": "aab950fdcd2f36f271e296dec8c64838387a4f37b0594ce174b8ba4ef529f858",
+      "scripts/validate_phase0.py": "9614a99a6dfc77fe60e4e1f246505e160a5b11617c49dcfaaa4d3b4b7216db5b",
       "scripts/validate_phase1.py": "4184c2717f4da33135e5292c4e13fc29e0e71822e726014fdf27e0b228d0a087",
       "scripts/validate_phase1_candidate.py": "9ba49e397ce53a2925ba6b2afb15c38f1f7cf8ab1989cb51fbf41c8e0b501344",
       "scripts/validate_resource_data.py": "41fc80ea46d34c1ff839f048a595c250d0f6725c95308718eab42a376563c7d1",
@@ -820,15 +832,15 @@
     "verification_input_sha256": {
       "config/clinical-history-generation.json": "d688f9a18afe171c2afe202ed346292801d4204aad82c057f4001a47eb2072a9",
       "config/financial-history-generation.json": "675d198f24cc1d2d8e1b71f7e8b9970a2a4d78ee2849f844a937087693575d08",
-      "config/integrated-history-generation.json": "e8033fbc7260526a38e44c6e5c8816a3431ec12b249513f210cafc9799f1e479",
+      "config/integrated-history-generation.json": "33d4a054173b69d01fa2e6e2414885ed5ba388dca6962c1455953928afce985b",
       "config/master-data-generation.json": "bde91a78e04589e2dc27e0e367c929ecb107e053bc0ad21be51aa2ddc00bcb64",
       "config/operational-flow-generation.json": "a5b37fdbc66e397b38136ccd8934c3890e30ce9b539a50ab153224d6604ca282",
       "config/phase1-development.json": "e9d533d855bdc09a7813ece57266c5a3b01da9483a9fedd612cc56317718a8d7",
-      "config/resource-foundation-generation.json": "811085eb40f6c181981d0f1169597148f1e2decc5cc8ba4fe73a4db1f3ec9811",
+      "config/resource-foundation-generation.json": "d08f8a27ed699fab4cfc085919c15061d0b9aa2a75f9b53e1a12fe7a09471757",
       "config/source-delivery-generation.json": "510204bcfebc26dafe1286b54f2f13a230a6a2cbec30aba320a463d2c9e35ceb",
       "contracts/clinical-history-policy.json": "fe6b0470c2fa5adcfeafc0d70e1ef17486298058f64c03090073349d666dd427",
       "contracts/financial-history-policy.json": "fb4a6079bd185b01a7feecd125102fd8bf86fd471a851fdc4f5e85f4c27d4360",
-      "contracts/integrated-validation-policy.json": "4faac0fd83d3cf82025ef2c11fc521ca21a0386880f66b9fb33204058922d8b0",
+      "contracts/integrated-validation-policy.json": "2558bdefe2fcb3d94f0bcc4f792f0c5a94da1bfdf7a32d8dd8e90a02c3dbd232",
       "contracts/master-data-policy.json": "619830491bd2eaffda711b92b8c3ac86561dfca4e82e9eb27e65f1a589ce7d31",
       "contracts/operational-flow-policy.json": "42d55e3f40135d5d4ba733b7baeed066c74b3ada3178bea9755192b524af9ffc",
       "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
@@ -846,16 +858,22 @@
       "contracts/resource-foundation-policy.json": "2df32ca42010daf34e5ceacb05489b4f26283b8e30230edf676f885c5295310d",
       "contracts/source-delivery-policy.json": "81e1b70f49413724dd224b39542683b976e2ce2cd8ed96cb9fc3ae926e399154",
       "reviews/clinical-journey-review.json": "4408ef9591585622aae7d43a7d4849f7b48a9d8f9a2d9ae82453fcb30eb434bf",
+      "reviews/dataset-release-acceptance.json": "ae31434b0f832b8f1ce9219a433f1f7669dfbec6bf154c4241119f72989d8dc9",
+      "reviews/dataset-release-approval.json": "0d89eb8f28216de604ca3f24ebe7f48fbcfd450b796b2c14c060770e287a5437",
+      "reviews/dataset-release-issues.json": "525453b5289cbc9e7ec52501d80ca89753692d23444a28ff1c89e6232a4a068e",
+      "reviews/dataset-release-retirement.json": "c5084865e23e45cfefebd7e795648238fe61a38d54e00bb7c0850207854d524e",
+      "reviews/dataset-release-review.json": "71db8318615431df9acc20d255852d13e33563438a4eb0637542e61ceadd5583",
       "reviews/financial-history-review.json": "d94ae3bda17576dd39ae4f9fe5486df0a8e6f336b05235c87d55a3d8fe522ae4",
-      "reviews/integrated-history-issues.json": "9d31c6e5afd89bc186f0b12a921785aab8cfae3b996e840037a66773a202aad4",
-      "reviews/integrated-history-review.json": "7f077379577642cf9bed5ce27c80275266395f1e502981695cd19c4c2e377522",
+      "reviews/integrated-history-issues.json": "a9f359095f531dbacb5255dc3f1a43b0c07bb028b400de5ad1939efd5e7ae161",
+      "reviews/integrated-history-review.json": "ef54bc8cbff6ee5edc70f3a8914076c441786b307b178138005f346b582c5803",
       "reviews/master-data-realism-review.json": "45d3ab1a80367a73e27519aec0a40e4f0e7f9965793dff5140e57860d340ed6f",
       "reviews/operational-flow-review.json": "29545861309df673f6c5f20be11e45840b2fbc582a89f71ee1a944027a8206a0",
       "reviews/resource-foundation-review.json": "1dd6e9bdf10e7ddb21ecc09416e38bb04a1705e0d3048f7cdd6998d68f141c53",
       "reviews/source-delivery-review.json": "94a6ae1d712a65bc7d2b9d0e341d4aae084200bb738cdd9512225d3186ee8b11",
       "reviews/clinical-journey-sample.md": "cd4f07fa2f7765dde189494e91ca3dec8b24a0ac91cf68b7a87ad43963d69ca6",
+      "reviews/dataset-release-review.md": "cf1fe9fa24d795d43756db722412337e179eeffcc530c93e2afa8ccdb508e138",
       "reviews/financial-history-sample.md": "e20a30e6b8e5ce564a989329e849fd61a1d46b4861471b3c7a9fd362bffa3958",
-      "reviews/integrated-history-sample.md": "870664373e51c90e6595e2a27f13768d0cb61032fbf46ff201c9c14fa63667bb",
+      "reviews/integrated-history-sample.md": "aba27c102ad081021b021b4e0ba63ef4619ee89809b3542abe96e90ed191d267",
       "reviews/master-data-identity-sample.md": "e327e56cf774a3a42a43e11a1461dbda4d541fcf9a247dbdb348aabc9c92f52c",
       "reviews/operational-flow-sample.md": "d3a38769e160addda89fe64fbb7fa0a7cf2bd64132d287e3cb1a20169f641ed6",
       "reviews/resource-foundation-sample.md": "001385843371c8c83de208f728d00139c1c1239cdfc069c00b4bff2ba6a4fffd",
@@ -870,21 +888,21 @@
       "evidence/source-delivery/validation-report.json": "395ed54bbb49fd0f4259c065252052ef70622148c3ab7192bcd4db3aba6fde21"
     },
     "candidate_bindings": {
-      "integrated-history": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
-      "integrated-comparison-20261024": "418bca4051506cf8c8732ea4d4a8f70534ca31cd262991da1ae4fa01386c40c1",
-      "integrated-comparison-20261025": "0e6d19750cad964e55796b1a1f4f68718f0118ba07ed2d1930778faa94acf534",
-      "native_sources": "7f1b5a5dbe567ae3b28936e6ff6684f5c6cdeb767a73e321a2f1f628f71ab431"
+      "integrated-history": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b",
+      "integrated-comparison-20261024": "eb914767717b452c168d415b95261bbe582793f86d049df30641a933aa967d3a",
+      "integrated-comparison-20261025": "eaa3c6761ab68a44834cbd1e047d17f2f7ae71ad0504cc3cbef0f8591b75b2d9",
+      "native_sources": "af91c63033f751850585509370b2a8a41db25ea47b49f04abe5289a97dad60db"
     },
     "inspection_bindings": {
-      "output/integrated-validation/inspection.json": "afbd5269efc6604c08be576b94af38a7a079626c3b6bb5c159de2d46068bdee7",
-      "output/integrated-comparison-20261024/validation/inspection.json": "d1accc32c0b5cc4cd88724de0a1f8adb2f26ceb0e5e65ccdd0526ad689102bac",
-      "output/integrated-comparison-20261025/validation/inspection.json": "9c36d4981074e40f4db3ae4ecb166ac97c83d1fd191096303e31d503d9e4dfd3"
+      "output/integrated-validation/inspection.json": "10b61f0b6dfb6314bd6a1c7cea7b8727197ffdd0a31ba505aa926b1e7e16bfef",
+      "output/integrated-comparison-20261024/validation/inspection.json": "c351476ff998aec4977c0fbc8ea7be5a76d7804122741ac76746ce78d73f0df6",
+      "output/integrated-comparison-20261025/validation/inspection.json": "4d1ae08fa562e50de04ce0130f0f680eea604a75c0b0b45305df9a6664bab95d"
     },
     "inspections_unchanged": true,
     "sources_unchanged": true,
     "inputs_unchanged": true,
     "candidates_unchanged": true,
-    "source_inspection_sha256": "2c33f496bf58167857e2fc6ade2e73746d5d78c8ff59b8568ee57504120de9c9"
+    "source_inspection_sha256": "2422887ae865ad447bdb2e579b8dd67c4120c7a28f8e32c762fe922b24d65d0a"
   },
   "retained_prior_evidence": {
     "status": "PASS",
@@ -895,22 +913,64 @@
         "path": "src/healthcare_synthetic/clinical_generation.py",
         "historical_commit": "bfd89b22d54bac051a3daf4ea27adcae0c5475b2",
         "historical_sha256": "1b2acb125fd2825c2f39d94ec60d4d6a01d5d3a13202e058e2879fa7ea41c64f",
-        "current_sha256": "25e6981071b84a95c96aee0b8a784252d5105c98ead579c47c40e970b8a31053",
-        "current_validation": "Fresh patient-slot and closed-period scope controls, exact unaffected-candidate golden digests and three complete connected seed experiments"
+        "current_sha256": "f1dba9eb177063a2db97deb0e6ced0b37b1e885ecfa6f5ddb3bf7132c996bbab",
+        "current_validation": "Fresh full-population domain, consumer, point-in-time, realism and behaviour-revision controls on three complete connected seed experiments"
+      },
+      {
+        "path": "src/healthcare_synthetic/financial_billing.py",
+        "historical_commit": "bfd89b22d54bac051a3daf4ea27adcae0c5475b2",
+        "historical_sha256": "d11bc4d3f3eb1def2cd57a987145f511b7b09b91a53f93b86bd6a9f4f0c8e8e8",
+        "current_sha256": "bcf7e6976a0283844642d8f569c9cab6a37cd53115219976dab423cf11ff9c8c",
+        "current_validation": "Fresh full-population domain, consumer, point-in-time, realism and behaviour-revision controls on three complete connected seed experiments"
       },
       {
         "path": "src/healthcare_synthetic/financial_oracles.py",
         "historical_commit": "bfd89b22d54bac051a3daf4ea27adcae0c5475b2",
         "historical_sha256": "9fd8adec9b95767ddd6e8ef78e0bf4c8da41a1cd5afd7922e4f49dfeb62b53df",
         "current_sha256": "529128891766b534053ce0487acf89c42214bd5185d5d21b2c3c64501e2a2a7f",
-        "current_validation": "Fresh patient-slot and closed-period scope controls, exact unaffected-candidate golden digests and three complete connected seed experiments"
+        "current_validation": "Fresh full-population domain, consumer, point-in-time, realism and behaviour-revision controls on three complete connected seed experiments"
       },
       {
         "path": "src/healthcare_synthetic/financial_planning.py",
         "historical_commit": "bfd89b22d54bac051a3daf4ea27adcae0c5475b2",
         "historical_sha256": "e4d46740b2c52e69700b25f01c02154d3965bbc125a102d37ef4f4232be4b19b",
         "current_sha256": "d811987faea7a6721997a8af05b2ad0ca4198c46979465411049284744b08e3e",
-        "current_validation": "Fresh patient-slot and closed-period scope controls, exact unaffected-candidate golden digests and three complete connected seed experiments"
+        "current_validation": "Fresh full-population domain, consumer, point-in-time, realism and behaviour-revision controls on three complete connected seed experiments"
+      },
+      {
+        "path": "src/healthcare_synthetic/operational_generation.py",
+        "historical_commit": "bfd89b22d54bac051a3daf4ea27adcae0c5475b2",
+        "historical_sha256": "29f12820d300c3dc85ec4d709132cd8e124e91b1f38d8792e9b899f049e3ea7d",
+        "current_sha256": "5126ef02c9cc327003c6bf3cbbfeda06c1dae571d75c259f4b568bfe406568f7",
+        "current_validation": "Fresh full-population domain, consumer, point-in-time, realism and behaviour-revision controls on three complete connected seed experiments"
+      },
+      {
+        "path": "src/healthcare_synthetic/operational_timing.py",
+        "historical_commit": "bfd89b22d54bac051a3daf4ea27adcae0c5475b2",
+        "historical_sha256": "d6c0fff265ad84e6cf28b58301f4d1fc183e8f7d12af325874327d0e9bf1430c",
+        "current_sha256": "64b199e32838912d920e6c39a19dbaad34ccd40a7b9974680b513ad887ac3381",
+        "current_validation": "Fresh full-population domain, consumer, point-in-time, realism and behaviour-revision controls on three complete connected seed experiments"
+      },
+      {
+        "path": "src/healthcare_synthetic/resource_workforce.py",
+        "historical_commit": "bfd89b22d54bac051a3daf4ea27adcae0c5475b2",
+        "historical_sha256": "4b1cf87df3e617362d237c840594f098e4ddde77848813aef5f8eb6c28b93762",
+        "current_sha256": "d73b66ef769d072317e093ffc4edc961da3f1f7290ad492b4608397dddb33d45",
+        "current_validation": "Fresh full-population domain, consumer, point-in-time, realism and behaviour-revision controls on three complete connected seed experiments"
+      },
+      {
+        "path": "scripts/validate_phase0.py",
+        "historical_commit": "bfd89b22d54bac051a3daf4ea27adcae0c5475b2",
+        "historical_sha256": "aab950fdcd2f36f271e296dec8c64838387a4f37b0594ce174b8ba4ef529f858",
+        "current_sha256": "9614a99a6dfc77fe60e4e1f246505e160a5b11617c49dcfaaa4d3b4b7216db5b",
+        "current_validation": "Fresh full-population domain, consumer, point-in-time, realism and behaviour-revision controls on three complete connected seed experiments"
+      },
+      {
+        "path": "config/resource-foundation-generation.json",
+        "historical_commit": "bfd89b22d54bac051a3daf4ea27adcae0c5475b2",
+        "historical_sha256": "811085eb40f6c181981d0f1169597148f1e2decc5cc8ba4fe73a4db1f3ec9811",
+        "current_sha256": "d08f8a27ed699fab4cfc085919c15061d0b9aa2a75f9b53e1a12fe7a09471757",
+        "current_validation": "Fresh full-population domain, consumer, point-in-time, realism and behaviour-revision controls on three complete connected seed experiments"
       }
     ],
     "overlap": 12,
@@ -921,23 +981,23 @@
     {
       "status": "PASS",
       "seed": 20261023,
-      "business_sha256": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
-      "rows": 1936663,
+      "business_sha256": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b",
+      "rows": 1937925,
       "domain_checks": 58,
       "domain_defects": [],
       "consumer_controls": {
         "status": "PASS",
         "unexplained_differences": 0,
-        "original_ar_accounts": 57819,
+        "original_ar_accounts": 57818,
         "claim_cash_months": 36,
         "staffing_months_including_opening_context": 37,
         "staffing_business_months": 36,
         "staffing_opening_context_months": [
           "2022-12"
         ],
-        "lot_location_product_grains": 1001,
+        "lot_location_product_grains": 999,
         "selected_cost_pool_postings": 1673,
-        "patient_month_category_grains": 134867,
+        "patient_month_category_grains": 134879,
         "axiom_monetary_grain_reconciliations": 18981,
         "variance_comparisons": 41256,
         "variance_states": {
@@ -945,21 +1005,21 @@
           "ZERO_PLAN": 6096,
           "COMPARABLE": 4488
         },
-        "bed_interval_rows": 14837,
+        "bed_interval_rows": 14631,
         "bed_seconds_grains": 72,
-        "occupied_seconds": 5085526680,
+        "occupied_seconds": 5105385360,
         "fanout": {
-          "exposed_charge_rows": 112797,
-          "naive_join_all_context_billed_usd": "21833754302.67",
-          "protected_all_context_billed_usd": "196569646.60",
-          "protected_in_window_billed_usd": "196048930.35",
+          "exposed_charge_rows": 112484,
+          "naive_join_all_context_billed_usd": "21418927075.16",
+          "protected_all_context_billed_usd": "196984710.53",
+          "protected_in_window_billed_usd": "196463994.28",
           "prewindow_context_billed_usd": "520716.25",
-          "protected_occupied_seconds": 5085526680,
-          "protected_patient_cost_usd": "51945602.95"
+          "protected_occupied_seconds": 5105385360,
+          "protected_patient_cost_usd": "52213413.79"
         },
-        "signed_claim_cash_usd": "80577112.80",
+        "signed_claim_cash_usd": "79577123.73",
         "selected_costs_usd": {
-          "PATIENT": "51945602.95",
+          "PATIENT": "52213413.79",
           "NONPATIENT": "13895550.22"
         }
       },
@@ -983,7 +1043,7 @@
       },
       "index": {
         "status": "PASS",
-        "canonical_rows": 1936663,
+        "canonical_rows": 1937925,
         "tables": 25,
         "rows_by_table": {
           "facility": 3,
@@ -996,19 +1056,19 @@
           "patient_coverage": 28000,
           "catalog_item": 3005,
           "source_key_map": 10000,
-          "encounter": 128000,
-          "clinical_condition": 79103,
-          "clinical_event": 561909,
+          "encounter": 127999,
+          "clinical_condition": 79133,
+          "clinical_event": 560963,
           "appointment": 30000,
-          "bed_event": 71018,
-          "staff_shift": 66582,
-          "inventory_movement": 47839,
-          "service_charge": 113181,
-          "claim": 57819,
-          "claim_line": 113097,
-          "claim_event": 230012,
-          "financial_posting": 174904,
-          "cost_allocation": 158527,
+          "bed_event": 70105,
+          "staff_shift": 69655,
+          "inventory_movement": 48079,
+          "service_charge": 112868,
+          "claim": 57818,
+          "claim_line": 112776,
+          "claim_event": 230101,
+          "financial_posting": 175489,
+          "cost_allocation": 158267,
           "finance_monthly": 35457,
           "facility_day_driver": 3288
         },
@@ -1071,44 +1131,44 @@
           "encounter": {
             "admission_decision_at": 104012,
             "admitted_at": 104012,
-            "medically_ready_at": 116812,
+            "medically_ready_at": 116892,
             "known_to": 58012,
-            "previous_encounter_version_id": 41560,
+            "previous_encounter_version_id": 41552,
             "discharged_at": 70024
           },
           "clinical_condition": {
-            "resolved_at": 77144,
-            "reaction": 78103,
-            "valid_to": 77144,
-            "known_to": 77144,
+            "resolved_at": 77159,
+            "reaction": 78133,
+            "valid_to": 77159,
+            "known_to": 77159,
             "encounter_version_id": 17557
           },
           "clinical_event": {
-            "parent_event_version_id": 345527,
-            "period_end_at": 549897,
-            "order_start_at": 475956,
-            "order_end_at": 488040,
-            "dose_interval_hours": 543324,
-            "as_needed": 543324,
-            "max_doses_per_day": 543324,
-            "administration_sequence": 458802,
-            "specimen_id": 482533,
-            "collected_at": 482533,
-            "result_ready_at": 482533,
-            "document_signed_at": 490498,
-            "text_value": 490498,
-            "dose_quantity": 440217,
-            "dose_unit": 440217,
-            "route": 440217,
-            "consumed_base_quantity": 458802,
-            "consumption_group_key": 458850,
-            "document_type": 490498,
-            "known_to": 561909,
-            "numeric_value": 316257,
-            "value_unit": 316257,
-            "reference_low": 316257,
-            "reference_high": 316257,
-            "catalog_item_id": 71411
+            "parent_event_version_id": 345243,
+            "period_end_at": 548951,
+            "order_start_at": 475010,
+            "order_end_at": 487096,
+            "dose_interval_hours": 542378,
+            "as_needed": 542378,
+            "max_doses_per_day": 542378,
+            "administration_sequence": 458518,
+            "specimen_id": 481587,
+            "collected_at": 481587,
+            "result_ready_at": 481587,
+            "document_signed_at": 489836,
+            "text_value": 489836,
+            "dose_quantity": 439933,
+            "dose_unit": 439933,
+            "route": 439933,
+            "consumed_base_quantity": 458518,
+            "consumption_group_key": 458566,
+            "document_type": 489836,
+            "known_to": 560963,
+            "numeric_value": 315311,
+            "value_unit": 315311,
+            "reference_low": 315311,
+            "reference_high": 315311,
+            "catalog_item_id": 71127
           },
           "appointment": {
             "replacement_appointment_id": 29000,
@@ -1120,39 +1180,39 @@
             "arrived_at": 8200
           },
           "bed_event": {
-            "encounter_version_id": 41380,
-            "transfer_group_id": 64266,
-            "corrects_bed_event_id": 70918
+            "encounter_version_id": 40880,
+            "transfer_group_id": 63591,
+            "corrects_bed_event_id": 70005
           },
           "staff_shift": {
-            "known_to": 61644,
-            "actual_start": 5675,
-            "actual_end": 5694
+            "known_to": 63152,
+            "actual_start": 8108,
+            "actual_end": 8127
           },
           "inventory_movement": {
-            "transfer_group_id": 28579,
-            "reverses_movement_id": 47809,
-            "consumption_group_key": 20267
+            "transfer_group_id": 28819,
+            "reverses_movement_id": 48049,
+            "consumption_group_key": 20265
           },
           "service_charge": {
-            "clinical_event_version_id": 63606,
-            "reverses_charge_id": 113181
+            "clinical_event_version_id": 63293,
+            "reverses_charge_id": 112868
           },
           "claim": {
-            "first_submitted_at": 151
+            "first_submitted_at": 126
           },
           "claim_line": {},
           "claim_event": {
-            "claim_line_id": 211803,
-            "denial_catalog_id": 225347,
-            "reverses_claim_event_id": 229914
+            "claim_line_id": 211958,
+            "denial_catalog_id": 225443,
+            "reverses_claim_event_id": 230003
           },
           "financial_posting": {
-            "allocation_pool_key": 173231,
-            "reverses_posting_id": 174708
+            "allocation_pool_key": 173816,
+            "reverses_posting_id": 175293
           },
           "cost_allocation": {
-            "supersedes_run_id": 157756,
+            "supersedes_run_id": 157510,
             "encounter_version_id": 540
           },
           "finance_monthly": {
@@ -1163,9 +1223,9 @@
           },
           "facility_day_driver": {}
         },
-        "index_mirror_rows": 1936663,
-        "index_bytes": 1551077376,
-        "canonical_business_sha256": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e"
+        "index_mirror_rows": 1937925,
+        "index_bytes": 1543655424,
+        "canonical_business_sha256": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b"
       },
       "realism_checks": [
         {
@@ -1218,7 +1278,7 @@
         },
         {
           "id": "PAYER/MEDICARE",
-          "value": 0.3748303934871099,
+          "value": 0.37481254016996357,
           "target": 0.35,
           "absolute_tolerance": 0.05,
           "passed": true
@@ -1232,21 +1292,21 @@
         },
         {
           "id": "PAYER/SELF_PAY",
-          "value": 0.07735842319502964,
+          "value": 0.07737627651217596,
           "target": 0.1,
           "absolute_tolerance": 0.05,
           "passed": true
         },
         {
           "id": "LOS",
-          "value": 5.029074178449463,
+          "value": 5.078720830433729,
           "lower": 4.4,
           "upper": 6.2,
           "passed": true
         },
         {
           "id": "TAIL",
-          "value": 0.04701068804275217,
+          "value": 0.04676409185803758,
           "lower": 0.025,
           "upper": 0.09,
           "passed": true
@@ -1260,14 +1320,14 @@
         },
         {
           "id": "DENIAL",
-          "value": 0.09315095846645367,
+          "value": 0.09303719090800144,
           "lower": 0.08,
           "upper": 0.12,
           "passed": true
         },
         {
           "id": "SEASON",
-          "value": 1.5640589879940796,
+          "value": 1.569048011879228,
           "lower": 1.1,
           "upper": 1.8,
           "passed": true
@@ -1286,7 +1346,7 @@
         },
         {
           "id": "NOTES/DISCHARGE_SUMMARY",
-          "value": 0.0006680026720106881,
+          "value": 0.0006680584551148226,
           "upper": 0.15,
           "passed": true
         },
@@ -1298,7 +1358,7 @@
         },
         {
           "id": "NOTES/PROGRESS_NOTE",
-          "value": 0.0075396385408581885,
+          "value": 0.004120879120879121,
           "upper": 0.15,
           "passed": true
         },
@@ -1312,32 +1372,33 @@
       "partitions": 324,
       "artifacts": {
         "domain-controls.json": {
-          "sha256": "a138d5339ab44ef9be4a779ab112ba73c999b75102a0e810e9c5f259cecf89e9",
-          "bytes": 30136
+          "sha256": "96989736c2c4a6f986b48951fb95e647dbbe3d3a53cd6a84b20651604a24632f",
+          "bytes": 30093
         },
         "consumer-controls.json": {
-          "sha256": "5e08b9ff56773a9d95b458185a294b165a919f778deee326f79817054d56d996",
-          "bytes": 1188
+          "sha256": "96f466ba7cf1cb2d9ff77c1c78f48860e99a9e63ebe81eff3a992da8d4f54841",
+          "bytes": 1187
         },
         "point-in-time.json": {
           "sha256": "707bd5e5b0e845f50e448982d7f90ccd7c2bf751fc9193f1e910475f31b112c6",
           "bytes": 556
         },
         "realism-profiles.json": {
-          "sha256": "c936666b3504e1c1fe79750055b982c92230f9eeb70093a929118ec3e55c190d",
-          "bytes": 6984461
+          "sha256": "5810e453acfbc768c950286633a90da24d4d14ea6b0cd9598c25926115854315",
+          "bytes": 6987516
         }
       },
       "inspection_dependencies": {
         "src/healthcare_synthetic/__init__.py": "872ab14430bb39fd0baddd2ef66a99075f2f1dedce587f08210a2275e474bed2",
-        "src/healthcare_synthetic/clinical_generation.py": "25e6981071b84a95c96aee0b8a784252d5105c98ead579c47c40e970b8a31053",
+        "src/healthcare_synthetic/behaviour_revision.py": "93d1e146b89fd45174e7e03d7cded606d0065f70048143d56db4d376186689f4",
+        "src/healthcare_synthetic/clinical_generation.py": "f1dba9eb177063a2db97deb0e6ced0b37b1e885ecfa6f5ddb3bf7132c996bbab",
         "src/healthcare_synthetic/clinical_pipeline.py": "d968110266f7d9de0e69450860d651b1a54ee05745cc8c7927186677a89b30ba",
         "src/healthcare_synthetic/clinical_review.py": "b77bcaed803a26cc8f6369159f87703f239a65e6c57608ea766b15575658c276",
         "src/healthcare_synthetic/clinical_validation.py": "b8d5886d4bada380c2b1b4ec92ef16a6c11372b07b69f8674611907f16a63b1d",
         "src/healthcare_synthetic/core.py": "be57d625783707220f72b6c8f275d712ef3893faef44dc2212c6f01b8331e78e",
         "src/healthcare_synthetic/engine.py": "0d014dab88e6c8e31b7c811e17c9fdbde787bd5c1bc2f1d09442ea468822370d",
         "src/healthcare_synthetic/financial_allocations.py": "97ef7e718f3ad22038fe14cfa6e52d320c406c606fa61e6eb4ee9fd7714a1893",
-        "src/healthcare_synthetic/financial_billing.py": "d11bc4d3f3eb1def2cd57a987145f511b7b09b91a53f93b86bd6a9f4f0c8e8e8",
+        "src/healthcare_synthetic/financial_billing.py": "bcf7e6976a0283844642d8f569c9cab6a37cd53115219976dab423cf11ff9c8c",
         "src/healthcare_synthetic/financial_common.py": "524b9ec7307172e92cc864299e5da64142dd853ea3ba18a94473065e99d34e70",
         "src/healthcare_synthetic/financial_oracles.py": "529128891766b534053ce0487acf89c42214bd5185d5d21b2c3c64501e2a2a7f",
         "src/healthcare_synthetic/financial_pipeline.py": "62d6f7a817579a827bcd2c5cabc8863abd8fe53d74c024da1037b3f1281102d6",
@@ -1348,20 +1409,20 @@
         "src/healthcare_synthetic/financial_room_validation.py": "b2af9e32f0f668922a162ea5d19c401ce48266d008703308913ee736814ccf7d",
         "src/healthcare_synthetic/financial_validation.py": "198ccec8273389df9dec862dcb67baa4a85157b16f4f858c5a53ed4b6f32c94d",
         "src/healthcare_synthetic/integrated_consumers.py": "7552bd841129c82e568d39aed634a1e9ccf1636ea003ead7d11012e57b9f566b",
-        "src/healthcare_synthetic/integrated_generation.py": "a722bd112a5b497d3a4ec1960b325a4dffba2d5671dcd1c0f515d331d4234a1c",
+        "src/healthcare_synthetic/integrated_generation.py": "6e352342f0d779e134e0264da4d4d92595b61760d1c7ef3c586f29651dd117af",
         "src/healthcare_synthetic/integrated_master_context.py": "5cf1778887c9d56b4ae738e7db882bdc4c6e49b14d305e6922011b479f08d570",
-        "src/healthcare_synthetic/integrated_validation.py": "4b6aa5daa4fd4bb22935861c23e4fa8714e2509ba24815278df8991dd92680fa",
+        "src/healthcare_synthetic/integrated_validation.py": "bc9608e4e14c71bd8ff67ee71dfda81b52102943c52148fb8d9c9c6c9282219d",
         "src/healthcare_synthetic/master_generation.py": "8abf762b1c18a999b4c6254121af200c5659f82283a31bd957ada7273c63da07",
         "src/healthcare_synthetic/master_pipeline.py": "7724714dc67b69f38c1511863de77add804cb2d38436968af3736e862016e77e",
         "src/healthcare_synthetic/master_queries.py": "65276ea5ba9251beb199318c809d578ba3e9ccd5651304613f248f9c633dc644",
         "src/healthcare_synthetic/master_review.py": "62f19a72859b906507abe7a9c4d10175a4f989758c7c1037defc4f5f6588a55d",
         "src/healthcare_synthetic/master_validation.py": "613590557fbcc165bf111bdcb93095aadd2b624b9e16f5776dfafef0d193f1e7",
         "src/healthcare_synthetic/operational_demand.py": "ecfc6eca745ac283f5bf546721b43b6a9ab77f9465bedf0c1dc9f210d4c9de1b",
-        "src/healthcare_synthetic/operational_generation.py": "29f12820d300c3dc85ec4d709132cd8e124e91b1f38d8792e9b899f049e3ea7d",
+        "src/healthcare_synthetic/operational_generation.py": "5126ef02c9cc327003c6bf3cbbfeda06c1dae571d75c259f4b568bfe406568f7",
         "src/healthcare_synthetic/operational_pipeline.py": "2740d1218a7a3d752fda17b3576e934e4b5e5c3d2c8f295cb31964236f33a8db",
         "src/healthcare_synthetic/operational_queries.py": "1b8c72a47f383d67a558056bfce38cd4a565441a444581e5934ea1118a5f8c18",
         "src/healthcare_synthetic/operational_review.py": "7bbdeaca35416cca028a046b64d4b604bc99c04961ebce96f6e4de01d2402adb",
-        "src/healthcare_synthetic/operational_timing.py": "d6c0fff265ad84e6cf28b58301f4d1fc183e8f7d12af325874327d0e9bf1430c",
+        "src/healthcare_synthetic/operational_timing.py": "64b199e32838912d920e6c39a19dbaad34ccd40a7b9974680b513ad887ac3381",
         "src/healthcare_synthetic/operational_validation.py": "b9686a898fe57fa054abab5e08a4a42758858b46007797ec62d7223b2a381d47",
         "src/healthcare_synthetic/resource_generation.py": "ce9b54a794c47733a83ca2563fa0de3718a0d150ceba56102e314664263ce60b",
         "src/healthcare_synthetic/resource_inventory.py": "1860220d43f01b6941cc862833e0736703e1c8799c4dd8c6fb62164a41c68cb9",
@@ -1370,7 +1431,7 @@
         "src/healthcare_synthetic/resource_review.py": "0d1ceb8ac3a51d0d78892c9c2cef69f772687a25906a13d397ef86463c7f8716",
         "src/healthcare_synthetic/resource_stock_validation.py": "0137ae52e08fa15fe8e14acd34702a0957ad647ce4c976143e823d60cd9d68bd",
         "src/healthcare_synthetic/resource_validation.py": "10c6c4a47915368dedcb8ad68fc3a761bb551decc119f2d6d0366402c65f2437",
-        "src/healthcare_synthetic/resource_workforce.py": "4b1cf87df3e617362d237c840594f098e4ddde77848813aef5f8eb6c28b93762",
+        "src/healthcare_synthetic/resource_workforce.py": "d73b66ef769d072317e093ffc4edc961da3f1f7290ad492b4608397dddb33d45",
         "src/healthcare_synthetic/sources.py": "ca920f32aff7060db33f46912df98331009a5bee47662f99bf66bf68fc12bdc7",
         "src/healthcare_synthetic/stages.py": "794aa375f2e0960b3b2c7d8049022b6e4ade1e2694f118bf71bade7af3ca460a",
         "src/healthcare_synthetic/trajectory_scheduling.py": "4989a72d1a5990210cdb6c3c7438fa322836e31087ebc1903ff71e98fb7e7467",
@@ -1378,15 +1439,15 @@
         "scripts/inspect_integrated_history.py": "9480bb8db24df1702edc8bf5057e395c9c62eb9bee9a24ddedd42d714871be14",
         "config/clinical-history-generation.json": "d688f9a18afe171c2afe202ed346292801d4204aad82c057f4001a47eb2072a9",
         "config/financial-history-generation.json": "675d198f24cc1d2d8e1b71f7e8b9970a2a4d78ee2849f844a937087693575d08",
-        "config/integrated-history-generation.json": "e8033fbc7260526a38e44c6e5c8816a3431ec12b249513f210cafc9799f1e479",
+        "config/integrated-history-generation.json": "33d4a054173b69d01fa2e6e2414885ed5ba388dca6962c1455953928afce985b",
         "config/master-data-generation.json": "bde91a78e04589e2dc27e0e367c929ecb107e053bc0ad21be51aa2ddc00bcb64",
         "config/operational-flow-generation.json": "a5b37fdbc66e397b38136ccd8934c3890e30ce9b539a50ab153224d6604ca282",
         "config/phase1-development.json": "e9d533d855bdc09a7813ece57266c5a3b01da9483a9fedd612cc56317718a8d7",
-        "config/resource-foundation-generation.json": "811085eb40f6c181981d0f1169597148f1e2decc5cc8ba4fe73a4db1f3ec9811",
+        "config/resource-foundation-generation.json": "d08f8a27ed699fab4cfc085919c15061d0b9aa2a75f9b53e1a12fe7a09471757",
         "config/source-delivery-generation.json": "510204bcfebc26dafe1286b54f2f13a230a6a2cbec30aba320a463d2c9e35ceb",
         "contracts/clinical-history-policy.json": "fe6b0470c2fa5adcfeafc0d70e1ef17486298058f64c03090073349d666dd427",
         "contracts/financial-history-policy.json": "fb4a6079bd185b01a7feecd125102fd8bf86fd471a851fdc4f5e85f4c27d4360",
-        "contracts/integrated-validation-policy.json": "4faac0fd83d3cf82025ef2c11fc521ca21a0386880f66b9fb33204058922d8b0",
+        "contracts/integrated-validation-policy.json": "2558bdefe2fcb3d94f0bcc4f792f0c5a94da1bfdf7a32d8dd8e90a02c3dbd232",
         "contracts/master-data-policy.json": "619830491bd2eaffda711b92b8c3ac86561dfca4e82e9eb27e65f1a589ce7d31",
         "contracts/operational-flow-policy.json": "42d55e3f40135d5d4ba733b7baeed066c74b3ada3178bea9755192b524af9ffc",
         "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
@@ -1406,28 +1467,33 @@
       },
       "dependencies_unchanged": true,
       "full_dataset_accepted": false,
-      "solution_status": "BLOCKED_FOR_SOLUTION"
+      "solution_status": "BLOCKED_FOR_SOLUTION",
+      "behaviour_revision": {
+        "status": "PASS",
+        "checks": 35,
+        "sha256": "5a8bad36ee9688417b0fae188359951da9e6497de70f149b08820456a3955c2d"
+      }
     },
     {
       "status": "PASS",
       "seed": 20261024,
-      "business_sha256": "418bca4051506cf8c8732ea4d4a8f70534ca31cd262991da1ae4fa01386c40c1",
-      "rows": 1935475,
+      "business_sha256": "eb914767717b452c168d415b95261bbe582793f86d049df30641a933aa967d3a",
+      "rows": 1938655,
       "domain_checks": 58,
       "domain_defects": [],
       "consumer_controls": {
         "status": "PASS",
         "unexplained_differences": 0,
-        "original_ar_accounts": 57815,
+        "original_ar_accounts": 57810,
         "claim_cash_months": 36,
         "staffing_months_including_opening_context": 37,
         "staffing_business_months": 36,
         "staffing_opening_context_months": [
           "2022-12"
         ],
-        "lot_location_product_grains": 1008,
+        "lot_location_product_grains": 1005,
         "selected_cost_pool_postings": 1667,
-        "patient_month_category_grains": 134881,
+        "patient_month_category_grains": 135068,
         "axiom_monetary_grain_reconciliations": 18981,
         "variance_comparisons": 41256,
         "variance_states": {
@@ -1435,21 +1501,21 @@
           "ZERO_PLAN": 6090,
           "COMPARABLE": 4494
         },
-        "bed_interval_rows": 14939,
+        "bed_interval_rows": 14901,
         "bed_seconds_grains": 72,
-        "occupied_seconds": 5112558420,
+        "occupied_seconds": 5156944320,
         "fanout": {
-          "exposed_charge_rows": 112617,
-          "naive_join_all_context_billed_usd": "22028133394.75",
-          "protected_all_context_billed_usd": "197431336.24",
-          "protected_in_window_billed_usd": "196908619.99",
+          "exposed_charge_rows": 112558,
+          "naive_join_all_context_billed_usd": "22093636418.24",
+          "protected_all_context_billed_usd": "198581215.79",
+          "protected_in_window_billed_usd": "198058499.54",
           "prewindow_context_billed_usd": "522716.25",
-          "protected_occupied_seconds": 5112558420,
-          "protected_patient_cost_usd": "52040739.58"
+          "protected_occupied_seconds": 5156944320,
+          "protected_patient_cost_usd": "52430258.04"
         },
-        "signed_claim_cash_usd": "80938694.77",
+        "signed_claim_cash_usd": "80227711.62",
         "selected_costs_usd": {
-          "PATIENT": "52040739.58",
+          "PATIENT": "52430258.04",
           "NONPATIENT": "13895550.22"
         }
       },
@@ -1473,7 +1539,7 @@
       },
       "index": {
         "status": "PASS",
-        "canonical_rows": 1935475,
+        "canonical_rows": 1938655,
         "tables": 25,
         "rows_by_table": {
           "facility": 3,
@@ -1486,19 +1552,19 @@
           "patient_coverage": 28000,
           "catalog_item": 3005,
           "source_key_map": 10000,
-          "encounter": 127998,
-          "clinical_condition": 78911,
-          "clinical_event": 560394,
+          "encounter": 127993,
+          "clinical_condition": 78893,
+          "clinical_event": 559530,
           "appointment": 30000,
-          "bed_event": 71446,
-          "staff_shift": 66986,
-          "inventory_movement": 47882,
-          "service_charge": 113094,
-          "claim": 57815,
-          "claim_line": 113006,
-          "claim_event": 229496,
-          "financial_posting": 175174,
-          "cost_allocation": 158601,
+          "bed_event": 71266,
+          "staff_shift": 70054,
+          "inventory_movement": 48094,
+          "service_charge": 113035,
+          "claim": 57810,
+          "claim_line": 112927,
+          "claim_event": 229609,
+          "financial_posting": 176028,
+          "cost_allocation": 158744,
           "finance_monthly": 35457,
           "facility_day_driver": 3288
         },
@@ -1559,46 +1625,46 @@
             "known_to": 10000
           },
           "encounter": {
-            "previous_encounter_version_id": 41595,
+            "previous_encounter_version_id": 41592,
             "admission_decision_at": 104012,
             "admitted_at": 104012,
-            "medically_ready_at": 116810,
+            "medically_ready_at": 116826,
             "known_to": 58012,
             "discharged_at": 70024
           },
           "clinical_condition": {
-            "resolved_at": 76981,
-            "reaction": 77911,
-            "valid_to": 76981,
-            "known_to": 76981,
+            "resolved_at": 76972,
+            "reaction": 77893,
+            "valid_to": 76972,
+            "known_to": 76972,
             "encounter_version_id": 17516
           },
           "clinical_event": {
-            "parent_event_version_id": 344710,
-            "period_end_at": 548383,
-            "order_start_at": 474693,
-            "order_end_at": 486780,
-            "dose_interval_hours": 541865,
-            "as_needed": 541865,
-            "max_doses_per_day": 541865,
-            "administration_sequence": 457567,
-            "specimen_id": 481211,
-            "collected_at": 481211,
-            "result_ready_at": 481211,
-            "document_signed_at": 489140,
-            "text_value": 489140,
-            "dose_quantity": 439038,
-            "dose_unit": 439038,
-            "route": 439038,
-            "consumed_base_quantity": 457567,
-            "consumption_group_key": 457620,
-            "document_type": 489140,
-            "known_to": 560394,
-            "numeric_value": 315119,
-            "value_unit": 315119,
-            "reference_low": 315119,
-            "reference_high": 315119,
-            "catalog_item_id": 71254
+            "parent_event_version_id": 344413,
+            "period_end_at": 547519,
+            "order_start_at": 473829,
+            "order_end_at": 485926,
+            "dose_interval_hours": 541001,
+            "as_needed": 541001,
+            "max_doses_per_day": 541001,
+            "administration_sequence": 457270,
+            "specimen_id": 480347,
+            "collected_at": 480347,
+            "result_ready_at": 480347,
+            "document_signed_at": 488573,
+            "text_value": 488573,
+            "dose_quantity": 438741,
+            "dose_unit": 438741,
+            "route": 438741,
+            "consumed_base_quantity": 457270,
+            "consumption_group_key": 457323,
+            "document_type": 488573,
+            "known_to": 559530,
+            "numeric_value": 314255,
+            "value_unit": 314255,
+            "reference_low": 314255,
+            "reference_high": 314255,
+            "catalog_item_id": 70957
           },
           "appointment": {
             "replacement_appointment_id": 29000,
@@ -1610,39 +1676,39 @@
             "arrived_at": 8200
           },
           "bed_event": {
-            "encounter_version_id": 41606,
-            "transfer_group_id": 64544,
-            "corrects_bed_event_id": 71346
+            "encounter_version_id": 41507,
+            "transfer_group_id": 64410,
+            "corrects_bed_event_id": 71166
           },
           "staff_shift": {
-            "known_to": 61862,
-            "actual_start": 5918,
-            "actual_end": 5936
+            "known_to": 63394,
+            "actual_start": 8293,
+            "actual_end": 8314
           },
           "inventory_movement": {
-            "transfer_group_id": 28622,
-            "reverses_movement_id": 47852,
-            "consumption_group_key": 20270
+            "transfer_group_id": 28834,
+            "reverses_movement_id": 48064,
+            "consumption_group_key": 20267
           },
           "service_charge": {
-            "clinical_event_version_id": 63768,
-            "reverses_charge_id": 113094
+            "clinical_event_version_id": 63709,
+            "reverses_charge_id": 113035
           },
           "claim": {
-            "first_submitted_at": 146
+            "first_submitted_at": 116
           },
           "claim_line": {},
           "claim_event": {
-            "claim_line_id": 211615,
-            "denial_catalog_id": 224901,
-            "reverses_claim_event_id": 229385
+            "claim_line_id": 211767,
+            "denial_catalog_id": 225026,
+            "reverses_claim_event_id": 229498
           },
           "financial_posting": {
-            "allocation_pool_key": 173507,
-            "reverses_posting_id": 174952
+            "allocation_pool_key": 174361,
+            "reverses_posting_id": 175806
           },
           "cost_allocation": {
-            "supersedes_run_id": 157840,
+            "supersedes_run_id": 157989,
             "encounter_version_id": 540
           },
           "finance_monthly": {
@@ -1653,9 +1719,9 @@
           },
           "facility_day_driver": {}
         },
-        "index_mirror_rows": 1935475,
-        "index_bytes": 1541963776,
-        "canonical_business_sha256": "418bca4051506cf8c8732ea4d4a8f70534ca31cd262991da1ae4fa01386c40c1"
+        "index_mirror_rows": 1938655,
+        "index_bytes": 1543737344,
+        "canonical_business_sha256": "eb914767717b452c168d415b95261bbe582793f86d049df30641a933aa967d3a"
       },
       "realism_checks": [
         {
@@ -1666,14 +1732,14 @@
         },
         {
           "id": "AGE/18-34",
-          "value": 0.1519,
+          "value": 0.15185,
           "target": 0.16,
           "absolute_tolerance": 0.04,
           "passed": true
         },
         {
           "id": "AGE/35-49",
-          "value": 0.1976,
+          "value": 0.19765,
           "target": 0.2,
           "absolute_tolerance": 0.04,
           "passed": true
@@ -1701,7 +1767,7 @@
         },
         {
           "id": "PAYER/COMMERCIAL",
-          "value": 0.3973255730914804,
+          "value": 0.39730771977433404,
           "target": 0.4,
           "absolute_tolerance": 0.05,
           "passed": true
@@ -1715,7 +1781,7 @@
         },
         {
           "id": "PAYER/MEDICAID",
-          "value": 0.1475933728486753,
+          "value": 0.14761122616582162,
           "target": 0.15,
           "absolute_tolerance": 0.05,
           "passed": true
@@ -1729,14 +1795,14 @@
         },
         {
           "id": "LOS",
-          "value": 5.053403902900686,
+          "value": 5.124705315119579,
           "lower": 4.4,
           "upper": 6.2,
           "passed": true
         },
         {
           "id": "TAIL",
-          "value": 0.04802071154167362,
+          "value": 0.04728882947614671,
           "lower": 0.025,
           "upper": 0.09,
           "passed": true
@@ -1750,14 +1816,14 @@
         },
         {
           "id": "DENIAL",
-          "value": 0.09183755046568333,
+          "value": 0.09161785578633828,
           "lower": 0.08,
           "upper": 0.12,
           "passed": true
         },
         {
           "id": "SEASON",
-          "value": 1.5,
+          "value": 1.4961715160796323,
           "lower": 1.1,
           "upper": 1.8,
           "passed": true
@@ -1770,7 +1836,7 @@
         },
         {
           "id": "NOTES/DISCHARGE_SUMMARY",
-          "value": 8.351428094204109e-05,
+          "value": 8.354916868577158e-05,
           "upper": 0.15,
           "passed": true
         },
@@ -1788,7 +1854,7 @@
         },
         {
           "id": "NOTES/PROGRESS_NOTE",
-          "value": 0.0073685385731829854,
+          "value": 0.004039238315060588,
           "upper": 0.15,
           "passed": true
         },
@@ -1802,11 +1868,11 @@
       "partitions": 324,
       "artifacts": {
         "domain-controls.json": {
-          "sha256": "cccb8b0efa02bb2a81a2ce8c7035ede6409f729f690ba655a1ef45e9234b9ec5",
-          "bytes": 30139
+          "sha256": "f2e1e80a235af781002f8cda64ba3a80cd8e278e9a0f3dd466cb894878ccfbaa",
+          "bytes": 30117
         },
         "consumer-controls.json": {
-          "sha256": "b848762d3765d3bc11cc0924567cf7ac4508f1ee58f4bcdc9227b44a8da66aa6",
+          "sha256": "ce99b5481dd7346651456c846b391b89ad41e7b48b62aedbe16cc914a7f78469",
           "bytes": 1188
         },
         "point-in-time.json": {
@@ -1814,20 +1880,21 @@
           "bytes": 556
         },
         "realism-profiles.json": {
-          "sha256": "ab7e59b8fd3ceeb704f7e3df0b08bc3cdba8c8b0c35f85541a0baa43e6ea7f97",
-          "bytes": 6960806
+          "sha256": "26ada5c1ec3028896c3692c343d14d72d6ef06cadb5ad6b986c2e598ac07a33f",
+          "bytes": 6958948
         }
       },
       "inspection_dependencies": {
         "src/healthcare_synthetic/__init__.py": "872ab14430bb39fd0baddd2ef66a99075f2f1dedce587f08210a2275e474bed2",
-        "src/healthcare_synthetic/clinical_generation.py": "25e6981071b84a95c96aee0b8a784252d5105c98ead579c47c40e970b8a31053",
+        "src/healthcare_synthetic/behaviour_revision.py": "93d1e146b89fd45174e7e03d7cded606d0065f70048143d56db4d376186689f4",
+        "src/healthcare_synthetic/clinical_generation.py": "f1dba9eb177063a2db97deb0e6ced0b37b1e885ecfa6f5ddb3bf7132c996bbab",
         "src/healthcare_synthetic/clinical_pipeline.py": "d968110266f7d9de0e69450860d651b1a54ee05745cc8c7927186677a89b30ba",
         "src/healthcare_synthetic/clinical_review.py": "b77bcaed803a26cc8f6369159f87703f239a65e6c57608ea766b15575658c276",
         "src/healthcare_synthetic/clinical_validation.py": "b8d5886d4bada380c2b1b4ec92ef16a6c11372b07b69f8674611907f16a63b1d",
         "src/healthcare_synthetic/core.py": "be57d625783707220f72b6c8f275d712ef3893faef44dc2212c6f01b8331e78e",
         "src/healthcare_synthetic/engine.py": "0d014dab88e6c8e31b7c811e17c9fdbde787bd5c1bc2f1d09442ea468822370d",
         "src/healthcare_synthetic/financial_allocations.py": "97ef7e718f3ad22038fe14cfa6e52d320c406c606fa61e6eb4ee9fd7714a1893",
-        "src/healthcare_synthetic/financial_billing.py": "d11bc4d3f3eb1def2cd57a987145f511b7b09b91a53f93b86bd6a9f4f0c8e8e8",
+        "src/healthcare_synthetic/financial_billing.py": "bcf7e6976a0283844642d8f569c9cab6a37cd53115219976dab423cf11ff9c8c",
         "src/healthcare_synthetic/financial_common.py": "524b9ec7307172e92cc864299e5da64142dd853ea3ba18a94473065e99d34e70",
         "src/healthcare_synthetic/financial_oracles.py": "529128891766b534053ce0487acf89c42214bd5185d5d21b2c3c64501e2a2a7f",
         "src/healthcare_synthetic/financial_pipeline.py": "62d6f7a817579a827bcd2c5cabc8863abd8fe53d74c024da1037b3f1281102d6",
@@ -1838,20 +1905,20 @@
         "src/healthcare_synthetic/financial_room_validation.py": "b2af9e32f0f668922a162ea5d19c401ce48266d008703308913ee736814ccf7d",
         "src/healthcare_synthetic/financial_validation.py": "198ccec8273389df9dec862dcb67baa4a85157b16f4f858c5a53ed4b6f32c94d",
         "src/healthcare_synthetic/integrated_consumers.py": "7552bd841129c82e568d39aed634a1e9ccf1636ea003ead7d11012e57b9f566b",
-        "src/healthcare_synthetic/integrated_generation.py": "a722bd112a5b497d3a4ec1960b325a4dffba2d5671dcd1c0f515d331d4234a1c",
+        "src/healthcare_synthetic/integrated_generation.py": "6e352342f0d779e134e0264da4d4d92595b61760d1c7ef3c586f29651dd117af",
         "src/healthcare_synthetic/integrated_master_context.py": "5cf1778887c9d56b4ae738e7db882bdc4c6e49b14d305e6922011b479f08d570",
-        "src/healthcare_synthetic/integrated_validation.py": "4b6aa5daa4fd4bb22935861c23e4fa8714e2509ba24815278df8991dd92680fa",
+        "src/healthcare_synthetic/integrated_validation.py": "bc9608e4e14c71bd8ff67ee71dfda81b52102943c52148fb8d9c9c6c9282219d",
         "src/healthcare_synthetic/master_generation.py": "8abf762b1c18a999b4c6254121af200c5659f82283a31bd957ada7273c63da07",
         "src/healthcare_synthetic/master_pipeline.py": "7724714dc67b69f38c1511863de77add804cb2d38436968af3736e862016e77e",
         "src/healthcare_synthetic/master_queries.py": "65276ea5ba9251beb199318c809d578ba3e9ccd5651304613f248f9c633dc644",
         "src/healthcare_synthetic/master_review.py": "62f19a72859b906507abe7a9c4d10175a4f989758c7c1037defc4f5f6588a55d",
         "src/healthcare_synthetic/master_validation.py": "613590557fbcc165bf111bdcb93095aadd2b624b9e16f5776dfafef0d193f1e7",
         "src/healthcare_synthetic/operational_demand.py": "ecfc6eca745ac283f5bf546721b43b6a9ab77f9465bedf0c1dc9f210d4c9de1b",
-        "src/healthcare_synthetic/operational_generation.py": "29f12820d300c3dc85ec4d709132cd8e124e91b1f38d8792e9b899f049e3ea7d",
+        "src/healthcare_synthetic/operational_generation.py": "5126ef02c9cc327003c6bf3cbbfeda06c1dae571d75c259f4b568bfe406568f7",
         "src/healthcare_synthetic/operational_pipeline.py": "2740d1218a7a3d752fda17b3576e934e4b5e5c3d2c8f295cb31964236f33a8db",
         "src/healthcare_synthetic/operational_queries.py": "1b8c72a47f383d67a558056bfce38cd4a565441a444581e5934ea1118a5f8c18",
         "src/healthcare_synthetic/operational_review.py": "7bbdeaca35416cca028a046b64d4b604bc99c04961ebce96f6e4de01d2402adb",
-        "src/healthcare_synthetic/operational_timing.py": "d6c0fff265ad84e6cf28b58301f4d1fc183e8f7d12af325874327d0e9bf1430c",
+        "src/healthcare_synthetic/operational_timing.py": "64b199e32838912d920e6c39a19dbaad34ccd40a7b9974680b513ad887ac3381",
         "src/healthcare_synthetic/operational_validation.py": "b9686a898fe57fa054abab5e08a4a42758858b46007797ec62d7223b2a381d47",
         "src/healthcare_synthetic/resource_generation.py": "ce9b54a794c47733a83ca2563fa0de3718a0d150ceba56102e314664263ce60b",
         "src/healthcare_synthetic/resource_inventory.py": "1860220d43f01b6941cc862833e0736703e1c8799c4dd8c6fb62164a41c68cb9",
@@ -1860,7 +1927,7 @@
         "src/healthcare_synthetic/resource_review.py": "0d1ceb8ac3a51d0d78892c9c2cef69f772687a25906a13d397ef86463c7f8716",
         "src/healthcare_synthetic/resource_stock_validation.py": "0137ae52e08fa15fe8e14acd34702a0957ad647ce4c976143e823d60cd9d68bd",
         "src/healthcare_synthetic/resource_validation.py": "10c6c4a47915368dedcb8ad68fc3a761bb551decc119f2d6d0366402c65f2437",
-        "src/healthcare_synthetic/resource_workforce.py": "4b1cf87df3e617362d237c840594f098e4ddde77848813aef5f8eb6c28b93762",
+        "src/healthcare_synthetic/resource_workforce.py": "d73b66ef769d072317e093ffc4edc961da3f1f7290ad492b4608397dddb33d45",
         "src/healthcare_synthetic/sources.py": "ca920f32aff7060db33f46912df98331009a5bee47662f99bf66bf68fc12bdc7",
         "src/healthcare_synthetic/stages.py": "794aa375f2e0960b3b2c7d8049022b6e4ade1e2694f118bf71bade7af3ca460a",
         "src/healthcare_synthetic/trajectory_scheduling.py": "4989a72d1a5990210cdb6c3c7438fa322836e31087ebc1903ff71e98fb7e7467",
@@ -1868,15 +1935,15 @@
         "scripts/inspect_integrated_history.py": "9480bb8db24df1702edc8bf5057e395c9c62eb9bee9a24ddedd42d714871be14",
         "config/clinical-history-generation.json": "d688f9a18afe171c2afe202ed346292801d4204aad82c057f4001a47eb2072a9",
         "config/financial-history-generation.json": "675d198f24cc1d2d8e1b71f7e8b9970a2a4d78ee2849f844a937087693575d08",
-        "config/integrated-history-generation.json": "e8033fbc7260526a38e44c6e5c8816a3431ec12b249513f210cafc9799f1e479",
+        "config/integrated-history-generation.json": "33d4a054173b69d01fa2e6e2414885ed5ba388dca6962c1455953928afce985b",
         "config/master-data-generation.json": "bde91a78e04589e2dc27e0e367c929ecb107e053bc0ad21be51aa2ddc00bcb64",
         "config/operational-flow-generation.json": "a5b37fdbc66e397b38136ccd8934c3890e30ce9b539a50ab153224d6604ca282",
         "config/phase1-development.json": "e9d533d855bdc09a7813ece57266c5a3b01da9483a9fedd612cc56317718a8d7",
-        "config/resource-foundation-generation.json": "811085eb40f6c181981d0f1169597148f1e2decc5cc8ba4fe73a4db1f3ec9811",
+        "config/resource-foundation-generation.json": "d08f8a27ed699fab4cfc085919c15061d0b9aa2a75f9b53e1a12fe7a09471757",
         "config/source-delivery-generation.json": "510204bcfebc26dafe1286b54f2f13a230a6a2cbec30aba320a463d2c9e35ceb",
         "contracts/clinical-history-policy.json": "fe6b0470c2fa5adcfeafc0d70e1ef17486298058f64c03090073349d666dd427",
         "contracts/financial-history-policy.json": "fb4a6079bd185b01a7feecd125102fd8bf86fd471a851fdc4f5e85f4c27d4360",
-        "contracts/integrated-validation-policy.json": "4faac0fd83d3cf82025ef2c11fc521ca21a0386880f66b9fb33204058922d8b0",
+        "contracts/integrated-validation-policy.json": "2558bdefe2fcb3d94f0bcc4f792f0c5a94da1bfdf7a32d8dd8e90a02c3dbd232",
         "contracts/master-data-policy.json": "619830491bd2eaffda711b92b8c3ac86561dfca4e82e9eb27e65f1a589ce7d31",
         "contracts/operational-flow-policy.json": "42d55e3f40135d5d4ba733b7baeed066c74b3ada3178bea9755192b524af9ffc",
         "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
@@ -1896,50 +1963,55 @@
       },
       "dependencies_unchanged": true,
       "full_dataset_accepted": false,
-      "solution_status": "BLOCKED_FOR_SOLUTION"
+      "solution_status": "BLOCKED_FOR_SOLUTION",
+      "behaviour_revision": {
+        "status": "PASS",
+        "checks": 34,
+        "sha256": "20b754232ba7e88972a3d2d79eb3edc53a35e8cd189d66d28da91555b95a5838"
+      }
     },
     {
       "status": "PASS",
       "seed": 20261025,
-      "business_sha256": "0e6d19750cad964e55796b1a1f4f68718f0118ba07ed2d1930778faa94acf534",
-      "rows": 1932523,
+      "business_sha256": "eaa3c6761ab68a44834cbd1e047d17f2f7ae71ad0504cc3cbef0f8591b75b2d9",
+      "rows": 1934530,
       "domain_checks": 58,
       "domain_defects": [],
       "consumer_controls": {
         "status": "PASS",
         "unexplained_differences": 0,
-        "original_ar_accounts": 57818,
+        "original_ar_accounts": 57815,
         "claim_cash_months": 36,
         "staffing_months_including_opening_context": 37,
         "staffing_business_months": 36,
         "staffing_opening_context_months": [
           "2022-12"
         ],
-        "lot_location_product_grains": 995,
+        "lot_location_product_grains": 992,
         "selected_cost_pool_postings": 1668,
-        "patient_month_category_grains": 134525,
+        "patient_month_category_grains": 134572,
         "axiom_monetary_grain_reconciliations": 18981,
         "variance_comparisons": 41256,
         "variance_states": {
           "NO_PLAN": 30672,
-          "ZERO_PLAN": 6090,
-          "COMPARABLE": 4494
+          "ZERO_PLAN": 6096,
+          "COMPARABLE": 4488
         },
-        "bed_interval_rows": 14719,
+        "bed_interval_rows": 14577,
         "bed_seconds_grains": 72,
-        "occupied_seconds": 5047472880,
+        "occupied_seconds": 5080473840,
         "fanout": {
-          "exposed_charge_rows": 112706,
-          "naive_join_all_context_billed_usd": "21071477004.24",
-          "protected_all_context_billed_usd": "195508400.56",
-          "protected_in_window_billed_usd": "194976669.31",
+          "exposed_charge_rows": 112582,
+          "naive_join_all_context_billed_usd": "20693329742.84",
+          "protected_all_context_billed_usd": "196583101.78",
+          "protected_in_window_billed_usd": "196051370.53",
           "prewindow_context_billed_usd": "531731.25",
-          "protected_occupied_seconds": 5047472880,
-          "protected_patient_cost_usd": "51871337.85"
+          "protected_occupied_seconds": 5080473840,
+          "protected_patient_cost_usd": "52203176.56"
         },
-        "signed_claim_cash_usd": "80299829.46",
+        "signed_claim_cash_usd": "79710867.80",
         "selected_costs_usd": {
-          "PATIENT": "51871337.85",
+          "PATIENT": "52203176.56",
           "NONPATIENT": "13895543.50"
         }
       },
@@ -1963,7 +2035,7 @@
       },
       "index": {
         "status": "PASS",
-        "canonical_rows": 1932523,
+        "canonical_rows": 1934530,
         "tables": 25,
         "rows_by_table": {
           "facility": 3,
@@ -1976,19 +2048,19 @@
           "patient_coverage": 28000,
           "catalog_item": 3005,
           "source_key_map": 10000,
-          "encounter": 127996,
-          "clinical_condition": 78850,
-          "clinical_event": 559825,
+          "encounter": 127993,
+          "clinical_condition": 78798,
+          "clinical_event": 558583,
           "appointment": 30000,
-          "bed_event": 70486,
-          "staff_shift": 66502,
-          "inventory_movement": 47766,
-          "service_charge": 113151,
-          "claim": 57818,
-          "claim_line": 113059,
-          "claim_event": 230004,
-          "financial_posting": 174452,
-          "cost_allocation": 157942,
+          "bed_event": 69850,
+          "staff_shift": 69688,
+          "inventory_movement": 48045,
+          "service_charge": 113027,
+          "claim": 57815,
+          "claim_line": 112920,
+          "claim_event": 229841,
+          "financial_posting": 175435,
+          "cost_allocation": 157863,
           "finance_monthly": 35457,
           "facility_day_driver": 3288
         },
@@ -2049,46 +2121,46 @@
             "known_to": 10000
           },
           "encounter": {
-            "previous_encounter_version_id": 41531,
+            "previous_encounter_version_id": 41520,
             "admission_decision_at": 104012,
             "admitted_at": 104012,
-            "medically_ready_at": 116841,
+            "medically_ready_at": 116896,
             "discharged_at": 70024,
             "known_to": 58012
           },
           "clinical_condition": {
-            "resolved_at": 77014,
-            "reaction": 77850,
-            "valid_to": 77014,
-            "known_to": 77014,
+            "resolved_at": 76988,
+            "reaction": 77798,
+            "valid_to": 76988,
+            "known_to": 76988,
             "encounter_version_id": 17611
           },
           "clinical_event": {
-            "period_end_at": 547814,
-            "order_start_at": 474085,
-            "order_end_at": 486176,
-            "dose_interval_hours": 541518,
-            "as_needed": 541518,
-            "max_doses_per_day": 541518,
-            "administration_sequence": 458654,
-            "document_signed_at": 488500,
-            "text_value": 488500,
-            "dose_quantity": 440347,
-            "dose_unit": 440347,
-            "route": 440347,
-            "consumed_base_quantity": 458654,
-            "consumption_group_key": 458702,
-            "document_type": 488500,
-            "known_to": 559825,
-            "parent_event_version_id": 345210,
-            "specimen_id": 480381,
-            "collected_at": 480381,
-            "result_ready_at": 480381,
-            "catalog_item_id": 71325,
-            "numeric_value": 314225,
-            "value_unit": 314225,
-            "reference_low": 314225,
-            "reference_high": 314225
+            "period_end_at": 546572,
+            "order_start_at": 472843,
+            "order_end_at": 484940,
+            "dose_interval_hours": 540276,
+            "as_needed": 540276,
+            "max_doses_per_day": 540276,
+            "administration_sequence": 458344,
+            "document_signed_at": 487566,
+            "text_value": 487566,
+            "dose_quantity": 440037,
+            "dose_unit": 440037,
+            "route": 440037,
+            "consumed_base_quantity": 458344,
+            "consumption_group_key": 458392,
+            "document_type": 487566,
+            "known_to": 558583,
+            "parent_event_version_id": 344901,
+            "specimen_id": 479139,
+            "collected_at": 479139,
+            "result_ready_at": 479139,
+            "catalog_item_id": 71017,
+            "numeric_value": 312983,
+            "value_unit": 312983,
+            "reference_low": 312983,
+            "reference_high": 312983
           },
           "appointment": {
             "replacement_appointment_id": 29000,
@@ -2100,39 +2172,39 @@
             "arrived_at": 8200
           },
           "bed_event": {
-            "encounter_version_id": 41088,
-            "transfer_group_id": 63874,
-            "corrects_bed_event_id": 70386
+            "encounter_version_id": 40739,
+            "transfer_group_id": 63402,
+            "corrects_bed_event_id": 69750
           },
           "staff_shift": {
-            "known_to": 61549,
-            "actual_start": 5719,
-            "actual_end": 5739
+            "known_to": 63206,
+            "actual_start": 8106,
+            "actual_end": 8125
           },
           "inventory_movement": {
-            "consumption_group_key": 20259,
-            "reverses_movement_id": 47736,
-            "transfer_group_id": 28506
+            "consumption_group_key": 20256,
+            "reverses_movement_id": 48015,
+            "transfer_group_id": 28785
           },
           "service_charge": {
-            "reverses_charge_id": 113151,
-            "clinical_event_version_id": 63560
+            "reverses_charge_id": 113027,
+            "clinical_event_version_id": 63436
           },
           "claim": {
-            "first_submitted_at": 146
+            "first_submitted_at": 133
           },
           "claim_line": {},
           "claim_event": {
-            "claim_line_id": 211920,
-            "denial_catalog_id": 225391,
-            "reverses_claim_event_id": 229891
+            "claim_line_id": 212104,
+            "denial_catalog_id": 225314,
+            "reverses_claim_event_id": 229728
           },
           "financial_posting": {
-            "allocation_pool_key": 172784,
-            "reverses_posting_id": 174226
+            "allocation_pool_key": 173767,
+            "reverses_posting_id": 175209
           },
           "cost_allocation": {
-            "supersedes_run_id": 157193,
+            "supersedes_run_id": 157106,
             "encounter_version_id": 540
           },
           "finance_monthly": {
@@ -2143,9 +2215,9 @@
           },
           "facility_day_driver": {}
         },
-        "index_mirror_rows": 1932523,
-        "index_bytes": 1539411968,
-        "canonical_business_sha256": "0e6d19750cad964e55796b1a1f4f68718f0118ba07ed2d1930778faa94acf534"
+        "index_mirror_rows": 1934530,
+        "index_bytes": 1540644864,
+        "canonical_business_sha256": "eaa3c6761ab68a44834cbd1e047d17f2f7ae71ad0504cc3cbef0f8591b75b2d9"
       },
       "realism_checks": [
         {
@@ -2163,14 +2235,14 @@
         },
         {
           "id": "AGE/35-49",
-          "value": 0.1974,
+          "value": 0.19735,
           "target": 0.2,
           "absolute_tolerance": 0.04,
           "passed": true
         },
         {
           "id": "AGE/50-64",
-          "value": 0.2547,
+          "value": 0.25475,
           "target": 0.26,
           "absolute_tolerance": 0.04,
           "passed": true
@@ -2191,7 +2263,7 @@
         },
         {
           "id": "PAYER/COMMERCIAL",
-          "value": 0.4019674355495251,
+          "value": 0.40194958223237875,
           "target": 0.4,
           "absolute_tolerance": 0.05,
           "passed": true
@@ -2212,21 +2284,21 @@
         },
         {
           "id": "PAYER/SELF_PAY",
-          "value": 0.07564450474898236,
+          "value": 0.07566235806612868,
           "target": 0.1,
           "absolute_tolerance": 0.05,
           "passed": true
         },
         {
           "id": "LOS",
-          "value": 4.9975997234287135,
+          "value": 5.063162649344115,
           "lower": 4.4,
           "upper": 6.2,
           "passed": true
         },
         {
           "id": "TAIL",
-          "value": 0.047861677246909456,
+          "value": 0.04804077199431866,
           "lower": 0.025,
           "upper": 0.09,
           "passed": true
@@ -2240,14 +2312,14 @@
         },
         {
           "id": "DENIAL",
-          "value": 0.09205379948914431,
+          "value": 0.0903574778946528,
           "lower": 0.08,
           "upper": 0.12,
           "passed": true
         },
         {
           "id": "SEASON",
-          "value": 1.6698330770920273,
+          "value": 1.6664287283110037,
           "lower": 1.1,
           "upper": 1.8,
           "passed": true
@@ -2260,19 +2332,19 @@
         },
         {
           "id": "NOTES/DISCHARGE_SUMMARY",
-          "value": 0.0002505846976277982,
+          "value": 0.0002506475060573147,
           "upper": 0.15,
           "passed": true
         },
         {
           "id": "NOTES/PROGRESS_NOTE",
-          "value": 0.006112469437652812,
+          "value": 0.003566087656735304,
           "upper": 0.15,
           "passed": true
         },
         {
           "id": "NOTES/ED_NOTE",
-          "value": 0.0003765769158350593,
+          "value": 0.00041423460741856524,
           "upper": 0.15,
           "passed": true
         },
@@ -2292,11 +2364,11 @@
       "partitions": 324,
       "artifacts": {
         "domain-controls.json": {
-          "sha256": "08de3dafe72720b8a92aa307a993fb2a51a72cdc6cdc07639bc0847cc4ff9e71",
-          "bytes": 30194
+          "sha256": "c3593ca56174eb91e9138872f78308ade0af192587a4b44722d0072d6ed27bbb",
+          "bytes": 30097
         },
         "consumer-controls.json": {
-          "sha256": "70b385eb97ec07fe83a0ca2e96cb176cc9828d30a67a387abae42b8b34c723fd",
+          "sha256": "54c0b42126eaacb45b369e037859a82de247fe212f2930b542faa17bc8ceabbb",
           "bytes": 1187
         },
         "point-in-time.json": {
@@ -2304,20 +2376,21 @@
           "bytes": 556
         },
         "realism-profiles.json": {
-          "sha256": "d98ba20fe196c5cbb5e2c57c0334b424e9896632b19d69bcc83efaf5d8f4f9f0",
-          "bytes": 6956856
+          "sha256": "697f933b179b3011644769db2a84230a6fb7d83351a0282be47eea741be18f91",
+          "bytes": 6962559
         }
       },
       "inspection_dependencies": {
         "src/healthcare_synthetic/__init__.py": "872ab14430bb39fd0baddd2ef66a99075f2f1dedce587f08210a2275e474bed2",
-        "src/healthcare_synthetic/clinical_generation.py": "25e6981071b84a95c96aee0b8a784252d5105c98ead579c47c40e970b8a31053",
+        "src/healthcare_synthetic/behaviour_revision.py": "93d1e146b89fd45174e7e03d7cded606d0065f70048143d56db4d376186689f4",
+        "src/healthcare_synthetic/clinical_generation.py": "f1dba9eb177063a2db97deb0e6ced0b37b1e885ecfa6f5ddb3bf7132c996bbab",
         "src/healthcare_synthetic/clinical_pipeline.py": "d968110266f7d9de0e69450860d651b1a54ee05745cc8c7927186677a89b30ba",
         "src/healthcare_synthetic/clinical_review.py": "b77bcaed803a26cc8f6369159f87703f239a65e6c57608ea766b15575658c276",
         "src/healthcare_synthetic/clinical_validation.py": "b8d5886d4bada380c2b1b4ec92ef16a6c11372b07b69f8674611907f16a63b1d",
         "src/healthcare_synthetic/core.py": "be57d625783707220f72b6c8f275d712ef3893faef44dc2212c6f01b8331e78e",
         "src/healthcare_synthetic/engine.py": "0d014dab88e6c8e31b7c811e17c9fdbde787bd5c1bc2f1d09442ea468822370d",
         "src/healthcare_synthetic/financial_allocations.py": "97ef7e718f3ad22038fe14cfa6e52d320c406c606fa61e6eb4ee9fd7714a1893",
-        "src/healthcare_synthetic/financial_billing.py": "d11bc4d3f3eb1def2cd57a987145f511b7b09b91a53f93b86bd6a9f4f0c8e8e8",
+        "src/healthcare_synthetic/financial_billing.py": "bcf7e6976a0283844642d8f569c9cab6a37cd53115219976dab423cf11ff9c8c",
         "src/healthcare_synthetic/financial_common.py": "524b9ec7307172e92cc864299e5da64142dd853ea3ba18a94473065e99d34e70",
         "src/healthcare_synthetic/financial_oracles.py": "529128891766b534053ce0487acf89c42214bd5185d5d21b2c3c64501e2a2a7f",
         "src/healthcare_synthetic/financial_pipeline.py": "62d6f7a817579a827bcd2c5cabc8863abd8fe53d74c024da1037b3f1281102d6",
@@ -2328,20 +2401,20 @@
         "src/healthcare_synthetic/financial_room_validation.py": "b2af9e32f0f668922a162ea5d19c401ce48266d008703308913ee736814ccf7d",
         "src/healthcare_synthetic/financial_validation.py": "198ccec8273389df9dec862dcb67baa4a85157b16f4f858c5a53ed4b6f32c94d",
         "src/healthcare_synthetic/integrated_consumers.py": "7552bd841129c82e568d39aed634a1e9ccf1636ea003ead7d11012e57b9f566b",
-        "src/healthcare_synthetic/integrated_generation.py": "a722bd112a5b497d3a4ec1960b325a4dffba2d5671dcd1c0f515d331d4234a1c",
+        "src/healthcare_synthetic/integrated_generation.py": "6e352342f0d779e134e0264da4d4d92595b61760d1c7ef3c586f29651dd117af",
         "src/healthcare_synthetic/integrated_master_context.py": "5cf1778887c9d56b4ae738e7db882bdc4c6e49b14d305e6922011b479f08d570",
-        "src/healthcare_synthetic/integrated_validation.py": "4b6aa5daa4fd4bb22935861c23e4fa8714e2509ba24815278df8991dd92680fa",
+        "src/healthcare_synthetic/integrated_validation.py": "bc9608e4e14c71bd8ff67ee71dfda81b52102943c52148fb8d9c9c6c9282219d",
         "src/healthcare_synthetic/master_generation.py": "8abf762b1c18a999b4c6254121af200c5659f82283a31bd957ada7273c63da07",
         "src/healthcare_synthetic/master_pipeline.py": "7724714dc67b69f38c1511863de77add804cb2d38436968af3736e862016e77e",
         "src/healthcare_synthetic/master_queries.py": "65276ea5ba9251beb199318c809d578ba3e9ccd5651304613f248f9c633dc644",
         "src/healthcare_synthetic/master_review.py": "62f19a72859b906507abe7a9c4d10175a4f989758c7c1037defc4f5f6588a55d",
         "src/healthcare_synthetic/master_validation.py": "613590557fbcc165bf111bdcb93095aadd2b624b9e16f5776dfafef0d193f1e7",
         "src/healthcare_synthetic/operational_demand.py": "ecfc6eca745ac283f5bf546721b43b6a9ab77f9465bedf0c1dc9f210d4c9de1b",
-        "src/healthcare_synthetic/operational_generation.py": "29f12820d300c3dc85ec4d709132cd8e124e91b1f38d8792e9b899f049e3ea7d",
+        "src/healthcare_synthetic/operational_generation.py": "5126ef02c9cc327003c6bf3cbbfeda06c1dae571d75c259f4b568bfe406568f7",
         "src/healthcare_synthetic/operational_pipeline.py": "2740d1218a7a3d752fda17b3576e934e4b5e5c3d2c8f295cb31964236f33a8db",
         "src/healthcare_synthetic/operational_queries.py": "1b8c72a47f383d67a558056bfce38cd4a565441a444581e5934ea1118a5f8c18",
         "src/healthcare_synthetic/operational_review.py": "7bbdeaca35416cca028a046b64d4b604bc99c04961ebce96f6e4de01d2402adb",
-        "src/healthcare_synthetic/operational_timing.py": "d6c0fff265ad84e6cf28b58301f4d1fc183e8f7d12af325874327d0e9bf1430c",
+        "src/healthcare_synthetic/operational_timing.py": "64b199e32838912d920e6c39a19dbaad34ccd40a7b9974680b513ad887ac3381",
         "src/healthcare_synthetic/operational_validation.py": "b9686a898fe57fa054abab5e08a4a42758858b46007797ec62d7223b2a381d47",
         "src/healthcare_synthetic/resource_generation.py": "ce9b54a794c47733a83ca2563fa0de3718a0d150ceba56102e314664263ce60b",
         "src/healthcare_synthetic/resource_inventory.py": "1860220d43f01b6941cc862833e0736703e1c8799c4dd8c6fb62164a41c68cb9",
@@ -2350,7 +2423,7 @@
         "src/healthcare_synthetic/resource_review.py": "0d1ceb8ac3a51d0d78892c9c2cef69f772687a25906a13d397ef86463c7f8716",
         "src/healthcare_synthetic/resource_stock_validation.py": "0137ae52e08fa15fe8e14acd34702a0957ad647ce4c976143e823d60cd9d68bd",
         "src/healthcare_synthetic/resource_validation.py": "10c6c4a47915368dedcb8ad68fc3a761bb551decc119f2d6d0366402c65f2437",
-        "src/healthcare_synthetic/resource_workforce.py": "4b1cf87df3e617362d237c840594f098e4ddde77848813aef5f8eb6c28b93762",
+        "src/healthcare_synthetic/resource_workforce.py": "d73b66ef769d072317e093ffc4edc961da3f1f7290ad492b4608397dddb33d45",
         "src/healthcare_synthetic/sources.py": "ca920f32aff7060db33f46912df98331009a5bee47662f99bf66bf68fc12bdc7",
         "src/healthcare_synthetic/stages.py": "794aa375f2e0960b3b2c7d8049022b6e4ade1e2694f118bf71bade7af3ca460a",
         "src/healthcare_synthetic/trajectory_scheduling.py": "4989a72d1a5990210cdb6c3c7438fa322836e31087ebc1903ff71e98fb7e7467",
@@ -2358,15 +2431,15 @@
         "scripts/inspect_integrated_history.py": "9480bb8db24df1702edc8bf5057e395c9c62eb9bee9a24ddedd42d714871be14",
         "config/clinical-history-generation.json": "d688f9a18afe171c2afe202ed346292801d4204aad82c057f4001a47eb2072a9",
         "config/financial-history-generation.json": "675d198f24cc1d2d8e1b71f7e8b9970a2a4d78ee2849f844a937087693575d08",
-        "config/integrated-history-generation.json": "e8033fbc7260526a38e44c6e5c8816a3431ec12b249513f210cafc9799f1e479",
+        "config/integrated-history-generation.json": "33d4a054173b69d01fa2e6e2414885ed5ba388dca6962c1455953928afce985b",
         "config/master-data-generation.json": "bde91a78e04589e2dc27e0e367c929ecb107e053bc0ad21be51aa2ddc00bcb64",
         "config/operational-flow-generation.json": "a5b37fdbc66e397b38136ccd8934c3890e30ce9b539a50ab153224d6604ca282",
         "config/phase1-development.json": "e9d533d855bdc09a7813ece57266c5a3b01da9483a9fedd612cc56317718a8d7",
-        "config/resource-foundation-generation.json": "811085eb40f6c181981d0f1169597148f1e2decc5cc8ba4fe73a4db1f3ec9811",
+        "config/resource-foundation-generation.json": "d08f8a27ed699fab4cfc085919c15061d0b9aa2a75f9b53e1a12fe7a09471757",
         "config/source-delivery-generation.json": "510204bcfebc26dafe1286b54f2f13a230a6a2cbec30aba320a463d2c9e35ceb",
         "contracts/clinical-history-policy.json": "fe6b0470c2fa5adcfeafc0d70e1ef17486298058f64c03090073349d666dd427",
         "contracts/financial-history-policy.json": "fb4a6079bd185b01a7feecd125102fd8bf86fd471a851fdc4f5e85f4c27d4360",
-        "contracts/integrated-validation-policy.json": "4faac0fd83d3cf82025ef2c11fc521ca21a0386880f66b9fb33204058922d8b0",
+        "contracts/integrated-validation-policy.json": "2558bdefe2fcb3d94f0bcc4f792f0c5a94da1bfdf7a32d8dd8e90a02c3dbd232",
         "contracts/master-data-policy.json": "619830491bd2eaffda711b92b8c3ac86561dfca4e82e9eb27e65f1a589ce7d31",
         "contracts/operational-flow-policy.json": "42d55e3f40135d5d4ba733b7baeed066c74b3ada3178bea9755192b524af9ffc",
         "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
@@ -2386,7 +2459,12 @@
       },
       "dependencies_unchanged": true,
       "full_dataset_accepted": false,
-      "solution_status": "BLOCKED_FOR_SOLUTION"
+      "solution_status": "BLOCKED_FOR_SOLUTION",
+      "behaviour_revision": {
+        "status": "PASS",
+        "checks": 34,
+        "sha256": "f8dc04097ea5b8ab143efbb88b1b478f14f6ce7f8007c7468b8755aa59038b2b"
+      }
     }
   ],
   "source_inspection": {
@@ -2443,83 +2521,83 @@
         "differences": 0
       },
       "encounter": {
-        "rows": 128000,
-        "sha256": "2e0a26af44b5f728df1a0f56100d27fb829945f34e578085f1d0794b664fc877",
+        "rows": 127999,
+        "sha256": "3f629f3a2654f3e14de1a54bbedb43fd8c3e5be13ea68b68998adee4d9d24a0b",
         "differences": 0
       },
       "clinical_condition": {
-        "rows": 79103,
-        "sha256": "076d1777720730bdeccffa0a1f77c94cf05597beaf5dcb4704d476d44d965aac",
+        "rows": 79133,
+        "sha256": "64e6eb09bb6feea907e6e5a900f20640effd696a3d6b170569368fcd8611891c",
         "differences": 0
       },
       "clinical_event": {
-        "rows": 561909,
-        "sha256": "24eb7cff88d5631eb275b646c66e85f6171d83ef8431c7efcf372d30fc599b37",
+        "rows": 560963,
+        "sha256": "966fb74abcd19be7174cd81f39f600c79991516671745ce4486c71b51bb965a9",
         "differences": 0
       },
       "appointment": {
         "rows": 30000,
-        "sha256": "3a976e0fd3ad4db6e9c74bb8f0bea7391f93d224992537895d44f1638195760f",
+        "sha256": "7ed484ca226da1e1215de2a4765c3facaf57cf54b211c6b2581b1497933c7d36",
         "differences": 0
       },
       "bed_event": {
-        "rows": 71018,
-        "sha256": "50b15ca96a84daa9640642d1cbcabce9b489cf442b28890c8f0c134a135f7824",
+        "rows": 70105,
+        "sha256": "916c477bf5b9440cf96187da8464f53107a631c147ef44863379aa0a50129832",
         "differences": 0
       },
       "staff_shift": {
-        "rows": 66582,
-        "sha256": "cb83ddd9e8c53803a99f0457b6787e95c4bec23fda8a32bc4e6be66967722bfd",
+        "rows": 69655,
+        "sha256": "423233d5c10033d6220dc9207a00fcb4108bff63bb031742427d3dd4394df086",
         "differences": 0
       },
       "inventory_movement": {
-        "rows": 47839,
-        "sha256": "d5d826aea972fe7074d65ea0374854ab8da48aa30bce39daadd84860eb1b23e6",
+        "rows": 48079,
+        "sha256": "74a74868469e2a3b17c080880028b3667bc4a43c9bf4659c5fbbda19960c901f",
         "differences": 0
       },
       "service_charge": {
-        "rows": 113181,
-        "sha256": "fd19054fd3c42bd51109704fd17471d9e2fc3133938242633aab6f6ea4783094",
+        "rows": 112868,
+        "sha256": "b9e8ac03a8764e369ca9a81469ff60e50f58722700e72b595fec7215c684e405",
         "differences": 0
       },
       "claim": {
-        "rows": 57819,
-        "sha256": "f20c9f13006c883f8924f300149da10aa8fbd406c48414308b8b4f107a1849a0",
+        "rows": 57818,
+        "sha256": "150b30d4b3904055702c5f39fc81a02454c84b781378261f5b870a2d06bd978c",
         "differences": 0
       },
       "claim_line": {
-        "rows": 113097,
-        "sha256": "5910e6da31435916fff3e0d6f83379aabfeee93dd3c37c8467c388798e3eef73",
+        "rows": 112776,
+        "sha256": "25b04ce48dac486611a6ebc8e137679287d00a94d5aa7036d5b90581419e1e33",
         "differences": 0
       },
       "claim_event": {
-        "rows": 230012,
-        "sha256": "97c4826b0e8cdccce73b3bab51168753e5f825c18286bfca7ecd53e3865e477b",
+        "rows": 230101,
+        "sha256": "11f925dd6f18a0ea4ab0090b1095d0e8b51da5e8108ba7821fa6fb8c96ec64ae",
         "differences": 0
       },
       "financial_posting": {
-        "rows": 174904,
-        "sha256": "cfd841c1cc9881952812ea48164cca80f3ce73dad2e17c3448543f85d1fa7506",
+        "rows": 175489,
+        "sha256": "f1c35e14611e4b551bca4572f253edb03318f48cc8a42f5e8952f092eeb48d93",
         "differences": 0
       },
       "cost_allocation": {
-        "rows": 158527,
-        "sha256": "64e51a5ae90739d18619a8b620458b956c4ed40fdeb94048924c4904b112e314",
+        "rows": 158267,
+        "sha256": "ad795ae20d48988348ffebb47f1afb2f1f2e58729b3c7dde05d161a877e90558",
         "differences": 0
       },
       "finance_monthly": {
         "rows": 35457,
-        "sha256": "108110120ff0098a98b5cc894344096198e0e1babb0cf594f49ea99cb4bae222",
+        "sha256": "6961496d2a9dd64d00e7bf2047d7d3cbed708e3af55b122307a6867025aaefcb",
         "differences": 0
       },
       "facility_day_driver": {
         "rows": 3288,
-        "sha256": "c96c563fb4da2b7554bcc451b5d1a4e99eda26cd27635844a97259524310175b",
+        "sha256": "a96608c963b38175042ac2db95fb7e6cf7abc8422589d75a613bf218678d87a6",
         "differences": 0
       }
     },
-    "source_files": 3444,
-    "duplicate_deliveries_checked": 3444,
+    "source_files": 3445,
+    "duplicate_deliveries_checked": 3445,
     "reports": {
       "actual-wide-months": {
         "status": "PASS",
@@ -2649,7 +2727,7 @@
       "unresolved_release_blocking_faults": 0,
       "published_challenge_record_copies": 22
     },
-    "roundtrip_rows": 1936663,
+    "roundtrip_rows": 1937925,
     "delivery_calendar": {
       "status": "PASS",
       "expected_daily_dates_per_worker_security_feed": 1106,
@@ -2663,29 +2741,29 @@
     "historical_native_snapshots": [
       {
         "known_at": "2023-01-02T06:00:00Z",
-        "delivered_versions_checked": 94153,
+        "delivered_versions_checked": 94176,
         "future_facts": 0
       },
       {
         "known_at": "2024-02-01T06:00:00Z",
-        "delivered_versions_checked": 739282,
+        "delivered_versions_checked": 739545,
         "future_facts": 0
       },
       {
         "known_at": "2025-12-31T06:00:00Z",
-        "delivered_versions_checked": 1929168,
+        "delivered_versions_checked": 1930322,
         "future_facts": 0
       }
     ],
     "physical_source_accounting": {
-      "canonical_business_rows": 1936663,
+      "canonical_business_rows": 1937925,
       "business_tables": 25,
-      "primary_source_rows": 1936663,
+      "primary_source_rows": 1937925,
       "scheduled_mirror_rows": 108440,
-      "dictionary_mapping_rows": 4940257,
+      "dictionary_mapping_rows": 4943534,
       "derived_report_rows": 21686,
       "derived_scalar_fact_mirrors": 50888,
-      "source_payload_bytes": 2385274730
+      "source_payload_bytes": 2380066113
     },
     "axiom_archetypes": [
       "account-mapping",
@@ -4579,24 +4657,24 @@
     }
   ],
   "physical_copy_accounting": {
-    "canonical_rows": 1936663,
-    "resource_context_mirror_rows": 1053661,
-    "checkpoint_mirror_rows": 886002,
-    "consumer_index_mirror_rows": 1936663,
+    "canonical_rows": 1937925,
+    "resource_context_mirror_rows": 1055144,
+    "checkpoint_mirror_rows": 885781,
+    "consumer_index_mirror_rows": 1937925,
     "native_export_footprint": {
-      "canonical_business_rows": 1936663,
-      "primary_source_rows": 1936663,
+      "canonical_business_rows": 1937925,
+      "primary_source_rows": 1937925,
       "scheduled_mirror_rows": 108440,
-      "dictionary_mapping_rows": 4940257,
+      "dictionary_mapping_rows": 4943534,
       "derived_report_rows": 21686,
       "derived_scalar_fact_mirrors": 50888,
-      "source_payload_bytes": 2385274730
+      "source_payload_bytes": 2380066113
     },
     "review_case_summary_mirrors": 136,
-    "review_selected_source_fact_mirrors": 970,
+    "review_selected_source_fact_mirrors": 967,
     "comparison_canonical_rows_excluded_from_release": [
-      1935475,
-      1932523
+      1938655,
+      1934530
     ]
   },
   "review": {
@@ -4636,7 +4714,7 @@
       "encounter_a5f7df83d1d84773b15c35d2398cd38c",
       "encounter_74e5947828b02f9bf912564f35be9753",
       "encounter_416052facf839954e5810404da26d299",
-      "encounter_060c5ad073effc73a5263db51d4b5219",
+      "encounter_037ccb9cafbeb7f05cd928acf423290f",
       "encounter_b7f1d8716b0dda49ecef8aacdfad60e3",
       "encounter_5961af1bd3e2f83751f3a848eb6094da",
       "encounter_e85fdf8af56b7812fd213e0509f85bf2",
@@ -4649,7 +4727,7 @@
       "encounter_2fd172f087a28523af19206f9a6c5535",
       "encounter_33ddfc9e5fd6e3116a1f443bb31b3504",
       "encounter_fa856722d7bc3b1d541ff69312e51681",
-      "encounter_667c514d75f706eaf25cf04123d70c9d",
+      "encounter_faa24913f983839baa56a6adfc81d289",
       "encounter_9ba59c81abdac5272169011ce8b165aa",
       "encounter_7cb89ce7827a5e2bbdae46057083cacf",
       "encounter_5ed55c726c8e71e3f7acea5e8e48cee2",
@@ -4749,101 +4827,110 @@
       "worker_f5e1e6992f221b7f31bf020da6920de9",
       "worker_ffc7b96000c87a2f08deb84017b39b99"
     ],
-    "sample_sha256": "870664373e51c90e6595e2a27f13768d0cb61032fbf46ff201c9c14fa63667bb",
-    "selected_facts_sha256": "eed2293416698fa447e79bc0fe5e6832f74aed2bf4a51cb03fd79bccf51622ca",
-    "canonical_business_sha256": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
-    "realism_profiles_sha256": "c936666b3504e1c1fe79750055b982c92230f9eeb70093a929118ec3e55c190d",
+    "sample_sha256": "aba27c102ad081021b021b4e0ba63ef4619ee89809b3542abe96e90ed191d267",
+    "selected_facts_sha256": "50880da9cb6f69a98a7d64c73a2789468915ccb76dfb1bb59bf3df89127026dd",
+    "canonical_business_sha256": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b",
+    "realism_profiles_sha256": "5810e453acfbc768c950286633a90da24d4d14ea6b0cd9598c25926115854315",
     "review_mirror_case_summaries": 136,
-    "review_bytes": 37713,
-    "selected_source_fact_mirrors": 970,
+    "review_bytes": 37944,
+    "selected_source_fact_mirrors": 967,
     "implementation_phase": 8,
+    "dataset_version": "1.1.0",
     "status": "APPROVED_CONDITIONAL_ON_TECHNICAL_GATES",
-    "reviewed_at": "2026-10-24T18:17:58.061167+00:00",
-    "reviewer": "Codex acting as the user-designated synthetic business, clinical, workforce, finance and engineering reviewer",
-    "authority": "The user explicitly delegated review and finalization: You can review and finalize it, make sure its best.",
-    "review_method": "Read all 112 recorded patient/financial summaries and 24 named workforce summaries selected by the recorded hash strata; inspect 12 complete clinical notes selected across all year/quarter strata. Review full-population marginal/joint profiles, independent consumer results, point-in-time evidence and issue dispositions. Rechecked refreshed draft/open labels and recorded limitations; the reviewed source-fact digest is unchanged.",
+    "reviewed_at": "2026-10-25T18:33:44.788111+00:00",
+    "reviewer": "Claude (Anthropic) acting as the user-designated synthetic business, clinical, workforce, finance and engineering reviewer",
+    "authority": "The user directed the version 1.1 revision and its checks: \"Make sure once fix are done do full integrity and other data check so there would be no loose ends\" and \"do whatever makes the data good, don't change anything drastically\". Release acceptance remains the user's separate decision.",
+    "review_method": "Read all 112 recorded patient/financial summaries and 24 named workforce summaries selected by the unchanged hash strata; inspected 13 complete quarterly clinical-note contexts (minimum SHA256 of quarter/encounter among selected contexts with a note), comparing note timing with arrival, readiness and discharge. Reviewed full-population marginal/joint profiles, independent consumer results, point-in-time evidence, the behaviour-revision checks and v1.0.2-to-v1.1 differences in capacity transfers.",
     "deep_clinical_note_selection": "Minimum SHA256 of quarter/encounter key among selected patient contexts with a note, one per quarter; no appearance-based substitution.",
-    "deep_clinical_notes_reviewed": 12,
+    "deep_clinical_notes_reviewed": 13,
     "deep_clinical_cases": [
       {
         "quarter": [
+          "2022",
+          4
+        ],
+        "encounter_id": "encounter_42f234def2cc1c4126bb5076731fb42d",
+        "clinical_event_id": "clinical_event_32bafbf05584520628624e5dbc4e917c"
+      },
+      {
+        "quarter": [
           "2023",
           1
         ],
-        "encounter_id": "encounter_73d0b4364dd3d52ba9da7eaa80cbb227",
-        "clinical_event_id": "clinical_event_70cad42246e20d6ab1151b1e8f08989c"
+        "encounter_id": "encounter_f1e83016e921db7764899c5e00b5dcd0",
+        "clinical_event_id": "clinical_event_d5e9a1a12f08bac56160c8de4eb9bbfb"
       },
       {
         "quarter": [
           "2023",
           2
         ],
-        "encounter_id": "encounter_6be29b636155d933283e901df4c22e10",
-        "clinical_event_id": "clinical_event_087660b1981deee72eac6c44a17997e6"
+        "encounter_id": "encounter_dacedb2d8f36f545018e150879c2e8fd",
+        "clinical_event_id": "clinical_event_052f1caad9b7d71fee1fdd20c9bb5740"
       },
       {
         "quarter": [
           "2023",
           3
         ],
-        "encounter_id": "encounter_416052facf839954e5810404da26d299",
-        "clinical_event_id": "clinical_event_18cd1b7ddb829c5121353be747a103d0"
+        "encounter_id": "encounter_3f9c29dc35361156460041f15da95e07",
+        "clinical_event_id": "clinical_event_455866e69c22e1dcc1cc704a7ebfc2c0"
       },
       {
         "quarter": [
           "2023",
           4
         ],
-        "encounter_id": "encounter_e85fdf8af56b7812fd213e0509f85bf2",
-        "clinical_event_id": "clinical_event_e10af5a7656f64dfff44d9aceeb07918"
+        "encounter_id": "encounter_92700436225dc0628d75758317dbe31d",
+        "clinical_event_id": "clinical_event_2be5bd0f29757f879efa63eba18d1c20"
       },
       {
         "quarter": [
           "2024",
           1
         ],
-        "encounter_id": "encounter_2fd172f087a28523af19206f9a6c5535",
-        "clinical_event_id": "clinical_event_1a45e7bbd4bef8ce2f867adf4b0faf3a"
+        "encounter_id": "encounter_faa24913f983839baa56a6adfc81d289",
+        "clinical_event_id": "clinical_event_90a8cb707a4b8f43a6984a525c7962a6"
       },
       {
         "quarter": [
           "2024",
           2
         ],
-        "encounter_id": "encounter_3722fb1ef325730664ac539c49db3c05",
-        "clinical_event_id": "clinical_event_28413e3c6c46b7fbab1e62cba4a33bd2"
+        "encounter_id": "encounter_ce6bdf534b556808c2d84464292f8b24",
+        "clinical_event_id": "clinical_event_c783a5e3c3a15ebed00c67b92be3941c"
       },
       {
         "quarter": [
           "2024",
           3
         ],
-        "encounter_id": "encounter_4407594f6582f403b207db3d3bf22bc9",
-        "clinical_event_id": "clinical_event_20b79320d136d7a307752f5ca74bc1b8"
+        "encounter_id": "encounter_1c9b016860c182465ca7edc9f539a756",
+        "clinical_event_id": "clinical_event_6de450132441ae56688faf5eb47fcc1d"
       },
       {
         "quarter": [
           "2024",
           4
         ],
-        "encounter_id": "encounter_4c863bc04e2a9c0b0966e3b635b75706",
-        "clinical_event_id": "clinical_event_364aedac5efcaaed0b3215847a33bcad"
+        "encounter_id": "encounter_6c4aa8d2d5ffbcaa07ab9a89c996ba19",
+        "clinical_event_id": "clinical_event_97da7ceedf4e70f0964f08bdb4fc3e85"
       },
       {
         "quarter": [
           "2025",
           1
         ],
-        "encounter_id": "encounter_d3d43aecc02591cdc7a03b9d8a8e1ddb",
-        "clinical_event_id": "clinical_event_b600ad3e469b45360e6f9c6dc6edd745"
+        "encounter_id": "encounter_04b937bd6db532930ad1c81a39d89898",
+        "clinical_event_id": "clinical_event_ffc82f149cb9a8b7f937fb64ab8dcab9"
       },
       {
         "quarter": [
           "2025",
           2
         ],
-        "encounter_id": "encounter_bb4a2cfacc78b3e7d408dc037241c17b",
-        "clinical_event_id": "clinical_event_78a54e46867be328595ac2f51c87bf23"
+        "encounter_id": "encounter_38446b5f26a7f5c5cef139fe00b86861",
+        "clinical_event_id": "clinical_event_fbc7f4cdc44fe2215a52ee41ec4add40"
       },
       {
         "quarter": [
@@ -4858,17 +4945,17 @@
           "2025",
           4
         ],
-        "encounter_id": "encounter_3a768a2ade63119aa34610cd84999fb6",
-        "clinical_event_id": "clinical_event_30d965e12a18c637d7ac341e5d887637"
+        "encounter_id": "encounter_5e2e77f4674c9de654e6b10c9ae8d7cd",
+        "clinical_event_id": "clinical_event_821ada97c69222bd187d4ba4258d98a5"
       }
     ],
     "findings": [
-      "Realistic fictional identities, age-at-arrival, payer, acuity and encounter history are internally consistent across monthly/facility and rare-case contexts. Worker roles, assignment revisions, FTE and credentials remain visible.",
-      "Quarterly note review covers pneumonia, COPD, diabetes, chest pain, osteoarthritis and cholecystitis contexts. Narrative facts are grounded to available observations, problems and performed services; full clinical validators independently enforce causal timing and discriminator rules.",
-      "Carry-in, continuous-transfer, death, draft original-account and open unbilled contexts remain distinct. Zero claim AR on an unsubmitted draft does not mean zero enterprise/unbilled AR.",
-      "The denial and payer calibrations correct misses against original targets without relaxing tolerances. Worker month/day changes preserve birth years and assignment history.",
-      "Current primary and comparison-20261024 golden bytes are unchanged by patient-calendar and closed-month projection fixes. The registered third seed retains the formerly failing visit without replacing the seed or dropping proposals.",
-      "Selected costs, signed cash, original-account balances and monetary finance-series reconciliations have zero unexplained differences in fresh independent consumers. Final approval still requires all current seed/source/fault/recovery technical gates."
+      "Identities, ages at arrival, payer, acuity and encounter history are internally consistent across all 108 month/facility strata and the carry-in, continuous-transfer, death and open-stay strata. Worker roles, assignment revisions, FTE and credentials are unchanged from version 1.0.2.",
+      "Revised timing reads naturally in local time: inpatient home discharges fall in the late morning to evening after a ward-round readiness time; treat-and-release ED visits last roughly 1.5 to 8 hours; admitted ED visits carry a boarding tail; left-without-being-seen visits end within an hour.",
+      "Quarterly notes cover COPD, pneumonia, diabetes, chest pain and abdominal pain contexts. Note times match encounter arrival and discharge; facts are grounded to recorded observations, problems and dispensed medication.",
+      "Denials, appeals, write-offs, self-pay balances and draft-at-cutoff accounts appear across payers and settings in proportions consistent with the full-population checks.",
+      "Capacity-driven external transfers rose from 539 to 625 because bed turnaround and placement now take realistic time; one patient died while awaiting placement and is handled as a boarding death. This is a moderate, explained change.",
+      "Pre-existing (version 1.0) observation, unchanged: an inpatient transferred out after 24 hours awaiting a compatible bed receives a discharge summary whose final labs already show recovery. Recorded as P3 in the issue register; not a release blocker."
     ],
     "limitations_accepted": true,
     "limitations": [
@@ -4880,7 +4967,9 @@
       "Joint-cell Wilson intervals are descriptive within month/facility/class. Repeat visits are correlated; sparse cells receive counts, intervals and domain constraints rather than arbitrary percentage gates or population-inference claims.",
       "Axiom covers twelve illustrative archetypes, with no customer layout/vendor certification and no claim of implementing approximately 900 customer reports. Workday/Axiom interfaces are local source simulations.",
       "Age 100 at the opening baseline may naturally age to 103. Unknown/censored outcomes, missing plans and zero plans remain separate.",
-      "Phase 9 clean-environment release certification and explicit final data acceptance are pending. No analytics solution, live integration, forecasting model, dashboard or agent is authorized by this review."
+      "Version 1.1 ED stay, discharge timing, bed placement/cleaning, weekday mix, no-show, denial and RN absence behaviours are configured assumptions checked for internal plausibility, not benchmarks of a real hospital.",
+      "RN overtime remains under 1% of RN hours because the fixed RN pool exceeds shift demand; overtime forecasting is outside the accepted scope.",
+      "Phase 9 clean-environment release certification and explicit final data acceptance of version 1.1.0 are pending. No analytics solution, live integration, forecasting model, dashboard or agent is authorized by this review."
     ],
     "external_professional_endorsement": false,
     "full_dataset_accepted": false,
@@ -5000,22 +5089,53 @@
         "severity": "P2",
         "status": "ACCEPTED_SCOPED_LIMITATION",
         "scope_constraint": "The configured 30 terminal outcomes deliberately exercise late-window death/censoring boundaries. This selected synthetic cohort is not a mortality-incidence or population survival series; mortality forecasting and epidemiologic inference are outside the accepted scope."
+      },
+      {
+        "issue_id": "V1.1-FIXED-BEHAVIOUR-RULES",
+        "severity": "P1",
+        "status": "CLOSED",
+        "scope_constraint": "Version 1.0.2 produced six behaviours as fixed rules (constant ED stay, one-hour discharge delay, uniform discharge hour, ten-minute placement and cleaning start, Monday piling of weekend visits, rule-based no-shows, flat denial and near-zero RN absence). Version 1.1.0 replaces them with graded, overlapping behaviour; behaviour-revision.json checks pass for all three seeds."
+      },
+      {
+        "issue_id": "V1.1-STAFF-SHIFT-ENVELOPE",
+        "severity": "P2",
+        "status": "CLOSED",
+        "scope_constraint": "Realistic RN absences need retained roster history beyond the 70000 staff_shift envelope on seed 20261024 (70054). Reassigned 3000 unused bed_event slots to staff_shift; total planned rows and reserve unchanged. No facts removed or sampled away."
+      },
+      {
+        "issue_id": "V1.1-RN-OVERTIME-SCOPE",
+        "severity": "P3",
+        "status": "ACCEPTED_SCOPED_LIMITATION",
+        "scope_constraint": "RN overtime stays under 1% of RN hours because the fixed master workforce has about 88 RNs per hospital for about 14 RN shifts a day. Changing it would change workforce scale. Overtime forecasting is outside the accepted scope."
+      },
+      {
+        "issue_id": "V1.0-TRANSFER-DISCHARGE-LABS",
+        "severity": "P3",
+        "status": "ACCEPTED_SCOPED_LIMITATION",
+        "scope_constraint": "Pre-existing since version 1.0: an inpatient transferred out after 24 hours awaiting a compatible bed receives a discharge summary whose final labs already show recovery (625 capacity transfers in version 1.1). Not a causal-timing violation; template narrative realism only."
       }
     ],
     "unresolved_p0_p1": 0,
     "full_dataset_accepted": false,
-    "solution_status": "BLOCKED_FOR_SOLUTION"
+    "solution_status": "BLOCKED_FOR_SOLUTION",
+    "dataset_version": "1.1.0"
   },
   "gate": {
     "implementation_phase": 8,
+    "dataset_version": "1.1.0",
     "status": "PASSED",
-    "evaluated_at": "2026-10-24T18:52:24.687575+00:00",
+    "evaluated_at": "2026-10-25T22:20:34.074860+00:00",
     "exit_criteria": {
       "no_unresolved_p0_p1_or_unexplained_reconciliation_differences": true,
       "all_consumer_contracts_faults_and_point_in_time_checks_pass": true,
       "user_designated_domain_review_accepts_scoped_realism_and_limits": true,
       "eligible_for_release_certification_solution_still_blocked": true
     },
+    "behaviour_revision_checks_per_seed": [
+      35,
+      34,
+      34
+    ],
     "fresh_integrated_tests": 59,
     "fresh_domain_checks_per_seed": [
       58,
@@ -5028,12 +5148,12 @@
       20261025
     ],
     "business_tables": 25,
-    "business_rows": 1936663,
+    "business_rows": 1937925,
     "published_challenge_record_copies": 22,
-    "cap_counted_release_rows": 1936685,
-    "canonical_business_sha256": "61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e",
-    "source_package_sha256": "7f1b5a5dbe567ae3b28936e6ff6684f5c6cdeb767a73e321a2f1f628f71ab431",
-    "source_files": 3444,
+    "cap_counted_release_rows": 1937947,
+    "canonical_business_sha256": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b",
+    "source_package_sha256": "af91c63033f751850585509370b2a8a41db25ea47b49f04abe5289a97dad60db",
+    "source_files": 3445,
     "unexplained_differences": 0,
     "unresolved_p0_p1": 0,
     "reviewed_cases": 136,

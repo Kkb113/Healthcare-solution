@@ -1,8 +1,10 @@
 """Integrated candidate experiments; accepted snapshots are never overwritten.
 
-The primary seed reuses immutable resource facts. Comparison seeds regenerate
-calendar-conditioned demand, capacity, care, labor and stock against the same
-fictional catchment. All three regenerate finance. No months are tiled.
+Every seed regenerates calendar-conditioned demand, capacity, care, labor and
+stock against the same fictional catchment, then finance. Version 1.0 reused the
+accepted resource snapshot for the primary seed (ACCEPTED_SNAPSHOT); version 1.1
+regenerates it with the revised flow, appointment, workforce and denial behavior
+(REGENERATE). No months are tiled.
 """
 from __future__ import annotations
 
@@ -131,7 +133,8 @@ def regenerated_resources(seed):
                       lambda t: bind_working_authors(t, rcfg, run_id),
                       lambda t: InventoryGenerator(t, rcfg, run_id).run()):
         tables.update(operation(tables)['tables'])
-    return {'tables': tables, 'controls': {'simulation': simulation, 'all_domains_regenerated': True}}
+    return {'tables': tables, 'controls': {'simulation': simulation, 'all_domains_regenerated': True,
+            'master_context_version': read(CONFIG)['master_context_version']}}
 
 
 def generate(seed, output, *, fail_stage=None, crash_stage=None):
@@ -170,7 +173,7 @@ def generate(seed, output, *, fail_stage=None, crash_stage=None):
                     if old:
                         manifest['invalidated'].append(stage)
                     if stage == 'resources':
-                        if seed == cfg['primary_seed']:
+                        if seed == cfg['primary_seed'] and cfg['primary_resources'] == 'ACCEPTED_SNAPSHOT':
                             rows, parent = load_snapshot(ROOT / cfg['accepted_resource_candidate'])
                             if parent['business_sha256'] != cfg['accepted_resource_sha256']:
                                 raise ValueError('accepted resource anchor differs')

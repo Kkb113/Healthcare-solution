@@ -56,15 +56,22 @@ def move_encounter(sim,eid,delta):
 
 
 def extend_completion(sim,eid,delay):
-    """Boarding is care, but delays completion of the modeled ward stabilization work."""
-    if delay<=timedelta(0):return
+    """Boarding is care, but delays completion of the modeled ward stabilization work.
+
+    A delayed home discharge then waits for the next daytime discharge window.
+    A zero delay only realigns a discharge that an earlier move took out of it.
+    """
+    if delay<timedelta(0):return
     e=sim.latest[eid]
     if not e['discharged_at'] or e['disposition']=='DEATH':return
     old=instant(e['discharged_at']);new=old+delay
+    if e['disposition']=='HOME':new=sim.g.discharge_window(eid,new)
+    if new==old:return
     for r in sim.histories[eid]:
         if r['known_to']==stamp(old):r['known_to']=stamp(new)
-    for field in ('known_from','recorded_at','export_available_at','discharged_at','medically_ready_at'):
-        if e.get(field):e[field]=stamp(instant(e[field])+delay)
+    for field in ('known_from','recorded_at','export_available_at','discharged_at'):
+        if e.get(field):e[field]=stamp(instant(e[field])+(new-old))
+    if e.get('medically_ready_at'):e['medically_ready_at']=stamp(instant(e['medically_ready_at'])+delay)
     contexts={r['encounter_version_id'] for r in sim.histories[eid]}
     for c in sim.conditions_by_enc[eid]:
         if c['encounter_version_id'] in contexts:
@@ -90,7 +97,8 @@ def finalize_timing(sim):
         linked_episodes={e['episode_id'] for e in ipd}
         for e in (e for e in visits if e['encounter_class']=='ED' and e['episode_id'] in linked_episodes):
             child=next(i for i in ipd if i['episode_id']==e['episode_id'])
-            desired=instant(child['arrival_at'])-timedelta(hours=4)
+            stay=instant(e['discharged_at'])-instant(e['arrival_at']) if e['discharged_at'] else timedelta(hours=4)
+            desired=instant(child['arrival_at'])-stay
             move_encounter(sim,e['encounter_id'],desired-instant(e['arrival_at']))
             busy.append((instant(e['arrival_at']),instant(e['discharged_at'])))
         for e in sorted((e for e in visits if e['encounter_class']!='IPD'),key=lambda e:e['arrival_at']):

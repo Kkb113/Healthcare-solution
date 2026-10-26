@@ -10,12 +10,14 @@ from collections import Counter
 from pathlib import Path
 
 from .common import digest, inside, inventory, read, safe_relative, save, sha_file
+from .profiles import V1_0, profile
 
 MANIFEST = 'payload-manifest.json'
 DESCRIPTOR = 'release-descriptor.json'
 PROFILE = 'HEALTHCARE_SYNTHETIC_RELEASE'
-BUSINESS_SHA = '61124cc71b21198163a278fc103798d919c4346d587b3bef320091ff17edaa5e'
-SOURCE_SHA = '7f1b5a5dbe567ae3b28936e6ff6684f5c6cdeb767a73e321a2f1f628f71ab431'
+# Version 1.0 anchors, retained for callers that predate per-release profiles.
+BUSINESS_SHA = V1_0['business_sha256']
+SOURCE_SHA = V1_0['source_sha256']
 
 
 def release_id(value):
@@ -77,39 +79,41 @@ def verify_seal(directory, expected_descriptor_sha256):
 
 
 def check_healthcare_metadata(descriptor, certificate, canonical, native, schema, challenges):
-    """No reviewer or caller can relax the frozen final business envelope."""
+    """No reviewer or caller can relax the frozen final business envelope of this release version."""
+    p = profile(descriptor.get('release_id'))
+    business, source = p['business_sha256'], p['source_sha256']
     if descriptor['profile'] != PROFILE or descriptor['technical_status'] != 'PASSED':
         raise ValueError('uncertified release profile')
     if certificate['status'] != 'PASSED' or certificate['unresolved_p0_p1'] or certificate['unexplained_differences']:
         raise ValueError('technical certification failed')
-    if certificate['domain_checks'] != 58 or certificate['source_files'] != 3444 or certificate['fault_outcomes'] != 15:
+    if certificate['domain_checks'] != p['domain_checks'] or certificate['source_files'] != p['source_files'] or certificate['fault_outcomes'] != p['fault_outcomes']:
         raise ValueError('mandatory full-population/native controls incomplete')
     if certificate['future_fact_failures'] or certificate['unknown_outcomes_preserved'] is not True:
         raise ValueError('point-in-time/censoring controls failed')
     if certificate['clean_rebuild_passed'] is not True or certificate['phase8_unchanged_evidence_verified'] is not True:
         raise ValueError('clean lineage or earlier evidence not established')
-    if canonical['business_sha256'] != BUSINESS_SHA or descriptor['canonical_business_sha256'] != BUSINESS_SHA:
+    if canonical['business_sha256'] != business or descriptor['canonical_business_sha256'] != business:
         raise ValueError('normalized release differs from the accepted Phase 8 candidate')
-    if descriptor['source_package_sha256'] != SOURCE_SHA or certificate['source_package_sha256'] != SOURCE_SHA:
+    if descriptor['source_package_sha256'] != source or certificate['source_package_sha256'] != source:
         raise ValueError('native release differs from the accepted Phase 8 package')
     names = {t['name'] for t in schema['tables']}
     if len(names) != 25 or names != set(canonical['canonical_files']) or canonical['business_tables'] != 25:
         raise ValueError('required final business tables missing or duplicated')
     rows = sum(v['rows'] for v in canonical['canonical_files'].values())
     copies = challenges['published_challenge_record_copies']
-    if rows != 1936663 or canonical['business_rows'] != rows or not 1000000 <= rows + copies <= 2000000 or copies != 22:
+    if rows != p['business_rows'] or canonical['business_rows'] != rows or not 1000000 <= rows + copies <= 2000000 or copies != p['challenge_copies']:
         raise ValueError('final record cap/count differs')
     if descriptor['cap_counted_release_rows'] != rows + copies or descriptor['business_tables'] != 25:
         raise ValueError('descriptor business totals differ')
-    if native['business_sha256'] != BUSINESS_SHA or native['canonical_business_rows'] != rows:
+    if native['business_sha256'] != business or native['canonical_business_rows'] != rows:
         raise ValueError('source/canonical business anchor differs')
     primary = Counter()
     for f in native['files']:
         if f['role'] == 'PRIMARY':
             primary[f['table']] += f['expected_rows']
-    if dict(primary) != {t: v['rows'] for t, v in canonical['canonical_files'].items()} or len(native['files']) != 3444 or len(native['reports']) != 6:
+    if dict(primary) != {t: v['rows'] for t, v in canonical['canonical_files'].items()} or len(native['files']) != p['source_files'] or len(native['reports']) != p['reports']:
         raise ValueError('native source scopes/counts differ')
-    if digest({t: m['sha256'] for t, m in sorted(canonical['canonical_files'].items())}) != BUSINESS_SHA:
+    if digest({t: m['sha256'] for t, m in sorted(canonical['canonical_files'].items())}) != business:
         raise ValueError('canonical file-map digest differs')
     return rows, copies
 
@@ -157,7 +161,7 @@ def verify_healthcare_release(directory, expected_descriptor_sha256):
     return {'status': 'PASSED', 'release_id': d['release_id'], 'descriptor_sha256': expected_descriptor_sha256,
             'business_tables': 25, 'business_rows': rows, 'challenge_copies': copies,
             'cap_counted_release_rows': rows + copies, 'payload_files': d['payload_files'],
-            'canonical_business_sha256': BUSINESS_SHA, 'source_package_sha256': SOURCE_SHA}
+            'canonical_business_sha256': profile(d['release_id'])['business_sha256'], 'source_package_sha256': profile(d['release_id'])['source_sha256']}
 
 
 def publish(staging, destination, descriptor_sha256):

@@ -208,7 +208,8 @@ def report(root=ROOT):
     broken = []
     document_count = 0
     for doc in root.rglob("*.md"):
-        if ".git" in doc.parts or ".venv" in doc.parts:
+        # Ignored generated workspaces (published release packages, runs) are not repository documents.
+        if ".git" in doc.parts or ".venv" in doc.parts or doc.relative_to(root).parts[0] in ("data", "output"):
             continue
         document_count += 1
         content = doc.read_text(encoding="utf-8")

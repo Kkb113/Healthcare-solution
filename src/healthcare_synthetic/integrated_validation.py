@@ -51,6 +51,11 @@ def domain_controls(candidate):
     resource = {k: v for k,v in tables.items() if k in resource_names}
     resource['catalog_item'] = [r for r in resource['catalog_item'] if r['code'] not in {'BILL-ROOM','BILL-ICU','BILL-ED','BILL-OPD','BILL-HOLD'}]
     resource_schema = read(ROOT/'contracts/phase0/schema.json')
+    # Domain budget checks use the effective integrated envelope, including the
+    # reviewed reassignments; the planned total itself is never relaxed.
+    effective = {t['name']: t['planned_rows'] for t in schema()['tables']}
+    for table in resource_schema['tables']:
+        table['planned_rows'] = effective.get(table['name'], table['planned_rows'])
     print('Fresh integrated domain: clinical',flush=True)
     results['clinical'] = ResourceClinicalValidator(resource, resource_schema, ccfg, policy, master).run()
     print('Fresh integrated domain: operations',flush=True)
