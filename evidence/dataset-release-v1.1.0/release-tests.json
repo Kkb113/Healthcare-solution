@@ -1,0 +1,499 @@
+{
+  "implementation_phase": 9,
+  "scope": "Release-tool fixtures; the cold lineage and full-population payload validators have separate end-to-end evidence.",
+  "passed": true,
+  "run": 73,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "cases": [
+    {
+      "test": "test_dataset_release.ArchiveAndColdStartTests.test_archive_extracts_only_declared_regular_source",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.ArchiveAndColdStartTests.test_archive_hard_link_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.ArchiveAndColdStartTests.test_archive_symbolic_link_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.ArchiveAndColdStartTests.test_archive_traversal_blocks_before_extracting",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.ArchiveAndColdStartTests.test_cold_build_rejects_existing_workspace_without_overwrite",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.ArchiveAndColdStartTests.test_snapshot_checks_actual_bytes_not_manifest_only",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.ArchiveAndColdStartTests.test_snapshot_counts_actual_rows",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.ArchiveAndColdStartTests.test_snapshot_rejects_unlisted_canonical_file",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_changed_native_package_anchor_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_changed_normalized_business_anchor_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_changed_table_checksum_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_cleaned_away_unknown_outcome_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_future_fact_leak_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_incomplete_native_inventory_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_missing_domain_group_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_missing_essential_table_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_missing_fault_outcome_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_over_cap_count_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_reused_candidate_cannot_claim_clean_rebuild",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_review_waiver_cannot_substitute_for_technical_pass",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_source_scope_duplication_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_unexplained_money_or_state_difference_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_unresolved_critical_issue_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_unverified_prior_evidence_cannot_unlock_release",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.BusinessMetadataTests.test_valid_metadata_controls_are_consistent",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_complete_payload_verifies_against_external_anchor",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_empty_release_cannot_be_sealed",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_even_a_trusted_manifest_cannot_escape_payload",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_external_anchor_is_required",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_extra_file_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_manifest_corruption_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_missing_file_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_physical_totals_are_recomputed",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_recursive_manifest_declaration_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_rehashing_tampered_payload_cannot_replace_trusted_anchor",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_relative_paths_reject_windows_and_posix_escapes",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_seal_is_create_once",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_single_byte_corruption_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_unit_fixture_cannot_pass_production_population_verification",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_version_identity_is_bounded_and_path_safe",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.EnvelopeTests.test_wrong_descriptor_anchor_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_acceptance_is_create_once",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_approval_for_another_descriptor_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_changed_limitations_hash_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_data_acceptance_cannot_implicitly_authorize_solution",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_failed_atomic_acceptance_cannot_publish_partial_record",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_inactive_replacement_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_inconsistent_acceptance_status_cannot_unlock_release",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_missing_human_approval_evidence_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_missing_owner_identity_blocks",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_no_owner_acceptance_keeps_solution_blocked",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_plan_approval_is_not_release_acceptance",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_real_acceptance_transition_does_not_modify_payload_or_start_solution",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_replacement_registry_identity_must_match_version",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_retired_release_cannot_be_reaccepted",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_retirement_blocks_an_accepted_release_without_deleting_data",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_retirement_needs_reason",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_tampered_payload_invalidates_existing_acceptance",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.LifecycleTests.test_unacknowledged_limitations_block",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.OfflineBundleTests.test_certification_workspace_rejects_reuse",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.OfflineBundleTests.test_closed_critical_issue_passes",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.OfflineBundleTests.test_main_only_bundle_clones_with_master_as_host_default",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.OfflineBundleTests.test_nonzero_critical_count_blocks_even_with_closed_details",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.OfflineBundleTests.test_open_critical_issue_blocks_even_with_zero_claimed_count",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.OfflineBundleTests.test_patch_certification_has_separate_empty_workspace",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.PublicationTests.test_create_once_publication_keeps_external_anchor",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.PublicationTests.test_directory_identity_must_match_descriptor",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.PublicationTests.test_existing_version_cannot_be_overwritten",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.PublicationTests.test_failed_atomic_rename_publishes_no_version",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.PublicationTests.test_overlapping_publication_paths_block",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.ReleaseProfileTests.test_each_version_resolves_its_own_frozen_profile",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.ReleaseProfileTests.test_metadata_check_uses_the_descriptor_release_version",
+      "status": "PASS"
+    },
+    {
+      "test": "test_dataset_release.ReleaseProfileTests.test_version_profiles_never_share_business_anchors",
+      "status": "PASS"
+    }
+  ],
+  "evaluated_at": "2026-10-26T01:43:30.543373+00:00",
+  "tool_bindings": {
+    "release_tooling/__init__.py": "9d68c100dcf4a141fab88042c50fb5cca7ece5429f2dee3ca2272f3d00eaf230",
+    "release_tooling/certification.py": "e25263b3deaab48fc43065bd429a366758852e3410cde8a7c4f613075f01a8c9",
+    "release_tooling/cli.py": "a9b3b9fc1279c6bfffd00b19281f81e44777f407da1b1ebdce38440c081e5767",
+    "release_tooling/common.py": "cda7a013afd46936bf819ec42d298194b85341cef85914e2574fe3cefdf6f19b",
+    "release_tooling/final_gate.py": "2d01f47bf244a13ad1235183213ed3f8b2877f70256ab1a3e87d70f3a3c1fd8e",
+    "release_tooling/offline_check.py": "b4f0bdefab222f4186b7d0458ec3fb3d5cbafe593ceb99335b2041e04f32fccb",
+    "release_tooling/package.py": "4ba7aae603ae5322f1734ee5247ff862324c4f432ce859f70aef6e28ce4797a8",
+    "release_tooling/profiles.py": "be0394352dbc0ef81f5a87b4da67ae453e5cc548dd64fe41157ade975d0b01a9",
+    "release_tooling/rebuild.py": "12e503166b284a16ad9f75077d92a779777f04f8ebb2f94b1f1d7d7f69b80e97",
+    "release_tooling/registry.py": "3e506ba84bc70f73640d8be0ae2de20c719fb7b6636bc1d799c3f6c92d3f10ec",
+    "release_tooling/run_tests.py": "77b3c81e4cf59f6eb1d9c2944def82bcac9fd30cce092de741694f9fb3450c28",
+    "release_tooling/verification.py": "5d316db56941ad8026ab5fc5197a11f67a7854098530acd628d7f6e0614727b7",
+    "release_tooling/runtime-lock.json": "1a04375864e9f88f13094ee9b33c1485894a2f333b9d47c864c9ca685d60a0cb",
+    "tests/test_dataset_release.py": "4e3f09256dcdbb62969706698532a26c11d9a09ca2ff38e0fa18682021ee90ea",
+    "docs/dataset-release/change-control.md": "89fd02f38062aa54fe1c1530aa1da8e2741cdd68a8eef2e3da9539e9b612bde4",
+    "docs/dataset-release/limitations.md": "17a0314cc34ab495d3bb3d3d42e6061d06f87debbda600a30ae7f1097c74774c",
+    "docs/dataset-release/README.md": "8dfd28bb75a19a066614bcd73096eca4db396c4acdb907f2be7df19181d8b53d",
+    "docs/dataset-release/rebuild.md": "9f773b3dead67d3fa0403e512f7f4f16c96362d74053eb1522213ac67caf909d"
+  },
+  "retained_prior_bindings": {
+    "src/healthcare_synthetic/__init__.py": "872ab14430bb39fd0baddd2ef66a99075f2f1dedce587f08210a2275e474bed2",
+    "src/healthcare_synthetic/behaviour_revision.py": "93d1e146b89fd45174e7e03d7cded606d0065f70048143d56db4d376186689f4",
+    "src/healthcare_synthetic/clinical_generation.py": "f1dba9eb177063a2db97deb0e6ced0b37b1e885ecfa6f5ddb3bf7132c996bbab",
+    "src/healthcare_synthetic/clinical_pipeline.py": "d968110266f7d9de0e69450860d651b1a54ee05745cc8c7927186677a89b30ba",
+    "src/healthcare_synthetic/clinical_review.py": "b77bcaed803a26cc8f6369159f87703f239a65e6c57608ea766b15575658c276",
+    "src/healthcare_synthetic/clinical_validation.py": "b8d5886d4bada380c2b1b4ec92ef16a6c11372b07b69f8674611907f16a63b1d",
+    "src/healthcare_synthetic/core.py": "be57d625783707220f72b6c8f275d712ef3893faef44dc2212c6f01b8331e78e",
+    "src/healthcare_synthetic/engine.py": "0d014dab88e6c8e31b7c811e17c9fdbde787bd5c1bc2f1d09442ea468822370d",
+    "src/healthcare_synthetic/financial_allocations.py": "97ef7e718f3ad22038fe14cfa6e52d320c406c606fa61e6eb4ee9fd7714a1893",
+    "src/healthcare_synthetic/financial_billing.py": "bcf7e6976a0283844642d8f569c9cab6a37cd53115219976dab423cf11ff9c8c",
+    "src/healthcare_synthetic/financial_common.py": "524b9ec7307172e92cc864299e5da64142dd853ea3ba18a94473065e99d34e70",
+    "src/healthcare_synthetic/financial_oracles.py": "529128891766b534053ce0487acf89c42214bd5185d5d21b2c3c64501e2a2a7f",
+    "src/healthcare_synthetic/financial_pipeline.py": "62d6f7a817579a827bcd2c5cabc8863abd8fe53d74c024da1037b3f1281102d6",
+    "src/healthcare_synthetic/financial_planning.py": "d811987faea7a6721997a8af05b2ad0ca4198c46979465411049284744b08e3e",
+    "src/healthcare_synthetic/financial_postings.py": "43a70a60db76e5fa86819187391ccba3c62dd3d194b3b0a000012cf92b3a7768",
+    "src/healthcare_synthetic/financial_queries.py": "0ff5bfec9c93ae3dcdb880540572e5930977383885d5d1c5fd18c88c52e01eaf",
+    "src/healthcare_synthetic/financial_review.py": "07c54ff26c5c64fdc55441cf682bd07f230122d60167dba2f62e389658b064b7",
+    "src/healthcare_synthetic/financial_room_validation.py": "b2af9e32f0f668922a162ea5d19c401ce48266d008703308913ee736814ccf7d",
+    "src/healthcare_synthetic/financial_validation.py": "198ccec8273389df9dec862dcb67baa4a85157b16f4f858c5a53ed4b6f32c94d",
+    "src/healthcare_synthetic/integrated_consumers.py": "7552bd841129c82e568d39aed634a1e9ccf1636ea003ead7d11012e57b9f566b",
+    "src/healthcare_synthetic/integrated_exports.py": "4f3d5fd0a117a83d7a02e20f03df8375c749f2490eaf7d9dfbb0d657817388c7",
+    "src/healthcare_synthetic/integrated_generation.py": "6e352342f0d779e134e0264da4d4d92595b61760d1c7ef3c586f29651dd117af",
+    "src/healthcare_synthetic/integrated_master_context.py": "5cf1778887c9d56b4ae738e7db882bdc4c6e49b14d305e6922011b479f08d570",
+    "src/healthcare_synthetic/integrated_source_validation.py": "cca0abc963265f1ff532f13e0b2c882a1c2bba47f1bdb93a08f7009b4caa1486",
+    "src/healthcare_synthetic/integrated_validation.py": "bc9608e4e14c71bd8ff67ee71dfda81b52102943c52148fb8d9c9c6c9282219d",
+    "src/healthcare_synthetic/master_generation.py": "8abf762b1c18a999b4c6254121af200c5659f82283a31bd957ada7273c63da07",
+    "src/healthcare_synthetic/master_pipeline.py": "7724714dc67b69f38c1511863de77add804cb2d38436968af3736e862016e77e",
+    "src/healthcare_synthetic/master_queries.py": "65276ea5ba9251beb199318c809d578ba3e9ccd5651304613f248f9c633dc644",
+    "src/healthcare_synthetic/master_review.py": "62f19a72859b906507abe7a9c4d10175a4f989758c7c1037defc4f5f6588a55d",
+    "src/healthcare_synthetic/master_validation.py": "613590557fbcc165bf111bdcb93095aadd2b624b9e16f5776dfafef0d193f1e7",
+    "src/healthcare_synthetic/operational_demand.py": "ecfc6eca745ac283f5bf546721b43b6a9ab77f9465bedf0c1dc9f210d4c9de1b",
+    "src/healthcare_synthetic/operational_generation.py": "5126ef02c9cc327003c6bf3cbbfeda06c1dae571d75c259f4b568bfe406568f7",
+    "src/healthcare_synthetic/operational_pipeline.py": "2740d1218a7a3d752fda17b3576e934e4b5e5c3d2c8f295cb31964236f33a8db",
+    "src/healthcare_synthetic/operational_queries.py": "1b8c72a47f383d67a558056bfce38cd4a565441a444581e5934ea1118a5f8c18",
+    "src/healthcare_synthetic/operational_review.py": "7bbdeaca35416cca028a046b64d4b604bc99c04961ebce96f6e4de01d2402adb",
+    "src/healthcare_synthetic/operational_timing.py": "64b199e32838912d920e6c39a19dbaad34ccd40a7b9974680b513ad887ac3381",
+    "src/healthcare_synthetic/operational_validation.py": "b9686a898fe57fa054abab5e08a4a42758858b46007797ec62d7223b2a381d47",
+    "src/healthcare_synthetic/resource_generation.py": "ce9b54a794c47733a83ca2563fa0de3718a0d150ceba56102e314664263ce60b",
+    "src/healthcare_synthetic/resource_inventory.py": "1860220d43f01b6941cc862833e0736703e1c8799c4dd8c6fb62164a41c68cb9",
+    "src/healthcare_synthetic/resource_pipeline.py": "173a09d01a19a41161d20d8fc16a905080efa6fd28f3658294a3f8a67a85f5d6",
+    "src/healthcare_synthetic/resource_queries.py": "d170f72adba5b1ebef08b4f99a8708b6af61c7faa1c7d7fd7eeff3fa49c640ab",
+    "src/healthcare_synthetic/resource_review.py": "0d1ceb8ac3a51d0d78892c9c2cef69f772687a25906a13d397ef86463c7f8716",
+    "src/healthcare_synthetic/resource_stock_validation.py": "0137ae52e08fa15fe8e14acd34702a0957ad647ce4c976143e823d60cd9d68bd",
+    "src/healthcare_synthetic/resource_validation.py": "10c6c4a47915368dedcb8ad68fc3a761bb551decc119f2d6d0366402c65f2437",
+    "src/healthcare_synthetic/resource_workforce.py": "d73b66ef769d072317e093ffc4edc961da3f1f7290ad492b4608397dddb33d45",
+    "src/healthcare_synthetic/source_delivery.py": "83f6d5f3538b41150c9567dbdda70853afb8c73142757776194ee468ad394b18",
+    "src/healthcare_synthetic/source_export.py": "d806f6a07981d2ee1e9049f4d1c8fdc2760a9aeafe64badce818252d3067d1ab",
+    "src/healthcare_synthetic/source_faults.py": "a7bc423e987642cb3c9d1959d1be112e6b1d8829c057c3324ea25427e43b65e1",
+    "src/healthcare_synthetic/source_identity_projection.py": "fa0f3e36ff76cdd481ded7f3c8b7afab10e48f8e44ab850607c0eca66ab90024",
+    "src/healthcare_synthetic/source_layouts.py": "55cf2ed0b479d161d5a1b9469be8eb47b31a6909bb073987fb113b9eb84ada6b",
+    "src/healthcare_synthetic/source_reader.py": "340f2248316aa963359653aa72358aba3307efacd726f49bff252335f7fcb54f",
+    "src/healthcare_synthetic/source_report_validation.py": "2c0aa4c2b91c11d5fbd63261aa9a5f382710f1667167c4254087eefee3a2cde7",
+    "src/healthcare_synthetic/source_reports.py": "dd5e08b330de40bb75be140794ab6904a299e531cb1d8cb4ab2165ac3357b18f",
+    "src/healthcare_synthetic/source_validation.py": "dba5ecb05de3ef180f3cf98e1639f57549bcb247a7a1bb7374ac82c55671d6a1",
+    "src/healthcare_synthetic/sources.py": "ca920f32aff7060db33f46912df98331009a5bee47662f99bf66bf68fc12bdc7",
+    "src/healthcare_synthetic/stages.py": "794aa375f2e0960b3b2c7d8049022b6e4ade1e2694f118bf71bade7af3ca460a",
+    "src/healthcare_synthetic/trajectory_scheduling.py": "4989a72d1a5990210cdb6c3c7438fa322836e31087ebc1903ff71e98fb7e7467",
+    "src/healthcare_synthetic/validation.py": "2c743743bfacf33340b9ad238457ea7e7b91808231b60d76579f50175fffec3f",
+    "tests/test_clinical_histories.py": "5af38734c4b6dff6eca9be55f8128041d6933f2ea1f79964f490b119d1980840",
+    "tests/test_dataset_release.py": "4e3f09256dcdbb62969706698532a26c11d9a09ca2ff38e0fa18682021ee90ea",
+    "tests/test_financial_history.py": "a61561b670d1dba297502e9e03cb470a9abd50d2be0e1d67984f670086ef0806",
+    "tests/test_integrated_history.py": "f0b71e974cfc4770ea33a69d7c89f7d718b24553fdcd19ee551bd534dcc3b02f",
+    "tests/test_master_data.py": "a7a99352f6d78a98f166fe0756197774832f8f9deb820efe73468be8ce39caf7",
+    "tests/test_operational_flow.py": "c94ca1ab78910af60085a8a7539286983b8d02a9039e4ca0c758ba2872226fe0",
+    "tests/test_phase0_contracts.py": "65b1c76e1ba4d39c15b89c7fd3f9c815933568ae83078d2e658f9e59084b4a03",
+    "tests/test_phase1_engine.py": "7e4709239de635896f6cc506e52cf0b4eaf31d893c0f02acae0d109d49180b94",
+    "tests/test_phase1_primitives.py": "760cb2544aab0e8738be337700060bfde71d6600d386f977f90b7cedf28f0c0e",
+    "tests/test_phase1_sources.py": "8c5e03613cd53ad48a775e538b58a6c92c15e040a17f232212e8a38333f05869",
+    "tests/test_phase1_validation.py": "013caff512253a536ab25b373ecfc9e9de3292c528a2d9d4646bbf3d16a77f55",
+    "tests/test_resource_foundation.py": "d0c3560754cf087c5b4d5f3a43844a8a6141a26bf90c96f6271750f21544cfee",
+    "tests/test_source_delivery.py": "ae3456821e5c6d53d18949f93d691fb9f5fcc0e60dbdb9c310d7f958b9ed505a",
+    "scripts/build_phase0_spec.py": "92cb288c033e4f889bb84c9967ab28609af48f5e2d5748fefc45a5ebaa50db20",
+    "scripts/export_integrated_sources.py": "8cd1b6285461b71fa536388ef791019bd1a4fbe1f5558b9ee82c9dc88176453b",
+    "scripts/generate_clinical_histories.py": "166f12f3741ab092b4d80a4754e5369ff5fed33b52b6f6cf0adf9af91e66b9a0",
+    "scripts/generate_financial_history.py": "f26f57f4ebe80cd1624192eb9d5015d58530648093ca8ca9d767c7ed676f9c25",
+    "scripts/generate_integrated_history.py": "d6fd2ff4899c068903084acca1bec1a13bae1847d72fa2c5cc919207618a0ebe",
+    "scripts/generate_master_data.py": "6885609efb59ecb333fc02bae01f785627d78835b292cf5fde3ce5d5aca16274",
+    "scripts/generate_operational_flow.py": "a530b332772ac9270c8732a7230ceaddd89acac7b95076838bc730222c45d43e",
+    "scripts/generate_resource_foundation.py": "31d9432ee9c5dede075532e3ed77b1ed2912584a348fd725421a2423d55b8cba",
+    "scripts/generate_source_delivery.py": "9a640db67b2159fd87e58d143ae0f72108c9f8d8974e8e933f24eb819ffb7922",
+    "scripts/import_public_references.py": "289aab375adb5a7b0e8536611705563da7594f3bdd8761da77996ad41a3733f4",
+    "scripts/inspect_integrated_history.py": "9480bb8db24df1702edc8bf5057e395c9c62eb9bee9a24ddedd42d714871be14",
+    "scripts/inspect_source_calendar.py": "bdc22aa11f156f01d2bbc582f79163f57436cdf59a4e0cb0e89e873c4d4afc72",
+    "scripts/query_financial_history.py": "64f59ad6d189d208d708e0ad77227842a38dae7fc0986bf3acb073f39f730e29",
+    "scripts/query_operational_state.py": "515a5578b00c29108578fda1625aabadbd0b9c80947afd7b0965b7f5374c13eb",
+    "scripts/query_resource_history.py": "3511a53c4001faa7dadbb89538ccadcb5164cc662043efd021d7d3a9355960c3",
+    "scripts/restore_clinical_snapshot.py": "1e5eccb764b4563480717ada5f67ddbfdef3e287972ed354ca7c4a6eb4b0e722",
+    "scripts/restore_master_snapshot.py": "5f03b627f9bc3dda7df001fe03dbf3ec56cbad28ae29d366c6eaa870b9daca42",
+    "scripts/restore_operational_snapshot.py": "1abab5a257e66cb6af8f31e830e5a354578ff36fee07aa47843058e777eb08b5",
+    "scripts/restore_resource_snapshot.py": "a94db73460a5388aaddd0d5ecf47fc7c9d05287cb2543f6c6b86efbb2ef43148",
+    "scripts/review_integrated_history.py": "90c0aaafa140ec977a46e280c1f565f7ce07f20fb08bdcea1d166b8115aa37b0",
+    "scripts/review_source_delivery.py": "9cb862e1f6494f2166ef81386a8991cc09849ef7755c795118e0bd46c0832a42",
+    "scripts/run_financial_regressions.py": "06327a41e62b476a0661078d3336e888517c1121c1a43e9430c6fa8dd78ca966",
+    "scripts/run_foundation_regressions.py": "ac2f6bdcf741a6c95dbae0764234f184aa8a949cd2649261a4ba1c2ac43084fe",
+    "scripts/run_integrated_regressions.py": "cda1f5b5649c88c5aa3d488ea63146edc0b90ee1b0b802f1029bc2775764d637",
+    "scripts/run_phase1.py": "98ae5b8274d455945bfbcf9ffe45542e5adbc39c29306416d675a18c45740a9a",
+    "scripts/run_resource_regressions.py": "981d3a08e40eec599b1b117b1fee0d7b34bbdd646bc8cfadc97521f8485113b0",
+    "scripts/run_source_regressions.py": "c18a429e766503f6881af00e84d7539d39cedf52111ef0b52b54be59ddf4b0f4",
+    "scripts/validate_behaviour_revision.py": "2390f85c0cf88d43b9f75dae8e579d7c5c76b4dd18d1aa56d7c5e6c76538cb73",
+    "scripts/validate_clinical_data.py": "2f1c96450d5fa7d562b278685a8d9d981ed1e19a6818dcf566606847e15df5f0",
+    "scripts/validate_clinical_foundation.py": "03bc3c95781444928e8a967d1df4f1fe627cdcf30a3a78bd36fb6f951d9f6e7b",
+    "scripts/validate_financial_data.py": "bb1fe5815bf3f03afb3aec3352eec10ac4c2c0349cc90b036d4390ea945d73ea",
+    "scripts/validate_financial_foundation.py": "6d559ad954f45192886fa038410f20a00ead832b572bf46ac7bb2a6ee198fc40",
+    "scripts/validate_integrated_foundation.py": "8024e4bd1816422105ce209a669345423147f184eba92b2f6a6942824c77cf3a",
+    "scripts/validate_master_data.py": "87148fb557804d538349cbf9b43614c8947245fa36daf79c17b0e01c185c8548",
+    "scripts/validate_master_foundation.py": "5fed118fae6cb1d04ada344591edfd3bb0a610ef962c923bd62124969896e48f",
+    "scripts/validate_operational_data.py": "883cdccbfcd2a7a9320d925ee704afbfa3552a3f3ce31f351db8bbeca506701a",
+    "scripts/validate_operational_foundation.py": "da184c3fdf633faa68c11d6f0e26d30a31f0ca14d4520b836f492239d0511719",
+    "scripts/validate_phase0.py": "9614a99a6dfc77fe60e4e1f246505e160a5b11617c49dcfaaa4d3b4b7216db5b",
+    "scripts/validate_phase1.py": "4184c2717f4da33135e5292c4e13fc29e0e71822e726014fdf27e0b228d0a087",
+    "scripts/validate_phase1_candidate.py": "9ba49e397ce53a2925ba6b2afb15c38f1f7cf8ab1989cb51fbf41c8e0b501344",
+    "scripts/validate_resource_data.py": "41fc80ea46d34c1ff839f048a595c250d0f6725c95308718eab42a376563c7d1",
+    "scripts/validate_resource_foundation.py": "554cd95c93bfa30aecb08c197f2d410b5b942ef7cd3da35be12e38d478929228",
+    "scripts/validate_source_delivery.py": "726069e8d3643cd8a4b3721c3344a7f77df93b8ed1884db06a2561dd105f6d5b",
+    "config/clinical-history-generation.json": "d688f9a18afe171c2afe202ed346292801d4204aad82c057f4001a47eb2072a9",
+    "config/financial-history-generation.json": "675d198f24cc1d2d8e1b71f7e8b9970a2a4d78ee2849f844a937087693575d08",
+    "config/integrated-history-generation.json": "33d4a054173b69d01fa2e6e2414885ed5ba388dca6962c1455953928afce985b",
+    "config/master-data-generation.json": "bde91a78e04589e2dc27e0e367c929ecb107e053bc0ad21be51aa2ddc00bcb64",
+    "config/operational-flow-generation.json": "a5b37fdbc66e397b38136ccd8934c3890e30ce9b539a50ab153224d6604ca282",
+    "config/phase1-development.json": "e9d533d855bdc09a7813ece57266c5a3b01da9483a9fedd612cc56317718a8d7",
+    "config/resource-foundation-generation.json": "d08f8a27ed699fab4cfc085919c15061d0b9aa2a75f9b53e1a12fe7a09471757",
+    "config/source-delivery-generation.json": "510204bcfebc26dafe1286b54f2f13a230a6a2cbec30aba320a463d2c9e35ceb",
+    "contracts/clinical-history-policy.json": "fe6b0470c2fa5adcfeafc0d70e1ef17486298058f64c03090073349d666dd427",
+    "contracts/financial-history-policy.json": "fb4a6079bd185b01a7feecd125102fd8bf86fd471a851fdc4f5e85f4c27d4360",
+    "contracts/integrated-validation-policy.json": "2558bdefe2fcb3d94f0bcc4f792f0c5a94da1bfdf7a32d8dd8e90a02c3dbd232",
+    "contracts/master-data-policy.json": "619830491bd2eaffda711b92b8c3ac86561dfca4e82e9eb27e65f1a589ce7d31",
+    "contracts/operational-flow-policy.json": "42d55e3f40135d5d4ba733b7baeed066c74b3ada3178bea9755192b524af9ffc",
+    "contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb",
+    "contracts/phase0/clinical-type-matrix.json": "9deaa0fdca2f0310d1cefa5061b59071f93197e1eef52a1ec8b56a1a1ca2d97f",
+    "contracts/phase0/realism-targets.json": "4616bc333586527bdc4deeef9f506d2df14082f899982edfbb2e938563f15e0f",
+    "contracts/phase0/scenarios.json": "56283fa396b1202c73e5e0609ade1aa82fa6df4708c064096902624f24bfbeb2",
+    "contracts/phase0/schema.json": "062d9b070ed687cf0c98e8a2ec16efe47969a7ed1080d11b594126d062168f3c",
+    "contracts/phase0/source-contracts.json": "64911dbf82f7d65c24271fa13a3de9c292b5b9a0f97e2531ad751dd17a8b2413",
+    "contracts/phase0/validation-rules.json": "dffe39411824eae480f1e80e58e3961302a7d6187cdf011c26d862278d30944b",
+    "contracts/phase1/profile-contract.json": "46879ecca6baff534db4028374f5748f8f3d18d1e911bd2bc30960afb2879e50",
+    "contracts/phase1/reference-fixtures.json": "ae0fdecebb92ae6afe0dfaf77b0ffec94a762c9b6b827654eebf4f54813ecd0b",
+    "contracts/phase1/rule-fixtures.json": "04b7bd1f29ff33d5fa33dec3d60e3487cfa0ebced452018e3c53e8eb76e1dac8",
+    "contracts/phase1/runtime-lock.json": "2e4a7bafaf989370edbf22d92b9f81e8b37f24d39c48a32549cb0a4cd54e18f3",
+    "contracts/reference-package-lock.json": "0601389d5984a539d4a696d9b5fdb4045338fdd066a7704265f7ac59b29b7805",
+    "contracts/resource-foundation-policy.json": "2df32ca42010daf34e5ceacb05489b4f26283b8e30230edf676f885c5295310d",
+    "contracts/source-delivery-policy.json": "81e1b70f49413724dd224b39542683b976e2ce2cd8ed96cb9fc3ae926e399154",
+    "reviews/clinical-journey-review.json": "4408ef9591585622aae7d43a7d4849f7b48a9d8f9a2d9ae82453fcb30eb434bf",
+    "reviews/dataset-release-acceptance.json": "ae31434b0f832b8f1ce9219a433f1f7669dfbec6bf154c4241119f72989d8dc9",
+    "reviews/dataset-release-approval.json": "0d89eb8f28216de604ca3f24ebe7f48fbcfd450b796b2c14c060770e287a5437",
+    "reviews/dataset-release-issues.json": "525453b5289cbc9e7ec52501d80ca89753692d23444a28ff1c89e6232a4a068e",
+    "reviews/dataset-release-retirement.json": "c5084865e23e45cfefebd7e795648238fe61a38d54e00bb7c0850207854d524e",
+    "reviews/dataset-release-review.json": "71db8318615431df9acc20d255852d13e33563438a4eb0637542e61ceadd5583",
+    "reviews/financial-history-review.json": "d94ae3bda17576dd39ae4f9fe5486df0a8e6f336b05235c87d55a3d8fe522ae4",
+    "reviews/integrated-history-issues.json": "a9f359095f531dbacb5255dc3f1a43b0c07bb028b400de5ad1939efd5e7ae161",
+    "reviews/integrated-history-review.json": "ef54bc8cbff6ee5edc70f3a8914076c441786b307b178138005f346b582c5803",
+    "reviews/master-data-realism-review.json": "45d3ab1a80367a73e27519aec0a40e4f0e7f9965793dff5140e57860d340ed6f",
+    "reviews/operational-flow-review.json": "29545861309df673f6c5f20be11e45840b2fbc582a89f71ee1a944027a8206a0",
+    "reviews/resource-foundation-review.json": "1dd6e9bdf10e7ddb21ecc09416e38bb04a1705e0d3048f7cdd6998d68f141c53",
+    "reviews/source-delivery-review.json": "94a6ae1d712a65bc7d2b9d0e341d4aae084200bb738cdd9512225d3186ee8b11",
+    "reviews/clinical-journey-sample.md": "cd4f07fa2f7765dde189494e91ca3dec8b24a0ac91cf68b7a87ad43963d69ca6",
+    "reviews/dataset-release-review.md": "cf1fe9fa24d795d43756db722412337e179eeffcc530c93e2afa8ccdb508e138",
+    "reviews/financial-history-sample.md": "e20a30e6b8e5ce564a989329e849fd61a1d46b4861471b3c7a9fd362bffa3958",
+    "reviews/integrated-history-sample.md": "aba27c102ad081021b021b4e0ba63ef4619ee89809b3542abe96e90ed191d267",
+    "reviews/master-data-identity-sample.md": "e327e56cf774a3a42a43e11a1461dbda4d541fcf9a247dbdb348aabc9c92f52c",
+    "reviews/operational-flow-sample.md": "d3a38769e160addda89fe64fbb7fa0a7cf2bd64132d287e3cb1a20169f641ed6",
+    "reviews/resource-foundation-sample.md": "001385843371c8c83de208f728d00139c1c1239cdfc069c00b4bff2ba6a4fffd",
+    "reviews/source-delivery-sample.md": "188cec26fc1eccd4d13bae4d51d7bb6fa81bb87060a3abb2784a6e3774c2b175",
+    "evidence/master-data/acceptance-gate.json": "3276a98406630e71a0cfb15adbcaef21d56213e4133619b6e801ee8941736927",
+    "evidence/clinical-histories/acceptance-gate.json": "8d007cc14251a8def7e2cb12859984bc3e675166afcbb7f37e3191d83ebadb26",
+    "evidence/operational-flow/acceptance-gate.json": "706326f5dd801078842e9818d3c309cc3af96174cdc958ce74aa10a573c43ca5",
+    "evidence/resource-foundation/acceptance-gate.json": "6d815a1ada70f498949d58f1a5ed355f9b9f9bbac115dfe8af0d068db64f5b9c",
+    "evidence/financial-history/acceptance-gate.json": "aa426ac8936cf066e1c137385ca3cf2be723f38d0410c29741121ae0013c0622",
+    "evidence/financial-history/validation-report.json": "e36d461e2c7f3ddf8aea33df10f66e322f2bd1f7664c27b6700c98cc07f4b5b5",
+    "evidence/source-delivery/acceptance-gate.json": "7ad078a44f49a23cf000874f12169c1933e6ec6bfe2ad1bf0c3ad73c6a62b0bd",
+    "evidence/source-delivery/validation-report.json": "395ed54bbb49fd0f4259c065252052ef70622148c3ab7192bcd4db3aba6fde21"
+  },
+  "tools_unchanged": true,
+  "inputs_unchanged": true,
+  "failure_details": []
+}

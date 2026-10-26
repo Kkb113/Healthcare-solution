@@ -1,5 +1,7 @@
 # Healthcare synthetic data foundation
 
+**Current release: healthcare-synthetic-v1.1.0, `DATA_ACCEPTED`** — 1,937,925 canonical rows across 25 tables plus 22 challenge/control copies (1,937,947 cap-counted), with six revised behaviours described in the [behaviour revision](docs/behaviour-revision/README.md). The history below records v1.0.2 and earlier phases.
+
 Phases 0-9 are complete, and Phase 9 passes all 16 final acceptance criteria for **healthcare-synthetic-v1.0.2**. The three-year fictional US hospital dataset has **25 tables, 1,936,663 canonical rows and 22 challenge/control copies: 1,936,685 cap-counted records**. Seven cold lineage stages, all 58 fresh published-file domain-control groups, independent consumers, temporal/realism checks, full native reconstruction and 70 release tests pass. The shipped offline checkout also passes all 70 tests. **The business owner explicitly accepted this exact release and its documented limitations; the foundation is `DATA_ACCEPTED`.** No Azure Databricks analytics solution or live integration has started. Microsoft Fabric is excluded.
 
 The original frozen baseline contains **25 business tables and 1,958,210 planned records** across **2023-2025**, with **41,790 reserve records**. The reviewed [financial budget amendment](docs/financial-history/record-budget-amendment.md) permits **1,995,215 planned rows and 4,785 reserve rows**, retaining every accepted history within the two-million ceiling. Three fictional Illinois community hospitals have 72 inpatient beds in total. This replaces the earlier provisional 300-bed scale so the budget includes clinical detail and historical revisions.
@@ -21,9 +23,14 @@ python scripts/run_integrated_regressions.py
 python scripts/validate_integrated_foundation.py
 ```
 
-Version 1.1.0 is certified and published only after the producer commit, following the post-commit steps. Until it is accepted, v1.0.2 below remains the accepted release.
+**Version 1.1.0 is the current accepted release.** It was rebuilt cold on its seven-stage lineage (producer `aba3239`), certified on the actual published files and published create-once to `data/releases/healthcare-synthetic-v1.1.0` (descriptor `c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5`, 7,126 payload files). The [final gate](evidence/dataset-release-v1.1.0/acceptance-gate.json) passes all 16 definition-of-done items; the [release review](reviews/dataset-release-v1.1.0-review.json), [issue register](reviews/dataset-release-v1.1.0-issues.json) and [explicit owner acceptance](reviews/dataset-release-v1.1.0-acceptance.json) bind this exact descriptor and limitations hash. The foundation is `DATA_ACCEPTED`; v1.0.2 below remains verifiable but is superseded. Never mix the two versions' deliveries.
 
-## Final data release certification
+```powershell
+python -m release_tooling.cli verify --package data/releases/healthcare-synthetic-v1.1.0 --descriptor-sha256 c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5
+python -m release_tooling.cli state --package data/releases/healthcare-synthetic-v1.1.0 --registry data/release-registry --descriptor-sha256 c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5
+```
+
+## Final data release certification (v1.0.2, superseded by v1.1.0)
 
 The versioned local package is `data/releases/healthcare-synthetic-v1.0.2/`, with 7,109 payload files. Its [release decision packet](reviews/dataset-release-review.md), [delegated review](reviews/dataset-release-review.json), [certification evidence](evidence/dataset-release/validation-report.json), [final gate](evidence/dataset-release/acceptance-gate.json) and [rebuild/change-control runbooks](docs/dataset-release/README.md) identify the exact scope, limitations and checksums. The [explicit human acceptance](reviews/dataset-release-acceptance.json) is recorded against this exact descriptor and limitations hash; Phase 9 is `PASSED` and the foundation is `DATA_ACCEPTED`. Version 1.0.0 was never accepted and is [retired](reviews/dataset-release-retirement.json); the corrected distribution passes the recorded [issue closure](reviews/dataset-release-issues.json). Generated data stays outside Git.
 

@@ -1,0 +1,32 @@
+{
+  "implementation_phase": 9,
+  "release_id": "healthcare-synthetic-v1.1.0",
+  "status": "CLOSED_WITH_VERIFIED_CORRECTION",
+  "unresolved_p0_p1": 0,
+  "issues": [
+    {
+      "issue_id": "V1.1-LINEAGE-ANCHOR-STAGES",
+      "severity": "P1",
+      "status": "CLOSED",
+      "observed_failure": "First certification attempt rebuilt master and the v1.1 integrated stage (business SHA matched 12859a18...), then the frozen published-canonical inspection failed: output/resource-foundation/manifest.json absent in the clean source tree.",
+      "root_cause": "The v1.1 release profile listed only the master stage as a parent. The certification validators also compare against frozen anchors from the accepted Phase 5-7 outputs (resource table inventory, native source schema, cost centers, worker delivery membership).",
+      "affected_release": "healthcare-synthetic-v1.1.0 attempt 1 (producer e3d93b4); not sealed or published",
+      "correction": "Commit aba3239: the v1.1.0 lineage rebuilds the six accepted pinned v1.0 stages unchanged, then the v1.1 integrated stage. Generators, validators and Phase 8 evidence unchanged.",
+      "verification": "Seven-stage clean rebuild PASS; every stage anchor matched; certification PASSED; descriptor c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5.",
+      "failed_attempt_audit": "output/release-certification-v1.1.0/failed-attempt-1"
+    },
+    {
+      "issue_id": "V1.1-OFFLINE-CHECK-COMMITTED-TOOLS",
+      "severity": "P3",
+      "status": "CLOSED",
+      "observed_failure": "release_tooling.offline_check copytree into the bundle checkout raised FileExistsError for release_tooling/: unlike v1.0.2, the v1.1.0 producer commit already contains the release tools and release docs.",
+      "root_cause": "The offline check assumes the producer bundle predates the release tooling.",
+      "correction": "Ran the unchanged check through output/v11-work/offline_wrapper.py, which requires every distributed tool/doc file to be byte-identical to the committed checkout file before allowing the copy. The certified tool bindings stay unchanged. Make the check tolerate identical committed tools in the next tooling revision.",
+      "verification": "17 distributed files byte-identical; bundle HEAD aba3239; all seven stage archives match; 73 distributed release-tool tests pass offline."
+    }
+  ],
+  "descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+  "offline_check_sha256": "a3eda680b133bcd6cedf92bc0f7fd91da1b8a03e5d377fd802343c5efedd69b6",
+  "full_dataset_accepted": false,
+  "solution_implementation_started": false
+}

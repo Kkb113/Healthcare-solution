@@ -1,0 +1,39 @@
+{
+  "implementation_phase": 9,
+  "status": "APPROVED_FOR_BUSINESS_OWNER_DECISION",
+  "release_id": "healthcare-synthetic-v1.1.0",
+  "descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+  "limitations_sha256": "17a0314cc34ab495d3bb3d3d42e6061d06f87debbda600a30ae7f1097c74774c",
+  "reviewed_at": "2026-10-26T02:43:55.460242+00:00",
+  "reviewer": "Claude (Anthropic) acting as the user-designated synthetic business, clinical, operations/workforce, finance and engineering reviewer",
+  "authority": "The user asked for the v1.1.0 fixes with \"full integrity and other data check so there would be no loose ends\" and directed: \"I need you to commit it\" and to run the post-commit certification and release evidence. Final direct human business-owner acceptance remains separate.",
+  "reviewed_domains": [
+    "IDENTITY",
+    "CLINICAL",
+    "OPERATIONS_WORKFORCE",
+    "FINANCE",
+    "DATA_ENGINEERING"
+  ],
+  "review_method": "Reviewed the behaviour revision design, budget amendment, issue registers and updated limitations; the seven-stage clean rebuild and the certification of the actual staged/published files (58 domain controls, 324 partitions, six consumers, eleven point-in-time controls, realism profiles, review binding, full native reconstruction, 15 fault outcomes); the offline bundle check; and the hash-bound 136-case, 13-note v1.1 integrated review confirmed unchanged against the published facts.",
+  "findings": {
+    "IDENTITY": "Master identities, coverage and worker histories are byte-identical to v1.0.2 apart from generation run IDs; 22,000 patient versions and 900 worker assignment versions round-trip exactly through native files.",
+    "CLINICAL": "All clinical domain controls and realism targets pass (mean stay 5.08 days, long-stay tail 4.7%). ED stays, ward-round readiness and daytime discharges follow the revision; notes remain grounded in recorded facts and timing.",
+    "OPERATIONS_WORKFORCE": "Bed placement, cleaning and capacity waits are graded; capacity transfers 625 (from 539). RN absence 2.5% with winter rise, covered by colleague pickups and agency staff. RN overtime stays low by scope (88 RNs per hospital).",
+    "FINANCE": "Initial insured denial rate 9.30% within the frozen 8-12% band, now varying by payer and setting; six consumers reconcile claims, cash, costs and Axiom series with zero unexplained differences.",
+    "DATA_ENGINEERING": "Seven-stage cold rebuild reproduces the candidate exactly; 3,445 native files reconstruct every row; 318 snapshots, 304 Axiom headers and 15 faults pass; the package verifies against descriptor c36a9b78 and the bundle reproduces offline."
+  },
+  "integrated_review_sha256": "ef54bc8cbff6ee5edc70f3a8914076c441786b307b178138005f346b582c5803",
+  "fresh_review_binding_sha256": "78c4ea94792512b7e32891ebe98496d07f8d416bfd6ba7ed5fc5e4b5483cf261",
+  "certification_sha256": "f7eaeddddd359ec8abb002ec6461e49454407995be51ee5919a8be42a333dcb1",
+  "release_issue_register_sha256": "3a6f7fedf8490ec128048a928feb74049f3f5ad016cdc7124702a161a547c0eb",
+  "offline_check_sha256": "a3eda680b133bcd6cedf92bc0f7fd91da1b8a03e5d377fd802343c5efedd69b6",
+  "release_tests_sha256": "9acf9b6e2a6668a0fb8da9cedefb89fd3d9b6cfd18368e65831713995ad36228",
+  "canonical_business_sha256": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b",
+  "source_package_sha256": "af91c63033f751850585509370b2a8a41db25ea47b49f04abe5289a97dad60db",
+  "limitations_accepted_for_delegated_review": true,
+  "external_professional_endorsement": false,
+  "unresolved_p0_p1": 0,
+  "unexplained_differences": 0,
+  "full_dataset_accepted": false,
+  "solution_implementation_started": false
+}

@@ -1,0 +1,67 @@
+{
+  "status": "PASSED",
+  "scope": "Offline source/archive reconstruction and release-tool fixtures. The complete cold data rebuild is separately recorded, not claimed as executed twice.",
+  "release_id": "healthcare-synthetic-v1.1.0",
+  "descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+  "bundle_sha256": "73eb765d771ba4508522e2dff9edbd43ff5fd9e40bb50c9df9ff840e0c8e8b8c",
+  "producer_stages": [
+    {
+      "stage": "master-foundation",
+      "commit": "f7d512673e21f032065774b8afcde6800df28f72",
+      "archive_sha256": "7622a30d63b80fa71e31a683eb019ce5b62fc6f89b99a1050f72f2eefdeb271b"
+    },
+    {
+      "stage": "clinical-histories",
+      "commit": "691435db3708939196b83d9cbade39b3e5db4785",
+      "archive_sha256": "90a881aa5078a523ce1b18a59320fc79fa51b5b4158309062ebdabd0634e8fdc"
+    },
+    {
+      "stage": "operational-flow",
+      "commit": "51ef26af7a1002e6a6074f96b72059f74dbbe5dc",
+      "archive_sha256": "b3040040c592e61b6863b84916f8cf08de817d437451b97ba4987a94dc134c58"
+    },
+    {
+      "stage": "resource-foundation",
+      "commit": "1840da3dbe3edf643b12e7b3e4a1897312d99d86",
+      "archive_sha256": "454fe5967fe541fe7e4cae5e44e61bc23dfeadd98ff12eb3fdd2ec9473aa477d"
+    },
+    {
+      "stage": "financial-history",
+      "commit": "eb20bfa55eb7ac9850f9b3f5b4037a247a4f3f82",
+      "archive_sha256": "77c96f84a1efa1239a76db0c7226c118466d0e771e7cb3959a3c11f33ab0e6fb"
+    },
+    {
+      "stage": "source-delivery",
+      "commit": "bfd89b22d54bac051a3daf4ea27adcae0c5475b2",
+      "archive_sha256": "482610332d639870d13064ebde54ed574fda98c4611b1a32047d7dea7931c040"
+    },
+    {
+      "stage": "integrated-history",
+      "commit": "aba3239951302e46ae4d8293b114cf68da8e0c91",
+      "archive_sha256": "62cba7c5d2678d277e4c87a863bda93ed42da9827ea9073da186c5e486655163"
+    }
+  ],
+  "fresh_checkout_generated_inputs": 0,
+  "external_network_used": false,
+  "distributed_tool_tests": 73,
+  "tool_bindings": {
+    "release_tooling/__init__.py": "9d68c100dcf4a141fab88042c50fb5cca7ece5429f2dee3ca2272f3d00eaf230",
+    "release_tooling/certification.py": "e25263b3deaab48fc43065bd429a366758852e3410cde8a7c4f613075f01a8c9",
+    "release_tooling/cli.py": "a9b3b9fc1279c6bfffd00b19281f81e44777f407da1b1ebdce38440c081e5767",
+    "release_tooling/common.py": "cda7a013afd46936bf819ec42d298194b85341cef85914e2574fe3cefdf6f19b",
+    "release_tooling/final_gate.py": "2d01f47bf244a13ad1235183213ed3f8b2877f70256ab1a3e87d70f3a3c1fd8e",
+    "release_tooling/offline_check.py": "b4f0bdefab222f4186b7d0458ec3fb3d5cbafe593ceb99335b2041e04f32fccb",
+    "release_tooling/package.py": "4ba7aae603ae5322f1734ee5247ff862324c4f432ce859f70aef6e28ce4797a8",
+    "release_tooling/profiles.py": "be0394352dbc0ef81f5a87b4da67ae453e5cc548dd64fe41157ade975d0b01a9",
+    "release_tooling/rebuild.py": "12e503166b284a16ad9f75077d92a779777f04f8ebb2f94b1f1d7d7f69b80e97",
+    "release_tooling/registry.py": "3e506ba84bc70f73640d8be0ae2de20c719fb7b6636bc1d799c3f6c92d3f10ec",
+    "release_tooling/run_tests.py": "77b3c81e4cf59f6eb1d9c2944def82bcac9fd30cce092de741694f9fb3450c28",
+    "release_tooling/verification.py": "5d316db56941ad8026ab5fc5197a11f67a7854098530acd628d7f6e0614727b7",
+    "release_tooling/runtime-lock.json": "1a04375864e9f88f13094ee9b33c1485894a2f333b9d47c864c9ca685d60a0cb",
+    "tests/test_dataset_release.py": "4e3f09256dcdbb62969706698532a26c11d9a09ca2ff38e0fa18682021ee90ea",
+    "docs/dataset-release/change-control.md": "89fd02f38062aa54fe1c1530aa1da8e2741cdd68a8eef2e3da9539e9b612bde4",
+    "docs/dataset-release/limitations.md": "17a0314cc34ab495d3bb3d3d42e6061d06f87debbda600a30ae7f1097c74774c",
+    "docs/dataset-release/README.md": "8dfd28bb75a19a066614bcd73096eca4db396c4acdb907f2be7df19181d8b53d",
+    "docs/dataset-release/rebuild.md": "9f773b3dead67d3fa0403e512f7f4f16c96362d74053eb1522213ac67caf909d"
+  }
+}

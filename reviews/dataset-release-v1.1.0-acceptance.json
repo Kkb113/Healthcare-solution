@@ -1,0 +1,17 @@
+{
+  "decision": "ACCEPT_DATA_RELEASE",
+  "release_id": "healthcare-synthetic-v1.1.0",
+  "descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+  "limitations_sha256": "17a0314cc34ab495d3bb3d3d42e6061d06f87debbda600a30ae7f1097c74774c",
+  "limitations_acknowledged": true,
+  "business_owner": "Requesting business owner of Kkb113/Healthcare-solution, identified by the direct acceptance in this chat",
+  "authority": "DIRECT_HUMAN_USER_APPROVAL",
+  "approval_message": "Accept release healthcare-synthetic-v1.1.0 (descriptor c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5) and its documented limitations.",
+  "separate_solution_authorization_required": true,
+  "recorded_at": "2026-10-26T03:25:38.296865+00:00",
+  "status": "DATA_ACCEPTED",
+  "phase9_status": "PASSED",
+  "solution_implementation_started": false,
+  "domain_review_sha256": "ef54bc8cbff6ee5edc70f3a8914076c441786b307b178138005f346b582c5803",
+  "certification_sha256": "f7eaeddddd359ec8abb002ec6461e49454407995be51ee5919a8be42a333dcb1"
+}
