@@ -1,0 +1,686 @@
+{
+  "phase": 0,
+  "name": "architecture-baseline",
+  "status": "PASS",
+  "evaluated_at": "2026-10-27T09:22:19.301046+00:00",
+  "source_sha": "17ac29cfc57446c28f350fb15bf25ab4d96f238d",
+  "dataset_descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+  "environment": "Local pinned Python3.12 design harness and read-only EastUS cloud metadata; no new workload provisioning",
+  "dependency_gates": [
+    {
+      "path": "evidence/dataset-release-v1.1.0/acceptance-gate.json",
+      "sha256": "17ac117af3938fa944c818747c53f6268b00c38db49ce14ed50884d01b5e1a8a",
+      "status": "PASSED",
+      "scope": "Accepted synthetic dataset prerequisite, not a platform phase gate"
+    }
+  ],
+  "contract_hashes": {
+    ".github/workflows/platform-readiness.yml": "dcac8425a060cf9a1c9bc56ed3a518b074d641210e7f425dcac1ca392b44de9f",
+    "azure-databricks-implementation.md": "5702f398364de71e25e716600518edf17a86833334fca1eafbbba10fd2b8883c",
+    "config/resource-foundation-generation.json": "d08f8a27ed699fab4cfc085919c15061d0b9aa2a75f9b53e1a12fe7a09471757",
+    "contracts/phase0/validation-rules.json": "dffe39411824eae480f1e80e58e3961302a7d6187cdf011c26d862278d30944b",
+    "evidence/dataset-release-v1.1.0/acceptance-gate.json": "17ac117af3938fa944c818747c53f6268b00c38db49ce14ed50884d01b5e1a8a",
+    "evidence/platform/architecture-baseline/model-deployment-live.json": "6ef0fd0972e5622a5e3d656a7380723ecc0ec30d205cd790d36e70017bb95d64",
+    "evidence/platform/architecture-baseline/price-evidence.json": "90d2ff77ed32143dc3886429b3ff16bbbf56c527364fb468b95bbfc3fe16057b",
+    "evidence/platform/architecture-baseline/workspace-live.json": "58459c63e4c6177d85c51825c1e5abebe2ede583dc7911da4e58e58408c78c60",
+    "evidence/platform/prerequisite-readiness/model-budgets.json": "9fc47d5660c2fd21c600fdd243566401048434680c48b0a3691fcb76f79466ef",
+    "evidence/platform/prerequisite-readiness/readiness-checks.json": "cfc3cde70e8e4f2c726c6acec4cb2cbcce68ccde340cd7d90f86168fc7706c56",
+    "evidence/platform/prerequisite-readiness/telemetry-grants.json": "43ac32a9cc3f2bfb53b873eff62d27cc0bf8560b26173a737e81d91b57419fec",
+    "evidence/platform/prerequisite-readiness/telemetry-sql-probe.json": "4d50a0aa871b1df06a5f8703bd3cbd8ae3744538e8d2f48ca4bbb68c403c9a4f",
+    "evidence/platform/prerequisite-readiness/uc-landing-validation.json": "5e2c3c9a0b817c125770975207fc83f97b17a278fe861f9804ca08cf68e5fc5b",
+    "platform/config/cost-policy.json": "5f2ff10e80a3377134d4a56cd2452dbab32e8a75db677d0d04207fc085cb496e",
+    "platform/config/foundation-resources.json": "e50d463eaad81cdf8a080aa94ba6f94527d0241ef3096639a45e165f2634de4a",
+    "platform/config/metastore-bootstrap-request.json": "c7881556ad8d479073a1981d21dc3a0f6da76a9271d090076f393cb2615eea29",
+    "platform/config/metastore-owner-update.json": "f39df45f3ef4d24d67d15549bf52d168cc57247f8a5f39be17d9221d9612be4a",
+    "platform/config/telemetry-access-request.json": "9ca6a521497c11c1a50b745c36b1fe89707bd63e034b48c955b9050ae8551ad3",
+    "platform/config/tool-versions.json": "9ec21055165f2ae289fa923aee147976e36b70844d7f060ba4302c8ac865d0bf",
+    "platform/config/workspace.json": "dd52f4143626cf496a0ec995505c119b2ec8375ae9c11b96e1112c04344cd228",
+    "platform/contracts/architecture/capability-matrix.json": "d3fbd400f5d96b5c7fdcfc4f3eb336aa9d79afd291e0d750e867b56b1dec385b",
+    "platform/contracts/architecture/compatibility-manifest.json": "38ed6659a48cc71f260b95da64edef6d9ce173658ffac5cd3671ab9a5c2e3c2e",
+    "platform/contracts/architecture/cost-model.json": "ecaa1a3e6ba0b7b0681e7c9db053c1f2f5f3eed8f39ed31fcc6622a3fae0dda3",
+    "platform/contracts/architecture/data-quality-contracts.json": "c8cf45170f37984dc0b977eb8760a118a6693f16ad03ff2616015a9d2649bae8",
+    "platform/contracts/architecture/delivery-temporal.json": "6ba3922f8df4b47960e890bd0b4835fe3df097b9869b253e2d20bf3e0ab2b913",
+    "platform/contracts/architecture/design-review.json": "3b2a6dd96e3d6d92ed421676fd31328bd15577abb0e2821e4e9a7079ea0a27ba",
+    "platform/contracts/architecture/full-scope-cost-model.json": "79e5172a9796a15dbf0a01fe93567ac0af7aa33608b7b6691dd64e717237ac4c",
+    "platform/contracts/architecture/gate-dependencies.json": "f94c21a5281a11e87fb40a599cdc6d799271cdef341274c9b7eae82c0d292c42",
+    "platform/contracts/architecture/gate-template.json": "f5e636255493fc6a659140180752fa8d609b3f058480ca130d751439a0ece845",
+    "platform/contracts/architecture/kpi-catalog.json": "3ed105c960ce352e55b18fee44850e8e3c789c0c32f43c5290ad167f9958aabc",
+    "platform/contracts/architecture/ml-eligibility.json": "40519e99bd289f9ea4fb15719c96de5693d3fbb2b20947d6ea2faad1fbaafbd7",
+    "platform/contracts/architecture/probe-matrix.json": "536148b26ad46db5f95e8554acf10a2e96ae0a86587832570bd9d47a256505ba",
+    "platform/contracts/architecture/security-ownership.json": "085eed64a1818c2d8f829e0d21fa526830afcfb77de9a79545325e85c864b398",
+    "platform/contracts/architecture/source-contracts.json": "8eaabd5c2b9d9ddf13bc5dc3d24d25651288ad1b6371d899fe944d218ff804c3",
+    "platform/contracts/architecture/spend-controls.json": "bb1b534dc5295ba39fd942ce279fd0e339e4576b5b58b3a27bc14a100deb4dc2",
+    "platform/contracts/architecture/test-workloads.json": "0d575ab376f52547bb965f1451e91eb77bdc3243d91b6fbb05ac8cd357719c92",
+    "platform/docs/adr/application-framework.md": "38ee66995cbb419ce59a67b685667a04cc581f1fcb744533bd38835049c0a2e3",
+    "platform/docs/adr/authorization-copied-data.md": "47f0e5cd94d5a887614d1d74a2bfeda5a0f761682e32e324ce4a0f18d3d19eca",
+    "platform/docs/adr/business-grains-ml-eligibility.md": "17dca865ab57f68e6037938e99bcd1d449f644639ca97f2dc9fcd933f38d19d7",
+    "platform/docs/adr/delivery-history-clocks.md": "f8070426f53883bfe850084afd6d52cbc31ab5119fa10796d3317d53d58e805e",
+    "platform/docs/adr/exact-luna-access.md": "2b365f6ad315acec7f5309207962c223fe4b77af823de624d099a8a4ed1c9b4c",
+    "platform/docs/adr/funded-operating-model.md": "aa4874892049875ba5edbbafbfb23c5ac3c0fdbfcafec207ed15b78499ef51b8",
+    "platform/docs/adr/gates-workloads-migrations.md": "0e64c34d6b99da2b42798c0c22b06db2104bc77d2c913a66ce942caa8f89e355",
+    "platform/docs/adr/generator-runtime-hosting.md": "32ec5d2e50f9610d19c354d26ba9a53cbbc62f0bbd050384d91b4a768ac3afde",
+    "platform/docs/adr/operational-alert-channels.md": "93fc0397c2e3fd717a63c6409cfcab53ad042014f99ae25d9a27653ec1835c40",
+    "platform/docs/adr/region-runtime-capabilities.md": "55ed645a9bed4ec017184a9f74454f50a9737e67bb524433d29ce465f5301ca8",
+    "platform/docs/adr/remediation-approval-boundary.md": "bece613b4111a1967bded9ec9646a704bc624b32b69f1754f0f8c87e521c3325",
+    "platform/docs/adr/resource-lifecycle-ownership.md": "09338f7614629ba3a6826e975b5268e6ec82079cc8020ba9cbc66b846bb1b088",
+    "platform/docs/adr/rti-state-clock-recovery.md": "74d52b863bdc6a161eda1c28c1eeed239a0856d98fb0449888a6f963eccf1929",
+    "platform/docs/adr/training-location-cost.md": "519d67c9bfab2b5715b0abc3554715086ae7d2d0b1b9ae373f0a109617e62bef",
+    "platform/docs/adr/workspace-topology.md": "a99f0849d6c0760b863fc8493171d2a26f830ccc06bf96f100af2299557fac80",
+    "platform/docs/architecture-baseline.md": "7b778ee58defcf4f55cf97875f1fcc8c93b9bb529f092817113dbf634a739220",
+    "platform/docs/build-budget-review.md": "98478d4a6583efc39e7ef254bdf417e8b4a31b450214cae62e6623ccc8b79d19",
+    "platform/docs/runbooks/validate-architecture.md": "bab1cab2645b45287d8365cf97ecd038c33a3c0291000c66fab5613d841985f8",
+    "platform/scripts/bootstrap_tools.py": "ad5fd75ee5163e14754ce8229ca479ea63d4da7829db4827c0c93cd120d0d7d4",
+    "platform/scripts/build_price_evidence.py": "eef08849e0fd3bea35abab21b0cf9a18e443017a87cbb8274b2f36353955b58e",
+    "platform/scripts/check_local_runtime.py": "cac725917ff0e3fc14e543b480ce65ec462b5ae7bd220a5a03714d3521b7e6cf",
+    "platform/scripts/collect_price_evidence.py": "786d7e193b58db39b4ae75c12654891b08c3efcdf6b7eb35cf6883b322427e46",
+    "platform/scripts/configure_ci_identity.py": "3d9d02278f10f79023f1a6c1b77813a0af4ae373f11bbf1b644762c75f256869",
+    "platform/scripts/configure_model_gateway.py": "f5d86c503d487f72e3af35a6757d86b0af98a5dbc054dd562048438746028033",
+    "platform/scripts/configure_profiles.py": "1e42cce7ac17a4dc305c96d434e6f98a3bc2ebb61f446baea83394d2c96ba196",
+    "platform/scripts/configure_telemetry_access.py": "7e08eac5c1d5b66faf1810cd554041330186b2ebc3f5d4d59fd390871aa0743f",
+    "platform/scripts/freeze_gate_contracts.py": "2191d967893de53eda2c71ff26e53a9ef810d5f8f9e8eba14025377a19e79202",
+    "platform/scripts/freeze_source_contracts.py": "6a9962c680a088d1dfc606af298706e5347b25e00fd484156c62953f27e2e139",
+    "platform/scripts/probe_azure_luna.py": "f23cd2f7b63dc2e4ac8f7c50539a122a015e3f72cdcec26701644d384b7900a4",
+    "platform/scripts/probe_luna.py": "548306ace8d59b5df37c7c78b78ff7a594782c940d6a8c1c7ca5591cb114e4d0",
+    "platform/scripts/probe_telemetry.py": "c58921e9e1155a3d0c1d37bb2121fa997065d7568e43fe03aedbb36181108deb",
+    "platform/scripts/validate_architecture.py": "e6d1ac9194db9c602bf95d90d79ebf36b04c167fb684fe9560b9de93f76c2df4",
+    "platform/scripts/verify_architecture_gate.py": "a58d22b3ddec5365f7b24791c2feabb84192cb585528c8de62ecb14acab1429f",
+    "platform/scripts/verify_configuration.py": "8f0d6a618920f157aaea062f6d9f719aae5d0f2183c48b0f99c580170a6ccaed",
+    "platform/scripts/write_architecture_gate.py": "37201783bb8d3611c770984d129301942fcaa14edae52089c1de303ef05213b2",
+    "platform/tests/unit/test_architecture_contracts.py": "d851c92e4772cb348668c88d863e339f7f559f9af8c887b1c7423dfc6ef0840d",
+    "reviews/dataset-release-v1.1.0-acceptance.json": "dfd5cad131857f32fb459ad84f140e3911cc1eb28f627fcd82583e0f56d39d0d",
+    "src/healthcare_synthetic/resource_workforce.py": "d73b66ef769d072317e093ffc4edc961da3f1f7290ad492b4608397dddb33d45",
+    "src/healthcare_synthetic/source_reader.py": "340f2248316aa963359653aa72358aba3307efacd726f49bff252335f7fcb54f"
+  },
+  "contract_hash_policy": "SHA256 of repository text with CRLF normalized to LF, matching .gitattributes/Git blobs. Accepted release/payload SHA256 remains raw and unchanged.",
+  "report_hashes": {
+    "evidence/platform/architecture-baseline/design-validation.json": "ecf87ab4fc2e633882c4909c8b2cfabddf46cea799e7673e0a78e6916cfe8d70",
+    "evidence/platform/architecture-baseline/architecture-tests.xml": "3a278292fafad44c0a4a1c0509f272d2f22373a8b11a92f58c0f6c3ce92701a0"
+  },
+  "criteria": [
+    {
+      "id": "0.1",
+      "status": "PASS",
+      "measure": "15/15 ADRs and six-role RACI reviewed under delegated technical authority; reduced funded scope explicitly approved by user",
+      "evidence": [
+        "platform/contracts/architecture/design-review.json"
+      ]
+    },
+    {
+      "id": "0.2",
+      "status": "PASS",
+      "measure": "19 dated capability entries, pinned compatibility manifest and16 exact bounded probes; tenant limitations/quotas explicit and dependent provisioning blocked until required probes pass",
+      "evidence": [
+        "platform/contracts/architecture/capability-matrix.json",
+        "platform/contracts/architecture/probe-matrix.json",
+        "platform/contracts/architecture/compatibility-manifest.json"
+      ]
+    },
+    {
+      "id": "0.3",
+      "status": "PASS",
+      "measure": {
+        "build_estimate_inr": "17802.05",
+        "monthly_estimates_inr": {
+          "one-three-hour-demo": "5471.45",
+          "two-one-hour-demos": "5698.01"
+        },
+        "ceiling_inr": 20000,
+        "estimated_not_measured": true,
+        "price_tails_tax_contingency": "included",
+        "ml_total_threshold_inr": 1200
+      },
+      "evidence": [
+        "platform/contracts/architecture/cost-model.json",
+        "evidence/platform/architecture-baseline/price-evidence.json",
+        "platform/docs/build-budget-review.md"
+      ]
+    },
+    {
+      "id": "0.4",
+      "status": "PASS",
+      "measure": {
+        "tables": 25,
+        "columns": 526,
+        "business_rows": 1937925,
+        "kpis": 42,
+        "independent_kpi_check_contracts": 20,
+        "ml_dispositions": 13,
+        "dq_rules": 55,
+        "gate_phases": 14,
+        "required_optional_probes": "P11 only optional; all required probes blocking at their stated phase",
+        "approved_native_questions": 124
+      },
+      "evidence": [
+        "platform/contracts/architecture/source-contracts.json",
+        "platform/contracts/architecture/delivery-temporal.json",
+        "platform/contracts/architecture/kpi-catalog.json",
+        "platform/contracts/architecture/ml-eligibility.json",
+        "platform/contracts/architecture/security-ownership.json",
+        "platform/contracts/architecture/test-workloads.json",
+        "platform/contracts/architecture/gate-dependencies.json"
+      ]
+    }
+  ],
+  "tests": {
+    "tests": 42,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "commands": [
+      "ruff check/format platform/scripts platform/tests",
+      "verify_configuration.py",
+      "pytest platform/tests/unit/test_architecture_contracts.py",
+      "validate_architecture.py --with-release (includes complete release-tool checksum verification)"
+    ]
+  },
+  "measurements": {
+    "full_release_verification": {
+      "status": "PASSED",
+      "release_id": "healthcare-synthetic-v1.1.0",
+      "descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+      "business_tables": 25,
+      "business_rows": 1937925,
+      "challenge_copies": 22,
+      "cap_counted_release_rows": 1937947,
+      "payload_files": 7126,
+      "canonical_business_sha256": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b",
+      "source_package_sha256": "af91c63033f751850585509370b2a8a41db25ea47b49f04abe5289a97dad60db"
+    },
+    "tenant_probe_execution": "NOT_RUN; later required gates remain unpassed",
+    "cost_basis": "Official regional prices plus frozen unmeasured usage assumptions"
+  },
+  "costs": {
+    "modeled": {
+      "build": {
+        "lines": [
+          {
+            "id": "sql",
+            "quantity": "32",
+            "unit": "DBU-hour",
+            "usd": "22.40",
+            "inr_including_tax_reserve": "2643.20"
+          },
+          {
+            "id": "medallion",
+            "quantity": "20",
+            "unit": "DBU-hour",
+            "usd": "9.00",
+            "inr_including_tax_reserve": "1062.00"
+          },
+          {
+            "id": "autopilot",
+            "quantity": "6",
+            "unit": "DBU-hour",
+            "usd": "2.70",
+            "inr_including_tax_reserve": "318.60"
+          },
+          {
+            "id": "ml",
+            "quantity": "12",
+            "unit": "DBU-hour",
+            "usd": "5.40",
+            "inr_including_tax_reserve": "637.20"
+          },
+          {
+            "id": "capability-probes",
+            "quantity": "4",
+            "unit": "DBU-hour",
+            "usd": "1.80",
+            "inr_including_tax_reserve": "212.40"
+          },
+          {
+            "id": "rti-pipelines-and-sync",
+            "quantity": "36",
+            "unit": "DBU-hour",
+            "usd": "16.20",
+            "inr_including_tax_reserve": "1911.60"
+          },
+          {
+            "id": "search",
+            "quantity": "430",
+            "unit": "DBU-hour",
+            "usd": "30.10",
+            "inr_including_tax_reserve": "3551.80"
+          },
+          {
+            "id": "apps",
+            "quantity": "12",
+            "unit": "DBU-hour",
+            "usd": "11.40",
+            "inr_including_tax_reserve": "1345.20"
+          },
+          {
+            "id": "native-genie",
+            "quantity": "248",
+            "unit": "DBU-hour",
+            "usd": "17.36",
+            "inr_including_tax_reserve": "2048.48"
+          },
+          {
+            "id": "lakebase",
+            "quantity": "28",
+            "unit": "DBU-hour",
+            "usd": "7.28",
+            "inr_including_tax_reserve": "859.04"
+          },
+          {
+            "id": "risk-serving",
+            "quantity": "64",
+            "unit": "DBU-hour",
+            "usd": "4.48",
+            "inr_including_tax_reserve": "528.64"
+          },
+          {
+            "id": "luna-input",
+            "quantity": "16",
+            "unit": "million-tokens",
+            "usd": "1.76",
+            "inr_including_tax_reserve": "207.68"
+          },
+          {
+            "id": "luna-output",
+            "quantity": "2",
+            "unit": "million-tokens",
+            "usd": "1.10",
+            "inr_including_tax_reserve": "129.80"
+          },
+          {
+            "id": "event-hubs-tu",
+            "quantity": "6",
+            "unit": "TU-hour",
+            "usd": "0.18",
+            "inr_including_tax_reserve": "21.24"
+          },
+          {
+            "id": "event-hubs-kafka",
+            "quantity": "6",
+            "unit": "namespace-hour",
+            "usd": "0.54",
+            "inr_including_tax_reserve": "63.72"
+          },
+          {
+            "id": "event-hubs-ingress",
+            "quantity": "1",
+            "unit": "million-events",
+            "usd": "0.028",
+            "inr_including_tax_reserve": "3.31"
+          },
+          {
+            "id": "blob-storage",
+            "quantity": "100",
+            "unit": "GB-month",
+            "usd": "2.0800",
+            "inr_including_tax_reserve": "245.44"
+          },
+          {
+            "id": "blob-write",
+            "quantity": "10",
+            "unit": "10K-operations",
+            "usd": "0.50",
+            "inr_including_tax_reserve": "59.00"
+          },
+          {
+            "id": "blob-read",
+            "quantity": "20",
+            "unit": "10K-operations",
+            "usd": "0.080",
+            "inr_including_tax_reserve": "9.44"
+          },
+          {
+            "id": "managed-storage",
+            "quantity": "40",
+            "unit": "DSU",
+            "usd": "1.040",
+            "inr_including_tax_reserve": "122.72"
+          },
+          {
+            "id": "secrets",
+            "quantity": "1",
+            "unit": "10K-operations",
+            "usd": "0.03",
+            "inr_including_tax_reserve": "3.54"
+          },
+          {
+            "id": "network",
+            "quantity": "1",
+            "unit": "USD-allowance",
+            "usd": "1",
+            "inr_including_tax_reserve": "118.00"
+          }
+        ],
+        "usd": "136.4580",
+        "inr": "16102.05",
+        "preflight_pending_inr": "200",
+        "contingency_inr": "1500",
+        "total_inr": "17802.05",
+        "ceiling_inr": "20000",
+        "fits": true
+      },
+      "monthly": {
+        "one-three-hour-demo": {
+          "lines": [
+            {
+              "id": "sql",
+              "quantity": "14",
+              "unit": "DBU-hour",
+              "usd": "9.80",
+              "inr_including_tax_reserve": "1156.40"
+            },
+            {
+              "id": "health-and-sync",
+              "quantity": "2",
+              "unit": "DBU-hour",
+              "usd": "0.90",
+              "inr_including_tax_reserve": "106.20"
+            },
+            {
+              "id": "rti-pipelines-and-sync",
+              "quantity": "15",
+              "unit": "DBU-hour",
+              "usd": "6.75",
+              "inr_including_tax_reserve": "796.50"
+            },
+            {
+              "id": "search",
+              "quantity": "110",
+              "unit": "DBU-hour",
+              "usd": "7.70",
+              "inr_including_tax_reserve": "908.60"
+            },
+            {
+              "id": "apps",
+              "quantity": "7",
+              "unit": "DBU-hour",
+              "usd": "6.65",
+              "inr_including_tax_reserve": "784.70"
+            },
+            {
+              "id": "native-genie",
+              "quantity": "40",
+              "unit": "DBU-hour",
+              "usd": "2.80",
+              "inr_including_tax_reserve": "330.40"
+            },
+            {
+              "id": "lakebase",
+              "quantity": "8",
+              "unit": "DBU-hour",
+              "usd": "2.08",
+              "inr_including_tax_reserve": "245.44"
+            },
+            {
+              "id": "risk-serving",
+              "quantity": "32",
+              "unit": "DBU-hour",
+              "usd": "2.24",
+              "inr_including_tax_reserve": "264.32"
+            },
+            {
+              "id": "luna-input",
+              "quantity": "2",
+              "unit": "million-tokens",
+              "usd": "0.22",
+              "inr_including_tax_reserve": "25.96"
+            },
+            {
+              "id": "luna-output",
+              "quantity": ".25",
+              "unit": "million-tokens",
+              "usd": "0.1375",
+              "inr_including_tax_reserve": "16.23"
+            },
+            {
+              "id": "event-hubs-tu",
+              "quantity": "3",
+              "unit": "TU-hour",
+              "usd": "0.09",
+              "inr_including_tax_reserve": "10.62"
+            },
+            {
+              "id": "event-hubs-kafka",
+              "quantity": "3",
+              "unit": "namespace-hour",
+              "usd": "0.27",
+              "inr_including_tax_reserve": "31.86"
+            },
+            {
+              "id": "event-hubs-ingress",
+              "quantity": ".1",
+              "unit": "million-events",
+              "usd": "0.0028",
+              "inr_including_tax_reserve": "0.34"
+            },
+            {
+              "id": "blob-storage",
+              "quantity": "50",
+              "unit": "GB-month",
+              "usd": "1.0400",
+              "inr_including_tax_reserve": "122.72"
+            },
+            {
+              "id": "blob-write",
+              "quantity": "1",
+              "unit": "10K-operations",
+              "usd": "0.05",
+              "inr_including_tax_reserve": "5.90"
+            },
+            {
+              "id": "blob-read",
+              "quantity": "10",
+              "unit": "10K-operations",
+              "usd": "0.040",
+              "inr_including_tax_reserve": "4.72"
+            },
+            {
+              "id": "managed-storage",
+              "quantity": "10",
+              "unit": "DSU",
+              "usd": "0.260",
+              "inr_including_tax_reserve": "30.68"
+            },
+            {
+              "id": "secrets",
+              "quantity": ".1",
+              "unit": "10K-operations",
+              "usd": "0.003",
+              "inr_including_tax_reserve": "0.36"
+            },
+            {
+              "id": "network",
+              "quantity": ".25",
+              "unit": "USD-allowance",
+              "usd": "0.25",
+              "inr_including_tax_reserve": "29.50"
+            }
+          ],
+          "usd": "41.2833",
+          "inr": "4871.45",
+          "total_inr": "5471.45",
+          "contingency_inr": "600",
+          "fits": true
+        },
+        "two-one-hour-demos": {
+          "lines": [
+            {
+              "id": "sql",
+              "quantity": "12",
+              "unit": "DBU-hour",
+              "usd": "8.40",
+              "inr_including_tax_reserve": "991.20"
+            },
+            {
+              "id": "health-and-sync",
+              "quantity": "4",
+              "unit": "DBU-hour",
+              "usd": "1.80",
+              "inr_including_tax_reserve": "212.40"
+            },
+            {
+              "id": "rti-pipelines-and-sync",
+              "quantity": "10",
+              "unit": "DBU-hour",
+              "usd": "4.50",
+              "inr_including_tax_reserve": "531.00"
+            },
+            {
+              "id": "search",
+              "quantity": "204",
+              "unit": "DBU-hour",
+              "usd": "14.28",
+              "inr_including_tax_reserve": "1685.04"
+            },
+            {
+              "id": "apps",
+              "quantity": "6",
+              "unit": "DBU-hour",
+              "usd": "5.70",
+              "inr_including_tax_reserve": "672.60"
+            },
+            {
+              "id": "native-genie",
+              "quantity": "40",
+              "unit": "DBU-hour",
+              "usd": "2.80",
+              "inr_including_tax_reserve": "330.40"
+            },
+            {
+              "id": "lakebase",
+              "quantity": "6",
+              "unit": "DBU-hour",
+              "usd": "1.56",
+              "inr_including_tax_reserve": "184.08"
+            },
+            {
+              "id": "risk-serving",
+              "quantity": "24",
+              "unit": "DBU-hour",
+              "usd": "1.68",
+              "inr_including_tax_reserve": "198.24"
+            },
+            {
+              "id": "luna-input",
+              "quantity": "2",
+              "unit": "million-tokens",
+              "usd": "0.22",
+              "inr_including_tax_reserve": "25.96"
+            },
+            {
+              "id": "luna-output",
+              "quantity": ".25",
+              "unit": "million-tokens",
+              "usd": "0.1375",
+              "inr_including_tax_reserve": "16.23"
+            },
+            {
+              "id": "event-hubs-tu",
+              "quantity": "4",
+              "unit": "TU-hour",
+              "usd": "0.12",
+              "inr_including_tax_reserve": "14.16"
+            },
+            {
+              "id": "event-hubs-kafka",
+              "quantity": "4",
+              "unit": "namespace-hour",
+              "usd": "0.36",
+              "inr_including_tax_reserve": "42.48"
+            },
+            {
+              "id": "event-hubs-ingress",
+              "quantity": ".1",
+              "unit": "million-events",
+              "usd": "0.0028",
+              "inr_including_tax_reserve": "0.34"
+            },
+            {
+              "id": "blob-storage",
+              "quantity": "50",
+              "unit": "GB-month",
+              "usd": "1.0400",
+              "inr_including_tax_reserve": "122.72"
+            },
+            {
+              "id": "blob-write",
+              "quantity": "1",
+              "unit": "10K-operations",
+              "usd": "0.05",
+              "inr_including_tax_reserve": "5.90"
+            },
+            {
+              "id": "blob-read",
+              "quantity": "10",
+              "unit": "10K-operations",
+              "usd": "0.040",
+              "inr_including_tax_reserve": "4.72"
+            },
+            {
+              "id": "managed-storage",
+              "quantity": "10",
+              "unit": "DSU",
+              "usd": "0.260",
+              "inr_including_tax_reserve": "30.68"
+            },
+            {
+              "id": "secrets",
+              "quantity": ".1",
+              "unit": "10K-operations",
+              "usd": "0.003",
+              "inr_including_tax_reserve": "0.36"
+            },
+            {
+              "id": "network",
+              "quantity": ".25",
+              "unit": "USD-allowance",
+              "usd": "0.25",
+              "inr_including_tax_reserve": "29.50"
+            }
+          ],
+          "usd": "43.2033",
+          "inr": "5098.01",
+          "total_inr": "5698.01",
+          "contingency_inr": "600",
+          "fits": true
+        }
+      },
+      "stress_cases": [
+        {
+          "name": "genie-double-usage",
+          "total_inr": "19850.53",
+          "fits": true,
+          "expected": "WITHIN_BUDGET",
+          "matches_expected": true
+        },
+        {
+          "name": "fx-and-price-shock",
+          "total_inr": "21183.59",
+          "fits": false,
+          "expected": "OVER_BUDGET",
+          "matches_expected": true
+        }
+      ],
+      "basis": "Published USD unit rates \u00d7 unmeasured engineering quantities; INR100/USD +18% planning tax reserve; no credits/free promotional units. Later gates must substitute measured usage and reconcile delayed invoices."
+    },
+    "phase0_new_paid_workloads": 0,
+    "actual_invoice_cost_inr": null,
+    "prior_prerequisite_pending_reserve_inr": 200,
+    "note": "No new compute was started; billing settlement is not asserted from metadata-only checks."
+  },
+  "limitations": [
+    "Not a tenant integration, model accuracy, latency or real-data production certification",
+    "Luna5RPM/5000TPM readiness allocation requires Phase2 sizing/quota/capacity probe",
+    "Lakebase CU billing and automated compute quantities remain measured-pilot hold points",
+    "Reduced stochastic Genie coverage explicitly accepted by owner; exact deterministic/security/recovery checks retained",
+    "FX/rate stress can exceed ceiling; future admission must stop/reprice rather than waive tests"
+  ],
+  "owner_signoff": {
+    "actor": "Codex",
+    "role": "Delegated Phase0 technical design/implementation reviewer",
+    "authority": "Direct user instruction to finalize Phase0 plus explicit user acceptance of reduced POC scope at INR20000; approval hashes recorded in design-review.json",
+    "independent_clinical_or_security_certification_claimed": false
+  },
+  "next_phase": {
+    "phase": 1,
+    "status": "NOT_STARTED_BY_THIS_GATE",
+    "rule": "Commit and push gate before dependent execution; adopt prior authorized prerequisites, do not infer Phase1 PASS."
+  }
+}

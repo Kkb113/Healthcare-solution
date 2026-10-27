@@ -1,0 +1,498 @@
+{
+  "status": "PASS",
+  "costs": {
+    "build": {
+      "lines": [
+        {
+          "id": "sql",
+          "quantity": "32",
+          "unit": "DBU-hour",
+          "usd": "22.40",
+          "inr_including_tax_reserve": "2643.20"
+        },
+        {
+          "id": "medallion",
+          "quantity": "20",
+          "unit": "DBU-hour",
+          "usd": "9.00",
+          "inr_including_tax_reserve": "1062.00"
+        },
+        {
+          "id": "autopilot",
+          "quantity": "6",
+          "unit": "DBU-hour",
+          "usd": "2.70",
+          "inr_including_tax_reserve": "318.60"
+        },
+        {
+          "id": "ml",
+          "quantity": "12",
+          "unit": "DBU-hour",
+          "usd": "5.40",
+          "inr_including_tax_reserve": "637.20"
+        },
+        {
+          "id": "capability-probes",
+          "quantity": "4",
+          "unit": "DBU-hour",
+          "usd": "1.80",
+          "inr_including_tax_reserve": "212.40"
+        },
+        {
+          "id": "rti-pipelines-and-sync",
+          "quantity": "36",
+          "unit": "DBU-hour",
+          "usd": "16.20",
+          "inr_including_tax_reserve": "1911.60"
+        },
+        {
+          "id": "search",
+          "quantity": "430",
+          "unit": "DBU-hour",
+          "usd": "30.10",
+          "inr_including_tax_reserve": "3551.80"
+        },
+        {
+          "id": "apps",
+          "quantity": "12",
+          "unit": "DBU-hour",
+          "usd": "11.40",
+          "inr_including_tax_reserve": "1345.20"
+        },
+        {
+          "id": "native-genie",
+          "quantity": "248",
+          "unit": "DBU-hour",
+          "usd": "17.36",
+          "inr_including_tax_reserve": "2048.48"
+        },
+        {
+          "id": "lakebase",
+          "quantity": "28",
+          "unit": "DBU-hour",
+          "usd": "7.28",
+          "inr_including_tax_reserve": "859.04"
+        },
+        {
+          "id": "risk-serving",
+          "quantity": "64",
+          "unit": "DBU-hour",
+          "usd": "4.48",
+          "inr_including_tax_reserve": "528.64"
+        },
+        {
+          "id": "luna-input",
+          "quantity": "16",
+          "unit": "million-tokens",
+          "usd": "1.76",
+          "inr_including_tax_reserve": "207.68"
+        },
+        {
+          "id": "luna-output",
+          "quantity": "2",
+          "unit": "million-tokens",
+          "usd": "1.10",
+          "inr_including_tax_reserve": "129.80"
+        },
+        {
+          "id": "event-hubs-tu",
+          "quantity": "6",
+          "unit": "TU-hour",
+          "usd": "0.18",
+          "inr_including_tax_reserve": "21.24"
+        },
+        {
+          "id": "event-hubs-kafka",
+          "quantity": "6",
+          "unit": "namespace-hour",
+          "usd": "0.54",
+          "inr_including_tax_reserve": "63.72"
+        },
+        {
+          "id": "event-hubs-ingress",
+          "quantity": "1",
+          "unit": "million-events",
+          "usd": "0.028",
+          "inr_including_tax_reserve": "3.31"
+        },
+        {
+          "id": "blob-storage",
+          "quantity": "100",
+          "unit": "GB-month",
+          "usd": "2.0800",
+          "inr_including_tax_reserve": "245.44"
+        },
+        {
+          "id": "blob-write",
+          "quantity": "10",
+          "unit": "10K-operations",
+          "usd": "0.50",
+          "inr_including_tax_reserve": "59.00"
+        },
+        {
+          "id": "blob-read",
+          "quantity": "20",
+          "unit": "10K-operations",
+          "usd": "0.080",
+          "inr_including_tax_reserve": "9.44"
+        },
+        {
+          "id": "managed-storage",
+          "quantity": "40",
+          "unit": "DSU",
+          "usd": "1.040",
+          "inr_including_tax_reserve": "122.72"
+        },
+        {
+          "id": "secrets",
+          "quantity": "1",
+          "unit": "10K-operations",
+          "usd": "0.03",
+          "inr_including_tax_reserve": "3.54"
+        },
+        {
+          "id": "network",
+          "quantity": "1",
+          "unit": "USD-allowance",
+          "usd": "1",
+          "inr_including_tax_reserve": "118.00"
+        }
+      ],
+      "usd": "136.4580",
+      "inr": "16102.05",
+      "preflight_pending_inr": "200",
+      "contingency_inr": "1500",
+      "total_inr": "17802.05",
+      "ceiling_inr": "20000",
+      "fits": true
+    },
+    "monthly": {
+      "one-three-hour-demo": {
+        "lines": [
+          {
+            "id": "sql",
+            "quantity": "14",
+            "unit": "DBU-hour",
+            "usd": "9.80",
+            "inr_including_tax_reserve": "1156.40"
+          },
+          {
+            "id": "health-and-sync",
+            "quantity": "2",
+            "unit": "DBU-hour",
+            "usd": "0.90",
+            "inr_including_tax_reserve": "106.20"
+          },
+          {
+            "id": "rti-pipelines-and-sync",
+            "quantity": "15",
+            "unit": "DBU-hour",
+            "usd": "6.75",
+            "inr_including_tax_reserve": "796.50"
+          },
+          {
+            "id": "search",
+            "quantity": "110",
+            "unit": "DBU-hour",
+            "usd": "7.70",
+            "inr_including_tax_reserve": "908.60"
+          },
+          {
+            "id": "apps",
+            "quantity": "7",
+            "unit": "DBU-hour",
+            "usd": "6.65",
+            "inr_including_tax_reserve": "784.70"
+          },
+          {
+            "id": "native-genie",
+            "quantity": "40",
+            "unit": "DBU-hour",
+            "usd": "2.80",
+            "inr_including_tax_reserve": "330.40"
+          },
+          {
+            "id": "lakebase",
+            "quantity": "8",
+            "unit": "DBU-hour",
+            "usd": "2.08",
+            "inr_including_tax_reserve": "245.44"
+          },
+          {
+            "id": "risk-serving",
+            "quantity": "32",
+            "unit": "DBU-hour",
+            "usd": "2.24",
+            "inr_including_tax_reserve": "264.32"
+          },
+          {
+            "id": "luna-input",
+            "quantity": "2",
+            "unit": "million-tokens",
+            "usd": "0.22",
+            "inr_including_tax_reserve": "25.96"
+          },
+          {
+            "id": "luna-output",
+            "quantity": ".25",
+            "unit": "million-tokens",
+            "usd": "0.1375",
+            "inr_including_tax_reserve": "16.23"
+          },
+          {
+            "id": "event-hubs-tu",
+            "quantity": "3",
+            "unit": "TU-hour",
+            "usd": "0.09",
+            "inr_including_tax_reserve": "10.62"
+          },
+          {
+            "id": "event-hubs-kafka",
+            "quantity": "3",
+            "unit": "namespace-hour",
+            "usd": "0.27",
+            "inr_including_tax_reserve": "31.86"
+          },
+          {
+            "id": "event-hubs-ingress",
+            "quantity": ".1",
+            "unit": "million-events",
+            "usd": "0.0028",
+            "inr_including_tax_reserve": "0.34"
+          },
+          {
+            "id": "blob-storage",
+            "quantity": "50",
+            "unit": "GB-month",
+            "usd": "1.0400",
+            "inr_including_tax_reserve": "122.72"
+          },
+          {
+            "id": "blob-write",
+            "quantity": "1",
+            "unit": "10K-operations",
+            "usd": "0.05",
+            "inr_including_tax_reserve": "5.90"
+          },
+          {
+            "id": "blob-read",
+            "quantity": "10",
+            "unit": "10K-operations",
+            "usd": "0.040",
+            "inr_including_tax_reserve": "4.72"
+          },
+          {
+            "id": "managed-storage",
+            "quantity": "10",
+            "unit": "DSU",
+            "usd": "0.260",
+            "inr_including_tax_reserve": "30.68"
+          },
+          {
+            "id": "secrets",
+            "quantity": ".1",
+            "unit": "10K-operations",
+            "usd": "0.003",
+            "inr_including_tax_reserve": "0.36"
+          },
+          {
+            "id": "network",
+            "quantity": ".25",
+            "unit": "USD-allowance",
+            "usd": "0.25",
+            "inr_including_tax_reserve": "29.50"
+          }
+        ],
+        "usd": "41.2833",
+        "inr": "4871.45",
+        "total_inr": "5471.45",
+        "contingency_inr": "600",
+        "fits": true
+      },
+      "two-one-hour-demos": {
+        "lines": [
+          {
+            "id": "sql",
+            "quantity": "12",
+            "unit": "DBU-hour",
+            "usd": "8.40",
+            "inr_including_tax_reserve": "991.20"
+          },
+          {
+            "id": "health-and-sync",
+            "quantity": "4",
+            "unit": "DBU-hour",
+            "usd": "1.80",
+            "inr_including_tax_reserve": "212.40"
+          },
+          {
+            "id": "rti-pipelines-and-sync",
+            "quantity": "10",
+            "unit": "DBU-hour",
+            "usd": "4.50",
+            "inr_including_tax_reserve": "531.00"
+          },
+          {
+            "id": "search",
+            "quantity": "204",
+            "unit": "DBU-hour",
+            "usd": "14.28",
+            "inr_including_tax_reserve": "1685.04"
+          },
+          {
+            "id": "apps",
+            "quantity": "6",
+            "unit": "DBU-hour",
+            "usd": "5.70",
+            "inr_including_tax_reserve": "672.60"
+          },
+          {
+            "id": "native-genie",
+            "quantity": "40",
+            "unit": "DBU-hour",
+            "usd": "2.80",
+            "inr_including_tax_reserve": "330.40"
+          },
+          {
+            "id": "lakebase",
+            "quantity": "6",
+            "unit": "DBU-hour",
+            "usd": "1.56",
+            "inr_including_tax_reserve": "184.08"
+          },
+          {
+            "id": "risk-serving",
+            "quantity": "24",
+            "unit": "DBU-hour",
+            "usd": "1.68",
+            "inr_including_tax_reserve": "198.24"
+          },
+          {
+            "id": "luna-input",
+            "quantity": "2",
+            "unit": "million-tokens",
+            "usd": "0.22",
+            "inr_including_tax_reserve": "25.96"
+          },
+          {
+            "id": "luna-output",
+            "quantity": ".25",
+            "unit": "million-tokens",
+            "usd": "0.1375",
+            "inr_including_tax_reserve": "16.23"
+          },
+          {
+            "id": "event-hubs-tu",
+            "quantity": "4",
+            "unit": "TU-hour",
+            "usd": "0.12",
+            "inr_including_tax_reserve": "14.16"
+          },
+          {
+            "id": "event-hubs-kafka",
+            "quantity": "4",
+            "unit": "namespace-hour",
+            "usd": "0.36",
+            "inr_including_tax_reserve": "42.48"
+          },
+          {
+            "id": "event-hubs-ingress",
+            "quantity": ".1",
+            "unit": "million-events",
+            "usd": "0.0028",
+            "inr_including_tax_reserve": "0.34"
+          },
+          {
+            "id": "blob-storage",
+            "quantity": "50",
+            "unit": "GB-month",
+            "usd": "1.0400",
+            "inr_including_tax_reserve": "122.72"
+          },
+          {
+            "id": "blob-write",
+            "quantity": "1",
+            "unit": "10K-operations",
+            "usd": "0.05",
+            "inr_including_tax_reserve": "5.90"
+          },
+          {
+            "id": "blob-read",
+            "quantity": "10",
+            "unit": "10K-operations",
+            "usd": "0.040",
+            "inr_including_tax_reserve": "4.72"
+          },
+          {
+            "id": "managed-storage",
+            "quantity": "10",
+            "unit": "DSU",
+            "usd": "0.260",
+            "inr_including_tax_reserve": "30.68"
+          },
+          {
+            "id": "secrets",
+            "quantity": ".1",
+            "unit": "10K-operations",
+            "usd": "0.003",
+            "inr_including_tax_reserve": "0.36"
+          },
+          {
+            "id": "network",
+            "quantity": ".25",
+            "unit": "USD-allowance",
+            "usd": "0.25",
+            "inr_including_tax_reserve": "29.50"
+          }
+        ],
+        "usd": "43.2033",
+        "inr": "5098.01",
+        "total_inr": "5698.01",
+        "contingency_inr": "600",
+        "fits": true
+      }
+    },
+    "stress_cases": [
+      {
+        "name": "genie-double-usage",
+        "total_inr": "19850.53",
+        "fits": true,
+        "expected": "WITHIN_BUDGET",
+        "matches_expected": true
+      },
+      {
+        "name": "fx-and-price-shock",
+        "total_inr": "21183.59",
+        "fits": false,
+        "expected": "OVER_BUDGET",
+        "matches_expected": true
+      }
+    ],
+    "basis": "Published USD unit rates \u00d7 unmeasured engineering quantities; INR100/USD +18% planning tax reserve; no credits/free promotional units. Later gates must substitute measured usage and reconcile delayed invoices."
+  },
+  "source_tables": 25,
+  "source_columns": 526,
+  "business_rows": 1937925,
+  "adrs": 15,
+  "kpis": 42,
+  "ml_dispositions": 13,
+  "dq_rules": 55,
+  "probes": 16,
+  "tenant_probe_execution": "NOT_RUN: required in stated later phases; Phase0 verifies design/probe plan only",
+  "accepted_release_binding": "CHECKED",
+  "scope_approval": "APPROVED_BY_USER",
+  "evaluated_at": "2026-10-27T09:21:17.338046+00:00",
+  "source_sha": "17ac29cfc57446c28f350fb15bf25ab4d96f238d",
+  "full_release_verification": {
+    "status": "PASSED",
+    "release_id": "healthcare-synthetic-v1.1.0",
+    "descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+    "business_tables": 25,
+    "business_rows": 1937925,
+    "challenge_copies": 22,
+    "cap_counted_release_rows": 1937947,
+    "payload_files": 7126,
+    "canonical_business_sha256": "12859a1807c54f2a1900b2ae430b11e88befc33d483e4e96ce0452d0e682eb1b",
+    "source_package_sha256": "af91c63033f751850585509370b2a8a41db25ea47b49f04abe5289a97dad60db"
+  }
+}
