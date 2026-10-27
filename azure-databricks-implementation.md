@@ -1,6 +1,6 @@
 # Azure Databricks Implementation Plan: Healthcare Analytics Platform
 
-**Status:** Revised design baseline, 2026-10-27; implementation not started. The revisions below are design decisions, not evidence that any cloud gate has passed. Synthetic data generation is complete: release `healthcare-synthetic-v1.1.0` is certified and `DATA_ACCEPTED` (descriptor `c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5`).
+**Status:** Revised design baseline with authorized prerequisite preparation, 2026-10-27; analytics implementation not started. The [readiness record](platform/docs/prerequisite-readiness.md) distinguishes tested prerequisite changes from unpassed implementation gates. Synthetic data generation is complete: release `healthcare-synthetic-v1.1.0` is certified and `DATA_ACCEPTED` (descriptor `c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5`).
 **Platform:** Azure Databricks only. Microsoft Fabric and Power BI are out of scope.
 **Sequence:** Fourteen phases, Phase 0 through Phase 13. Real-Time Intelligence is the final phase.
 **Budget:** ₹20,000 one-time build budget for the POC. After the build, the platform runs 1–2 demo days a month and sleeps the rest of the time (sections 3.6–3.8).
@@ -66,7 +66,7 @@ Freeze source contracts, identifiers, grains, timestamp semantics and authorizat
 | Phase | Name | Depends on | Key deliverables | Indicative duration* |
 | --- | --- | --- | --- | --- |
 | 0 | Mobilization and architecture decisions | — | ADRs, environment plan, cost budget, team roles | 1 week |
-| 1 | Azure infrastructure provisioning | 0 | Resource group, ADLS Gen2, Key Vault, workspace, Unity Catalog storage, budgets (Event Hubs and Azure OpenAI deferred) | 1 week |
+| 1 | Azure infrastructure provisioning | 0 | Adopt existing workspace; dedicated resource group, ADLS Gen2, Key Vault, Unity Catalog storage and budgets; retain the documented Luna prerequisite exception; Event Hubs deferred | 1 week |
 | 2 | Databricks platform foundation and CI/CD | 1 | Catalogs, schemas, volumes, groups, grants, compute and budget policies, SQL warehouse, Asset Bundles, CI/CD, shared library | 1–2 weeks |
 | 3 | Synthetic data release and data onboarding | 2 | v1.1.0 native files in landing; answer key in `reference`; source contract registry | 3–4 days |
 | 4 | Bronze ingestion | 3 | Metadata-driven ingestion of all 25 feeds, delivery ledger, quarantine, challenge handling | 1–2 weeks |
@@ -117,6 +117,8 @@ In particular, cost centers and workers precede dependent locations, encounters 
 
 One workspace with separate catalogs is acceptable for the synthetic POC (ADR-01). Real-data workspace isolation and network controls require a separate architecture approval. Build in `hc_dev`; deploy changed assets to `hc_test` only for scheduled gate tests, not after every merge. Publish one batch release to `hc_prod` in Phase 12 and its RTI extension in Phase 13, with targeted smoke tests. Test catalogs and paths are isolated so challenge rows never enter the demonstration release.
 
+Adopt the existing Premium **SERVERLESS** workspace `intellify-healthcare-dbw` in East US, workspace ID `7405619366453187`, subscription `d054aa64-95db-467b-a25c-387de70b15bd`. Reference it as existing infrastructure; do not recreate it as a classic workspace or move it to another region. Supporting healthcare resources use a dedicated resource group. The verified exact-model exception uses Azure OpenAI in a second MCPP subscription, `0725b5e7-75db-4c60-b5e9-928c3df3fcd1`, in the same tenant and East US region, through the existing workspace's gateway. Both subscriptions must be included in cost reconciliation. Configuration and dated probe evidence are in the readiness record.
+
 ### 3.2 Schemas in each environment catalog
 
 `landing` (volumes) · `reference` (answer key, calendars) · `bronze` · `silver` · `gold` · `semantic` (metric views, functions) · `features` · `ml` (models) · `pred` (predictions) · `agent` (agent tables, vector indexes) · `dq` (rule catalog and results) · `rt` (real-time, created in Phase 13)
@@ -127,7 +129,9 @@ One workspace with separate catalogs is acceptable for the synthetic POC (ADR-01
 platform/
   databricks.yml                 # Asset Bundle root, targets dev / test / prod
   resources/                     # bundle-owned jobs, pipelines, apps, dashboards and alerts (YAML)
-  infra/terraform/               # Azure resources and workspace-level objects (catalogs, grants, warehouses)
+  infra/foundation/              # dedicated healthcare Azure resources and foundation identities
+  infra/model-access/            # exact-model subscription exception, managed identity and cost alerts
+  infra/workspace/               # workspace-level objects added in their implementation phase
   src/hcp/                       # shared Python package built as a wheel
     common/ contracts/ auth/ telemetry/ ingest/ silver/ gold/ dq/ features/ ml/ agent/ autopilot/ rti/
   pipelines/                     # Lakeflow Declarative Pipeline sources
@@ -161,7 +165,7 @@ Cost controls are acceptance criteria, not suggestions. Each phase gate includes
 | SQL warehouse | Phase 2 | Serverless, size 2X-Small, min 1 / max 1 cluster (max 2 in prod) | **Auto-stop 5 minutes.** Serverless warehouses support this; classic and pro warehouses do not go below 10 minutes, so they are not used |
 | Jobs and pipelines | Phase 4 | Serverless; triggered, never continuous outside Phase 13 demo windows; cost-optimized (standard) serverless mode where offered | Stop on completion; no always-on pipelines |
 | Notebooks | Phase 2 | Serverless notebook compute | Auto-terminates when idle |
-| Classic clusters (exceptions only) | As needed | Cluster policy: single node, auto-termination 10 minutes, spot instances in dev | Policy-enforced |
+| Classic clusters | Unavailable in the adopted SERVERLESS workspace | No classic-compute fallback or quota-dependent cluster policy | A need for classic compute requires a separate architecture decision; do not recreate this workspace |
 | Model serving | Phase 8 | Small workload size, **scale to zero enabled** | Scales to zero when idle |
 | Vector Search | Phase 10 | One shared endpoint, smallest option | Billed while provisioned: deleted by `platform_down`, recreated by `platform_up` |
 | Lakebase | Phase 10 (sessions), Phase 13 (live state) | Smallest capacity; auto-pause where supported | Stopped by `platform_down` |
@@ -317,10 +321,10 @@ Phase 0 fixes the numerical limits, daily-window timezone, price/headroom policy
 
 | ADR | Decision | Recommended option |
 | --- | --- | --- |
-| ADR-01 | Workspace topology | One Premium workspace, catalogs per environment |
+| ADR-01 | Workspace topology | Adopt existing Premium SERVERLESS healthcare workspace in East US; catalogs per environment; dedicated supporting RG; no classic fallback |
 | ADR-02 | Infrastructure as code and resource ownership | Terraform for foundations; Bundles for supported app assets; one API adapter for other assets; resource-by-resource ownership and reconciliation register |
 | ADR-03 | Region and supported software | Verify region, subscription entitlements, quotas, serverless connectivity and feature maturity; pin runtime/channel, providers and SDKs; record every Beta/preview dependency and supported fallback |
-| ADR-04 | LLM access path for GPT-6 Luna | Establish a supported Responses API route, tool/structured-output contract, quotas and fallback before downstream investment; bounded cloud probe in Phase 2; full quality/cost comparison in Phase 10 |
+| ADR-04 | LLM access path for GPT-6 Luna | Verified Azure OpenAI exact model via Databricks gateway and UC service credential/managed identity in the second MCPP subscription; preserve workspace region. Native ADI route is unavailable in this account. Complete remaining API, governance, price and fallback probes in Phase 2 and quality/cost evaluation in Phase 10 |
 | ADR-05 | App framework | React front end with FastAPI back end for the agent, Autopilot and Command Center apps |
 | ADR-06 | ML training location | Prototype, select features and tune locally; final training and scoring on Databricks serverless; full local training (hybrid path) if Phase 8 step 8.2 cost evaluation exceeds the threshold set here |
 | ADR-07 | Autopilot remediation level | Automatic retry and repair runs; human approval for any data rewrite, restore or deletion |
@@ -352,20 +356,20 @@ Phase 0 fixes the numerical limits, daily-window timezone, price/headroom policy
 
 ## Phase 1: Azure infrastructure provisioning
 
-**Objective:** Provision only the Azure resources needed for Phases 2 to 12. Event Hubs and Azure OpenAI are deferred to the phases that use them.
+**Objective:** Provision only the Azure resources needed for Phases 2 to 12. Retain and reconcile the existing workspace and authorized prerequisite resources. Event Hubs is deferred to Phase 13; the sole Azure OpenAI exception is the tested exact Luna prerequisite route in section 3.1.
 
 **Prerequisites:** Phase 0 gate; Azure subscription Owner or Contributor plus User Access Administrator rights, and the required Entra/Databricks account and metastore administration permissions. Confirm each scope separately; subscription Contributor alone cannot provision every group or UC account object.
 
 **Dependencies:** ADR-01, ADR-02, ADR-03.
 
-**Implementation steps** (Terraform under `platform/infra/terraform/`)
+**Implementation steps** (Terraform under `platform/infra/foundation/` and `platform/infra/model-access/`; workspace objects under `platform/infra/workspace/` when introduced)
 
 1. Resource group `rg-hcp-<env>` with tags `project`, `owner`, `costcenter`, `environment`.
 2. ADLS Gen2 storage account (hierarchical namespace on), containers `uc-managed`, `landing`, `checkpoints`. Lifecycle rule for landing files older than 90 days.
 3. Azure Key Vault for unavoidable secrets; prefer federated CI/OAuth and managed identities. Terraform state is encrypted, access-restricted and never committed; no credentials in plan output or evidence.
-4. Azure Databricks workspace, Premium tier, without VNet injection for the synthetic POC. Confirm serverless access to required storage, endpoints and secrets. Real-data network isolation, encryption and workspace topology are a separate prerequisite review, not implied by this POC gate.
+4. Adopt and verify the existing Premium SERVERLESS workspace specified in section 3.1; do not provision a replacement. Confirm serverless access to required storage, endpoints and secrets. Real-data network isolation, encryption and workspace topology are a separate prerequisite review, not implied by this POC gate.
 5. Access Connector for Azure Databricks (managed identity) with Storage Blob Data Contributor on the storage account.
-6. Unity Catalog: assign the metastore to the workspace; create the storage credential from the access connector and external locations for `uc-managed` and `landing`.
+6. Unity Catalog: verify the existing East US metastore assignment; create the healthcare storage credential from the dedicated access connector and external locations for `uc-managed` and `landing`. The shared metastore owner was explicitly changed to the existing human platform administrator during prerequisite remediation; preserve that recorded governance approval and do not repeat ownership changes in routine deployment.
 7. Entra ID: create groups `hcp-platform-admins`, `hcp-data-engineers`, `hcp-data-scientists`, `hcp-analysts`, `hcp-clinical`, `hcp-finance`, `hcp-operations`, `hcp-auditors`; enable automatic identity management or SCIM provisioning.
 8. Foundation service principals: `sp-hcp-cicd` (deployments), `sp-hcp-jobs` (data jobs), `sp-hcp-validation` (independent answer-key checks). Each Databricks App later receives its own platform-created service principal; these cannot be replaced by a shared `sp-hcp-apps`. Grant each app only its declared resources. See [Databricks Apps authorization](https://learn.microsoft.com/en-us/azure/databricks/dev-tools/databricks-apps/auth).
 9. Azure budgets and cumulative build ledger per section 3.6; monthly budget ₹6,000 with alerts at 50%, 80% and 100%. Alerts go to the platform owner by email.
@@ -379,11 +383,11 @@ Phase 0 fixes the numerical limits, daily-window timezone, price/headroom policy
 
 | # | Criterion | Measure |
 | --- | --- | --- |
-| 1.1 | All resources created from code | `terraform plan` = 0 changes |
+| 1.1 | New healthcare resources created from code; existing workspace adopted | `terraform plan` = 0 changes; workspace identity, SERVERLESS mode and reference-only ownership verified |
 | 1.2 | Unity Catalog metastore attached; storage credential and 2 external locations validated | Validation passes |
 | 1.3 | Foundation identities exist | 8 groups and 3 named foundation principals; app identities provisioned per app later |
 | 1.4 | Budget alerts configured | Build budget with 4 alerts; monthly budget with 3 alerts |
-| 1.5 | No Event Hubs, Azure OpenAI, NAT gateway or Log Analytics resources | 0 deployed |
+| 1.5 | No Event Hubs, NAT gateway, Log Analytics or duplicate workspace resources | 0 deployed; the documented exact-model prerequisite exception is the sole Azure OpenAI deployment, keyless and pay per token |
 
 ---
 
@@ -398,7 +402,7 @@ Phase 0 fixes the numerical limits, daily-window timezone, price/headroom policy
 1. **Catalogs and schemas (Terraform):** create `hc_dev`, `hc_test`, `hc_prod`, `hc_ops` with managed storage on `uc-managed`; create the schemas in section 3.2; create volume `landing.raw` as an external volume on the landing container.
 2. **Grants (Terraform):** least privilege per group and layer, as in section 15.4. `sp-hcp-jobs` writes pipeline outputs but cannot read the answer key; `sp-hcp-validation` reads the oracle and published outputs and cannot write pipeline business tables. No business-user read grants before the masking/filtering path is tested.
 3. **Protection at creation:** define governed tags, baseline masks and fail-closed facility policies before onboarding. Build an admin-managed `hc_ops.security.principal_scope` mapping verified Entra object IDs to synthetic worker/persona identities and allowed facilities. Synthetic Workday `access_scope` rows are test inputs to an approved mapping, never automatic cloud authorization. Deny missing, ambiguous, expired or revoked mappings. Use ABAC only if supported and approved in ADR-03; otherwise use explicit masks/row filters or secured views with equivalent tests.
-4. **Compute policies:** serverless enabled for notebooks, jobs and pipelines; a restrictive cluster policy for exceptions (single node, auto-termination 10 minutes).
+4. **Compute policies:** serverless notebooks, jobs and pipelines only in the adopted SERVERLESS workspace. Do not create classic cluster policies or assume subscription VM quota is a serverless quota. Verify serverless workload and service limits through the required tenant probes.
 5. **Budget policies:** one per component (`medallion`, `ml`, `agent`, `autopilot`, `genie`, `rti`), assigned to service principals and groups.
 6. **SQL warehouse (Terraform `databricks_sql_endpoint`):** serverless, 2X-Small, `auto_stop_mins = 5`, `min_num_clusters = 1`, `max_num_clusters = 1` in dev and test, 2 in prod.
 7. **System tables:** enable `system.billing`, `system.access`, `system.lakeflow`, `system.compute` and lineage system tables; grant read to `hcp-platform-admins` and `sp-hcp-jobs`.
@@ -406,7 +410,7 @@ Phase 0 fixes the numerical limits, daily-window timezone, price/headroom policy
 9. **Shared library `hcp`:** logging, configuration, time-zone helpers, versioned contracts, authorization/query clients, lineage, DQ and citation types; shared by jobs and apps. Remediation credentials are isolated from read-only app clients.
 10. **CI/CD (GitHub Actions):** PRs run local lint/unit/contract tests and bundle validation. Approved funded merge windows deploy to dev and run targeted integration tests; phase gates deploy changed assets to test and execute their prescribed suite. Prod deployment is a release approval after the applicable gate. Store the environment/test selection and cost estimate in CI evidence; do not wake compute on every merge.
 11. **Coding standards:** Python formatting and linting, SQL style, notebook policy (notebooks only for exploration; production logic in modules).
-12. **Local development environment:** PySpark with Delta Lake and the `hcp` package installed locally; local test fixtures read the answer key from `data/releases/healthcare-synthetic-v1.1.0/dataset/canonical/`. Every module runs locally before it is deployed (section 3.6, rule 1).
+12. **Local development environment:** pinned Python 3.12, PySpark and Delta Lake in Ubuntu WSL on this Windows machine, with equivalent Linux CI. The native Windows environment supports SDK/control-plane tooling; Spark/Delta execution uses Linux to avoid unofficial Hadoop Windows binaries. Install the `hcp` package when introduced; local fixtures read the answer key from `data/releases/healthcare-synthetic-v1.1.0/dataset/canonical/`. Every module runs locally before deployment (section 3.6, rule 1).
 13. **Sleep and wake controller:** deploy control-plane `platform_down`, `platform_up` and externally scheduled `platform_guard` per section 3.7. Start with schedules, warehouse and durable state; later phases add lifecycle actions. Guard never runs a Databricks workload to check sleep.
 14. **Capability smoke probes:** execute the bounded ADR-03/04 tenant checks for serverless storage/SQL, Apps user authorization, the exact GPT-6 Luna Responses tool-call round trip with gateway attribution/controls, registry/serving, search, Lakebase create/read/sync/resume, and authenticated Jobs/Pipelines API polling. These are **required** probes. Use a tiny failed-job fixture to prove scoped status retrieval and a polling detection path within 15 wall-clock minutes; the complete Autopilot fault suite remains Phase 7. Use minimum fixtures, restore least privilege and remove temporary billable resources. An unsupported required capability blocks Phase 3 until the approved dependency/cost contract is revised.
 15. **Optional inbound webhook probe:** separately attempt authenticated job-notification delivery to a protected temporary app handler. Record `PASS` if supported and secure; otherwise record `UNSUPPORTED_DISABLED`, the incompatibility evidence, disabled/removed route and the passing required API-polling evidence. This outcome is explicitly allowed without a scope exception. Never leave an anonymous or unsuccessfully authenticated receiver enabled. An insecure enabled route, missing required polling evidence or an unresolved security failure is `FAIL` and blocks the gate. Retain original failed-attempt evidence; do not relabel an unsafe configuration as a passed probe. Optional inbound webhooks are independent of the required outbound Teams/email alerts.
@@ -846,7 +850,7 @@ The business has selected **GPT-6 Luna**. ADR-04 and the Phase 2 probes establis
 | Path | Setup | Evaluate |
 | --- | --- | --- |
 | A. Databricks Foundation Model APIs | Documented endpoint `databricks-gpt-6-luna` / service `system.ai.gpt-6-luna`, using the Responses API; verify regional/account entitlement | Exact model revision/API/SDK, provider terms/routing, tools, structured output, price, rate limits and data processing location |
-| B. Azure OpenAI in Microsoft Foundry (conditional alternative) | Only if the exact model, region and a supported Databricks gateway/external-provider Responses route pass the Phase 2 compatibility probe; credentials via approved OAuth/Key Vault integration | Deployment entitlement/quota, supported round trip, price/residency and failover; external-model gateway budget inclusion is Beta, so application calls require the shared reservation contract; unavailability is recorded |
+| B. Azure OpenAI in Microsoft Foundry (selected prerequisite route) | Verified `gpt-6-luna`, revision `2026-09-22`, East US `DataZoneStandard`, in MCPP subscription `0725…fcd1`; Databricks gateway provider uses a UC service credential backed by a dedicated access-connector managed identity. No API key. The readiness service proves the Responses function round trip; Phase 2 completes the full compatibility/control contract before onboarding | Revalidate entitlement/quota, streaming/structured output, restrictions, regional price/residency, attribution and failover; external-model gateway budget inclusion is Beta, so application calls require the shared reservation contract |
 
 Evaluate feasible paths for tool calling, structured output, streaming, timeout/retry behavior, context limits, price per 1,000 declared turns, safety/data handling and end-to-end p95. Record unavailable routes with evidence; do not provision two providers merely to satisfy a checklist. Native GPT-6 Luna uses Responses API per the [Databricks supported-model reference](https://learn.microsoft.com/en-us/azure/databricks/machine-learning/foundation-model-apis/supported-models). The [OpenAI model reference](https://developers.openai.com/api/docs/models/gpt-6-luna) informs the model contract; Azure/Databricks access and prices must be verified separately. Test a named fallback through the same adapter and evaluation before using it.
 
@@ -1237,7 +1241,8 @@ Phase: <n>  Owner: <name>  Date: <yyyy-mm-dd>
 | Autopilot app and telemetry jobs | 7 |
 | Feature tables, models, serving endpoints | 8 |
 | Genie spaces | 9 |
-| Azure OpenAI resource (only if verified path B), LLM route, Vector Search, Lakebase, agent app | 10 |
+| Verified Azure OpenAI Luna prerequisite resource/route | Authorized readiness preparation; revalidate full contract in 2 and application controls in 10 |
+| Vector Search, Lakebase, agent app | 10 |
 | Event Hubs, RTI generator app, streaming pipeline, Command Center | 13 |
 
 Phase 2 may create minimal temporary fixtures for the approved capability probes, including LLM/search/Lakebase access. They are not production assets, are charged to the build budget, and are removed after the probe. Full RTI transport/generation remains Phase 13; the Phase 12 demonstration release receives its versioned RTI extension then.

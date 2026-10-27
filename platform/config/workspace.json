@@ -1,0 +1,15 @@
+{
+  "subscription_id": "d054aa64-95db-467b-a25c-387de70b15bd",
+  "tenant_id": "807ebfbb-86ca-41a5-87df-d9c348b89f83",
+  "account_id": "aed328b4-17bf-43f0-9399-c470ad8ea1b5",
+  "workspace_name": "intellify-healthcare-dbw",
+  "workspace_id": 7405619366453187,
+  "workspace_host": "https://adb-7405619366453187.7.azuredatabricks.net",
+  "workspace_resource_id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/Databricks/providers/Microsoft.Databricks/workspaces/intellify-healthcare-dbw",
+  "region": "eastus",
+  "compute_mode": "SERVERLESS",
+  "workspace_profile": "HEALTHCARE_AZURE",
+  "account_profile": "HEALTHCARE_ACCOUNT",
+  "required_model": "gpt-6-luna",
+  "default_cloud_execution": "disabled"
+}

@@ -1,0 +1,12 @@
+# Platform environment, separate from the certified dataset generator.
+# Resolve with uv pip compile --python-version 3.12 --generate-hashes.
+pyspark>=4.0,<4.1
+delta-spark>=4.0,<4.1
+mlflow>=3,<4
+databricks-sdk>=0.125
+openai>=2,<3
+polars>=1,<2
+pyarrow>=20
+pytest>=8,<10
+ruff>=0.12
+pyyaml>=6,<7

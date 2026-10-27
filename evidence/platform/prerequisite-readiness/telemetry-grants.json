@@ -1,0 +1,71 @@
+{
+  "observed_at": "2026-10-27T07:12:35.115270+00:00",
+  "principal": "karthik@intellifysolutions.com",
+  "results": [
+    {
+      "kind": "catalog",
+      "name": "system",
+      "privileges": [
+        "USE_CATALOG"
+      ],
+      "status": "PASS"
+    },
+    {
+      "kind": "schema",
+      "name": "system.billing",
+      "privileges": [
+        "USE_SCHEMA"
+      ],
+      "status": "PASS"
+    },
+    {
+      "kind": "schema",
+      "name": "system.lakeflow",
+      "privileges": [
+        "USE_SCHEMA"
+      ],
+      "status": "PASS"
+    },
+    {
+      "kind": "schema",
+      "name": "system.access",
+      "privileges": [
+        "USE_SCHEMA"
+      ],
+      "status": "PASS"
+    },
+    {
+      "kind": "table",
+      "name": "system.billing.usage",
+      "privileges": [
+        "SELECT"
+      ],
+      "status": "PASS"
+    },
+    {
+      "kind": "table",
+      "name": "system.billing.list_prices",
+      "privileges": [
+        "SELECT"
+      ],
+      "status": "PASS"
+    },
+    {
+      "kind": "table",
+      "name": "system.lakeflow.job_run_timeline",
+      "privileges": [
+        "SELECT"
+      ],
+      "status": "PASS"
+    },
+    {
+      "kind": "table",
+      "name": "system.access.table_lineage",
+      "privileges": [
+        "SELECT"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS"
+}

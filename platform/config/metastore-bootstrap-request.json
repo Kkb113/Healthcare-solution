@@ -1,0 +1,10 @@
+{
+  "metastore_id": "d9469652-1d8e-4e7f-9abd-8626b32a9f30",
+  "metastore_name": "metastore_azure_eastus",
+  "current_owner": "System user",
+  "proposed_owner": "karthik@intellifysolutions.com",
+  "purpose": "Establish the missing human metastore administrator and apply the four explicitly approved system-table grants",
+  "impact": "Metastore administration extends across catalogs and workspaces attached to this shared East US metastore. It is broader than the healthcare workspace and is a persistent governance role.",
+  "approval_status": "USER_APPROVED_2026-10-27",
+  "alternative": "Have an existing authorized metastore administrator apply telemetry-access-request.json without changing the owner"
+}

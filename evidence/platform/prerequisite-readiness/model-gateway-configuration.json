@@ -1,0 +1,11 @@
+{
+  "observed_at": "2026-10-27T07:22:20.390221+00:00",
+  "status": "PASS",
+  "objects": [
+    "intellify_healthcare_dbw.readiness",
+    "credentials/hcp_luna_gateway",
+    "model-provider-services/intellify_healthcare_dbw.readiness.azure_luna",
+    "model-services/intellify_healthcare_dbw.readiness.gpt_6_luna"
+  ],
+  "authentication": "Unity Catalog service credential / Azure managed identity; no API key"
+}

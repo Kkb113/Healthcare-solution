@@ -1,0 +1,75 @@
+name: Platform prerequisite checks
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'platform/**'
+      - '.github/workflows/platform-readiness.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  local-runtime:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.12.12'
+          python-version: '3.12.13'
+      - name: Install hash-locked platform runtime
+        run: |
+          uv venv platform/.venv
+          uv pip sync platform/requirements-linux.lock --python platform/.venv/bin/python --require-hashes --quiet
+      - name: Check platform source
+        run: |
+          platform/.venv/bin/ruff check platform/scripts
+          platform/.venv/bin/ruff format --check platform/scripts
+          platform/.venv/bin/python -B platform/scripts/verify_configuration.py
+      - name: Exercise local Spark and Delta
+        run: platform/.venv/bin/python -B platform/scripts/check_local_runtime.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: local-platform-runtime
+          path: output/platform-readiness/local-runtime.json
+          retention-days: 14
+
+  identity-smoke:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: azure/login@8216e11d8cd9b42fe925c852af8e76311ff067ac # v2
+        with:
+          client-id: ${{ vars.HCP_AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.HCP_AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.HCP_AZURE_SUBSCRIPTION_ID }}
+      - name: Install verified Databricks CLI
+        run: |
+          curl --fail --silent --show-error --location https://github.com/databricks/cli/releases/download/v1.22.1/databricks_cli_1.22.1_linux_amd64.zip --output /tmp/databricks.zip
+          echo '2f24260441f211e75df4266fba506983cd2373c622cb34437d752befba8261af  /tmp/databricks.zip' | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/databricks-cli"
+          unzip -q /tmp/databricks.zip -d "$RUNNER_TEMP/databricks-cli"
+          echo "$RUNNER_TEMP/databricks-cli" >> "$GITHUB_PATH"
+      - name: Verify federated identity without starting compute
+        env:
+          DATABRICKS_HOST: https://adb-7405619366453187.7.azuredatabricks.net
+          DATABRICKS_AUTH_TYPE: azure-cli
+          DATABRICKS_AZURE_RESOURCE_ID: /subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/Databricks/providers/Microsoft.Databricks/workspaces/intellify-healthcare-dbw
+          ARM_SUBSCRIPTION_ID: d054aa64-95db-467b-a25c-387de70b15bd
+        run: |
+          az account show --query '{id:id,tenantId:tenantId}' --output json
+          databricks current-user me --attributes id,applicationId,displayName,active --output json
+          databricks warehouses list --output json

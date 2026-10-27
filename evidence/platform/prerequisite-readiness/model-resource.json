@@ -1,0 +1,6 @@
+{
+  "disableLocalAuth": true,
+  "endpoint": "https://aoai-hcp-luna-0725fcd1.openai.azure.com/",
+  "id": "/subscriptions/0725b5e7-75db-4c60-b5e9-928c3df3fcd1/resourceGroups/rg-hcp-model-access/providers/Microsoft.CognitiveServices/accounts/aoai-hcp-luna-0725fcd1",
+  "state": "Succeeded"
+}

@@ -1,0 +1,19 @@
+{
+  "principal": "karthik@intellifysolutions.com",
+  "purpose": "Healthcare platform readiness and cost/operations validation",
+  "scope_warning": "Databricks system tables can contain account-wide costs and operational metadata, including other workspaces. Queries must filter healthcare workspace_id wherever available.",
+  "catalog": {"name": "system", "privileges": ["USE_CATALOG"]},
+  "schemas": [
+    {"name": "system.billing", "privileges": ["USE_SCHEMA"]},
+    {"name": "system.lakeflow", "privileges": ["USE_SCHEMA"]},
+    {"name": "system.access", "privileges": ["USE_SCHEMA"]}
+  ],
+  "tables": [
+    {"name": "system.billing.usage", "privileges": ["SELECT"]},
+    {"name": "system.billing.list_prices", "privileges": ["SELECT"]},
+    {"name": "system.lakeflow.job_run_timeline", "privileges": ["SELECT"]},
+    {"name": "system.access.table_lineage", "privileges": ["SELECT"]}
+  ],
+  "excluded": ["schema-wide SELECT", "ALL_PRIVILEGES", "metastore ownership changes", "business-user grants", "retail configuration changes"],
+  "approval_status": "USER_APPROVED_2026-10-27"
+}

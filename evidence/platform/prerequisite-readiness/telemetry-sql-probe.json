@@ -1,0 +1,55 @@
+{
+  "observed_at": "2026-10-27T07:19:51.208674+00:00",
+  "status": "PASS",
+  "queries": [
+    {
+      "table": "system.billing.usage",
+      "statement_id": "01f1d1d6-d720-1a21-92f1-e35186dafec3",
+      "state": "SUCCEEDED",
+      "error": null,
+      "aggregate": [
+        [
+          "0"
+        ]
+      ]
+    },
+    {
+      "table": "system.billing.list_prices",
+      "statement_id": "01f1d1d6-dd85-1514-829f-4def0fb719ab",
+      "state": "SUCCEEDED",
+      "error": null,
+      "aggregate": [
+        [
+          "551"
+        ]
+      ]
+    },
+    {
+      "table": "system.lakeflow.job_run_timeline",
+      "statement_id": "01f1d1d6-e02d-12f2-9a09-566ea8f00598",
+      "state": "SUCCEEDED",
+      "error": null,
+      "aggregate": [
+        [
+          "0"
+        ]
+      ]
+    },
+    {
+      "table": "system.access.table_lineage",
+      "statement_id": "01f1d1d6-e38d-1bb2-b52c-aa94f6d1b8d3",
+      "state": "SUCCEEDED",
+      "error": null,
+      "aggregate": [
+        [
+          "0"
+        ]
+      ]
+    }
+  ],
+  "cleanup": {
+    "stopped": true,
+    "deleted": true
+  },
+  "warehouse_id": "5b76126b3edf8b83"
+}

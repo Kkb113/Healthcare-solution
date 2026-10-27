@@ -10,3 +10,9 @@ output/
 *.delta
 *.log
 .pytest_cache/
+.tools/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+.databricks/

@@ -1,0 +1,15 @@
+{
+  "observed_at": "2026-10-27T07:42:19.607563+00:00",
+  "modules": {
+    "foundation": {
+      "status": "PASS",
+      "command": "terraform -chdir=platform/infra/foundation plan -detailed-exitcode",
+      "expected_exit": 0
+    },
+    "model-access": {
+      "status": "PASS",
+      "command": "terraform -chdir=platform/infra/model-access plan -detailed-exitcode",
+      "expected_exit": 0
+    }
+  }
+}

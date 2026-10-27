@@ -1,0 +1,73 @@
+{
+  "observed_at": "2026-10-27T07:17:16.779429+00:00",
+  "status": "PASS",
+  "subscription_id": "0725b5e7-75db-4c60-b5e9-928c3df3fcd1",
+  "endpoint": "https://aoai-hcp-luna-0725fcd1.openai.azure.com/openai/v1/",
+  "model": "gpt-6-luna",
+  "authentication": "Entra user; no API key",
+  "requests": [
+    {
+      "id": "resp_07c266ec26baf1fa016ae05009513c81939f37fc0ca0ed7d94",
+      "request_id": "23b28971-2c2b-4e09-ad85-95c4f77a9cda",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 68,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 22,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 90
+      },
+      "output": [
+        {
+          "arguments": "{\"a\":17,\"b\":25}",
+          "call_id": "call_s8WOvHHnBxaDX2dgPD1Cl74f",
+          "name": "add_numbers",
+          "type": "function_call",
+          "id": "fc_07c266ec26baf1fa016ae05009c0788193b60506c9494065d8",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "id": "resp_07c266ec26baf1fa016ae0500b2f0c819381eb714c3120f070",
+      "request_id": "f3a2aa89-3b65-439b-86a0-fda82af9cd84",
+      "model": "gpt-6-luna",
+      "status": "completed",
+      "usage": {
+        "input_tokens": 102,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 5,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 107
+      },
+      "output": [
+        {
+          "id": "msg_07c266ec26baf1fa016ae0500b933c81939eaae7f02a9ee6da",
+          "content": [
+            {
+              "annotations": [],
+              "text": "42",
+              "type": "output_text",
+              "logprobs": []
+            }
+          ],
+          "role": "assistant",
+          "status": "completed",
+          "type": "message",
+          "phase": "final_answer"
+        }
+      ]
+    }
+  ]
+}
