@@ -1,0 +1,48 @@
+name: Healthcare external sleep guard
+
+on:
+  schedule:
+    - cron: '13 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: hcp-external-guard
+  cancel-in-progress: false
+
+jobs:
+  inspect-without-compute:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      DATABRICKS_HOST: https://adb-7405619366453187.7.azuredatabricks.net
+      DATABRICKS_AUTH_TYPE: azure-cli
+      DATABRICKS_AZURE_RESOURCE_ID: /subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/Databricks/providers/Microsoft.Databricks/workspaces/intellify-healthcare-dbw
+      ARM_SUBSCRIPTION_ID: d054aa64-95db-467b-a25c-387de70b15bd
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: azure/login@8216e11d8cd9b42fe925c852af8e76311ff067ac # v2
+        with:
+          client-id: ${{ vars.HCP_AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.HCP_AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.HCP_AZURE_SUBSCRIPTION_ID }}
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.12.12'
+          python-version: '3.12.13'
+      - name: Install hash-locked external controller
+        run: |
+          uv venv platform/.venv
+          uv pip sync platform/requirements-linux.lock --python platform/.venv/bin/python --require-hashes --quiet
+      - name: Inspect or stop through metadata APIs only
+        run: platform/.venv/bin/python -B platform/scripts/platform_control.py guard
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: external-guard
+          path: output/platform-foundation/control-guard.json
+          retention-days: 14

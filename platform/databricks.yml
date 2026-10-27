@@ -1,0 +1,81 @@
+bundle:
+  name: hcp
+
+workspace:
+  host: https://adb-7405619366453187.7.azuredatabricks.net
+  root_path: /Workspace/hcp/bundles/${bundle.target}
+
+variables:
+  catalog:
+    description: Isolated target catalog
+  warehouse_id:
+    description: The single shared serverless warehouse; supplied by funded deployment
+  jobs_principal:
+    default: 658faa8a-72bf-4285-bf4c-3cd25778ac5f
+  medallion_policy_id:
+    description: Workspace-bound usage attribution policy (not a spend cap)
+
+artifacts:
+  shared:
+    type: whl
+    path: .
+    build: uv build --wheel --out-dir dist
+
+sync:
+  exclude:
+    - .venv/**
+    - .terraform/**
+    - build/**
+    - infra/**
+    - tests/**
+    - scripts/**
+    - '*.lock'
+
+targets:
+  dev:
+    default: true
+    variables:
+      catalog: hc_dev
+    resources: &foundation_resources
+      jobs:
+        foundation_smoke:
+          name: hcp-${bundle.target}-foundation-smoke
+          max_concurrent_runs: 1
+          timeout_seconds: 600
+          budget_policy_id: ${var.medallion_policy_id}
+          performance_target: STANDARD
+          run_as:
+            service_principal_name: ${var.jobs_principal}
+          tags:
+            project: healthcare-platform
+            component: medallion
+            environment: ${bundle.target}
+          permissions:
+            - service_principal_name: 6640afb9-483e-46f6-8b83-405feca8c227
+              level: CAN_MANAGE
+            - group_name: hcp-platform-admins
+              level: CAN_MANAGE
+          environments:
+            - environment_key: shared
+              spec:
+                environment_version: '5'
+                dependencies:
+                  - ./dist/*.whl
+          tasks:
+            - task_key: wheel_smoke
+              environment_key: shared
+              python_wheel_task:
+                package_name: intellify_healthcare_platform
+                entry_point: hcp-smoke
+                parameters: ['--catalog', '${var.catalog}']
+              max_retries: 0
+              timeout_seconds: 480
+  test:
+    variables:
+      catalog: hc_test
+    resources: *foundation_resources
+  prod:
+    mode: production
+    variables:
+      catalog: hc_prod
+    # No production workloads before the applicable release approval.

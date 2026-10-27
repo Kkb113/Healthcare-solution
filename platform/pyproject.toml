@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "intellify-healthcare-platform"
+version = "0.2.0"
+description = "Governed shared contracts and control-plane tools for the healthcare Databricks platform"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[project.scripts]
+hcp-platform = "hcp.common.cli:main"
+hcp-smoke = "hcp.common.smoke:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+hcp = ["py.typed"]

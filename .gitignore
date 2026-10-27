@@ -16,3 +16,6 @@ output/
 *.tfstate.*
 *.tfplan
 .databricks/
+platform/build/
+platform/dist/
+*.egg-info/

@@ -1,0 +1,110 @@
+name: Governed workspace platform
+
+on:
+  pull_request:
+    paths: ['platform/**', '.github/workflows/workspace-platform.yml']
+  workflow_dispatch:
+    inputs:
+      target:
+        type: choice
+        options: [validate, dev, test]
+        default: validate
+      funded_window:
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hcp-platform-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  local-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.12.12'
+          python-version: '3.12.13'
+      - name: Install locked runtime and build shared wheel
+        run: |
+          uv venv platform/.venv
+          uv pip sync platform/requirements-linux.lock --python platform/.venv/bin/python --require-hashes --quiet
+          uv build platform --wheel --out-dir platform/dist
+          uv pip install --python platform/.venv/bin/python --no-deps platform/dist/*.whl
+      - name: Run the same Linux local suite
+        run: |
+          platform/.venv/bin/ruff check platform/scripts platform/src platform/tests
+          platform/.venv/bin/ruff format --check platform/scripts platform/src platform/tests
+          platform/.venv/bin/python -B -m pytest platform/tests/unit platform/tests/integration/test_shared_delta.py -q --junitxml=output/platform-foundation/ci-tests.xml
+          platform/.venv/bin/python -B platform/scripts/verify_architecture_gate.py
+          platform/.venv/bin/python -B platform/scripts/verify_foundation_gate.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: platform-local-tests
+          path: output/platform-foundation/ci-tests.xml
+          retention-days: 14
+
+  bundle:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    needs: local-contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      DATABRICKS_HOST: https://adb-7405619366453187.7.azuredatabricks.net
+      DATABRICKS_AUTH_TYPE: azure-cli
+      DATABRICKS_AZURE_RESOURCE_ID: /subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/Databricks/providers/Microsoft.Databricks/workspaces/intellify-healthcare-dbw
+      ARM_SUBSCRIPTION_ID: d054aa64-95db-467b-a25c-387de70b15bd
+      BUNDLE_VAR_warehouse_id: bd30bdac29080126
+      BUNDLE_VAR_medallion_policy_id: 69fd7474-2feb-3cca-b79f-c5e1f17e77e5
+      HCP_SELECTED_TARGET: ${{ inputs.target }}
+      HCP_FUNDED_WINDOW: ${{ inputs.funded_window }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: azure/login@8216e11d8cd9b42fe925c852af8e76311ff067ac # v2
+        with:
+          client-id: ${{ vars.HCP_AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.HCP_AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.HCP_AZURE_SUBSCRIPTION_ID }}
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.12.12'
+          python-version: '3.12.13'
+      - name: Install pinned tools
+        run: |
+          uv venv platform/.venv
+          uv pip sync platform/requirements-linux.lock --python platform/.venv/bin/python --require-hashes --quiet
+          curl --fail --silent --show-error --location https://github.com/databricks/cli/releases/download/v1.22.1/databricks_cli_1.22.1_linux_amd64.zip --output /tmp/databricks.zip
+          echo '2f24260441f211e75df4266fba506983cd2373c622cb34437d752befba8261af  /tmp/databricks.zip' | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/databricks-cli"
+          unzip -q /tmp/databricks.zip -d "$RUNNER_TEMP/databricks-cli"
+          echo "$RUNNER_TEMP/databricks-cli" >> "$GITHUB_PATH"
+      - name: Validate all logical targets without starting compute
+        working-directory: platform
+        run: |
+          databricks bundle validate --target dev
+          databricks bundle validate --target test
+          databricks bundle validate --target prod
+      - name: Check funded deployment admission
+        if: inputs.target != 'validate'
+        run: platform/.venv/bin/python -B platform/scripts/deploy_workspace_bundle.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: workspace-deployment-${{ inputs.target }}
+          path: output/platform-foundation/bundle-deployment.json
+          retention-days: 14

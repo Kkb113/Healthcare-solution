@@ -1,0 +1,16 @@
+{
+  "status": "APPROVED",
+  "reason": "Account Budget Policy API denied all six workspace-bound policy creates with CreateBudgetPolicyPermission. Karthik is already account_admin, but this does not confer the required billing API role in the observed tenant.",
+  "account_id": "aed328b4-17bf-43f0-9399-c470ad8ea1b5",
+  "principal": "users/karthik@intellifysolutions.com",
+  "role": "roles/billing.admin",
+  "scope": "Shared Databricks account; exposes other workspaces' policies and cost metadata",
+  "purpose": "Create and assign only the six healthcare policies bound to workspace 7405619366453187 through Terraform",
+  "change_other_users": false,
+  "change_data_grants": false,
+  "preserve_existing_account_rules": true,
+  "revoke_added_role_after_configuration": true,
+  "source": "https://learn.microsoft.com/en-us/azure/databricks/admin/usage/budget-policies",
+  "approval": "User explicitly approved temporary Billing admin role in this conversation on 2026-10-27",
+  "completion": "Six healthcare usage policies created and assigned; added Billing admin role removed and read back at 2026-10-27T12:48:10Z"
+}

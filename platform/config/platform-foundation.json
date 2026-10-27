@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "phase": 2,
+  "workspace_id": 7405619366453187,
+  "catalogs": ["hc_dev", "hc_test", "hc_prod", "hc_ops"],
+  "business_schemas": ["landing", "reference", "bronze", "silver", "gold", "semantic", "features", "ml", "pred", "agent", "dq"],
+  "operations_schemas": ["security", "autopilot", "telemetry", "costs", "governance"],
+  "probe_schema": "_foundation_probe",
+  "component_policies": ["medallion", "ml", "agent", "autopilot", "genie", "rti"],
+  "warehouse": {
+    "name": "hcp-sql-shared",
+    "cluster_size": "2X-Small",
+    "min_num_clusters": 1,
+    "max_num_clusters": 1,
+    "auto_stop_mins": 5,
+    "shared_logical_targets": ["dev", "test", "prod"]
+  },
+  "control_blob": "platform/control-state.json",
+  "probe_reservation_id": "platform-capability-probes",
+  "new_probe_reservation_paise": 175000,
+  "combined_prerequisite_foundation_probe_envelope_paise": 200000,
+  "window_max_minutes": 120,
+  "fixture_prefix": "hcp-foundation-",
+  "facilities": {
+    "A": "facility_7990133218ef060b178c3cf8a0825f76",
+    "B": "facility_a56f2c2e3a76834b7a766c6ba89f7afe"
+  },
+  "identity_rules": {
+    "existing_human_user_changes": "Karthik Bhat only",
+    "other_existing_identities": "Preserve; temporary healthcare probe identities are separate fixtures",
+    "synthetic_entitlements_authorize_cloud_access": false,
+    "missing_ambiguous_expired_revoked_mapping": "DENY"
+  },
+  "telemetry": {
+    "raw_operator_tables": ["system.billing.usage", "system.billing.list_prices", "system.lakeflow.job_run_timeline", "system.access.table_lineage"],
+    "runtime_access": "Workspace-filtered hc_ops.telemetry views; no shared system-schema SELECT",
+    "workspace_filter": "7405619366453187"
+  },
+  "serverless_environment": "5",
+  "pipeline_channel": "CURRENT",
+  "probe_contract": "platform/contracts/architecture/probe-matrix.json",
+  "dataset_descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+  "publication": "Code, metadata and bounded nonpatient fixture results only; no tokens, state, patient records or unrelated identity details"
+}
