@@ -1,5 +1,5 @@
 {
-  "status": "SUBMISSION_REJECTED_INVALID_SUPPORT_PLAN",
+  "status": "USER_HANDLES_SUPPORT_SUBMISSION",
   "approval": "User approved support submission in this conversation on 2026-10-27; no paid support purchase or resource recreation",
   "submission_result": {
     "observed_at": "2026-10-27T18:07:34Z",
@@ -33,5 +33,10 @@
   "additional_search_resource_authorized": false,
   "new_search_lifecycle_upper_reservation_inr": "809.48",
   "current_phase2_gate": "NOT_READY",
-  "evidence": ["output/platform-foundation/search-first-attempt.json", "output/platform-foundation/search-probe.json", "output/platform-foundation/search-progress.json"]
+  "evidence": [
+    "output/platform-foundation/search-first-attempt.json",
+    "output/platform-foundation/search-probe.json",
+    "output/platform-foundation/search-progress.json"
+  ],
+  "manual_handoff": "User chose to submit the support case personally; do not send further support communications without new user authorization"
 }

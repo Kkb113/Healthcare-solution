@@ -1,0 +1,189 @@
+{
+  "warehouse-idle.json": {
+    "status": "PASS",
+    "warehouse_id": "bd30bdac29080126",
+    "last_statement_id": "01f1d216-ac63-16ad-8513-a08d24bf1684",
+    "last_query_completed_at": "2026-10-27T14:57:11.992286+00:00",
+    "stop_elapsed_seconds": 339.313,
+    "poll_method": "warehouses.get only",
+    "explicit_stop_in_probe": false,
+    "concurrent_control_shutdown_excluded": true,
+    "original_sha256": "09c9a76c8beb8666f646b8ddabe1cac2c8790be1be669ca04a13b25dafc07ae7"
+  },
+  "telemetry-probe.json": {
+    "status": "PASS",
+    "observed_at": "2026-10-27T14:32:25.542715+00:00",
+    "operator_sources": [
+      {
+        "table": "system.billing.usage",
+        "statement_id": "01f1d213-3f0d-1748-9860-291031c969e3",
+        "query_status": "PASS",
+        "rows_in_scope": 3
+      },
+      {
+        "table": "system.billing.list_prices",
+        "statement_id": "01f1d213-429b-12cc-8e11-265a06183177",
+        "query_status": "PASS",
+        "rows_in_scope": 1149
+      },
+      {
+        "table": "system.lakeflow.job_run_timeline",
+        "statement_id": "01f1d213-4527-17a7-8502-1d3411558869",
+        "query_status": "PASS",
+        "rows_in_scope": 0
+      },
+      {
+        "table": "system.access.table_lineage",
+        "statement_id": "01f1d213-47df-1192-8c65-97c5d689b019",
+        "query_status": "PASS",
+        "rows_in_scope": 25
+      }
+    ],
+    "runtime_views": [
+      {
+        "view": "hc_ops.telemetry.workspace_usage",
+        "statement_id": "01f1d213-4f17-19e6-88aa-2bda229d6989",
+        "query_status": "PASS",
+        "rows_in_scope": 3
+      },
+      {
+        "view": "hc_ops.telemetry.workspace_prices",
+        "statement_id": "01f1d213-5263-1d7e-86f3-befc13666f8b",
+        "query_status": "PASS",
+        "rows_in_scope": 4
+      },
+      {
+        "view": "hc_ops.telemetry.workspace_job_runs",
+        "statement_id": "01f1d213-5585-1654-b8d0-b051cfbfae4e",
+        "query_status": "PASS",
+        "rows_in_scope": 0
+      },
+      {
+        "view": "hc_ops.telemetry.workspace_lineage",
+        "statement_id": "01f1d213-57e5-1aad-938f-8b5202e627c2",
+        "query_status": "PASS",
+        "rows_in_scope": 25
+      }
+    ],
+    "raw_runtime_access": "NOT_GRANTED",
+    "mirror": "hc_ops.autopilot.platform_state",
+    "mirror_authoritative": false,
+    "authoritative_state": "ADLS control object",
+    "billing_caveat": "Empty or delayed usage is not zero spend; pending phase reservations remain in force",
+    "original_sha256": "e9027c8fa94b7b7130375d4a0b1f612bb9890366af0b233b5a525b692dd58eb2"
+  },
+  "volume-probe.json": {
+    "status": "PASS",
+    "started_at": "2026-10-27T13:31:51.096427+00:00",
+    "validations": {
+      "hcp_uc_managed_dev": {
+        "isDir": true,
+        "results": [
+          {
+            "operation": "READ",
+            "result": "PASS"
+          },
+          {
+            "operation": "LIST",
+            "result": "PASS"
+          },
+          {
+            "operation": "WRITE",
+            "result": "PASS"
+          },
+          {
+            "operation": "DELETE",
+            "result": "PASS"
+          },
+          {
+            "operation": "PATH_EXISTS",
+            "result": "PASS"
+          },
+          {
+            "result": "PASS"
+          }
+        ]
+      },
+      "hcp_landing_dev": {
+        "isDir": true,
+        "results": [
+          {
+            "operation": "READ",
+            "result": "PASS"
+          },
+          {
+            "operation": "LIST",
+            "result": "PASS"
+          },
+          {
+            "operation": "WRITE",
+            "result": "PASS"
+          },
+          {
+            "operation": "DELETE",
+            "result": "PASS"
+          },
+          {
+            "operation": "PATH_EXISTS",
+            "result": "PASS"
+          },
+          {
+            "result": "PASS"
+          }
+        ]
+      }
+    },
+    "cleanup": {
+      "volume_deleted": true
+    },
+    "file_deleted": true,
+    "principal": "sp-hcp-jobs",
+    "bytes": 50,
+    "sha256": "ac5ead06103574aa4a02e706ba04facff84798a5aed09e39241b803aaee95afd",
+    "oracle_denial_evidence": "security-probe.json/jobs_cannot_read_oracle",
+    "completed_at": "2026-10-27T13:32:08.219147+00:00",
+    "original_sha256": "1b9ec5812493e4340ff922f30e2c8cccc6d6bc6242a399375ad54f7a1e361c31"
+  },
+  "security-probe.json": {
+    "observed_at": "2026-10-27T12:59:36.797857+00:00",
+    "checks": [
+      {
+        "case": "unmapped_operator",
+        "status": "PASS",
+        "rows": 0
+      },
+      {
+        "case": "jobs_cannot_read_oracle",
+        "status": "PASS",
+        "outcome": "DENIED"
+      },
+      {
+        "case": "jobs_cannot_read_bridge",
+        "status": "PASS",
+        "outcome": "DENIED"
+      },
+      {
+        "case": "unmapped_jobs_zero_rows",
+        "status": "PASS"
+      },
+      {
+        "case": "validation_oracle_read",
+        "status": "PASS"
+      },
+      {
+        "case": "validation_cannot_modify_output",
+        "status": "PASS",
+        "outcome": "DENIED"
+      }
+    ],
+    "cleanup_tables": [
+      "hc_test._foundation_probe.scoped_patient_fixture",
+      "hc_test.reference.answer_access_probe"
+    ],
+    "cleanup_errors": [],
+    "status": "PASS",
+    "scope": "Foundation runtime/oracle separation and initial default deny; eight-role matrix pending",
+    "eight_role_matrix_complete": false,
+    "original_sha256": "66f24a1b1857d7a4dfaa55da4b597b68f29d76ae09e19f853aaf2398fd4122ed"
+  }
+}

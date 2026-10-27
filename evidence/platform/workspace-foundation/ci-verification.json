@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "source_sha": "ddf7adf58cc1842a1738495a1aa035a01bf71cb3",
+  "observed_at": "2026-10-27T18:44:35.356154+00:00",
+  "dev": {
+    "status": "PASS",
+    "target": "dev",
+    "source_sha": "ddf7adf58cc1842a1738495a1aa035a01bf71cb3",
+    "observed_at": "2026-10-27T18:35:22.741273+00:00",
+    "session_id": "211c95c9f9414df7bff1f3c3b3e4066f",
+    "workloads_launched": 0,
+    "cost_estimate_paise": 0,
+    "tests": "same locked Linux suite before deployment; smoke execution separately funded"
+  },
+  "test": {
+    "status": "PASS",
+    "target": "test",
+    "source_sha": "ddf7adf58cc1842a1738495a1aa035a01bf71cb3",
+    "observed_at": "2026-10-27T18:37:44.451024+00:00",
+    "session_id": "211c95c9f9414df7bff1f3c3b3e4066f",
+    "workloads_launched": 0,
+    "cost_estimate_paise": 0,
+    "tests": "same locked Linux suite before deployment; smoke execution separately funded"
+  },
+  "external_guard": {
+    "observed_at": "2026-10-27T18:33:49.361399+00:00",
+    "command": "guard",
+    "result": {
+      "status": "PASS",
+      "state": "STARTING",
+      "running": 0,
+      "metadata_only": true,
+      "workloads_launched": 0
+    }
+  },
+  "ci_linux_tests": {
+    "tests": 201,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0
+  },
+  "run_urls": {
+    "dev": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40560998988",
+    "test": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40561005069",
+    "guard": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40561011145"
+  },
+  "paid_databricks_workloads_launched_by_ci": 0
+}

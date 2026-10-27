@@ -1,0 +1,11 @@
+{
+  "observed_at": "2026-10-27T18:42:09.126184+00:00",
+  "command": "down",
+  "result": {
+    "status": "PASS",
+    "state": "ASLEEP",
+    "running": 0,
+    "actions": [],
+    "metadata_only": true
+  }
+}

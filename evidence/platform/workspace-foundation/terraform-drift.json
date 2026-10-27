@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "modules": {
+    "workspace": {
+      "plan_exit_code": 0,
+      "changes": 0,
+      "log_sha256": "1e5484fbd728a3a5f0513a69897cac250a7326b86ae7f6d6f50b2438d3e48e02"
+    },
+    "foundation": {
+      "plan_exit_code": 0,
+      "changes": 0,
+      "log_sha256": "9c049447e3516789cbf695554e85fb05330b4439b2e2eddb00d8d38639a66328"
+    },
+    "model-access": {
+      "plan_exit_code": 0,
+      "changes": 0,
+      "log_sha256": "157ee2c9c1586163caafc0b61ee9091902dd86812ba37ef106c40924694fc989"
+    }
+  }
+}
