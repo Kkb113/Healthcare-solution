@@ -2,8 +2,8 @@
   "phase": 0,
   "name": "architecture-baseline",
   "status": "PASS",
-  "evaluated_at": "2026-10-27T09:22:19.301046+00:00",
-  "source_sha": "17ac29cfc57446c28f350fb15bf25ab4d96f238d",
+  "evaluated_at": "2026-10-27T09:26:17.803790+00:00",
+  "source_sha": "1a46036e8f48506123c4be9d63e96a6fa3d0c04f",
   "dataset_descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
   "environment": "Local pinned Python3.12 design harness and read-only EastUS cloud metadata; no new workload provisioning",
   "dependency_gates": [
@@ -15,7 +15,7 @@
     }
   ],
   "contract_hashes": {
-    ".github/workflows/platform-readiness.yml": "dcac8425a060cf9a1c9bc56ed3a518b074d641210e7f425dcac1ca392b44de9f",
+    ".github/workflows/platform-readiness.yml": "e2102cedca9c6212f9d593325c347359fe91dd7ddc20d9a2cd91c32b2689cc65",
     "azure-databricks-implementation.md": "5702f398364de71e25e716600518edf17a86833334fca1eafbbba10fd2b8883c",
     "config/resource-foundation-generation.json": "d08f8a27ed699fab4cfc085919c15061d0b9aa2a75f9b53e1a12fe7a09471757",
     "contracts/phase0/validation-rules.json": "dffe39411824eae480f1e80e58e3961302a7d6187cdf011c26d862278d30944b",
@@ -93,8 +93,8 @@
   },
   "contract_hash_policy": "SHA256 of repository text with CRLF normalized to LF, matching .gitattributes/Git blobs. Accepted release/payload SHA256 remains raw and unchanged.",
   "report_hashes": {
-    "evidence/platform/architecture-baseline/design-validation.json": "ecf87ab4fc2e633882c4909c8b2cfabddf46cea799e7673e0a78e6916cfe8d70",
-    "evidence/platform/architecture-baseline/architecture-tests.xml": "3a278292fafad44c0a4a1c0509f272d2f22373a8b11a92f58c0f6c3ce92701a0"
+    "evidence/platform/architecture-baseline/design-validation.json": "305f8245765b9f9819ab9113b2ab5d301142020d86c0ab272a85f63e796416cd",
+    "evidence/platform/architecture-baseline/architecture-tests.xml": "4a88210638e87082e077238e2518ef5501bd7ab1bd84e804406ddbee7cc7460f"
   },
   "criteria": [
     {

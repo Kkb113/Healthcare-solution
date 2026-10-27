@@ -481,8 +481,8 @@
   "tenant_probe_execution": "NOT_RUN: required in stated later phases; Phase0 verifies design/probe plan only",
   "accepted_release_binding": "CHECKED",
   "scope_approval": "APPROVED_BY_USER",
-  "evaluated_at": "2026-10-27T09:21:17.338046+00:00",
-  "source_sha": "17ac29cfc57446c28f350fb15bf25ab4d96f238d",
+  "evaluated_at": "2026-10-27T09:25:28.043624+00:00",
+  "source_sha": "1a46036e8f48506123c4be9d63e96a6fa3d0c04f",
   "full_release_verification": {
     "status": "PASSED",
     "release_id": "healthcare-synthetic-v1.1.0",
