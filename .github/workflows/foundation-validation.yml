@@ -1,0 +1,84 @@
+name: Adopted infrastructure validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'platform/infra/**'
+      - 'platform/scripts/*foundation*'
+      - 'platform/tests/unit/test_foundation.py'
+      - 'platform/config/infrastructure.json'
+      - 'evidence/platform/adopted-infrastructure/**'
+      - '.github/workflows/foundation-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  foundation-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: '0.12.12'
+          python-version: '3.12.13'
+      - name: Install hash-locked runtime
+        run: |
+          uv venv platform/.venv
+          uv pip sync platform/requirements-linux.lock --python platform/.venv/bin/python --require-hashes --quiet
+      - name: Verify contracts and failure paths
+        run: |
+          platform/.venv/bin/ruff check platform/scripts platform/tests
+          platform/.venv/bin/ruff format --check platform/scripts platform/tests
+          platform/.venv/bin/python -B -m pytest platform/tests/unit -q -p no:cacheprovider --junitxml=output/foundation-validation/all-platform-tests.xml
+          platform/.venv/bin/python -B platform/scripts/verify_architecture_gate.py
+          if test -f evidence/platform/adopted-infrastructure/gate.json; then
+            platform/.venv/bin/python -B platform/scripts/verify_foundation_gate.py
+          fi
+      - name: Install verified pinned Terraform
+        run: |
+          curl --fail --silent --show-error --location https://releases.hashicorp.com/terraform/1.17.0/terraform_1.17.0_linux_amd64.zip --output /tmp/terraform.zip
+          echo 'c168cab7c637a8769fdb90089ddd19de701bc6ff8aca64dc2e2185fe46f59f67  /tmp/terraform.zip' | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/terraform-cli"
+          unzip -q /tmp/terraform.zip -d "$RUNNER_TEMP/terraform-cli"
+          echo "$RUNNER_TEMP/terraform-cli" >> "$GITHUB_PATH"
+      - name: Validate all infrastructure modules without cloud access
+        run: |
+          for module in foundation model-access workspace; do
+            terraform -chdir="platform/infra/$module" fmt -check
+            terraform -chdir="platform/infra/$module" init -backend=false -input=false -lockfile=readonly
+            terraform -chdir="platform/infra/$module" validate -no-color
+          done
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: foundation-contract-tests
+          path: output/foundation-validation/all-platform-tests.xml
+          retention-days: 14
+
+  federated-control-storage:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: azure/login@8216e11d8cd9b42fe925c852af8e76311ff067ac # v2
+        with:
+          client-id: ${{ vars.HCP_AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.HCP_AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.HCP_AZURE_SUBSCRIPTION_ID }}
+      - name: Probe private control container with exact CI identity
+        run: python3 -B platform/scripts/verify_foundation.py storage-probe
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: federated-control-storage
+          path: output/foundation-validation/storage-probe.json
+          retention-days: 14

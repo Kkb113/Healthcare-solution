@@ -28,6 +28,7 @@ resource "azurerm_resource_group" "healthcare" {
   name     = "rg-hcp-dev"
   location = "eastus"
   tags     = local.tags
+  lifecycle { prevent_destroy = true }
 }
 
 # Existing SERVERLESS workspace is referenced, never recreated or imported as
@@ -43,6 +44,7 @@ resource "azurerm_storage_account" "healthcare" {
   allow_nested_items_to_be_public = false
   shared_access_key_enabled       = false
   tags                            = local.tags
+  lifecycle { prevent_destroy = true }
   blob_properties {
     delete_retention_policy { days = 7 }
     container_delete_retention_policy { days = 7 }
@@ -50,11 +52,29 @@ resource "azurerm_storage_account" "healthcare" {
 }
 
 resource "azurerm_storage_container" "healthcare" {
-  for_each              = toset(["uc-managed", "landing", "checkpoints", "tfstate"])
+  for_each              = toset(["uc-managed", "landing", "checkpoints", "tfstate", "control"])
   name                  = each.value
   storage_account_id    = azurerm_storage_account.healthcare.id
   container_access_type = "private"
   depends_on            = [azurerm_role_assignment.operator_storage]
+  lifecycle { prevent_destroy = true }
+}
+
+# Tier only delivered landing files. State, checkpoints, control records and
+# Unity Catalog managed data must never inherit an automatic deletion rule.
+resource "azurerm_storage_management_policy" "landing" {
+  storage_account_id = azurerm_storage_account.healthcare.id
+  rule {
+    name    = "cool-landing-after-ninety-days"
+    enabled = true
+    filters {
+      prefix_match = ["landing/"]
+      blob_types   = ["blockBlob"]
+    }
+    actions {
+      base_blob { tier_to_cool_after_days_since_modification_greater_than = 90 }
+    }
+  }
 }
 
 resource "azurerm_key_vault" "healthcare" {
@@ -66,6 +86,15 @@ resource "azurerm_key_vault" "healthcare" {
   rbac_authorization_enabled = true
   soft_delete_retention_days = 7
   tags                       = local.tags
+  lifecycle { prevent_destroy = true }
+}
+
+resource "azurerm_role_assignment" "platform_secrets" {
+  name                 = uuidv5("dns", "hcp-d054-dev-platform-secrets")
+  scope                = azurerm_key_vault.healthcare.id
+  role_definition_name = "Key Vault Secrets Officer"
+  principal_id         = azuread_group.healthcare["hcp-platform-admins"].object_id
+  principal_type       = "Group"
 }
 
 resource "azurerm_databricks_access_connector" "healthcare" {
@@ -74,6 +103,7 @@ resource "azurerm_databricks_access_connector" "healthcare" {
   location            = azurerm_resource_group.healthcare.location
   identity { type = "SystemAssigned" }
   tags = local.tags
+  lifecycle { prevent_destroy = true }
 }
 
 resource "azurerm_role_assignment" "connector_storage" {
@@ -98,6 +128,9 @@ resource "azuread_group" "healthcare" {
   security_enabled = true
   owners           = ["5ee77c8e-621d-4953-9502-1be929c977e1"]
   members          = each.value == "hcp-platform-admins" ? ["5ee77c8e-621d-4953-9502-1be929c977e1"] : []
+  # Membership is an Entra business/security decision after bootstrap. Routine
+  # infrastructure apply must not erase an administrator's subsequent changes.
+  lifecycle { ignore_changes = [members] }
 }
 
 resource "azuread_application" "foundation" {
@@ -142,6 +175,14 @@ resource "azurerm_role_assignment" "ci_workspace_read" {
 resource "azurerm_role_assignment" "ci_state" {
   name                 = uuidv5("dns", "hcp-d054-dev-ci-state")
   scope                = azurerm_storage_container.healthcare["tfstate"].id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azuread_service_principal.foundation["sp-hcp-cicd"].object_id
+  principal_type       = "ServicePrincipal"
+}
+
+resource "azurerm_role_assignment" "ci_control" {
+  name                 = uuidv5("dns", "hcp-d054-dev-ci-control")
+  scope                = azurerm_storage_container.healthcare["control"].id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azuread_service_principal.foundation["sp-hcp-cicd"].object_id
   principal_type       = "ServicePrincipal"

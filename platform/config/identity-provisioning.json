@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "mode": "SCIM",
+  "display_name": "hcp-account-scim-provisioning",
+  "application_template_id": "9c9818d2-2900-49e8-8ba4-22688be7c675",
+  "service_principal_object_id": "e1300a8b-dc88-4b61-9913-f73f73da4549",
+  "application_client_id": "0eb0f57e-6fda-4c40-bd2b-02efdd14dc5d",
+  "job_id": "dataBricks.807ebfbb86ca41a587dfd9c348b89f83.0eb0f57e-6fda-4c40-bd2b-02efdd14dc5d",
+  "allowed_group_object_ids": {
+    "hcp-analysts": "a3613f6e-92d3-4714-8312-4820c5805f27",
+    "hcp-auditors": "9a87b340-48c1-423a-a8c7-1cfdd365abff",
+    "hcp-clinical": "e3bc4785-335e-4783-a534-4bdb03fe21e8",
+    "hcp-data-engineers": "d02f0de6-6b42-4866-b150-e46d06439283",
+    "hcp-data-scientists": "a6152a8d-8f19-489d-be77-1d85c1018ac7",
+    "hcp-finance": "3c74ac4e-c41c-471b-b27b-2c971c34ef47",
+    "hcp-operations": "327a3c34-421a-4c12-9692-fc620da4e14b",
+    "hcp-platform-admins": "5ad7ee05-af17-490d-97e9-9fa2ac9cc7e4"
+  },
+  "allowed_user_object_ids": [
+    "5ee77c8e-621d-4953-9502-1be929c977e1"
+  ],
+  "account_aim_enabled": false,
+  "state": "ACTIVE_VERIFIED",
+  "lifecycle_owner": "platform/scripts/configure_foundation_identity.py",
+  "secret_in_terraform_or_repository": false,
+  "preserved_identities_sha256": "c953a979a00dd37295a949ec4783c7facb2160ddc10b252617d302ce9ea8ee62",
+  "preserved_identity_count": 16
+}

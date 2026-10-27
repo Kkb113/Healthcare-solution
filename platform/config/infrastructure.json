@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "phase": 1,
+  "environment": "dev",
+  "workspace_id": 7405619366453187,
+  "workspace_subscription": "d054aa64-95db-467b-a25c-387de70b15bd",
+  "model_subscription": "0725b5e7-75db-4c60-b5e9-928c3df3fcd1",
+  "tenant_id": "807ebfbb-86ca-41a5-87df-d9c348b89f83",
+  "metastore_id": "d9469652-1d8e-4e7f-9abd-8626b32a9f30",
+  "region": "eastus",
+  "resource_group": "rg-hcp-dev",
+  "model_resource_group": "rg-hcp-model-access",
+  "storage_account": "sthcpd054dev",
+  "containers": [
+    "uc-managed",
+    "landing",
+    "checkpoints",
+    "tfstate",
+    "control"
+  ],
+  "control_container": "control",
+  "ledger_blob": "finance/build-cost-ledger.json",
+  "key_vault": "kv-hcp-d054-dev",
+  "landing_cool_after_days": 90,
+  "automatic_deletion_allowed": false,
+  "terraform_modules": [
+    "foundation",
+    "model-access",
+    "workspace"
+  ],
+  "build_ceiling_paise": 2000000,
+  "monthly_target_paise": 600000,
+  "preflight_reservation_paise": 20000,
+  "foundation_validation_reservation_paise": 5000,
+  "billing_status": "PROVISIONAL_UNTIL_PROVIDER_SETTLEMENT",
+  "identity_management": {
+    "source": "Microsoft Entra ID",
+    "scope": "Exactly the eight healthcare group object IDs and three foundation principals from foundation-resources.json",
+    "account_aim_enablement": "DISABLED_BY_EXPLICIT_USER_SCOPE_CONSTRAINT",
+    "workspace_permissions": "USER only; existing administrator privileges unchanged",
+    "business_data_grants_in_this_phase": false,
+    "method": "Microsoft Entra gallery account-level SCIM connector",
+    "allowed_user_object_ids": [
+      "5ee77c8e-621d-4953-9502-1be929c977e1"
+    ],
+    "connector_configuration": "platform/config/identity-provisioning.json"
+  },
+  "forbidden_resource_types": [
+    "Microsoft.EventHub/namespaces",
+    "Microsoft.Network/natGateways",
+    "Microsoft.OperationalInsights/workspaces",
+    "Microsoft.Databricks/workspaces"
+  ],
+  "note": "Existing SERVERLESS workspace is reference-only. Forbidden workspace type means no new/duplicate workspace. Existing authorized exact-model exception is reconciled, never replaced. No workload compute starts in Phase 1."
+}
