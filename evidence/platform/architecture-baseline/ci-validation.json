@@ -1,0 +1,122 @@
+{
+  "phase": 0,
+  "status": "PASS",
+  "recorded_at": "2026-10-27T09:28:42.408562+00:00",
+  "run_id": 40480822257,
+  "url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40480822257",
+  "ci_head_sha": "6aa778dbdc042555fba75ca0c929b863b3b6cb62",
+  "gate_source_sha": "1a46036e8f48506123c4be9d63e96a6fa3d0c04f",
+  "executable_configuration_tree_matches_gate_source": true,
+  "jobs": [
+    {
+      "name": "local-runtime",
+      "conclusion": "success",
+      "url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40480822257/job/122110389955",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install hash-locked platform runtime",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check platform source",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate approved architecture and negative gate contracts",
+          "conclusion": "success"
+        },
+        {
+          "name": "Exercise local Spark and Delta",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "identity-smoke",
+      "conclusion": "success",
+      "url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40480822257/job/122110390611",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run azure/login@8216e11d8cd9b42fe925c852af8e76311ff067ac",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install verified Databricks CLI",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify federated identity without starting compute",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run azure/login@8216e11d8cd9b42fe925c852af8e76311ff067ac",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "design_tests": 42,
+  "full_accepted_payload_verification": "Local source-bound report; synthetic payload is not checked into GitHub",
+  "prior_failed_run": {
+    "id": 40480385653,
+    "reason": "Shallow checkout lacked gate source commit;42tests and identity check passed, source-object verification failed; repaired with fetch-depth0"
+  },
+  "nonblocking_annotation": "Pinned azure/login action ran on GitHub Node24 compatibility; actual federation passed. Review action runtime at future dependency upgrade, not a phase blocker.",
+  "evidence_only_followup": "This record changes no executable/configuration input. Gate artifacts remain bound to source1a46036; all later platform gates unpassed."
+}
