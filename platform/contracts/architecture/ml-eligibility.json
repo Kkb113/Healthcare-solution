@@ -1,0 +1,364 @@
+{
+  "contract_version": "architecture-1",
+  "use_cases": [
+    {
+      "id": "M1",
+      "name": "ED arrival forecasting",
+      "disposition": "ELIGIBLE",
+      "grain_horizon": "facility/day 14d; facility/hour 24h",
+      "decision_origin": "Scheduled forecast origin after available ED history cutoff",
+      "algorithms": "Seasonal naive; negative-binomial GLM; pooled LightGBM Poisson; Prophet optional benchmark",
+      "metrics": [
+        "MASE",
+        "WAPE",
+        "pinball",
+        "80% coverage"
+      ],
+      "sources": [
+        "encounter",
+        "facility_day_driver"
+      ],
+      "feature_rules": "Known calendar and lagged visible arrivals; future realized weather/respiratory excluded",
+      "label": "Forecast time interval counts; aggregation consistent across hospital/hour/day",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M2",
+      "name": "Inpatient admissions",
+      "disposition": "ELIGIBLE",
+      "grain_horizon": "facility/service-line/day 14d",
+      "decision_origin": "Scheduled forecast origin with source-visible admissions history",
+      "algorithms": "Seasonal naive; pooled negative-binomial GLM / LightGBM",
+      "metrics": [
+        "MASE",
+        "WAPE",
+        "pinball"
+      ],
+      "sources": [
+        "encounter",
+        "facility_day_driver"
+      ],
+      "feature_rules": "Historical elective/emergency mix only. All 4800 elective booking exports late; no booked schedule feature",
+      "label": "New admissions after origin excluding carry-in; sum service lines without duplicating transfers",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M3",
+      "name": "Bed occupancy/census",
+      "disposition": "ELIGIBLE",
+      "grain_horizon": "facility/unit/hour 72h; day 14d",
+      "decision_origin": "Forecast origin with corrected bed state and visible M2/M4 inputs",
+      "algorithms": "Stock-flow Monte Carlo champion; quantile LightGBM challenger only with support",
+      "metrics": [
+        "pinball",
+        "interval coverage",
+        "Brier P(full)",
+        "state conservation"
+      ],
+      "sources": [
+        "bed_event",
+        "encounter",
+        "location"
+      ],
+      "feature_rules": "M2 forecast inflows; completed-stay LOS prior known at origin for new arrivals; conditional remaining-LOS distribution for currently active eligible patients; fallback prior for ineligible active cases",
+      "label": "Physical occupied beds cannot exceed active licensed physical capacity; staffedcapacity shortfall never erases existingpatients and is reported separately. Model unplaced demand inqueue; avoid force-fitting occupancytostaffingcapacity.",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M4",
+      "name": "Remaining inpatient LOS",
+      "disposition": "ELIGIBLE",
+      "grain_horizon": "eligible active inpatient snapshot",
+      "decision_origin": "First instant all required IPD inputs visible, at least admission+1h45 on this release; still active at origin",
+      "algorithms": "Conditional survival/AFT baseline; Cox/LightGBM survival challenger",
+      "metrics": [
+        "MAE",
+        "concordance",
+        "conditional interval coverage"
+      ],
+      "sources": [
+        "encounter",
+        "clinical_condition",
+        "clinical_event"
+      ],
+      "feature_rules": "Only visible fields at origin; condition on elapsed stay and still admitted. No discharged_at/disposition/medically_ready_at or future test results",
+      "label": "Remaining time discharged_at - origin, not total LOS; ongoing stays right-censored; completed before visibility -> ALREADY_RESOLVED",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M5",
+      "name": "Discharge within 24 hours",
+      "disposition": "ELIGIBLE",
+      "grain_horizon": "active eligible inpatient/UTC hour",
+      "decision_origin": "First whole UTC hour at/after M4 eligibility, continuing hourly while active",
+      "algorithms": "Logistic baseline; pooled LightGBM classifier",
+      "metrics": [
+        "AUROC",
+        "AUPRC",
+        "Brier",
+        "calibration"
+      ],
+      "sources": [
+        "encounter",
+        "clinical_condition",
+        "clinical_event"
+      ],
+      "feature_rules": "No medically-ready flag: none of 11107 such records available before discharge; no future outcomes",
+      "label": "Discharge in (origin,origin+24h]; completed before/equal origin -> ALREADY_RESOLVED",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M6",
+      "name": "Staffing demand",
+      "disposition": "DERIVED",
+      "grain_horizon": "facility/unit/shift",
+      "decision_origin": "M3 forecast issuance with versioned generation rule",
+      "algorithms": "Derived, not learned: source base5.5 RN productive HPPD \u00d7 configured acuity weights (1:1.12,2:1.04,3\u20135:1.00) on M3 forecast shift-start census mix \u00d7 actual elapsedshift hours/24. MinimumoneRN per activeACUTE/ICU/ED scope; preserve ACUTE MEDICINE/SURGERY pooling. Version full/partial roster translation separately; source nominal12h productivecapacity=elapsedhours\u22121.25 including DST11/13h.",
+      "metrics": [
+        "arithmetic equality",
+        "interval propagation"
+      ],
+      "sources": [
+        "bed_event",
+        "staff_shift",
+        "worker_assignment"
+      ],
+      "feature_rules": "Use observed/source-visible acuitymix or forecastcohortmix; future actualacuity/census forbidden. ED/OR/case/support coverage only within selectedcapturedscope; no fullhospitalscheduling/safestaffingclaim. Fixedinputrule does not mean observedHPPD is constant.",
+      "label": "Forecast productive-hour demand and interval under versionedsourcebase/acuity/minimumrules; compare available roster hours separately. Minimumcoverage/fullandpartialshift rounding make observedHPPD variable; never train an8.0constant rule.",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M7",
+      "name": "RN absence volume",
+      "disposition": "BASELINE_ONLY",
+      "grain_horizon": "facility/week 1\u00e2\u20ac\u201c4 weeks",
+      "decision_origin": "Weekly origin with known shift/attendance history",
+      "algorithms": "Seasonal naive / pooled Poisson GLM; no rare overtime model",
+      "metrics": [
+        "MASE",
+        "Poisson deviance",
+        "coverage"
+      ],
+      "sources": [
+        "staff_shift",
+        "worker_assignment"
+      ],
+      "feature_rules": "Only latest visible shift revision and legitimate attendance states",
+      "label": "Future absent shift count, not missing-source-file count",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M8",
+      "name": "Inventory consumption",
+      "disposition": "ELIGIBLE",
+      "grain_horizon": "supported item/location/day 28d",
+      "decision_origin": "Daily origin after visible signed movements",
+      "algorithms": "Croston/TSB intermittent baseline; pooled LightGBM if sufficient signal",
+      "metrics": [
+        "MASE",
+        "WAPE",
+        "pinball",
+        "stockout scenario"
+      ],
+      "sources": [
+        "inventory_movement",
+        "catalog_item",
+        "bed_event"
+      ],
+      "feature_rules": "Exactly 9 consuming items eligible; future patient-days from M3 forecasts, not realized census",
+      "label": "Future consumption base units; transfers/receipts/adjustments not demand",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M9",
+      "name": "Cash collections",
+      "disposition": "BASELINE_ONLY",
+      "grain_horizon": "payer type/week 12 weeks",
+      "decision_origin": "Weekly origin with visible claim/remittance ledger",
+      "algorithms": "Historical lag-distribution cashflow; seasonal naive; SARIMAX residual optional if support",
+      "metrics": [
+        "WAPE",
+        "MAE",
+        "80% coverage"
+      ],
+      "sources": [
+        "claim",
+        "claim_event",
+        "patient_coverage",
+        "payer_plan"
+      ],
+      "feature_rules": "Current pending AR and historically visible cash/cohort lag; no future adjudication",
+      "label": "Future receipt-week signed cash flow; opening balances not a new receipt",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M10",
+      "name": "Original-claim denial risk and volume",
+      "disposition": "ELIGIBLE",
+      "grain_horizon": "pending original claim at first eligible snapshot; payer/month volume",
+      "decision_origin": "First available claim snapshot strictly before its first adjudication; cannot score at first_submitted_at because all 57818 headers become visible later",
+      "algorithms": "Logistic baseline; LightGBM for risk; pooled ETS/naive denied-volume baseline",
+      "metrics": [
+        "AUROC",
+        "AUPRC",
+        "Brier",
+        "lift@10%",
+        "volume WAPE"
+      ],
+      "sources": [
+        "claim",
+        "claim_line",
+        "service_charge",
+        "claim_event",
+        "patient_coverage",
+        "payer_plan"
+      ],
+      "feature_rules": "Use only fields actually visible before first adjudication, no denial code/adjudication/remittance amounts. attempt_no models original claim event history; resubmissions not new claims; SELF_PAY internal responsibility confirmation is not external payer adjudication.",
+      "label": "Original insured non-carry-in claim_id; first attempt_no=1 event_type in (ADJUDICATED,DENIED) establishes target outcome time. Any attempt1 DENIED line at that outcome makes originalclaim positive once, including partialdenial; attempt2 appeal/recovery notnewclaim. Exclude SELF_PAY statements. Origin strictly before earliest initial outcome event and its visibleknowledge; header required. Resolved/noauditablewindow -> ALREADY_RESOLVED/INELIGIBLE.",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M11",
+      "name": "Appointment no-show",
+      "disposition": "RETROSPECTIVE_ONLY",
+      "grain_horizon": "completed attended/no-show slot",
+      "decision_origin": "No valid prospective origin in this release; all 25800 outcomes exported after scheduled start",
+      "algorithms": "Descriptive segmentation only; no production prospective model",
+      "metrics": [
+        "coverage assertion",
+        "retrospective counts"
+      ],
+      "sources": [
+        "appointment"
+      ],
+      "feature_rules": "No pretending booked_at means exported/known early; any research classifier clearly post-outcome and never deployed",
+      "label": "No online endpoint or previsit risk claim",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M12",
+      "name": "30-day readmission",
+      "disposition": "ELIGIBLE",
+      "grain_horizon": "eligible index discharge",
+      "decision_origin": "First discharge snapshot visible after business discharge, provided still within discharge+30d and no readmission already observed by origin",
+      "algorithms": "Logistic baseline; pooled LightGBM classifier",
+      "metrics": [
+        "AUROC",
+        "AUPRC",
+        "Brier",
+        "calibration"
+      ],
+      "sources": [
+        "encounter",
+        "clinical_condition",
+        "clinical_event"
+      ],
+      "feature_rules": "Only fields visible by first eligible discharge origin; known readmission -> ALREADY_RESOLVED; delayed release may produce INELIGIBLE, never backdate origin",
+      "label": "First unplanned IPD readmission in (origin,discharge+30d]; horizon measured from index discharge; full source/export-visible follow-up required; no claim of score at instantaneous discharge",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    },
+    {
+      "id": "M13",
+      "name": "Financial forecast",
+      "disposition": "BASELINE_ONLY",
+      "grain_horizon": "facility/cost-center/account/month horizons 1\u00e2\u20ac\u201c3; horizon 12 exploratory only",
+      "decision_origin": "Monthly origin with published vintage and posting availability cutoff",
+      "algorithms": "Seasonal naive/pooled ETS/ARIMA; hierarchical reconciliation",
+      "metrics": [
+        "WAPE",
+        "MAE",
+        "conservation",
+        "coverage"
+      ],
+      "sources": [
+        "finance_monthly",
+        "financial_posting",
+        "cost_center"
+      ],
+      "feature_rules": "36 monthly observations only; no per-series deep network, future Axiom vintages or retrospective ACTUAL leakage",
+      "label": "Selected currency/unit actual measure; horizons 1/2/3 reported separately; 12m insufficient for validated enterprise annual forecast",
+      "support_status": "Design eligibility only; measure eligible cohorts and event counts in Phase 8. Fail to BASELINE_ONLY/INSUFFICIENT_DATA if thresholds fail; no automatic claim of trained model success."
+    }
+  ],
+  "field_availability_contract": "delivery-temporal.json",
+  "forbidden_inputs": [
+    "Independent oracle as pipeline/feature input",
+    "Unavailable appointment/elective schedule",
+    "Future realized respiratory/weather/patient-days",
+    "Later clinical outcome/readiness fields",
+    "Post-adjudication denial codes/cash as original-denial-risk inputs",
+    "Future finance vintages"
+  ],
+  "split_policy": {
+    "business_timezone": "America/Chicago",
+    "training_origins": [
+      "2023-01-01",
+      "2024-12-31"
+    ],
+    "validation_origins": [
+      "2025-01-01",
+      "2025-06-30"
+    ],
+    "untouched_test_origins": [
+      "2025-07-01",
+      "2025-12-31"
+    ],
+    "selection": "M1\u2013M12 train2023\u20132024, select at rollingJan\u2013Jun2025origins, freeze then untouchedJul\u2013Dec2025test; no testtuning. Demo finalrefit separatelylabelled and retainsheldoutartifact.",
+    "maturity": "An example belongs to a split only if its entire target/follow-up interval AND target source/export availability are within the split's end. Calendar year boundaries do not waive delayed label availability. Purge 30d M12, 24h M5, horizon-specific 1\u00e2\u20ac\u201c84d forecasts and variable full LOS labels; censor survival observations explicitly.",
+    "overlap": "Each immutable example ID/origin belongs to one split; group repeated snapshots by encounter/episode and prohibit patient/outcome leakage across supervised classification partitions where linked. Forecasting uses strictly time-forward rolling origins with lag history available at origin; patient grouping never removes aggregate demand from labels.",
+    "monthly": "M13 pre2025rollingselection, fitthroughDecember2024, untouchedall2025test. Horizon1\u20133 needs>=3independenttargets/horizon;12monthsinglefull2025origin exploratoryonly. No annualforecastvalidation claim from oneorigin.",
+    "late_exports": "No decision beyond 2025-12-31 used to manufacture extra test origins. Retained boundary exports may mature earlier labels only if allowed by split cutoff; otherwise mark censored/unscorable."
+  },
+  "minimum_support": {
+    "count_series_training_days": 365,
+    "count_validation_origins": 12,
+    "count_test_origins": 12,
+    "classification_training_rows": 500,
+    "classification_training_each_class": 50,
+    "classification_validation_each_class": 30,
+    "classification_test_each_class": 30,
+    "survival_training_completed": 500,
+    "survival_test_completed": 100,
+    "reported_slice_minimum": 30,
+    "sparse_policy": "Pool clinically sensible units/payers only with a documented grouping; retain sparse strata with INSUFFICIENT_DATA and confidence intervals. Do not manufacture labels or claim all 13 are trained.",
+    "classification_validation_rows": 200,
+    "classification_test_rows": 200
+  },
+  "promotion": {
+    "rule": "Baseline may be champion. Challenger requires >=5% improvement in primary validation loss, no material calibration/conservation degradation, supported facility/horizon slices and reproducible price within allowance. Held-out test reports performance after selection, never retunes threshold.",
+    "interval": "80%intervalcoverage75\u201385% supportedstrata with samplecounts/blockawareCI; classifierECE<=0.05 plus>=200heldoutcases and30positive/negative atdeclaredgrain. Underpoweredcasesrestricted/insufficient, neverclaimcalibrated.",
+    "neural": "LSTM/transformers excluded by default: 3 years/low daily counts do not support unvalidated complexity. Explicit evidence/cost revision required to add."
+  },
+  "online_contract": {
+    "compatible": [
+      "M4",
+      "M10"
+    ],
+    "phase13": "M4 on simulated eligible active inpatient state uses the same 1h45 availability contract plus actual serving-ready cutoff. Evaluate early/at-boundary/delayed-copy/resolved cases; unsupported products abstain.",
+    "prediction_fields": [
+      "prediction_id",
+      "model_version",
+      "feature_version",
+      "release_id",
+      "origin_at",
+      "data_available_at",
+      "serving_ready_at",
+      "entity_scope",
+      "horizon",
+      "value_or_probability",
+      "lower",
+      "upper",
+      "eligibility_status",
+      "reason",
+      "created_at"
+    ]
+  },
+  "staffing_rule_provenance": {
+    "accepted_base_hppd": "5.5",
+    "accepted_baseline": "data/releases/healthcare-synthetic-v1.1.0/contracts/phase0/baseline.json",
+    "accepted_policy": "data/releases/healthcare-synthetic-v1.1.0/contracts/resource-foundation-policy.json",
+    "producer_config": "config/resource-foundation-generation.json",
+    "producer_implementation": "src/healthcare_synthetic/resource_workforce.py",
+    "roster_translation": "Source-style maxone full shift, floor full demand/productivecapacity and optional partial extra whenresidual>=3h; preserve elapsed11/12/13h. Predict productive demand first; any alternative ceil-headcount planning scenario is separatelyversioned and not claimed identical sourceattendance."
+  }
+}

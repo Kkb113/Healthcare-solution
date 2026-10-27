@@ -1,0 +1,909 @@
+{
+  "contract_version": "architecture-1",
+  "phase_count": 14,
+  "criteria_are_frozen": true,
+  "phase0_is_not_tenant_integration": true,
+  "phases": [
+    {
+      "phase": 0,
+      "name": "architecture-baseline",
+      "dependencies": [],
+      "gate": "evidence/platform/architecture-baseline/gate.json",
+      "environment": "local-design + read-only cloud metadata",
+      "criteria": [
+        {
+          "id": "0.1",
+          "criterion": "ADR-01 to ADR-15 recorded and approved",
+          "measure": "15 of 15; explicit source/history, security, ML eligibility, RTI, rollback and resource ownership choices",
+          "waivable": false
+        },
+        {
+          "id": "0.2",
+          "criterion": "Region, entitlements and API contracts supported",
+          "measure": "Dated official evidence, quotas, maturity/versions and tenant probe plan for every required capability; unresolved availability blocks provisioning",
+          "waivable": false
+        },
+        {
+          "id": "0.3",
+          "criterion": "Build and operating budgets feasible",
+          "measure": "Regional priced workload totals, billing tails, contingency and ADR-06 threshold recorded; estimate fits \u20b920,000 and the chosen \u20b96,000 monthly profile",
+          "waivable": false
+        },
+        {
+          "id": "0.4",
+          "criterion": "Acceptance and dependency contracts frozen",
+          "measure": "All 25 source tables mapped; 13 dispositions with first-availability decision cutoffs; spend-control scopes/limits and required-vs-optional probe matrix approved alongside the test/environment workloads",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 1,
+      "name": "adopted-infrastructure",
+      "dependencies": [
+        0
+      ],
+      "gate": "evidence/platform/adopted-infrastructure/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "1.1",
+          "criterion": "New healthcare resources created from code; existing workspace adopted",
+          "measure": "`terraform plan` = 0 changes; workspace identity, SERVERLESS mode and reference-only ownership verified",
+          "waivable": false
+        },
+        {
+          "id": "1.2",
+          "criterion": "Unity Catalog metastore attached; storage credential and 2 external locations validated",
+          "measure": "Validation passes",
+          "waivable": false
+        },
+        {
+          "id": "1.3",
+          "criterion": "Foundation identities exist",
+          "measure": "8 groups and 3 named foundation principals; app identities provisioned per app later",
+          "waivable": false
+        },
+        {
+          "id": "1.4",
+          "criterion": "Budget alerts configured",
+          "measure": "Build budget with 4 alerts; monthly budget with 3 alerts",
+          "waivable": false
+        },
+        {
+          "id": "1.5",
+          "criterion": "No Event Hubs, NAT gateway, Log Analytics or duplicate workspace resources",
+          "measure": "0 deployed; the documented exact-model prerequisite exception is the sole Azure OpenAI deployment, keyless and pay per token",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "workspace-foundation",
+      "dependencies": [
+        1
+      ],
+      "gate": "evidence/platform/workspace-foundation/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "2.1",
+          "criterion": "Bundle deploys to dev and test from CI with no manual steps",
+          "measure": "2 successful deployments",
+          "waivable": false
+        },
+        {
+          "id": "2.2",
+          "criterion": "SQL warehouse is serverless with 5-minute auto-stop",
+          "measure": "Configuration verified; stops within 6 minutes of last query",
+          "waivable": false
+        },
+        {
+          "id": "2.3",
+          "criterion": "Grant matrix verified",
+          "measure": "100% of allow/deny test cases pass",
+          "waivable": false
+        },
+        {
+          "id": "2.4",
+          "criterion": "System tables readable",
+          "measure": "Queries on billing, lakeflow and lineage tables succeed",
+          "waivable": false
+        },
+        {
+          "id": "2.5",
+          "criterion": "No compute running when idle",
+          "measure": "0 running clusters or warehouses 15 minutes after last activity",
+          "waivable": false
+        },
+        {
+          "id": "2.6",
+          "criterion": "Sleep and wake work",
+          "measure": "External guard confirms 0 running workload compute without waking it; wake restores only the declared demo profile",
+          "waivable": false
+        },
+        {
+          "id": "2.7",
+          "criterion": "Local development works",
+          "measure": "Unit tests pass locally and in CI with the same results",
+          "waivable": false
+        },
+        {
+          "id": "2.8",
+          "criterion": "Required capabilities and optional webhook disposition verified",
+          "measure": "All required probes pass, including authenticated API polling; optional webhook is `PASS` or evidenced `UNSUPPORTED_DISABLED` with polling fallback passed and no exposed receiver/security finding; versions, controls, cost and cleanup recorded",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "source-onboarding",
+      "dependencies": [
+        2
+      ],
+      "gate": "evidence/platform/source-onboarding/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "3.1",
+          "criterion": "Local package verification passes",
+          "measure": "`PASSED` for descriptor `c36a9b78\u2026`",
+          "waivable": false
+        },
+        {
+          "id": "3.2",
+          "criterion": "All delivery files in landing with matching checksums",
+          "measure": "3,445 of 3,445 (plus dictionaries and reports as listed in the manifest)",
+          "waivable": false
+        },
+        {
+          "id": "3.3",
+          "criterion": "Challenge sets in test landing",
+          "measure": "19 of 19 sets, 22 record copies",
+          "waivable": false
+        },
+        {
+          "id": "3.4",
+          "criterion": "Answer key loaded",
+          "measure": "25 tables, 1,937,925 rows",
+          "waivable": false
+        },
+        {
+          "id": "3.5",
+          "criterion": "Source contract and delivery expectation tables complete",
+          "measure": "Every feed and file in the manifest represented",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "bronze-delivery",
+      "dependencies": [
+        3
+      ],
+      "gate": "evidence/platform/bronze-delivery/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "4.1",
+          "criterion": "All valid deliveries ingested",
+          "measure": "3,445 of 3,445 files in ledger with status `OK`",
+          "waivable": false
+        },
+        {
+          "id": "4.2",
+          "criterion": "Bronze row counts equal manifest expected rows",
+          "measure": "100% of files, 0 differences",
+          "waivable": false
+        },
+        {
+          "id": "4.3",
+          "criterion": "Every challenge set produces its expected outcome",
+          "measure": "19 of 19",
+          "waivable": false
+        },
+        {
+          "id": "4.4",
+          "criterion": "Delivery identity and replay correct",
+          "measure": "Replaying the same deliveries adds 0 business payload rows; all distinct equal-hash and empty deliveries retained with their own ledger identities; immutable conflicts quarantined",
+          "waivable": false
+        },
+        {
+          "id": "4.5",
+          "criterion": "No data lost to rescue",
+          "measure": "Rescued-data column null on 100% of valid records",
+          "waivable": false
+        },
+        {
+          "id": "4.6",
+          "criterion": "Full initial load duration and cost recorded",
+          "measure": "Duration under 45 minutes; cost logged in gate",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "silver-conformance",
+      "dependencies": [
+        4
+      ],
+      "gate": "evidence/platform/silver-conformance/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "5.1",
+          "criterion": "Silver equals the answer key",
+          "measure": "25 of 25 tables; 1,937,925 rows; 0 unexplained differences",
+          "waivable": false
+        },
+        {
+          "id": "5.2",
+          "criterion": "DQ rules implemented",
+          "measure": "55 of 55 mapped; 0 `fail` violations on valid data",
+          "waivable": false
+        },
+        {
+          "id": "5.3",
+          "criterion": "Challenge outcomes correct in Silver",
+          "measure": "All Silver-handled challenges match expected outcome",
+          "waivable": false
+        },
+        {
+          "id": "5.4",
+          "criterion": "PHI protected before exposure",
+          "measure": "100% tagged and effective masks/row policies or restricted raw access tested, including payload/quarantine",
+          "waivable": false
+        },
+        {
+          "id": "5.5",
+          "criterion": "Idempotent and replayable",
+          "measure": "Full rerun produces identical table hashes",
+          "waivable": false
+        },
+        {
+          "id": "5.6",
+          "criterion": "Temporal correctness",
+          "measure": "0 DST errors; as-of results correct before/after revisions, export availability and revoked grants; canonical assertion/version IDs and intervals preserved",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "gold-semantics",
+      "dependencies": [
+        5
+      ],
+      "gate": "evidence/platform/gold-semantics/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "6.1",
+          "criterion": "Gold grains unique",
+          "measure": "0 duplicate keys across all facts",
+          "waivable": false
+        },
+        {
+          "id": "6.2",
+          "criterion": "KPIs match reference values",
+          "measure": "20 of 20 within 0.01% relative tolerance with a declared absolute tolerance near zero; counts and money exact",
+          "waivable": false
+        },
+        {
+          "id": "6.3",
+          "criterion": "Money and balance reconciliations",
+          "measure": "0 unexplained differences (claims, cash, allocations, Axiom series)",
+          "waivable": false
+        },
+        {
+          "id": "6.4",
+          "criterion": "PHI masked and facility filters enforced",
+          "measure": "100% of permission test cases pass",
+          "waivable": false
+        },
+        {
+          "id": "6.5",
+          "criterion": "Metric views owned and documented",
+          "measure": "100% have owner and description",
+          "waivable": false
+        },
+        {
+          "id": "6.6",
+          "criterion": "Dashboards responsive",
+          "measure": "Warm p95 tile load <5 seconds under the section 3.9 request/concurrency contract; cold-start result reported separately",
+          "waivable": false
+        },
+        {
+          "id": "6.7",
+          "criterion": "Gold refresh SLA",
+          "measure": "Five representative consecutive scheduled-replay days complete by 06:00 local; input due times, DST, run costs and clock semantics recorded",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "autopilot-core",
+      "dependencies": [
+        4,
+        5,
+        6
+      ],
+      "gate": "evidence/platform/autopilot-core/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "7.1",
+          "criterion": "Every Bronze, Silver and Gold table is a graph node with SLOs",
+          "measure": "100% coverage",
+          "waivable": false
+        },
+        {
+          "id": "7.2",
+          "criterion": "Injected faults detected",
+          "measure": "6 of 6 within 15 wall-clock minutes of failure/due time using required API polling with inbound webhooks disabled/unavailable and delayed system tables; delay components recorded",
+          "waivable": false
+        },
+        {
+          "id": "7.3",
+          "criterion": "False positives on clean replay",
+          "measure": "Fewer than 2 incidents across seven representative replay days; no age-only alerts on static certified data",
+          "waivable": false
+        },
+        {
+          "id": "7.4",
+          "criterion": "App available and secured",
+          "measure": "Login via Entra ID; non-admin users cannot modify state",
+          "waivable": false
+        },
+        {
+          "id": "7.5",
+          "criterion": "Cost of Autopilot collection",
+          "measure": "Under 5% of platform compute spend; within the section 3.6 allocation",
+          "waivable": false
+        },
+        {
+          "id": "7.6",
+          "criterion": "Sleep state honoured",
+          "measure": "0 collector runs or expected-inactivity incidents while asleep; external resource/security drift still alerts; full sweep within 30 minutes of waking",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "forecast-products",
+      "dependencies": [
+        6,
+        7
+      ],
+      "gate": "evidence/platform/forecast-products/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "8.1",
+          "criterion": "Every use case has an honest, tested disposition",
+          "measure": "13 of 13 audited; supported champions meet predeclared baseline/metric rules; no improvement permits a baseline champion, not a false superiority claim; M3/M6 invariant and deterministic tests pass",
+          "waivable": false
+        },
+        {
+          "id": "8.2",
+          "criterion": "Calibration and support",
+          "measure": "Eligible classifiers ECE \u22640.05; supported 80% forecast intervals empirical coverage 75\u201385% with sample counts/uncertainty. Underpowered cases are aggregated/restricted or marked insufficient, never claimed calibrated",
+          "waivable": false
+        },
+        {
+          "id": "8.3",
+          "criterion": "No leakage and valid decision origins",
+          "measure": "100% of availability-boundary, delayed-input/sync, active/pending-state, target-window, point-in-time and disjoint holdout tests pass; M4 conditional remaining LOS / M5 hourly origins / M10 first-available origin enforced; M11 prospective endpoint absent and M5 readiness excluded",
+          "waivable": false
+        },
+        {
+          "id": "8.4",
+          "criterion": "Registered and documented",
+          "measure": "Every deployed artifact registered/versioned with a product card; all 13 use-case dispositions, baselines, horizons and limitations recorded",
+          "waivable": false
+        },
+        {
+          "id": "8.5",
+          "criterion": "Predictions populated per contract",
+          "measure": "100% carry the correct model or rule/simulation lineage, cutoff, supported status and run ID; no unsupported prospective rows",
+          "waivable": false
+        },
+        {
+          "id": "8.6",
+          "criterion": "Eligible endpoints",
+          "measure": "Warm p95 <300 ms under section 3.9 workload; cold-start and feature-staleness behavior reported; scale to zero confirmed",
+          "waivable": false
+        },
+        {
+          "id": "8.7",
+          "criterion": "Monitoring functional",
+          "measure": "Mature-label replay updates accuracy, drift and eligibility status; all products/dependencies visible in Autopilot; static-demo schedules paused",
+          "waivable": false
+        },
+        {
+          "id": "8.8",
+          "criterion": "Retraining and rollback drill",
+          "measure": "One controlled eligible refresh/promotion and rollback per deployed pattern, using a test fixture if no real challenger qualifies; test promotion never changes the final holdout result or forces a losing champion",
+          "waivable": false
+        },
+        {
+          "id": "8.9",
+          "criterion": "Training cost within ADR-06 threshold",
+          "measure": "Measured and recorded",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "genie-analytics",
+      "dependencies": [
+        6,
+        8
+      ],
+      "gate": "evidence/platform/genie-analytics/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "9.1",
+          "criterion": "Benchmark accuracy",
+          "measure": "At least 18/20 correct per space on the full initial or changed-definition benchmark; bounded POC sample/confidence disclosed",
+          "waivable": false
+        },
+        {
+          "id": "9.2",
+          "criterion": "No access to Bronze, Silver or raw PHI",
+          "measure": "0 such tables in any space",
+          "waivable": false
+        },
+        {
+          "id": "9.3",
+          "criterion": "Permission tests",
+          "measure": "100% pass (masked and filtered results for restricted users)",
+          "waivable": false
+        },
+        {
+          "id": "9.4",
+          "criterion": "Configuration reproducible from Git",
+          "measure": "Configuration/permissions and trusted-query results match after targeted redeploy; two targeted stochastic cases per space both pass after unchanged-definition recreation, with retained full20-case baseline and exact dependency hashes; changed definitions require fresh full20-case \u226590% results",
+          "waivable": false
+        },
+        {
+          "id": "9.5",
+          "criterion": "Native Genie spend boundary controlled",
+          "measure": "Correct shared/per-user budget scope and caller identities, blocking behavior, funded access/query limits and sleep denial verified; actual billed/free Genie usage and separate SQL charges recorded; no claim that the app counter caps native Genie",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "healthcare-agent",
+      "dependencies": [
+        6,
+        8,
+        9
+      ],
+      "gate": "evidence/platform/healthcare-agent/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "10.1",
+          "criterion": "ADR-04 confirmed with evidence",
+          "measure": "Feasible route and tested fallback/unsupported alternatives recorded; exact Responses API/model/SDK contract passes",
+          "waivable": false
+        },
+        {
+          "id": "10.2",
+          "criterion": "No fabricated numbers",
+          "measure": "0 on the 200-question golden set",
+          "waivable": false
+        },
+        {
+          "id": "10.3",
+          "criterion": "No invalid citations in the evaluation",
+          "measure": "0 invalid/inaccessible citations; replay resolves the correct definition, input/model/document versions and authorized retained evidence",
+          "waivable": false
+        },
+        {
+          "id": "10.4",
+          "criterion": "Groundedness and relevance",
+          "measure": "Groundedness \u2265 0.95; relevance \u2265 0.90",
+          "waivable": false
+        },
+        {
+          "id": "10.5",
+          "criterion": "Correct abstention",
+          "measure": "\u2265 95% of expected abstentions",
+          "waivable": false
+        },
+        {
+          "id": "10.6",
+          "criterion": "Security",
+          "measure": "100% permission/red-team tests pass across SQL, Genie, serving, retrieval, Lakebase, sessions, logs and revocation; no unauthorized context sent to the LLM",
+          "waivable": false
+        },
+        {
+          "id": "10.7",
+          "criterion": "Performance",
+          "measure": "Warm p95 full answer <15 seconds under section 3.9 workload; cold-start latency, timeouts and tool-call mix reported",
+          "waivable": false
+        },
+        {
+          "id": "10.8",
+          "criterion": "Cost and reservation enforcement",
+          "measure": "Concurrency/idempotency/retry/timeout/crash/limit/ledger-unavailable tests pass across agent, Autopilot and evaluation clients; 0 unreserved application model attempts, unsettled charges covered, Genie costs separately governed; mean cost/question and total fit the allocation",
+          "waivable": false
+        },
+        {
+          "id": "10.9",
+          "criterion": "Short-lived services",
+          "measure": "Search/sync/Lakebase/app shutdown verified; cold wake restores ready indexes, sessions, scopes and serving in <30 minutes for the declared profile; incurred billing tails recorded",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "autopilot-remediation",
+      "dependencies": [
+        7,
+        10
+      ],
+      "gate": "evidence/platform/autopilot-remediation/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "11.1",
+          "criterion": "Detection and controls",
+          "measure": "All 27 scenarios have their expected outcome; every incident-producing fault detected within 15 wall-clock minutes of its defined failure/due time; valid controls cause no incident",
+          "waivable": false
+        },
+        {
+          "id": "11.2",
+          "criterion": "Root cause",
+          "measure": "Correct root node/class for \u226595% of incident-producing scenarios; denominator, ambiguous cases and evidence recorded",
+          "waivable": false
+        },
+        {
+          "id": "11.3",
+          "criterion": "Impact",
+          "measure": "Affected-node list matches lineage ground truth for 100%",
+          "waivable": false
+        },
+        {
+          "id": "11.4",
+          "criterion": "Remediation",
+          "measure": "Each playbook executed successfully at least once in test",
+          "waivable": false
+        },
+        {
+          "id": "11.5",
+          "criterion": "Safety",
+          "measure": "0 rewrite/restore/delete or out-of-scope actions without approval; read/diagnostic credentials cannot invoke privileged executor paths",
+          "waivable": false
+        },
+        {
+          "id": "11.6",
+          "criterion": "Diagnostic answers and shared spend",
+          "measure": "0 invalid citations on 30 questions; every application model attempt accounted in the shared ledger; simultaneous healthcare-agent/Autopilot requests cannot oversubscribe the tested limit; exhausted-budget responses dispatch no new model request",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "batch-release",
+      "dependencies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "gate": "evidence/platform/batch-release/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "12.1",
+          "criterion": "End-to-end cycle",
+          "measure": "1 full green run plus 1 idempotent rerun with identical business hashes and deterministic prediction results within frozen numeric tolerance; GenAI quality/permissions still pass without requiring identical wording (3 consecutive runs in a separately funded reliability programme)",
+          "waivable": false
+        },
+        {
+          "id": "12.2",
+          "criterion": "Regression suite",
+          "measure": "100% of applicable checks pass, 0 silently skipped; approved eligibility-based exclusions have explicit assertions and disposition tests",
+          "waivable": false
+        },
+        {
+          "id": "12.3",
+          "criterion": "Service levels",
+          "measure": "Section 3.9 workloads meet replay Gold 06:00 and warm p95 dashboard <5 s / eligible endpoints <300 ms / full agent <15 s; cold results and failures disclosed",
+          "waivable": false
+        },
+        {
+          "id": "12.4",
+          "criterion": "Security review",
+          "measure": "0 open high or critical findings",
+          "waivable": false
+        },
+        {
+          "id": "12.5",
+          "criterion": "Recovery",
+          "measure": "The single shared clean-catalog rebuild (also used by 12.1) has equal hashes; restore drills pass",
+          "waivable": false
+        },
+        {
+          "id": "12.6",
+          "criterion": "Cost",
+          "measure": "One measured demo day and projected one-/two-day months fit the agreed profile/budget; build charges plus outstanding usage and remaining Phase 13 upper estimate fit \u20b920,000",
+          "waivable": false
+        },
+        {
+          "id": "12.7",
+          "criterion": "POC release smoke tests",
+          "measure": "100% pass; manifest, scope/limitations and rollback point recorded; real-data use explicitly outside this release",
+          "waivable": false
+        },
+        {
+          "id": "12.8",
+          "criterion": "Sleep\u2013wake cycle",
+          "measure": "Settled 24-hour interval has 0 Databricks workload compute charges; external guard performs no workload queries/jobs; declared batch profile ready in <30 minutes with authorization intact; all residual charges itemized",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "operational-streaming",
+      "dependencies": [
+        12
+      ],
+      "gate": "evidence/platform/operational-streaming/gate.json",
+      "environment": "dev/test; prod publication only at batch/RTI release",
+      "criteria": [
+        {
+          "id": "13.1",
+          "criterion": "Measured freshness",
+          "measure": "Warm wall-clock p95 raw Delta <15 s, current Delta <30 s, Lakebase <60 s, screen <75 s under section 13.6 probes; full latency breakdown, failures and cold start reported",
+          "waivable": false
+        },
+        {
+          "id": "13.2",
+          "criterion": "State correctness",
+          "measure": "0 double occupancies, invalid capacity/stock transitions or cross-session mixes; state/census hashes equal independent seed-plus-log reduction, including corrections and display cutover",
+          "waivable": false
+        },
+        {
+          "id": "13.3",
+          "criterion": "Generator realism",
+          "measure": "Long-horizon, multi-seed tests pass frozen supported-stratum tolerances: aggregate arrivals and LOS median/p90 within \u00b110%, major outcome mixes within 3 percentage points; sample counts/confidence intervals and sparse/censored handling recorded; short soak not used for this claim",
+          "waivable": false
+        },
+        {
+          "id": "13.4",
+          "criterion": "Data quality",
+          "measure": "100% injected invalid events quarantined; valid beyond-threshold events reconciled; 0 duplicate accepted event identities or unexplained missing outcomes",
+          "waivable": false
+        },
+        {
+          "id": "13.5",
+          "criterion": "Recovery",
+          "measure": "Generator/query/sync restart and transport recreation drills produce 0 lost accepted events or duplicate business effects; new source instance uses new checkpoint; state/alert results match the durable replay",
+          "waivable": false
+        },
+        {
+          "id": "13.6",
+          "criterion": "Alerts",
+          "measure": "Each of 7 alert rules fires on a seeded scenario and appears in Command Center, Teams and Autopilot",
+          "waivable": false
+        },
+        {
+          "id": "13.7",
+          "criterion": "Integration",
+          "measure": "Live citations, role/revocation and compatible model-origin tests pass; M4 early/delayed-copy/resolved cases enforce section 8.1 availability in both clocks; unsupported predictions abstain; Autopilot shows source/state/serving health",
+          "waivable": false
+        },
+        {
+          "id": "13.8",
+          "criterion": "Soak",
+          "measure": "2 hours at 1\u00d7 plus 30 minutes at 30\u00d7, no unexplained failure/state drift; wall-clock source-ingestion p95 <30 s and serving meets its separate freshness budget; event count and fault profile reported",
+          "waivable": false
+        },
+        {
+          "id": "13.9",
+          "criterion": "Cost",
+          "measure": "Generator, pipeline and apps stop automatically; Event Hubs deleted by `platform_down`; 0 streaming compute outside windows; total build spend at or below \u20b920,000",
+          "waivable": false
+        },
+        {
+          "id": "13.10",
+          "criterion": "Regression and release",
+          "measure": "Applicable Phase 12 regression 100% pass with RTI running; demo extension smoke tests, updated runbooks/cost manifest and whole-platform sleep/wake recovery pass",
+          "waivable": false
+        }
+      ],
+      "evidence_required": [
+        "source_sha",
+        "dataset_descriptor_sha256",
+        "contract_hashes",
+        "environment",
+        "dependency_gates",
+        "tests",
+        "measurements",
+        "costs",
+        "limitations",
+        "owner_signoff"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "contract_version": "architecture-1",
+  "identity_key": "Verified Entra tenant ID + object ID from trusted platform/OBO identity; never browser-supplied worker, facility or role headers",
+  "mappings": "Security-admin-owned hc_ops.security.principal_scope bridge; synthetic Workday access_scope is test input and never directly grants cloud access. Missing/ambiguous/expired/revoked -> deny.",
+  "sql": "OBO query identity for human SQL/Genie. Server-only tools use per-app SP through a broker that enforces the verified user's facility/domain/PHI scopes.",
+  "copies": [
+    "Search indexes",
+    "Lakebase live/features",
+    "Agent sessions",
+    "Citation evidence",
+    "Response cache",
+    "Traces/logs"
+  ],
+  "copy_controls": "No automatic UC policy inheritance assumed. Only broker SP can query shared search; prefilter authorized facility/document ACL before retrieval plus verify each hit; apply Postgres RLS only to app-owned tables; internal synced tables remain read-only to broker only and require server-side verified facility predicates; cache key includes user/scope-version; session ownership checked every request; no raw PHI in logs. Security/control tables are separately restricted.",
+  "revocation": "Re-evaluate scope on every operation; maximum stale authorization cache 60 seconds. Invalidate cached answers, copied text and active sessions on revocation; test direct bypass and old session/token paths.",
+  "roles": {
+    "hcp-platform-admins": "Audited administrator; break-glass for raw PHI",
+    "hcp-data-engineers": "Dev/test writes, protected prod reads; no runtime oracle",
+    "hcp-data-scientists": "Protected Silver; feature/ML dev/test writes; masked PHI",
+    "hcp-analysts": "Masked Gold/semantic/pred; assigned facilities only",
+    "hcp-clinical": "Approved unmasked clinical Gold for assigned facilities, no Bronze",
+    "hcp-finance": "Masked finance/revenue domains for assigned facilities",
+    "hcp-operations": "Masked flow/workforce domains for assigned facilities",
+    "hcp-auditors": "Protected read-only audit/metadata views; masked PHI"
+  },
+  "personas": [
+    "facility-A clinical",
+    "facility-B operations",
+    "network finance explicitly approved all-facilities",
+    "missing mapping",
+    "ambiguous mapping",
+    "expired mapping",
+    "revoked mapping",
+    "cross-facility attempt"
+  ],
+  "resources": [
+    {
+      "resource": "existing-workspace",
+      "owner": "reference-only",
+      "state": "foundation",
+      "rollback": "Never recreate/move; shared metastore ownership unchanged"
+    },
+    {
+      "resource": "azure-rg-adls-key-vault-access-connectors-budgets",
+      "owner": "terraform",
+      "state": "foundation",
+      "rollback": "Refresh/import drift; retain durable data/state"
+    },
+    {
+      "resource": "azure-openai-exact-luna",
+      "owner": "terraform",
+      "state": "model-access",
+      "rollback": "Keyless pay-per-token, no silent model/SKU/processing geography switch"
+    },
+    {
+      "resource": "entra-foundation-groups-sp-and-federation",
+      "owner": "terraform",
+      "state": "foundation",
+      "rollback": "Operator controls privileged bootstrap; CI not Owner/UAA"
+    },
+    {
+      "resource": "uc-catalogs-schemas-volumes-grants-policies-sql-warehouse",
+      "owner": "terraform",
+      "state": "workspace",
+      "rollback": "Warehouse stop/start only; don't delete protected catalogs"
+    },
+    {
+      "resource": "jobs-pipelines-dashboards-alerts-apps",
+      "owner": "bundle",
+      "state": "workspace",
+      "rollback": "Stop/pause/start through the same owner; per-app platform identity"
+    },
+    {
+      "resource": "search-endpoints-indexes",
+      "owner": "api-adapter",
+      "state": "workspace",
+      "rollback": "Single versioned adapter; delete/rebuild indexes, preserve embeddings, restore ACLs"
+    },
+    {
+      "resource": "lakebase-project-endpoints-sync",
+      "owner": "api-adapter",
+      "state": "workspace",
+      "rollback": "Autoscaling Postgres API; hard disable after pausing sync; exclude Beta bundle resource; preserve durable snapshots"
+    },
+    {
+      "resource": "genie-spaces-benchmarks-and-budgets",
+      "owner": "api-adapter",
+      "state": "workspace",
+      "rollback": "Version configuration/access windows, exact supported budget scope"
+    },
+    {
+      "resource": "uc-models-risk-serving-endpoints",
+      "owner": "api-adapter",
+      "state": "workspace",
+      "rollback": "MLflow registry plus one serving adapter; no agents.deploy dual ownership"
+    },
+    {
+      "resource": "agent-deployment",
+      "owner": "bundle",
+      "state": "workspace",
+      "rollback": "Custom FastAPI app; no separate agents.deploy owner"
+    },
+    {
+      "resource": "event-hubs-namespace-topics",
+      "owner": "terraform",
+      "state": "rti",
+      "rollback": "Phase 13 only; delete transport only after accepted archives and offsets reconciled; new source-instance ID on recreation"
+    },
+    {
+      "resource": "guard-and-control-state",
+      "owner": "control-plane-adapter",
+      "state": "foundation",
+      "rollback": "GitHub scheduled runner/local REST, durable ADLS ETag/lease state; never wake SQL to inspect sleep"
+    }
+  ],
+  "retention": {
+    "release": "Pinned accepted package and frozen definitions for release lifetime",
+    "quarantine_days": 180,
+    "redacted_telemetry_days": 400,
+    "citation_evidence_days": 400,
+    "rti_minimum_days": 90,
+    "storage_cap_gb": 50,
+    "recovery": "Do not VACUUM/CDF/archive-delete beyond tested recovery point; retained snapshots/archives cover citations, not assumed default time travel."
+  },
+  "rollback": "Versioned contract impact review -> bounded test migration -> independent reconciliation -> access/cost/recovery checks -> new gate. Restore previous code/config and certified snapshot, or rebuild from pinned immutable native input; never edit accepted package. Failed migration blocks publication."
+}

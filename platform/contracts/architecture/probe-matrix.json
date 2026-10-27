@@ -1,0 +1,248 @@
+{
+  "contract_version": "architecture-1",
+  "probes": [
+    {
+      "id": "P01",
+      "capabilities": [
+        "workspace",
+        "storage-uc"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 10,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Verify Account workspaceID/mode/region; validate both extlocations; write/read/delete tiny file as job identity; deny oracle read",
+      "pass_criteria": "Correct scoped identity, HNS and integrity; exact approved workspace; access denials verified",
+      "cleanup": "Delete test objects/files, no metastore-owner changes",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P02",
+      "capabilities": [
+        "serverless-jobs-ldp"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 15,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Submit one environment5 serverless tiny Delta append job and triggered LDP; inspect actual environment/packages/update; use source catalog only",
+      "pass_criteria": "Write/replay/time-travel and idempotency pass; capture DBUs/runtime; unsupported API/tenant quota blocks",
+      "cleanup": "Cancel updates/delete fixtures/pause schedules; remove temporary grants",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P03",
+      "capabilities": [
+        "sql"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 15,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Create2XSmall max1auto5, SELECT fixture; observe control state without further queries",
+      "pass_criteria": "Query PASS; stops <=6min after last query; metadata guard does not wake",
+      "cleanup": "Stop/delete temporary warehouse through owner",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P04",
+      "capabilities": [
+        "apps-obo"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 15,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Temporary Medium FastAPI app; real test identities across two facility scopes, direct API and OBO paths; forged objectID/facility headers",
+      "pass_criteria": "100% allow/deny; user token not shared; no raw token logs",
+      "cleanup": "Stop/delete app and per-app grants; revoke test bindings",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P05",
+      "capabilities": [
+        "exact-luna"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 15,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Revalidate exactrevision and MI; <=12Responses requests <=24k input/3072 output aggregate including format/stream/tool attempts; force deterministic17+25 tool and JSON-schema fixture; test permission/retry/429; inspect rate limit",
+      "pass_criteria": "Exactmodel, required JSON/tool/stream compatibility and usage attribution; size tokens/RPM/TPM for frozen10-user mix with20% headroom; capacity5 is explicitly insufficient and must be adjusted through Terraform within approved quota before load. If DataZone quota cannot meet required mix, request quota increase; no implicit Global geography fallback",
+      "cleanup": "Keep approved route, remove probe identity grants, stop all fixtures; bounded failed attempts retained",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P06",
+      "capabilities": [
+        "gateway-budgets"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 10,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Isolated tiny app limit, exhausted/unknown-price/unavailable-ledger fixture specification; verify gateway service permissions and external-provider Beta inclusion only if supported",
+      "pass_criteria": "Bounded usage recorded; external budget status explicit; primary app ledger contract remains mandatory Phase10",
+      "cleanup": "Delete probe budgets/permissions except declared baseline; no business access",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P07",
+      "capabilities": [
+        "model-registry-serving"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 15,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Register constant pyfunc no healthcare rows; deploy minimum CPU scalezero, invoke and compare output; inspect limit/launch/idle billing",
+      "pass_criteria": "UC signature/auth and model inference pass; capture minimum SKU size and cold/warm lifecycle; 300ms target tested Phase8",
+      "cleanup": "Delete endpoint/model fixture after stop; no background monitors",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P08",
+      "capabilities": [
+        "search"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 30,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Create1Standard endpoint; 3 precomputed768Dnonpatient docs; create/query/delete index; capture all operation/version status",
+      "pass_criteria": "Expected nearest hit; wrong principal denied; durable rebuild+ACL contract; wait for settled24h tail or reserve whole tail",
+      "cleanup": "Delete index and endpoint, retain billing-tail reservation",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P09",
+      "capabilities": [
+        "lakebase"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 30,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "CreateAutoscaling project1\u00e2\u20ac\u201c2CU, suspend300s; OAuth SQLinsert/read; tinyDelta CDF sync via GA operation; stop sync and harddisable; resume, reconcile data/RLS",
+      "pass_criteria": "Transactional query and scoped copy correct; API maturity confirmed; measurable CU/DBU bill basis; idle stops and sync cannot wake disabled endpoint",
+      "cleanup": "Pause/delete sync; harddisable/delete temporary project after snapshot integrity, retain tails",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P10",
+      "capabilities": [
+        "jobs-polling",
+        "system-tables"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 20,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Submit tiny failed job/update; authenticated get-run/get-update every<=120s; query only approved telemetry tables separately",
+      "pass_criteria": "Failure detected <=15wall minutes with webhooks disabled; least privilege; delayed timeline doesn't affect detection",
+      "cleanup": "Cancel/terminate/delete fixtures, collector paused when asleep",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P11",
+      "capabilities": [
+        "optional-webhook"
+      ],
+      "execute_in_phase": 2,
+      "required": false,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 10,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Attempt authenticated notification into protected probe handler; reject invalid signature/unauthenticated request",
+      "pass_criteria": "PASS if verified; otherwise UNSUPPORTED_DISABLED with evidence, no exposed receiver and P10PASS",
+      "cleanup": "Remove route/app/notification destination in all outcomes",
+      "blocking": "Only PASS or UNSUPPORTED_DISABLED with P10 PASS and receiver removed; insecure enabled route blocks"
+    },
+    {
+      "id": "P12",
+      "capabilities": [
+        "metric-views-dashboards"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 10,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Tiny UCmetric view and dashboard sharing/query via scoped user",
+      "pass_criteria": "Supported SQL/schema and OBO query; no crossfacility rows",
+      "cleanup": "Delete objects, stop warehouse",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P13",
+      "capabilities": [
+        "genie"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 15,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "One-space nonpatient minimum smoke + limited paid caller pilot inside124total build questions; verify budget configuration/API availability. Full exact caller/block and four spaces tested Phase9",
+      "pass_criteria": "Native scopes supported; actual billed/free caller SKU/DBU captured, remaining question cost <=available allowance; approximate overshoot reserve. Missing controls blocks",
+      "cleanup": "Revoke funded access after probe; deletefixture; count every question in global native ledger",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P14",
+      "capabilities": [
+        "authorization"
+      ],
+      "execute_in_phase": 2,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 15,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Create policies before any business exposure; all8roles +unmapped/revoked/ambiguous/directobject cases; appcopypaths later repeated",
+      "pass_criteria": "No business grant can bypass masks/facilityfilter; denied oracle/raw/control access",
+      "cleanup": "Remove testprincipals/fixtures; keep deny-by-default baseline",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P15",
+      "capabilities": [
+        "event-hubs-kafka",
+        "streaming-rti"
+      ],
+      "execute_in_phase": 13,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 240,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "BeforePhase13 verifyAzure namespacequota; create minimal5topics2partitions; Kafka MI/SASleastscope path; corrected seed/state, archive, stop/restart/newinstancecheckpoint; fullPhase13workload",
+      "pass_criteria": "All thirteen-phase freshness/state/recovery criteria measured; RTI total36DBU allowance repriced from short pilot before soak",
+      "cleanup": "Drain/stop/snapshot;delete namespace and stop pipeline/sync/apps by harddeadline",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    },
+    {
+      "id": "P16",
+      "capabilities": [
+        "teams-email"
+      ],
+      "execute_in_phase": 11,
+      "required": true,
+      "environment": "hc_test minimum fixtures (Phase2 uses temporary foundation probe schema)",
+      "maximum_wall_minutes": 15,
+      "cost_envelope": "All meters/tails within cost-model.json; Phase2 combined proposal envelope INR2000 including INR200 unsettled preflight, not INR2000 per probe.",
+      "steps": "Verify real authorized outbound Teams and daily email destinations/credentials with owner before first send; dry-run payload locally beforehand",
+      "pass_criteria": "Actualapproveddestination receipt and dedup; no PHI; failing required outbound blocks Phase11/13 alerts",
+      "cleanup": "Remove any testconnectors/secrets; retain redacted receipt IDs",
+      "blocking": "FAIL/UNKNOWN blocks the dependent gate and Phase3 for Phase2 required probes"
+    }
+  ]
+}

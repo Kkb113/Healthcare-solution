@@ -1,0 +1,5668 @@
+{
+  "contract_version": "architecture-1",
+  "release_id": "healthcare-synthetic-v1.1.0",
+  "descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+  "business_rows": 1937925,
+  "business_tables": 25,
+  "delivery_files": 3445,
+  "distinct_delivery_hashes": 1001,
+  "empty_deliveries": 2143,
+  "source_systems": [
+    "ADT_BED",
+    "AXIOM",
+    "EHR",
+    "FINANCE_ERP",
+    "REVENUE_CYCLE",
+    "ROSTER_TIME",
+    "SUPPLY_PHARMACY",
+    "WORKDAY"
+  ],
+  "time_range": [
+    "2023-01-01",
+    "2025-12-31"
+  ],
+  "boundary_policy": "Opening/carry-in assertions and later exports retained outside business date range; never trim by export calendar.",
+  "input_hashes": {
+    "data/releases/healthcare-synthetic-v1.1.0/schema/tables.json": "dbd78204540631fb15279c5c46c8359b31e413a4ecbc6795ea73146ad98ea11f",
+    "data/releases/healthcare-synthetic-v1.1.0/native/source-dictionary.json": "c668dc1be97c89e6756b4b17f077efa0bb903e7a451b0e45058e7307aae5caeb",
+    "data/releases/healthcare-synthetic-v1.1.0/native/manifest.json": "aa60370d9d6daebbd275825f7d05dddad96c375e172f104203a72c1f5c38c7e9",
+    "data/releases/healthcare-synthetic-v1.1.0/native/challenge-manifest.json": "988c463350c5e3034ae3825542577f359e087a4f522f6a79b6a8823369495dfb",
+    "reviews/dataset-release-v1.1.0-acceptance.json": "dfd5cad131857f32fb459ad84f140e3911cc1eb28f627fcd82583e0f56d39d0d"
+  },
+  "topological_order": [
+    "catalog_item",
+    "facility",
+    "patient",
+    "payer_plan",
+    "cost_center",
+    "facility_day_driver",
+    "patient_coverage",
+    "finance_monthly",
+    "location",
+    "inventory_movement",
+    "worker_assignment",
+    "access_scope",
+    "encounter",
+    "source_key_map",
+    "staff_shift",
+    "appointment",
+    "bed_event",
+    "claim",
+    "clinical_condition",
+    "clinical_event",
+    "service_charge",
+    "claim_line",
+    "claim_event",
+    "financial_posting",
+    "cost_allocation"
+  ],
+  "logical_reference_contracts": [
+    {
+      "source": "worker_assignment.manager_worker_id",
+      "target": "worker_assignment.worker_id",
+      "selection": "exactly one applicable valid+knowledge revision; acyclic manager chain"
+    },
+    {
+      "source": "access_scope.worker_id",
+      "target": "worker_assignment.worker_id",
+      "selection": "stable worker exists and grant validity/knowledge checked"
+    },
+    {
+      "source": "source_key_map.target_key",
+      "target_by_entity_type": {
+        "PATIENT": "patient.patient_id",
+        "WORKER": "worker_assignment.worker_id",
+        "LOCATION": "location.location_id",
+        "COST_CENTER": "cost_center.cost_center_id",
+        "CATALOG": "catalog_item.catalog_item_id",
+        "PAYER_PLAN": "payer_plan.payer_plan_id",
+        "UNIT_COST_CENTER": "cost_center.cost_center_id"
+      },
+      "selection": "typed lookup; UNIT_COST_CENTER source_key is the source/canonical unit association"
+    },
+    {
+      "source": "access_scope.scope_key",
+      "target_by_entity_type": {
+        "FACILITY": "facility.facility_id",
+        "LOCATION": "location.location_id",
+        "COST_CENTER": "cost_center.cost_center_id"
+      },
+      "selection": "NETWORK only uses ALL_NETWORK sentinel"
+    },
+    {
+      "source": "clinical_event.consumption_group_key",
+      "target": "inventory_movement.consumption_group_key",
+      "selection": "group-level unit/item/lot/base-unit conservation, not a falsely unique row FK"
+    },
+    {
+      "source": "financial_posting.source_group_key",
+      "target": "staff_shift.posting_group_key",
+      "selection": "WORKFORCE domain; analogous source-specific predicates for inventory, charges, claim events and pool-close journals"
+    }
+  ],
+  "deferred_association_validation": "Clinical/inventory consumption groups validate after both are loaded (not a cyclic physical FK). Polymorphic scope/crosswalk targets validate after master targets; source journal groups after workforce, inventory, charge and claim-event inputs. No source business table is generated from the oracle.",
+  "tables": [
+    {
+      "table": "facility",
+      "source": "ehr",
+      "authority": "ORG_MASTER",
+      "grain": "One fictional hospital; stable identity and geography.",
+      "primary_key": [
+        "facility_id"
+      ],
+      "canonical_rows": 3,
+      "deliveries": 1,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_facility",
+      "silver": "silver.ehr_facility",
+      "oracle": "reference.answer_facility",
+      "upstream": [],
+      "physical_upstream": [],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "facility_id",
+          "source": "FacilityId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "facility_code",
+          "source": "FacilityCode",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "facility_name",
+          "source": "FacilityName",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "city",
+          "source": "City",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "state_code",
+          "source": "StateCode",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "postal_code",
+          "source": "PostalCode",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "timezone",
+          "source": "Timezone",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "opened_on",
+          "source": "OpenedOn",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "closed_on",
+          "source": "ClosedOn",
+          "type": "DATE",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "currency",
+          "source": "Currency",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "fiscal_calendar",
+          "source": "FiscalCalendar",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "cost_center",
+      "source": "workday",
+      "authority": "WORKDAY",
+      "grain": "One stable financial responsibility center; replacements receive a new ID.",
+      "primary_key": [
+        "cost_center_id"
+      ],
+      "canonical_rows": 45,
+      "deliveries": 160,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.workday_cost_center",
+      "silver": "silver.workday_cost_center",
+      "oracle": "reference.answer_cost_center",
+      "upstream": [
+        "facility"
+      ],
+      "physical_upstream": [
+        "facility"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [
+        {
+          "column": "parent_cost_center_id",
+          "reference": "cost_center.cost_center_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "cost_center_id",
+          "source": "CostCenterReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "facility_id",
+          "source": "FacilityId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "facility.facility_id"
+        },
+        {
+          "canonical": "parent_cost_center_id",
+          "source": "ParentReference",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "cost_center.cost_center_id"
+        },
+        {
+          "canonical": "cost_center_code",
+          "source": "CostCenterCode",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "cost_center_name",
+          "source": "CostCenterName",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "center_type",
+          "source": "CenterType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "active_from",
+          "source": "ActiveFrom",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "active_to",
+          "source": "ActiveTo",
+          "type": "DATE",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "location",
+      "source": "ehr",
+      "authority": "ADT_LOCATION",
+      "grain": "One department, ward, room or physical bed; hierarchical location, not an occupancy snapshot.",
+      "primary_key": [
+        "location_id"
+      ],
+      "canonical_rows": 150,
+      "deliveries": 1,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_location",
+      "silver": "silver.ehr_location",
+      "oracle": "reference.answer_location",
+      "upstream": [
+        "cost_center",
+        "facility"
+      ],
+      "physical_upstream": [
+        "cost_center",
+        "facility"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [
+        {
+          "column": "parent_location_id",
+          "reference": "location.location_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "location_id",
+          "source": "LocationId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "facility_id",
+          "source": "FacilityId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "facility.facility_id"
+        },
+        {
+          "canonical": "parent_location_id",
+          "source": "ParentLocationId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "location.location_id"
+        },
+        {
+          "canonical": "cost_center_id",
+          "source": "CostCenterReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "cost_center.cost_center_id"
+        },
+        {
+          "canonical": "location_code",
+          "source": "LocationCode",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "location_name",
+          "source": "LocationName",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "location_type",
+          "source": "LocationType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "service_line",
+          "source": "ServiceLine",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "licensed_bed",
+          "source": "LicensedBed",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "isolation_capable",
+          "source": "IsolationCapable",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "active_from",
+          "source": "ActiveFrom",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "active_to",
+          "source": "ActiveTo",
+          "type": "DATE",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "patient",
+      "source": "ehr",
+      "authority": "EHR_REGISTRATION",
+      "grain": "One bitemporal demographic version of a persistent synthetic patient.",
+      "primary_key": [
+        "patient_version_id"
+      ],
+      "canonical_rows": 22000,
+      "deliveries": 37,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_patient",
+      "silver": "silver.ehr_patient",
+      "oracle": "reference.answer_patient",
+      "upstream": [],
+      "physical_upstream": [],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "patient_version_id",
+          "source": "PatientVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "patient_id",
+          "source": "PatientReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "mrn",
+          "source": "MRN",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "given_name",
+          "source": "FirstName",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "middle_name",
+          "source": "MiddleName",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "family_name",
+          "source": "LastName",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "suffix",
+          "source": "Suffix",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "birth_date",
+          "source": "BirthDate",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "administrative_sex",
+          "source": "AdministrativeSex",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "gender_identity",
+          "source": "GenderIdentity",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "race_ethnicity",
+          "source": "RaceEthnicity",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "preferred_language",
+          "source": "PreferredLanguage",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "address_line",
+          "source": "AddressLine",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "city",
+          "source": "City",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "state_code",
+          "source": "StateCode",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "postal_code",
+          "source": "PostalCode",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "test_email",
+          "source": "TestEmail",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "test_phone",
+          "source": "TestPhone",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "deceased_at",
+          "source": "DeceasedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "revision_no",
+          "source": "ExtractVersion",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_from",
+          "source": "EffectiveTime",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_to",
+          "source": "ValidTo",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_to",
+          "source": "AuditKnowledgeClosedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "RETROSPECTIVE_AUDIT_ONLY_OMIT_FROM_ASOF_VIEWS",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "worker_assignment",
+      "source": "workday",
+      "authority": "WORKDAY",
+      "grain": "One bitemporal version of one worker's single exclusive primary assignment.",
+      "primary_key": [
+        "worker_assignment_id"
+      ],
+      "canonical_rows": 900,
+      "deliveries": 1266,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.workday_worker_assignment",
+      "silver": "silver.workday_worker_assignment",
+      "oracle": "reference.answer_worker_assignment",
+      "upstream": [
+        "cost_center",
+        "facility",
+        "location"
+      ],
+      "physical_upstream": [
+        "cost_center",
+        "facility",
+        "location"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "worker_assignment_id",
+          "source": "AssignmentReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "worker_id",
+          "source": "EmployeeID",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "employee_number",
+          "source": "EmployeeNumber",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "given_name",
+          "source": "FirstName",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "family_name",
+          "source": "LastName",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "birth_date",
+          "source": "BirthDate",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "facility_id",
+          "source": "FacilityId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "facility.facility_id"
+        },
+        {
+          "canonical": "home_location_id",
+          "source": "HomeLocationId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "location.location_id"
+        },
+        {
+          "canonical": "cost_center_id",
+          "source": "CostCenterReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "cost_center.cost_center_id"
+        },
+        {
+          "canonical": "manager_worker_id",
+          "source": "ManagerEmployeeID",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "role",
+          "source": "Role",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "specialty",
+          "source": "Specialty",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "credential_code",
+          "source": "CredentialCode",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "credential_valid_from",
+          "source": "CredentialValidFrom",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "credential_valid_to",
+          "source": "CredentialValidTo",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "worker_type",
+          "source": "WorkerType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "fte",
+          "source": "Fte",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "hourly_cost_rate",
+          "source": "HourlyCostRate",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "currency",
+          "source": "Currency",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "hire_date",
+          "source": "HireDate",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "termination_date",
+          "source": "TerminationDate",
+          "type": "DATE",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "revision_no",
+          "source": "ExtractVersion",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_from",
+          "source": "EffectiveTime",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_to",
+          "source": "ValidTo",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_to",
+          "source": "AuditKnowledgeClosedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "RETROSPECTIVE_AUDIT_ONLY_OMIT_FROM_ASOF_VIEWS",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "access_scope",
+      "source": "workday",
+      "authority": "WORKDAY_SECURITY",
+      "grain": "One bitemporal grant/revocation version for a synthetic principal and business scope.",
+      "primary_key": [
+        "access_scope_id"
+      ],
+      "canonical_rows": 1800,
+      "deliveries": 1107,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.workday_access_scope",
+      "silver": "silver.workday_access_scope",
+      "oracle": "reference.answer_access_scope",
+      "upstream": [
+        "cost_center",
+        "facility",
+        "location",
+        "worker_assignment"
+      ],
+      "physical_upstream": [],
+      "logical_publication_upstream": [
+        "cost_center",
+        "facility",
+        "location",
+        "worker_assignment"
+      ],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "access_scope_id",
+          "source": "GrantVersion",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "grant_id",
+          "source": "GrantReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "principal_id",
+          "source": "PrincipalReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "worker_id",
+          "source": "EmployeeID",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "role",
+          "source": "Role",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "scope_type",
+          "source": "ScopeType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "scope_key",
+          "source": "ScopeReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "decision",
+          "source": "Decision",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "revision_no",
+          "source": "ExtractVersion",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_from",
+          "source": "EffectiveTime",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_to",
+          "source": "ValidTo",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_to",
+          "source": "AuditKnowledgeClosedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "RETROSPECTIVE_AUDIT_ONLY_OMIT_FROM_ASOF_VIEWS",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "payer_plan",
+      "source": "ehr",
+      "authority": "PAYER_CONTRACT",
+      "grain": "One versioned fictional payer product/contract.",
+      "primary_key": [
+        "payer_plan_id"
+      ],
+      "canonical_rows": 24,
+      "deliveries": 2,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_payer_plan",
+      "silver": "silver.ehr_payer_plan",
+      "oracle": "reference.answer_payer_plan",
+      "upstream": [],
+      "physical_upstream": [],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "payer_plan_id",
+          "source": "PayerPlanId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "plan_code",
+          "source": "PlanCode",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "payer_name",
+          "source": "PayerName",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "plan_name",
+          "source": "PlanName",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "payer_type",
+          "source": "PayerType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "reimbursement_method",
+          "source": "ReimbursementMethod",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "authorization_required",
+          "source": "AuthorizationRequired",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "allowed_factor",
+          "source": "AllowedFactor",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_from",
+          "source": "EffectiveTime",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_to",
+          "source": "ValidTo",
+          "type": "DATE",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "patient_coverage",
+      "source": "ehr",
+      "authority": "EHR_COVERAGE",
+      "grain": "One bitemporal primary coverage enrollment interval/version.",
+      "primary_key": [
+        "coverage_version_id"
+      ],
+      "canonical_rows": 28000,
+      "deliveries": 22,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_patient_coverage",
+      "silver": "silver.ehr_patient_coverage",
+      "oracle": "reference.answer_patient_coverage",
+      "upstream": [
+        "patient",
+        "payer_plan"
+      ],
+      "physical_upstream": [
+        "patient",
+        "payer_plan"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "coverage_version_id",
+          "source": "CoverageVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "coverage_id",
+          "source": "CoverageId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "patient_version_id",
+          "source": "PatientVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "patient.patient_version_id"
+        },
+        {
+          "canonical": "payer_plan_id",
+          "source": "PayerPlanId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "payer_plan.payer_plan_id"
+        },
+        {
+          "canonical": "synthetic_member_id",
+          "source": "SyntheticMemberId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "coverage_status",
+          "source": "CoverageStatus",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "revision_no",
+          "source": "ExtractVersion",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_from",
+          "source": "EffectiveTime",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_to",
+          "source": "ValidTo",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_to",
+          "source": "AuditKnowledgeClosedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "RETROSPECTIVE_AUDIT_ONLY_OMIT_FROM_ASOF_VIEWS",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "catalog_item",
+      "source": "ehr",
+      "authority": "REFERENCE_CATALOG",
+      "grain": "One code/product/account version within a typed, validated vocabulary.",
+      "primary_key": [
+        "catalog_item_id"
+      ],
+      "canonical_rows": 3005,
+      "deliveries": 9,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_catalog_item",
+      "silver": "silver.ehr_catalog_item",
+      "oracle": "reference.answer_catalog_item",
+      "upstream": [],
+      "physical_upstream": [],
+      "logical_publication_upstream": [],
+      "self_references": [
+        {
+          "column": "allergen_catalog_id",
+          "reference": "catalog_item.catalog_item_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "catalog_item_id",
+          "source": "CatalogItemId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "domain",
+          "source": "Domain",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "allergen_catalog_id",
+          "source": "AllergenCatalogId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "catalog_item.catalog_item_id"
+        },
+        {
+          "canonical": "code_system",
+          "source": "CodeSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "code",
+          "source": "Code",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "version",
+          "source": "Version",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "display",
+          "source": "Display",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_from",
+          "source": "EffectiveTime",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_to",
+          "source": "ValidTo",
+          "type": "DATE",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "base_unit",
+          "source": "BaseUnit",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "formulation",
+          "source": "Formulation",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "strength_per_base_unit",
+          "source": "StrengthPerBaseUnit",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "strength_unit",
+          "source": "StrengthUnit",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "pack_to_base_factor",
+          "source": "PackToBaseFactor",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "account_class",
+          "source": "AccountClass",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "normal_balance",
+          "source": "NormalBalance",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "clinical_group",
+          "source": "ClinicalGroup",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "source_key_map",
+      "source": "ehr",
+      "authority": "INTEGRATION_CONTROL",
+      "grain": "One bitemporal typed crosswalk or association mapping.",
+      "primary_key": [
+        "mapping_version_id"
+      ],
+      "canonical_rows": 10000,
+      "deliveries": 14,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_source_key_map",
+      "silver": "silver.ehr_source_key_map",
+      "oracle": "reference.answer_source_key_map",
+      "upstream": [
+        "catalog_item",
+        "cost_center",
+        "location",
+        "patient",
+        "payer_plan",
+        "worker_assignment"
+      ],
+      "physical_upstream": [],
+      "logical_publication_upstream": [
+        "catalog_item",
+        "cost_center",
+        "location",
+        "patient",
+        "payer_plan",
+        "worker_assignment"
+      ],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "mapping_version_id",
+          "source": "MappingVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "mapping_id",
+          "source": "MappingId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_namespace",
+          "source": "SourceNamespace",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "entity_type",
+          "source": "EntityType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_key",
+          "source": "SourceKey",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "target_key",
+          "source": "TargetKey",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "mapping_status",
+          "source": "MappingStatus",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "revision_no",
+          "source": "ExtractVersion",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_from",
+          "source": "EffectiveTime",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_to",
+          "source": "ValidTo",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_to",
+          "source": "AuditKnowledgeClosedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "RETROSPECTIVE_AUDIT_ONLY_OMIT_FROM_ASOF_VIEWS",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "encounter",
+      "source": "ehr",
+      "authority": "EHR_ADT",
+      "grain": "One knowledge revision of an ED, inpatient or ambulatory encounter.",
+      "primary_key": [
+        "encounter_version_id"
+      ],
+      "canonical_rows": 127999,
+      "deliveries": 38,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_encounter",
+      "silver": "silver.ehr_encounter",
+      "oracle": "reference.answer_encounter",
+      "upstream": [
+        "facility",
+        "location",
+        "patient",
+        "patient_coverage",
+        "worker_assignment"
+      ],
+      "physical_upstream": [
+        "facility",
+        "location",
+        "patient",
+        "patient_coverage",
+        "worker_assignment"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [
+        {
+          "column": "previous_encounter_version_id",
+          "reference": "encounter.encounter_version_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "encounter_version_id",
+          "source": "EncounterVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "encounter_id",
+          "source": "EncounterId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "episode_id",
+          "source": "EpisodeId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "previous_encounter_version_id",
+          "source": "PreviousEncounterVersionId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "encounter.encounter_version_id"
+        },
+        {
+          "canonical": "patient_version_id",
+          "source": "PatientVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "patient.patient_version_id"
+        },
+        {
+          "canonical": "facility_id",
+          "source": "FacilityId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "facility.facility_id"
+        },
+        {
+          "canonical": "location_id",
+          "source": "LocationId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "location.location_id"
+        },
+        {
+          "canonical": "coverage_version_id",
+          "source": "CoverageVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "patient_coverage.coverage_version_id"
+        },
+        {
+          "canonical": "attending_assignment_id",
+          "source": "AttendingAssignmentId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "worker_assignment.worker_assignment_id"
+        },
+        {
+          "canonical": "encounter_class",
+          "source": "EncounterClass",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "admission_source",
+          "source": "AdmissionSource",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "initial_acuity",
+          "source": "InitialAcuity",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "arrival_at",
+          "source": "ArrivalAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "admission_decision_at",
+          "source": "AdmissionDecisionAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "admitted_at",
+          "source": "AdmittedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "medically_ready_at",
+          "source": "MedicallyReadyAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "discharged_at",
+          "source": "DischargedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "disposition",
+          "source": "Disposition",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "planned",
+          "source": "Planned",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "carry_in",
+          "source": "CarryIn",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "revision_no",
+          "source": "ExtractVersion",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_to",
+          "source": "AuditKnowledgeClosedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "RETROSPECTIVE_AUDIT_ONLY_OMIT_FROM_ASOF_VIEWS",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "clinical_condition",
+      "source": "ehr",
+      "authority": "EHR_CLINICAL",
+      "grain": "One diagnosis/problem/allergy assertion version with optional encounter context.",
+      "primary_key": [
+        "condition_version_id"
+      ],
+      "canonical_rows": 79133,
+      "deliveries": 38,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_clinical_condition",
+      "silver": "silver.ehr_clinical_condition",
+      "oracle": "reference.answer_clinical_condition",
+      "upstream": [
+        "catalog_item",
+        "encounter",
+        "patient"
+      ],
+      "physical_upstream": [
+        "catalog_item",
+        "encounter",
+        "patient"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "condition_version_id",
+          "source": "ConditionVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "condition_id",
+          "source": "ConditionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "patient_version_id",
+          "source": "PatientVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "patient.patient_version_id"
+        },
+        {
+          "canonical": "encounter_version_id",
+          "source": "EncounterVersionId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "encounter.encounter_version_id"
+        },
+        {
+          "canonical": "catalog_item_id",
+          "source": "CatalogItemId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "catalog_item.catalog_item_id"
+        },
+        {
+          "canonical": "condition_type",
+          "source": "ConditionType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "status",
+          "source": "Status",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "diagnosis_rank",
+          "source": "DiagnosisRank",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "present_on_admission",
+          "source": "PresentOnAdmission",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "onset_at",
+          "source": "OnsetAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "resolved_at",
+          "source": "ResolvedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "reaction",
+          "source": "Reaction",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "severity",
+          "source": "Severity",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "revision_no",
+          "source": "ExtractVersion",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_from",
+          "source": "EffectiveTime",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "valid_to",
+          "source": "ValidTo",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_to",
+          "source": "AuditKnowledgeClosedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "RETROSPECTIVE_AUDIT_ONLY_OMIT_FROM_ASOF_VIEWS",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "clinical_event",
+      "source": "ehr",
+      "authority": "EHR_CLINICAL",
+      "grain": "One scalar clinical event/value or text document version; typed event family.",
+      "primary_key": [
+        "clinical_event_version_id"
+      ],
+      "canonical_rows": 560963,
+      "deliveries": 38,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_clinical_event",
+      "silver": "silver.ehr_clinical_event",
+      "oracle": "reference.answer_clinical_event",
+      "upstream": [
+        "catalog_item",
+        "encounter",
+        "worker_assignment"
+      ],
+      "physical_upstream": [
+        "catalog_item",
+        "encounter",
+        "worker_assignment"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [
+        {
+          "column": "parent_event_version_id",
+          "reference": "clinical_event.clinical_event_version_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "clinical_event_version_id",
+          "source": "ClinicalEventVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "clinical_event_id",
+          "source": "ClinicalEventId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "encounter_version_id",
+          "source": "EncounterVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "encounter.encounter_version_id"
+        },
+        {
+          "canonical": "catalog_item_id",
+          "source": "CatalogItemId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "catalog_item.catalog_item_id"
+        },
+        {
+          "canonical": "parent_event_version_id",
+          "source": "ParentEventVersionId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "clinical_event.clinical_event_version_id"
+        },
+        {
+          "canonical": "author_assignment_id",
+          "source": "AuthorAssignmentId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "worker_assignment.worker_assignment_id"
+        },
+        {
+          "canonical": "event_type",
+          "source": "EventType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "occurred_at",
+          "source": "OccurredAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "period_end_at",
+          "source": "PeriodEndAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "order_start_at",
+          "source": "OrderStartAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "order_end_at",
+          "source": "OrderEndAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "dose_interval_hours",
+          "source": "DoseIntervalHours",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "as_needed",
+          "source": "AsNeeded",
+          "type": "BOOLEAN",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "max_doses_per_day",
+          "source": "MaxDosesPerDay",
+          "type": "INT",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "administration_sequence",
+          "source": "AdministrationSequence",
+          "type": "INT",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "specimen_id",
+          "source": "SpecimenId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "collected_at",
+          "source": "CollectedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "result_ready_at",
+          "source": "ResultReadyAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "document_signed_at",
+          "source": "DocumentSignedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "status",
+          "source": "Status",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "numeric_value",
+          "source": "NumericValue",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "value_unit",
+          "source": "ValueUnit",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "text_value",
+          "source": "TextValue",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "reference_low",
+          "source": "ReferenceLow",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "reference_high",
+          "source": "ReferenceHigh",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "dose_quantity",
+          "source": "DoseQuantity",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "dose_unit",
+          "source": "DoseUnit",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "route",
+          "source": "Route",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "consumed_base_quantity",
+          "source": "ConsumedBaseQuantity",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "consumption_group_key",
+          "source": "ConsumptionGroupKey",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "document_type",
+          "source": "DocumentType",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "aggregation",
+          "source": "Aggregation",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "revision_no",
+          "source": "ExtractVersion",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_to",
+          "source": "AuditKnowledgeClosedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "RETROSPECTIVE_AUDIT_ONLY_OMIT_FROM_ASOF_VIEWS",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "appointment",
+      "source": "ehr",
+      "authority": "EHR_SCHEDULING",
+      "grain": "One immutable booked slot; reschedule creates linked replacement, not an overwritten slot.",
+      "primary_key": [
+        "appointment_id"
+      ],
+      "canonical_rows": 30000,
+      "deliveries": 37,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_appointment",
+      "silver": "silver.ehr_appointment",
+      "oracle": "reference.answer_appointment",
+      "upstream": [
+        "encounter",
+        "location",
+        "patient",
+        "worker_assignment"
+      ],
+      "physical_upstream": [
+        "encounter",
+        "location",
+        "patient",
+        "worker_assignment"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [
+        {
+          "column": "replacement_appointment_id",
+          "reference": "appointment.appointment_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "appointment_id",
+          "source": "AppointmentId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "patient_version_id",
+          "source": "PatientVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "patient.patient_version_id"
+        },
+        {
+          "canonical": "location_id",
+          "source": "LocationId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "location.location_id"
+        },
+        {
+          "canonical": "worker_assignment_id",
+          "source": "AssignmentReference",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "worker_assignment.worker_assignment_id"
+        },
+        {
+          "canonical": "replacement_appointment_id",
+          "source": "ReplacementAppointmentId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "appointment.appointment_id"
+        },
+        {
+          "canonical": "resulting_encounter_version_id",
+          "source": "ResultingEncounterVersionId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "encounter.encounter_version_id"
+        },
+        {
+          "canonical": "appointment_type",
+          "source": "AppointmentType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "booked_at",
+          "source": "BookedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "scheduled_start",
+          "source": "ScheduledStart",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "scheduled_end",
+          "source": "ScheduledEnd",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "arrived_at",
+          "source": "ArrivedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "cancelled_at",
+          "source": "CancelledAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "no_show_recorded_at",
+          "source": "NoShowRecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "cancel_reason",
+          "source": "CancelReason",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "bed_event",
+      "source": "adt-bed",
+      "authority": "ADT_BED",
+      "grain": "One immutable bed state change/correction or opening-state assertion.",
+      "primary_key": [
+        "bed_event_id"
+      ],
+      "canonical_rows": 70105,
+      "deliveries": 37,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.adt_bed_bed_event",
+      "silver": "silver.adt_bed_bed_event",
+      "oracle": "reference.answer_bed_event",
+      "upstream": [
+        "encounter",
+        "location"
+      ],
+      "physical_upstream": [
+        "encounter",
+        "location"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [
+        {
+          "column": "corrects_bed_event_id",
+          "reference": "bed_event.bed_event_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "bed_event_id",
+          "source": "MessageControlID",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "bed_location_id",
+          "source": "BedReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "location.location_id"
+        },
+        {
+          "canonical": "encounter_version_id",
+          "source": "EncounterVersionId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "encounter.encounter_version_id"
+        },
+        {
+          "canonical": "corrects_bed_event_id",
+          "source": "CorrectionReference",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "bed_event.bed_event_id"
+        },
+        {
+          "canonical": "transfer_group_id",
+          "source": "TransferGroupId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "sequence_no",
+          "source": "Sequence",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "effective_at",
+          "source": "EffectiveTime",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "event_type",
+          "source": "EventType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "occupancy_state",
+          "source": "OccupancyState",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "service_state",
+          "source": "ServiceState",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "staffing_enabled",
+          "source": "StaffingEnabled",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "reserved",
+          "source": "Reserved",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "reason",
+          "source": "Reason",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "delivery_at",
+          "source": "DeliveryAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "staff_shift",
+      "source": "roster-time",
+      "authority": "ROSTER_TIME",
+      "grain": "One knowledge version of a worker/unit shift or leave block.",
+      "primary_key": [
+        "shift_version_id"
+      ],
+      "canonical_rows": 69655,
+      "deliveries": 38,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.roster_time_staff_shift",
+      "silver": "silver.roster_time_staff_shift",
+      "oracle": "reference.answer_staff_shift",
+      "upstream": [
+        "cost_center",
+        "location",
+        "worker_assignment"
+      ],
+      "physical_upstream": [
+        "cost_center",
+        "location",
+        "worker_assignment"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "shift_version_id",
+          "source": "ShiftVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "shift_id",
+          "source": "ShiftId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "worker_assignment_id",
+          "source": "AssignmentReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "worker_assignment.worker_assignment_id"
+        },
+        {
+          "canonical": "location_id",
+          "source": "LocationId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "location.location_id"
+        },
+        {
+          "canonical": "cost_center_id",
+          "source": "CostCenterReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "cost_center.cost_center_id"
+        },
+        {
+          "canonical": "shift_type",
+          "source": "ShiftType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "planned_start",
+          "source": "PlannedStart",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "planned_end",
+          "source": "PlannedEnd",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "actual_start",
+          "source": "ActualStart",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "actual_end",
+          "source": "ActualEnd",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "worked_hours",
+          "source": "WorkedHours",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "productive_hours",
+          "source": "ProductiveHours",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "paid_nonproductive_hours",
+          "source": "PaidNonproductiveHours",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "unpaid_break_hours",
+          "source": "UnpaidBreakHours",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "overtime_hours",
+          "source": "OvertimeHours",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "loaded_cost",
+          "source": "LoadedCost",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "currency",
+          "source": "Currency",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "posting_group_key",
+          "source": "PostingGroupKey",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "attendance_status",
+          "source": "AttendanceStatus",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "revision_no",
+          "source": "ExtractVersion",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_to",
+          "source": "AuditKnowledgeClosedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "RETROSPECTIVE_AUDIT_ONLY_OMIT_FROM_ASOF_VIEWS",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "inventory_movement",
+      "source": "supply-pharmacy",
+      "authority": "INVENTORY_PHARMACY",
+      "grain": "One signed location/item/lot stock movement in base units.",
+      "primary_key": [
+        "movement_id"
+      ],
+      "canonical_rows": 48079,
+      "deliveries": 37,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.supply_pharmacy_inventory_movement",
+      "silver": "silver.supply_pharmacy_inventory_movement",
+      "oracle": "reference.answer_inventory_movement",
+      "upstream": [
+        "catalog_item",
+        "location"
+      ],
+      "physical_upstream": [
+        "catalog_item",
+        "location"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [
+        {
+          "column": "reverses_movement_id",
+          "reference": "inventory_movement.movement_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "movement_id",
+          "source": "MovementId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "location_id",
+          "source": "LocationId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "location.location_id"
+        },
+        {
+          "canonical": "catalog_item_id",
+          "source": "CatalogItemId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "catalog_item.catalog_item_id"
+        },
+        {
+          "canonical": "lot_id",
+          "source": "LotId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "movement_type",
+          "source": "MovementType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "occurred_at",
+          "source": "OccurredAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "quantity_base",
+          "source": "QuantityBase",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "unit_cost",
+          "source": "UnitCost",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "extended_cost",
+          "source": "ExtendedCost",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "expires_on",
+          "source": "ExpiresOn",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "transfer_group_id",
+          "source": "TransferGroupId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "consumption_group_key",
+          "source": "ConsumptionGroupKey",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "nonpatient_waste_base",
+          "source": "NonpatientWasteBase",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "reverses_movement_id",
+          "source": "ReversesMovementId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "inventory_movement.movement_id"
+        },
+        {
+          "canonical": "posting_group_key",
+          "source": "PostingGroupKey",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "currency",
+          "source": "Currency",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "service_charge",
+      "source": "revenue-cycle",
+      "authority": "BILLING",
+      "grain": "One encounter/revenue-category/billing-period charge line with explicit units and interval; not an uncounted list of daily charges.",
+      "primary_key": [
+        "charge_id"
+      ],
+      "canonical_rows": 112868,
+      "deliveries": 38,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.revenue_cycle_service_charge",
+      "silver": "silver.revenue_cycle_service_charge",
+      "oracle": "reference.answer_service_charge",
+      "upstream": [
+        "catalog_item",
+        "clinical_event",
+        "cost_center",
+        "encounter"
+      ],
+      "physical_upstream": [
+        "catalog_item",
+        "clinical_event",
+        "cost_center",
+        "encounter"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [
+        {
+          "column": "reverses_charge_id",
+          "reference": "service_charge.charge_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "charge_id",
+          "source": "ChargeId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "encounter_version_id",
+          "source": "EncounterVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "encounter.encounter_version_id"
+        },
+        {
+          "canonical": "catalog_item_id",
+          "source": "CatalogItemId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "catalog_item.catalog_item_id"
+        },
+        {
+          "canonical": "clinical_event_version_id",
+          "source": "ClinicalEventVersionId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "clinical_event.clinical_event_version_id"
+        },
+        {
+          "canonical": "cost_center_id",
+          "source": "CostCenterReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "cost_center.cost_center_id"
+        },
+        {
+          "canonical": "service_from",
+          "source": "ServiceFrom",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "service_to",
+          "source": "ServiceTo",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "revenue_category",
+          "source": "RevenueCategory",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "units",
+          "source": "Units",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "unit_code",
+          "source": "Unit",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "unit_price",
+          "source": "UnitPrice",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "billed_amount",
+          "source": "BilledAmount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "currency",
+          "source": "Currency",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "authorization_status",
+          "source": "AuthorizationStatus",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "authorization_known_at",
+          "source": "AuthorizationKnownAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "reverses_charge_id",
+          "source": "ReversesChargeId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "service_charge.charge_id"
+        },
+        {
+          "canonical": "posting_group_key",
+          "source": "PostingGroupKey",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "claim",
+      "source": "revenue-cycle",
+      "authority": "RCM",
+      "grain": "One original primary institutional claim; attempts are events, not new original claims.",
+      "primary_key": [
+        "claim_id"
+      ],
+      "canonical_rows": 57818,
+      "deliveries": 37,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.revenue_cycle_claim",
+      "silver": "silver.revenue_cycle_claim",
+      "oracle": "reference.answer_claim",
+      "upstream": [
+        "encounter",
+        "patient_coverage"
+      ],
+      "physical_upstream": [
+        "encounter",
+        "patient_coverage"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "claim_id",
+          "source": "ClaimId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "encounter_version_id",
+          "source": "EncounterVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "encounter.encounter_version_id"
+        },
+        {
+          "canonical": "coverage_version_id",
+          "source": "CoverageVersionId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "patient_coverage.coverage_version_id"
+        },
+        {
+          "canonical": "claim_number",
+          "source": "ClaimNumber",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "service_from",
+          "source": "ServiceFrom",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "service_to",
+          "source": "ServiceTo",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "created_at",
+          "source": "CreatedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "first_submitted_at",
+          "source": "FirstSubmittedAt",
+          "type": "TIMESTAMP",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "original_billed_amount",
+          "source": "OriginalBilledAmount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "opening_ar",
+          "source": "OpeningAr",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "opening_contractual_adjustments",
+          "source": "OpeningContractualAdjustments",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "opening_cash_collected",
+          "source": "OpeningCashCollected",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "opening_writeoffs",
+          "source": "OpeningWriteoffs",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "carry_in",
+          "source": "CarryIn",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "currency",
+          "source": "Currency",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "claim_line",
+      "source": "revenue-cycle",
+      "authority": "RCM",
+      "grain": "One original claim charge line, preserving a one-charge-to-one-line baseline contract.",
+      "primary_key": [
+        "claim_line_id"
+      ],
+      "canonical_rows": 112776,
+      "deliveries": 37,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.revenue_cycle_claim_line",
+      "silver": "silver.revenue_cycle_claim_line",
+      "oracle": "reference.answer_claim_line",
+      "upstream": [
+        "claim",
+        "service_charge"
+      ],
+      "physical_upstream": [
+        "claim",
+        "service_charge"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "claim_line_id",
+          "source": "ClaimLineId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "claim_id",
+          "source": "ClaimId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "claim.claim_id"
+        },
+        {
+          "canonical": "charge_id",
+          "source": "ChargeId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "service_charge.charge_id"
+        },
+        {
+          "canonical": "line_no",
+          "source": "LineNo",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "billed_amount",
+          "source": "BilledAmount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "expected_allowed_amount",
+          "source": "ExpectedAllowedAmount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "currency",
+          "source": "Currency",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "claim_event",
+      "source": "revenue-cycle",
+      "authority": "RCM_REMITTANCE",
+      "grain": "One signed immutable submission, adjudication, settlement or adjustment event.",
+      "primary_key": [
+        "claim_event_id"
+      ],
+      "canonical_rows": 230101,
+      "deliveries": 37,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.revenue_cycle_claim_event",
+      "silver": "silver.revenue_cycle_claim_event",
+      "oracle": "reference.answer_claim_event",
+      "upstream": [
+        "catalog_item",
+        "claim",
+        "claim_line"
+      ],
+      "physical_upstream": [
+        "catalog_item",
+        "claim",
+        "claim_line"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [
+        {
+          "column": "reverses_claim_event_id",
+          "reference": "claim_event.claim_event_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "claim_event_id",
+          "source": "ClaimEventId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "claim_id",
+          "source": "ClaimId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "claim.claim_id"
+        },
+        {
+          "canonical": "claim_line_id",
+          "source": "ClaimLineId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "claim_line.claim_line_id"
+        },
+        {
+          "canonical": "denial_catalog_id",
+          "source": "DenialCatalogId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "catalog_item.catalog_item_id"
+        },
+        {
+          "canonical": "reverses_claim_event_id",
+          "source": "ReversesClaimEventId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "claim_event.claim_event_id"
+        },
+        {
+          "canonical": "event_type",
+          "source": "EventType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "attempt_no",
+          "source": "AttemptNo",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "occurred_at",
+          "source": "OccurredAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "contractual_adjustment_delta",
+          "source": "ContractualAdjustmentDelta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "payer_liability_delta",
+          "source": "PayerLiabilityDelta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "patient_liability_delta",
+          "source": "PatientLiabilityDelta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "cash_delta",
+          "source": "CashDelta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "writeoff_delta",
+          "source": "WriteoffDelta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recognized_revenue_delta",
+          "source": "RecognizedRevenueDelta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "ar_delta",
+          "source": "ArDelta",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "posting_group_key",
+          "source": "PostingGroupKey",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "currency",
+          "source": "Currency",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "financial_posting",
+      "source": "finance-erp",
+      "authority": "SYNTHETIC_GL",
+      "grain": "One debit/credit journal line; daily operational source groups or explicit monthly cost-pool close.",
+      "primary_key": [
+        "posting_id"
+      ],
+      "canonical_rows": 175489,
+      "deliveries": 37,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.finance_erp_financial_posting",
+      "silver": "silver.finance_erp_financial_posting",
+      "oracle": "reference.answer_financial_posting",
+      "upstream": [
+        "catalog_item",
+        "claim_event",
+        "cost_center",
+        "facility",
+        "inventory_movement",
+        "service_charge",
+        "staff_shift"
+      ],
+      "physical_upstream": [
+        "catalog_item",
+        "cost_center",
+        "facility"
+      ],
+      "logical_publication_upstream": [
+        "claim_event",
+        "inventory_movement",
+        "service_charge",
+        "staff_shift"
+      ],
+      "self_references": [
+        {
+          "column": "reverses_posting_id",
+          "reference": "financial_posting.posting_id"
+        }
+      ],
+      "columns": [
+        {
+          "canonical": "posting_id",
+          "source": "PostingId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "journal_id",
+          "source": "JournalId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "line_no",
+          "source": "LineNo",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "facility_id",
+          "source": "FacilityId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "facility.facility_id"
+        },
+        {
+          "canonical": "cost_center_id",
+          "source": "CostCenterReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "cost_center.cost_center_id"
+        },
+        {
+          "canonical": "account_catalog_id",
+          "source": "Account",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "catalog_item.catalog_item_id"
+        },
+        {
+          "canonical": "posting_date",
+          "source": "PostingDate",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "service_from",
+          "source": "ServiceFrom",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "service_to",
+          "source": "ServiceTo",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "debit_amount",
+          "source": "DebitAmount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "credit_amount",
+          "source": "CreditAmount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "currency",
+          "source": "Currency",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_domain",
+          "source": "SourceDomain",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_group_key",
+          "source": "SourceGroupKey",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "allocation_pool_key",
+          "source": "AllocationPoolKey",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "eligible_for_allocation",
+          "source": "EligibleForAllocation",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "reverses_posting_id",
+          "source": "ReversesPostingId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "financial_posting.posting_id"
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "cost_allocation",
+      "source": "finance-erp",
+      "authority": "COST_ACCOUNTING",
+      "grain": "One eligible monthly expense-pool-posting allocation to an encounter or explicit nonpatient/residual destination.",
+      "primary_key": [
+        "allocation_id"
+      ],
+      "canonical_rows": 158267,
+      "deliveries": 36,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.finance_erp_cost_allocation",
+      "silver": "silver.finance_erp_cost_allocation",
+      "oracle": "reference.answer_cost_allocation",
+      "upstream": [
+        "cost_center",
+        "encounter",
+        "financial_posting"
+      ],
+      "physical_upstream": [
+        "cost_center",
+        "encounter",
+        "financial_posting"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "allocation_id",
+          "source": "AllocationId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "posting_id",
+          "source": "PostingId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "financial_posting.posting_id"
+        },
+        {
+          "canonical": "encounter_version_id",
+          "source": "EncounterVersionId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "encounter.encounter_version_id"
+        },
+        {
+          "canonical": "cost_center_id",
+          "source": "CostCenterReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "cost_center.cost_center_id"
+        },
+        {
+          "canonical": "allocation_run_id",
+          "source": "AllocationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "destination_type",
+          "source": "DestinationType",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "cost_category",
+          "source": "CostCategory",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "accounting_month",
+          "source": "Period",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "driver_quantity",
+          "source": "DriverQuantity",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "driver_unit",
+          "source": "DriverUnit",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "allocation_share",
+          "source": "AllocationShare",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "allocated_amount",
+          "source": "AllocatedAmount",
+          "type": "DECIMAL(18,2)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "currency",
+          "source": "Currency",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "known_from",
+          "source": "KnownFrom",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "supersedes_run_id",
+          "source": "SupersedesRunId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "finance_monthly",
+      "source": "axiom",
+      "authority": "AXIOM",
+      "grain": "One month/cost-center/account-or-statistical-measure/scenario/vintage/currency-or-unit value.",
+      "primary_key": [
+        "finance_record_id"
+      ],
+      "canonical_rows": 35457,
+      "deliveries": 304,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "RFC4180_CSV"
+      ],
+      "bronze": "bronze.axiom_finance_monthly",
+      "silver": "silver.axiom_finance_monthly",
+      "oracle": "reference.answer_finance_monthly",
+      "upstream": [
+        "catalog_item",
+        "cost_center",
+        "facility"
+      ],
+      "physical_upstream": [
+        "catalog_item",
+        "cost_center",
+        "facility"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "finance_record_id",
+          "source": "FinanceRecordReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "facility_id",
+          "source": "FacilityId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "facility.facility_id"
+        },
+        {
+          "canonical": "cost_center_id",
+          "source": "CostCenterReference",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "cost_center.cost_center_id"
+        },
+        {
+          "canonical": "account_catalog_id",
+          "source": "Account",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "catalog_item.catalog_item_id"
+        },
+        {
+          "canonical": "measure_code",
+          "source": "MeasureCode",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "accounting_month",
+          "source": "Period",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "scenario",
+          "source": "Scenario",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "vintage_id",
+          "source": "Version",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "published_at",
+          "source": "Publication",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "amount",
+          "source": "Amount",
+          "type": "DECIMAL(18,2)",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "quantity",
+          "source": "Quantity",
+          "type": "DECIMAL(18,6)",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "unit_code",
+          "source": "Unit",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "report_template_id",
+          "source": "ReportID",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_file_id",
+          "source": "OriginalFileID",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "supersedes_vintage_id",
+          "source": "SupersedesVintageId",
+          "type": "STRING",
+          "nullable": true,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    },
+    {
+      "table": "facility_day_driver",
+      "source": "ehr",
+      "authority": "EXTERNAL_DRIVER",
+      "grain": "One facility/local-day external/calendar observation; no future realized data is known early.",
+      "primary_key": [
+        "facility_day_id"
+      ],
+      "canonical_rows": 3288,
+      "deliveries": 37,
+      "history_policy": "As stated by grain; referenced rows never physically deleted.",
+      "formats": [
+        "JSONL_EVENT_ENVELOPE"
+      ],
+      "bronze": "bronze.ehr_facility_day_driver",
+      "silver": "silver.ehr_facility_day_driver",
+      "oracle": "reference.answer_facility_day_driver",
+      "upstream": [
+        "facility"
+      ],
+      "physical_upstream": [
+        "facility"
+      ],
+      "logical_publication_upstream": [],
+      "self_references": [],
+      "columns": [
+        {
+          "canonical": "facility_day_id",
+          "source": "FacilityDayId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": null
+        },
+        {
+          "canonical": "facility_id",
+          "source": "FacilityId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": true,
+          "reference_target": "facility.facility_id"
+        },
+        {
+          "canonical": "calendar_date",
+          "source": "CalendarDate",
+          "type": "DATE",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "day_of_week",
+          "source": "DayOfWeek",
+          "type": "INT",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "holiday",
+          "source": "Holiday",
+          "type": "BOOLEAN",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "season",
+          "source": "Season",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "respiratory_index",
+          "source": "RespiratoryIndex",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "weather_index",
+          "source": "WeatherIndex",
+          "type": "DECIMAL(18,6)",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "calendar_known_at",
+          "source": "CalendarKnownAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "observations_known_at",
+          "source": "ObservationsKnownAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "calendar_source",
+          "source": "CalendarSource",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_system",
+          "source": "SourceSystem",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "source_record_id",
+          "source": "SourceRecordId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "recorded_at",
+          "source": "RecordedAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "export_available_at",
+          "source": "SourceAvailableAt",
+          "type": "TIMESTAMP",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        },
+        {
+          "canonical": "generation_run_id",
+          "source": "GenerationRunId",
+          "type": "STRING",
+          "nullable": false,
+          "temporal_role": "SOURCE_SCALAR",
+          "reference": false,
+          "reference_target": null
+        }
+      ]
+    }
+  ]
+}

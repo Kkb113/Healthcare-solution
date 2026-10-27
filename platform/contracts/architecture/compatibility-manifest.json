@@ -1,0 +1,50 @@
+{
+  "contract_version": "architecture-1",
+  "local": {
+    "python": "3.12.13",
+    "pyspark": "4.0.4",
+    "delta_spark": "4.0.1",
+    "mlflow": "3.17.2",
+    "databricks_sdk": "0.157.0",
+    "openai": "2.54.0",
+    "java": "21",
+    "execution": "Ubuntu24.04 WSL and Linux CI; native Windows SDK only",
+    "lockfiles": [
+      "platform/requirements.lock",
+      "platform/requirements-linux.lock"
+    ]
+  },
+  "cloud": {
+    "serverless_environment": "5",
+    "python_base": "3.12.3",
+    "databricks_connect_major": "18",
+    "mlflow_base": "3.8.1",
+    "ldp_channel": "CURRENT",
+    "sql_channel": "CURRENT",
+    "lakebase": "Autoscaling,1–2CU, no provisioned DatabaseInstance API",
+    "model": "gpt-6-luna",
+    "model_revision": "2026-09-22",
+    "release_policy": "Server-managed engine patch versions cannot be pinned as a customer cluster runtime. Record actual versions in Phase2, test semantic parity, fail on unexpected breaking API/type behavior. Local4.0 is a test engine, not a claim of identical managed Spark. Align model runtime requirements at Phase8 with persisted MLflow signature/environment."
+  },
+  "tools": "platform/config/tool-versions.json",
+  "providers": {
+    "azurerm": "5.11.0",
+    "azuread": "3.10.0",
+    "databricks": "1.140.0"
+  },
+  "api_contracts": {
+    "jobs": "2.2",
+    "pipelines": "2.0",
+    "apps": "2.0",
+    "vector_search": "2.0",
+    "postgres": "2.0 postgres API; inspect exact operation stability in P09",
+    "luna_gateway": "/ai-gateway/openai/v1/responses",
+    "azure_luna": "/openai/v1/responses"
+  },
+  "official_sources": [
+    "https://learn.microsoft.com/en-us/azure/databricks/release-notes/serverless/environment-version/five",
+    "https://learn.microsoft.com/en-us/azure/databricks/oltp/projects/api-usage",
+    "https://learn.microsoft.com/en-us/azure/databricks/resources/feature-region-support"
+  ],
+  "upgrade": "Pin application transitive dependencies at their implementation phase before deploying; no speculative npm/app dependencies installed during design. Each upgrade uses compatibility/fault/security/cost regression and new gate hashes."
+}

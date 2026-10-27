@@ -1,0 +1,179 @@
+{
+  "contract_version": "architecture-1",
+  "phase": 0,
+  "reviewed_on": "2026-10-27",
+  "technical_reviewer": "Codex (delegated design review; not an independent clinical/security certification)",
+  "technical_authority": "User authorized Phase0 design/finalization and previously delegated baseline review; explicit budget/scope owner approval is separately recorded.",
+  "funded_scope_status": "APPROVED_BY_USER",
+  "raci": [
+    {
+      "role": "platform owner",
+      "accountable": "Karthik / requesting repository owner",
+      "responsible": "Codex implementing within explicit authorization",
+      "scope": "Cloud target, cost admission, deploy/recovery"
+    },
+    {
+      "role": "data engineering lead",
+      "accountable": "Requesting owner",
+      "responsible": "Codex",
+      "scope": "Source,temporal,DQ,reconciliation,KPIimplementation"
+    },
+    {
+      "role": "ML lead",
+      "accountable": "Requesting owner",
+      "responsible": "Codex",
+      "scope": "Eligibility,holdout,support,promotion,cost"
+    },
+    {
+      "role": "application lead",
+      "accountable": "Requesting owner",
+      "responsible": "Codex",
+      "scope": "Apps,tools,citations,reservations,retrieval"
+    },
+    {
+      "role": "business owner",
+      "accountable": "Requesting owner",
+      "responsible": "Codex technical review of synthetic KPI assumptions",
+      "scope": "KPI/scope/dataset acceptance; no independent healthcare professional review claimed"
+    },
+    {
+      "role": "security reviewer",
+      "accountable": "Requesting owner",
+      "responsible": "Codex technical least-privilege review",
+      "scope": "Synthetic POC authorization and negative tests; real-data security approval remains out of scope"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "ADR-01",
+      "title": "Workspace topology",
+      "file": "platform/docs/adr/workspace-topology.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/security-ownership.json"
+    },
+    {
+      "id": "ADR-02",
+      "title": "Infrastructure and lifecycle ownership",
+      "file": "platform/docs/adr/resource-lifecycle-ownership.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/security-ownership.json"
+    },
+    {
+      "id": "ADR-03",
+      "title": "Region, versions and capabilities",
+      "file": "platform/docs/adr/region-runtime-capabilities.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/capability-matrix.json"
+    },
+    {
+      "id": "ADR-04",
+      "title": "Exact GPT-6 Luna route",
+      "file": "platform/docs/adr/exact-luna-access.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/probe-matrix.json"
+    },
+    {
+      "id": "ADR-05",
+      "title": "Application framework",
+      "file": "platform/docs/adr/application-framework.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/security-ownership.json"
+    },
+    {
+      "id": "ADR-06",
+      "title": "ML training location and threshold",
+      "file": "platform/docs/adr/training-location-cost.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/ml-eligibility.json"
+    },
+    {
+      "id": "ADR-07",
+      "title": "Autopilot remediation",
+      "file": "platform/docs/adr/remediation-approval-boundary.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/security-ownership.json"
+    },
+    {
+      "id": "ADR-08",
+      "title": "Operational alerts",
+      "file": "platform/docs/adr/operational-alert-channels.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/probe-matrix.json"
+    },
+    {
+      "id": "ADR-09",
+      "title": "RTI generator hosting",
+      "file": "platform/docs/adr/generator-runtime-hosting.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/test-workloads.json"
+    },
+    {
+      "id": "ADR-10",
+      "title": "Funded build/demo operating model",
+      "file": "platform/docs/adr/funded-operating-model.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/cost-model.json"
+    },
+    {
+      "id": "ADR-11",
+      "title": "Delivery identity and temporal reconstruction",
+      "file": "platform/docs/adr/delivery-history-clocks.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/delivery-temporal.json"
+    },
+    {
+      "id": "ADR-12",
+      "title": "Authorization across copied data",
+      "file": "platform/docs/adr/authorization-copied-data.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/security-ownership.json"
+    },
+    {
+      "id": "ADR-13",
+      "title": "RTI processing, clocks and recovery",
+      "file": "platform/docs/adr/rti-state-clock-recovery.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/test-workloads.json"
+    },
+    {
+      "id": "ADR-14",
+      "title": "Business grains and predictive eligibility",
+      "file": "platform/docs/adr/business-grains-ml-eligibility.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/ml-eligibility.json"
+    },
+    {
+      "id": "ADR-15",
+      "title": "Gate, workload and migration contracts",
+      "file": "platform/docs/adr/gates-workloads-migrations.md",
+      "status": "APPROVED by delegated technical review; funded POC scope explicitly approved by user",
+      "contract": "platform/contracts/architecture/test-workloads.json"
+    }
+  ],
+  "funded_scope_approval": {
+    "authority": "DIRECT_USER_APPROVAL",
+    "decision": "ACCEPT_REDUCED_POC_SCOPE_KEEP_20000",
+    "recorded_on": "2026-10-27",
+    "user_reply": "Approve reduced POC scope at \u20b920,000",
+    "request_reference": "call_961b92b48fbf4455af4eb39af992c482",
+    "approved_changes": [
+      "20initialGeniequestions/space;2targeted/spaceat recreation,batch,RTI",
+      "124nativequestions total",
+      "Four searchlifecyclewindows,with sequential phasegates/commits",
+      "All deterministic SQL,authorization,reconciliation,recovery,performance,fullagent,RTIchecks retained"
+    ],
+    "artifact_hashes": {
+      "platform/contracts/architecture/cost-model.json": "ecaa1a3e6ba0b7b0681e7c9db053c1f2f5f3eed8f39ed31fcc6622a3fae0dda3",
+      "platform/contracts/architecture/test-workloads.json": "0d575ab376f52547bb965f1451e91eb77bdc3243d91b6fbb05ac8cd357719c92"
+    },
+    "hash_policy": "Repository UTF8 text with LF newlines, matching Git; line-ending normalization and technical clarifications preserve the approved counts/budget/security scope."
+  },
+  "technical_clarifications": [
+    "Correct accepted staffingbase5.5HPPD with acuity/minimumrules; no datasetchange",
+    "Ignore hindsightknown_to until a replacementisdelivered; latestexpiredgrant neverresurrects",
+    "ExcludeSELF_PAY/internalstatementadjudication fromexternalpayerdenial; contribution includesinitialallowedrevenue",
+    "Agentapp hosts ResponsesAgent; no unpricedthirdagentserving or embeddingendpoint",
+    "QuickevaluationliveGeniecalls excluded; full200has4native cases each as approved12toolcalls total",
+    "Monthlysingle3hprofile explicitlyadds0.5hsearchreadiness; correctedestimate5471.45stillwithinapproved6000target"
+  ]
+}

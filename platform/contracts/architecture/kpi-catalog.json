@@ -1,0 +1,791 @@
+{
+  "contract_version": "architecture-1",
+  "count": 42,
+  "definitions": [
+    {
+      "id": "K01",
+      "name": "ed-arrivals",
+      "grain": "facility \u00c3\u2014 local day/hour",
+      "formula": "COUNT distinct ED encounter_id with arrival_at in window",
+      "sources": [
+        "encounter"
+      ],
+      "unit": "count",
+      "filters": "ED only; select one available knowledge revision per encounter",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": true,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K02",
+      "name": "ipd-admissions",
+      "grain": "facility \u00c3\u2014 service line \u00c3\u2014 local day",
+      "formula": "COUNT distinct IPD encounter_id with admitted_at in window",
+      "sources": [
+        "encounter"
+      ],
+      "unit": "count",
+      "filters": "IPD, exclude carry-in from new-admission count; exclude the12 recipient encounters in continuous same-care interhospital episodes from new network admission counts, while separately reporting facility arrivals",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": true,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K03",
+      "name": "ipd-discharges",
+      "grain": "facility \u00c3\u2014 local day",
+      "formula": "COUNT distinct IPD encounter_id with discharged_at in window",
+      "sources": [
+        "encounter"
+      ],
+      "unit": "count",
+      "filters": "Completed IPD only; discharge known at report cutoff",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": false,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K04",
+      "name": "occupied-bed-hours",
+      "grain": "facility \u00c3\u2014 unit \u00c3\u2014 local hour/day",
+      "formula": "SUM duration of corrected occupied bed-state intervals intersect window, in hours",
+      "sources": [
+        "bed_event",
+        "location"
+      ],
+      "unit": "hours",
+      "filters": "Opening state + correction-aware reducer; a bed at most one occupancy",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K05",
+      "name": "staffed-open-bed-hours",
+      "grain": "facility \u00c3\u2014 unit \u00c3\u2014 local hour/day",
+      "formula": "SUM duration where service_state=IN_SERVICE AND staffing_enabled=true AND active licensed BED, in hours",
+      "sources": [
+        "bed_event",
+        "location"
+      ],
+      "unit": "hours",
+      "filters": "Include occupied/dirty/reserved physical bed intervals in capacity if service open; no double-count",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K06",
+      "name": "occupancy-rate",
+      "grain": "facility \u00c3\u2014 unit \u00c3\u2014 local hour/day",
+      "formula": "occupied-bed-hours / staffed-open-bed-hours",
+      "sources": [
+        "bed_event",
+        "location"
+      ],
+      "unit": "fraction",
+      "filters": "No licensed-bed denominator; zero capacity -> NULL + reason; staffing shortfall does not erase occupancy: rate may exceed100%; display capacity-gap/zero-denominator flag, never clip patientcounts",
+      "denominator": "staffed-open-bed-hours",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K07",
+      "name": "available-beds",
+      "grain": "facility \u00c3\u2014 unit \u00c3\u2014 as-of instant",
+      "formula": "COUNT active licensed BED identities with service_state=IN_SERVICE, staffing_enabled=true, occupancy_state=EMPTY, reserved=false",
+      "sources": [
+        "bed_event",
+        "location"
+      ],
+      "unit": "count",
+      "filters": "Dirty, occupied, blocked, unavailable and reserved never available; physical availability is not patient-specific compatibility; isolation/room/clinical capability evaluated separately for placement",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": true,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K08",
+      "name": "licensed-beds",
+      "grain": "facility \u00c3\u2014 as-of instant",
+      "formula": "COUNT location_type=BED with licensed_bed=true and active_from <= cutoff < active_to (open end allowed)",
+      "sources": [
+        "location"
+      ],
+      "unit": "count",
+      "filters": "Physical inventory, separately labelled from staffed capacity",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": false,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K09",
+      "name": "bed-turnaround-minutes",
+      "grain": "bed vacancy-to-ready cycle",
+      "formula": "P50/P90 minutes from occupied->vacant/dirty to next clean available state",
+      "sources": [
+        "bed_event"
+      ],
+      "unit": "minutes",
+      "filters": "No negative interval; incomplete cycle censored and counted separately",
+      "denominator": "completed cycles",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K10",
+      "name": "placement-wait-minutes",
+      "grain": "eligible IPD admission",
+      "formula": "P50/P90 minutes from admission_decision_at to first bed occupancy",
+      "sources": [
+        "encounter",
+        "bed_event"
+      ],
+      "unit": "minutes",
+      "filters": "Must match encounter and valid placement, unfinished waits reported censored",
+      "denominator": "eligible placements",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K11",
+      "name": "ipd-los-days",
+      "grain": "completed IPD encounter",
+      "formula": "AVG (discharged_at - admitted_at) elapsed UTC hours /24",
+      "sources": [
+        "encounter"
+      ],
+      "unit": "days",
+      "filters": "Exclude ongoing and carry-in for complete LOS; show excluded counts; not midnight census LOS",
+      "denominator": "completed non-carry-in stays",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K12",
+      "name": "ed-los-minutes",
+      "grain": "completed ED encounter",
+      "formula": "P50/P90 minutes discharged_at - arrival_at",
+      "sources": [
+        "encounter"
+      ],
+      "unit": "minutes",
+      "filters": "One ED episode; linked IPD not another ED exit",
+      "denominator": "completed ED encounters",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K13",
+      "name": "ed-boarding-minutes",
+      "grain": "ED-to-IPD transition",
+      "formula": "P50/P90 minutes first inpatient bed placement - admission_decision_at",
+      "sources": [
+        "encounter",
+        "bed_event"
+      ],
+      "unit": "minutes",
+      "filters": "Link episode; never use arrival as boarding start",
+      "denominator": "placed ED-to-IPD episodes",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K14",
+      "name": "readmission-30d-rate",
+      "grain": "facility \u00c3\u2014 eligible discharge month",
+      "formula": "COUNT index discharges with unplanned IPD readmission within (discharge,discharge+30d] / eligible index discharges",
+      "sources": [
+        "encounter"
+      ],
+      "unit": "fraction",
+      "filters": "Only full follow-up visible before reporting cutoff; same patient across group; exclude index death, transfers/planned according to disposition/source mapping; one earliest readmission per index; continuous same-episode interhospital referrals are continuation of care, not readmissions",
+      "denominator": "eligible mature index discharges",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K15",
+      "name": "appointment-attendance-rate",
+      "grain": "facility \u00c3\u2014 local scheduled day",
+      "formula": "attended slots / (attended + no-show slots)",
+      "sources": [
+        "appointment"
+      ],
+      "unit": "fraction",
+      "filters": "Do not count cancelled/replaced slot twice; retrospective only",
+      "denominator": "attended plus no-show slots",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K16",
+      "name": "appointment-no-show-rate",
+      "grain": "facility \u00c3\u2014 local scheduled day",
+      "formula": "no-show slots / (attended + no-show slots)",
+      "sources": [
+        "appointment"
+      ],
+      "unit": "fraction",
+      "filters": "Use recorded outcome; unavailable-before-start restriction retained",
+      "denominator": "attended plus no-show slots",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K17",
+      "name": "appointment-cancellation-rate",
+      "grain": "facility \u00c3\u2014 local scheduled day",
+      "formula": "cancelled non-replacement slots / eligible booked slots",
+      "sources": [
+        "appointment"
+      ],
+      "unit": "fraction",
+      "filters": "Reschedule lineage reported separately; no prospective claim",
+      "denominator": "eligible non-replaced booked slots",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-flow",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K18",
+      "name": "rn-productive-hours",
+      "grain": "facility \u00c3\u2014 unit \u00c3\u2014 shift/local day",
+      "formula": "SUM productive_hours for RN-role shifts using latest available shift revision",
+      "sources": [
+        "staff_shift",
+        "worker_assignment"
+      ],
+      "unit": "hours",
+      "filters": "Role/assignment valid and known at shift; allocate cross-midnight hours by interval",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-operations",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K19",
+      "name": "rn-overtime-hours",
+      "grain": "facility \u00c3\u2014 unit \u00c3\u2014 local day",
+      "formula": "SUM overtime_hours for RN shifts",
+      "sources": [
+        "staff_shift",
+        "worker_assignment"
+      ],
+      "unit": "hours",
+      "filters": "Revision-safe; descriptive, no overtime model",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-operations",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K20",
+      "name": "rn-overtime-rate",
+      "grain": "facility \u00c3\u2014 unit \u00c3\u2014 local day",
+      "formula": "rn-overtime-hours / RN worked_hours",
+      "sources": [
+        "staff_shift",
+        "worker_assignment"
+      ],
+      "unit": "fraction",
+      "filters": "Zero hours -> NULL",
+      "denominator": "RN worked_hours",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-operations",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K21",
+      "name": "rn-absence-rate",
+      "grain": "facility \u00c3\u2014 local week",
+      "formula": "absent eligible RN shifts / scheduled eligible RN shifts",
+      "sources": [
+        "staff_shift",
+        "worker_assignment"
+      ],
+      "unit": "fraction",
+      "filters": "Leave versus unexpected absence enums explicit in implementation mapping; don't infer missing extracts as absence",
+      "denominator": "scheduled eligible RN shifts",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-operations",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K22",
+      "name": "hours-per-patient-day",
+      "grain": "facility \u00c3\u2014 unit \u00c3\u2014 local day",
+      "formula": "RN productive hours / (occupied-bed-hours/24)",
+      "sources": [
+        "staff_shift",
+        "bed_event",
+        "worker_assignment"
+      ],
+      "unit": "hours/patient-day",
+      "filters": "Observed ratio varies with configured5.5base, acuityweights, minimumcoverage, absences and full/partial shifts; no learned8.0 rule or clinicaloptimalityclaim. Match RN unit scope to occupiedpatienthours, no ED/OR hours in IPD denominator.",
+      "denominator": "occupied-bed-hours/24",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-operations",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K23",
+      "name": "loaded-labor-cost",
+      "grain": "facility \u00c3\u2014 cost center \u00c3\u2014 month",
+      "formula": "SUM loaded_cost by latest known completed shift revision",
+      "sources": [
+        "staff_shift"
+      ],
+      "unit": "USD",
+      "filters": "Recognize labor group once, reconcile workforce GL separately, no join fanout",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-operations",
+      "reference_test": false,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K24",
+      "name": "inventory-on-hand",
+      "grain": "item \u00c3\u2014 location \u00c3\u2014 lot \u00c3\u2014 as-of instant",
+      "formula": "opening balance + SUM signed quantity base-unit movements through cutoff",
+      "sources": [
+        "inventory_movement",
+        "catalog_item"
+      ],
+      "unit": "base units",
+      "filters": "Exclude superseded/reversed effects through signed reversal; no mixed units",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-operations",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K25",
+      "name": "inventory-consumption",
+      "grain": "item \u00c3\u2014 location \u00c3\u2014 local day",
+      "formula": "SUM consumption movement magnitude in base units",
+      "sources": [
+        "inventory_movement",
+        "catalog_item"
+      ],
+      "unit": "base units",
+      "filters": "9 supported consuming items; exclude receipts, transfers and adjustments",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-operations",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K26",
+      "name": "inventory-stockout-minutes",
+      "grain": "item \u00c3\u2014 location \u00c3\u2014 local day",
+      "formula": "SUM minutes available stock <=0 while item is monitored",
+      "sources": [
+        "inventory_movement"
+      ],
+      "unit": "minutes",
+      "filters": "Sparse movement event-state intervals; distinguish unobserved opening from zero",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-operations",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K27",
+      "name": "inventory-waste-cost",
+      "grain": "item \u00c3\u2014 facility \u00c3\u2014 month",
+      "formula": "SUM signed extended_cost for explicitly typed waste/expiry movements, with reversal reconciliation",
+      "sources": [
+        "inventory_movement"
+      ],
+      "unit": "USD",
+      "filters": "Only explicitly typed waste/expiry events; no assumed zero cost",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-operations",
+      "reference_test": false,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K28",
+      "name": "gross-charges",
+      "grain": "facility \u00c3\u2014 service month",
+      "formula": "SUM service_charge.billed_amount with signed reversals once per charge_id",
+      "sources": [
+        "service_charge"
+      ],
+      "unit": "USD",
+      "filters": "Honor reversal links; claim_line join must not multiply charge",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": true,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K29",
+      "name": "original-claims",
+      "grain": "facility \u00c3\u2014 submitted month \u00c3\u2014 payer",
+      "formula": "COUNT distinct original claim_id first submitted in period",
+      "sources": [
+        "claim",
+        "encounter",
+        "patient_coverage",
+        "payer_plan"
+      ],
+      "unit": "count",
+      "filters": "Resubmission attempts remain claim_event; carry-in separated; external payer cohort excludes payer_type=SELF_PAY patient statements and carry-in claims without observed first-adjudication cohort",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": false,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K30",
+      "name": "first-adjudication-denial-rate",
+      "grain": "payer \u00c3\u2014 first-adjudication month",
+      "formula": "distinct original insured claim_id with attempt_no=1 DENIED / distinct original insured claim_id with attempt_no=1 event_type in (ADJUDICATED,DENIED), selected by first outcome occurrence month; partial line denial counts once",
+      "sources": [
+        "claim",
+        "claim_event"
+      ],
+      "unit": "fraction",
+      "filters": "Do not divide by submissions in a different cohort; reversal-aware first adjudication mapping; external payer cohort excludes payer_type=SELF_PAY patient statements and carry-in claims without observed first-adjudication cohort",
+      "denominator": "original claims first adjudicated",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K31",
+      "name": "denial-events",
+      "grain": "payer \u00c3\u2014 local occurrence month",
+      "formula": "COUNT denial adjudication events after reversal reconciliation",
+      "sources": [
+        "claim_event"
+      ],
+      "unit": "count",
+      "filters": "Event count distinct from original denied claims; external payer cohort excludes payer_type=SELF_PAY patient statements and carry-in claims without observed first-adjudication cohort",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": false,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K32",
+      "name": "cash-collected",
+      "grain": "facility \u00c3\u2014 payer \u00c3\u2014 receipt week",
+      "formula": "SUM cash_delta + separately stated carry-in opening_cash where applicable",
+      "sources": [
+        "claim",
+        "claim_event"
+      ],
+      "unit": "USD",
+      "filters": "Flow excludes opening balances; opening displayed for cumulative reconciliation only",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": true,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K33",
+      "name": "claim-ar-balance",
+      "grain": "claim \u00c3\u2014 as-of instant, aggregatable payer/facility",
+      "formula": "opening_ar + SUM ar_delta through effective and available cutoff",
+      "sources": [
+        "claim",
+        "claim_event"
+      ],
+      "unit": "USD",
+      "filters": "Flow/stock distinction, signed adjustments and reversals; never gross charges minus cash alone",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": true,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K34",
+      "name": "days-to-first-payment",
+      "grain": "original claim paid cohort",
+      "formula": "P50/P90 first positive cash occurred_at - first_submitted_at",
+      "sources": [
+        "claim",
+        "claim_event"
+      ],
+      "unit": "days",
+      "filters": "Unpaid claims censored and separately reported; known cutoff enforced",
+      "denominator": "claims with first payment",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K35",
+      "name": "gl-debits",
+      "grain": "facility \u00c3\u2014 cost center \u00c3\u2014 account \u00c3\u2014 posting month",
+      "formula": "SUM debit_amount",
+      "sources": [
+        "financial_posting"
+      ],
+      "unit": "USD",
+      "filters": "Known-time selected original/reversal postings; service month distinct from posting month",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": true,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K36",
+      "name": "gl-credits",
+      "grain": "facility \u00c3\u2014 cost center \u00c3\u2014 account \u00c3\u2014 posting month",
+      "formula": "SUM credit_amount",
+      "sources": [
+        "financial_posting"
+      ],
+      "unit": "USD",
+      "filters": "Journal conservation exact cents",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": false,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K37",
+      "name": "patient-allocated-cost",
+      "grain": "encounter \u00c3\u2014 accounting month \u00c3\u2014 category",
+      "formula": "SUM allocated_amount on selected allocation_run_id where destination_type=PATIENT",
+      "sources": [
+        "cost_allocation",
+        "financial_posting"
+      ],
+      "unit": "USD",
+      "filters": "Selected run known by cutoff; no procedure-level claim",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": true,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K38",
+      "name": "nonpatient-allocated-cost",
+      "grain": "cost center \u00c3\u2014 accounting month \u00c3\u2014 category",
+      "formula": "SUM allocated_amount on selected run where destination_type=NONPATIENT",
+      "sources": [
+        "cost_allocation",
+        "financial_posting"
+      ],
+      "unit": "USD",
+      "filters": "NULL encounter destinations retained; reconcile 540 rows and 157727 PATIENT rows separately",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": false,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    },
+    {
+      "id": "K39",
+      "name": "plan-actual-variance",
+      "grain": "facility \u00c3\u2014 cost center \u00c3\u2014 account \u00c3\u2014 month \u00c3\u2014 currency/unit",
+      "formula": "actual - budget, each at selected as-of vintage",
+      "sources": [
+        "finance_monthly"
+      ],
+      "unit": "USD or declared unit",
+      "filters": "Never sum vintages/scenarios or mix USD and statistical quantities; direction label by account type",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": true,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K40",
+      "name": "plan-actual-variance-rate",
+      "grain": "facility \u00c3\u2014 cost center \u00c3\u2014 account \u00c3\u2014 month",
+      "formula": "(actual - budget) / ABS(budget)",
+      "sources": [
+        "finance_monthly"
+      ],
+      "unit": "fraction",
+      "filters": "Zero budget -> NULL + zero-budget indicator",
+      "denominator": "ABS(selected budget)",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K41",
+      "name": "forecast-actual-variance",
+      "grain": "facility \u00c3\u2014 cost center \u00c3\u2014 account \u00c3\u2014 month",
+      "formula": "actual - forecast from latest published vintage available at forecast origin",
+      "sources": [
+        "finance_monthly"
+      ],
+      "unit": "USD or declared unit",
+      "filters": "No future-vintage selection; not a leakage-free trained ML performance metric",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": false,
+      "tolerance": "Relative error <=0.0001 (0.01%); absolute <=1e-6 when reference magnitude <0.01; NULL denominator must match"
+    },
+    {
+      "id": "K42",
+      "name": "estimated-contribution",
+      "grain": "encounter \u00c3\u2014 accounting month",
+      "formula": "SUM completed in-window charge-level billed_amount \u00d7 applicable payer allowed_factor, rounded perline to cents, PLUS claim_event.recognized_revenue_delta adjustments once per originalclaim/encounter/accounting bridge MINUS selected-run PATIENT allocated_amount",
+      "sources": [
+        "service_charge",
+        "patient_coverage",
+        "payer_plan",
+        "encounter",
+        "claim_event",
+        "claim",
+        "cost_allocation",
+        "financial_posting"
+      ],
+      "unit": "USD",
+      "filters": "Estimated encounter contribution; initial allowed revenue is not in recognized_revenue_delta. Preserve service/posting-month bridge and reconcile initial/revenue adjustments to grouped GL by source group; report unexplained timing/unmapped revenue rather than fabricate allocation. Excludes opening revenue and complete enterprise/procedure profitability.",
+      "denominator": "none",
+      "time_basis": "America/Chicago business periods with UTC interval duration and explicit source-availability report cutoff",
+      "owner": "business-finance",
+      "reference_test": false,
+      "tolerance": "Exact cents/counts after identical cohort selection"
+    }
+  ],
+  "reference_check_count": 20,
+  "reference_method": "Twenty explicitly flagged KPI checks use independent Python/reference reducers over the pinned oracle, not the production SQL implementation. Validate facility/time/cohort slices and total, no PII in aggregate evidence. Monetary/identity conservation gates remain exact even when a ratio KPI uses tolerance.",
+  "fact_grains": [
+    {
+      "name": "fact_encounter",
+      "grain": "one latest-known encounter version per report cutoff"
+    },
+    {
+      "name": "fact_ed_visit",
+      "grain": "one ED episode"
+    },
+    {
+      "name": "fact_census_hourly",
+      "grain": "facility/unit/UTC hour plus local hour offset"
+    },
+    {
+      "name": "fact_census_daily",
+      "grain": "facility/unit/local day with 23/24/25-hour denominator"
+    },
+    {
+      "name": "fact_bed_turnaround",
+      "grain": "one completed bed vacancy-to-ready cycle"
+    },
+    {
+      "name": "fact_placement_wait",
+      "grain": "one admission decision to placement episode"
+    },
+    {
+      "name": "fact_appointment",
+      "grain": "one immutable slot lineage/outcome"
+    },
+    {
+      "name": "fact_staffing_shift",
+      "grain": "one selected shift revision"
+    },
+    {
+      "name": "fact_staffing_daily",
+      "grain": "facility/unit/shift/local day intersection"
+    },
+    {
+      "name": "fact_inventory_daily",
+      "grain": "item/location/lot/local day"
+    },
+    {
+      "name": "fact_claim_lifecycle",
+      "grain": "one original claim/as-of cutoff"
+    },
+    {
+      "name": "fact_denial",
+      "grain": "one reversal-aware adjudication event"
+    },
+    {
+      "name": "fact_cash_weekly",
+      "grain": "payer/facility/receipt week"
+    },
+    {
+      "name": "fact_cost_to_care",
+      "grain": "encounter/accounting month/category/selected run"
+    },
+    {
+      "name": "fact_cost_nonpatient",
+      "grain": "cost center/accounting month/category/selected run"
+    },
+    {
+      "name": "fact_plan_actual_forecast",
+      "grain": "facility/cost center/account/month/scenario/vintage/currency-or-unit"
+    }
+  ],
+  "dimensions": [
+    "date",
+    "hour-with-utc-offset",
+    "facility",
+    "unit",
+    "bed",
+    "service-line",
+    "payer",
+    "patient-masked",
+    "worker-role",
+    "catalog-item",
+    "cost-center",
+    "denial-reason"
+  ],
+  "financial_conservation": "Each eligible expense posting: PATIENT + NONPATIENT allocated cents == eligible posting cents in the selected run; shares conserve, no NULL encounter loss. Journal debit=credit exactly per journal. Native Axiom selected-vintage measures reconcile without aggregating statistical units and currency."
+}

@@ -1,0 +1,17 @@
+{
+  "account_id": "aed328b4-17bf-43f0-9399-c470ad8ea1b5",
+  "azure_workspace_info": {
+    "resource_group": "Databricks",
+    "subscription_id": "d054aa64-95db-467b-a25c-387de70b15bd"
+  },
+  "cloud": "azure",
+  "compute_mode": "SERVERLESS",
+  "creation_time": 1793072812283,
+  "deployment_name": "adb-7405619366453187.7",
+  "location": "eastus",
+  "pricing_tier": "PREMIUM",
+  "workspace_id": 7405619366453187,
+  "workspace_name": "intellify-healthcare-dbw",
+  "workspace_status": "RUNNING",
+  "workspace_status_message": "Workspace is running."
+}

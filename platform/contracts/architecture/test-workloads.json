@@ -1,0 +1,230 @@
+{
+  "contract_version": "architecture-1",
+  "scope_status": "APPROVED_BY_USER",
+  "environment_policy": "Local design/unit/contract and Linux Spark tests before cloud. dev iteration; test complete bounded gate/security/fault/recovery checks; prod one batch release in12 and RTI extension in13. No cloud work auto-started by these contracts.",
+  "immutable_inputs": {
+    "release": "healthcare-synthetic-v1.1.0",
+    "descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+    "tables": 25,
+    "rows": 1937925,
+    "deliveries": 3445,
+    "challenge_sets": 19,
+    "expected_fault_outcomes": 15
+  },
+  "performance": {
+    "minimum_completed_per_component": 100,
+    "concurrent_users": 10,
+    "components": [
+      {
+        "name": "dashboard-tile",
+        "warm_p95_ms": 5000,
+        "boundary": "Client request through SQL and full result delivery/render readiness",
+        "mix": "25 flow,25finance/revenue,25workforce,25clinical/quality; all facilities, masked/unmasked approved roles"
+      },
+      {
+        "name": "eligible-risk-endpoint",
+        "warm_p95_ms": 300,
+        "boundary": "Authenticated broker request + governed eligible feature lookup + model response + network, not model CPU alone",
+        "mix": "50 M4 +50 M10; eligible authorized entities; separate100perdeployed endpoint if benchmark tool treats endpoints independently"
+      },
+      {
+        "name": "full-agent",
+        "warm_p95_ms": 15000,
+        "boundary": "Submit to completed grounded answer, including tools, SQL/model calls/polling/network; first token insufficient",
+        "mix": "25structuredSQL,20forecast,20notes,15composite,10denied,10unsupported/abstain; denied/abstain expected responses do not bypass security"
+      }
+    ],
+    "statistics": [
+      "attempts",
+      "completed",
+      "unexpected_errors",
+      "timeouts",
+      "p50",
+      "p95",
+      "p99",
+      "cold_start",
+      "size",
+      "data_version",
+      "billed_cost"
+    ],
+    "unexpected_error_fraction_max": "0.01",
+    "timeout_policy": "Include every attempted request and timeout; timeout receives its full deadline latency (never dropped); expected deny/abstain reported separately. >=100 completions per deployed component/pattern, p95 threshold strict <.",
+    "cold": "Separate cold-start request after verifiedsleep/scalezero; no warm SLA applied to cold, but readiness<30min required at release"
+  },
+  "replay": {
+    "gold_days": [
+      "2024-11-01",
+      "2024-11-02",
+      "2024-11-03",
+      "2024-11-04",
+      "2024-11-05"
+    ],
+    "timezone": "America/Chicago",
+    "source_cutoff": "05:30 local each replay day",
+    "gold_deadline": "06:00 local, wall elapsed measured separately from replay clock",
+    "visibility": "Manifest available_at<=cutoff; late-aftercutoff deliveries enter next replay window, not backdated as on-time. Expected source cadence table must drive missing delivery alerts.",
+    "extra_stress_day": "2024-01-31",
+    "extra_stress_day_expected_native_rows": 55482,
+    "dst_gap_fixture": "2024-03-10",
+    "autopilot_clean_days": [
+      "2024-10-30",
+      "2024-10-31",
+      "2024-11-01",
+      "2024-11-02",
+      "2024-11-03",
+      "2024-11-04",
+      "2024-11-05"
+    ],
+    "autopilot_faults": [
+      "missing delivery",
+      "pipeline failure",
+      "rowcount mismatch",
+      "key-resolution failure",
+      "schema drift",
+      "stale serving copy"
+    ],
+    "detection_max_wall_minutes": 15,
+    "poll_seconds": 120,
+    "webhooks": "All required faults detected with webhook path disabled and systemtimeline data delayed"
+  },
+  "reconciliation": {
+    "initial_bronze_max_minutes": 45,
+    "canonical_difference_tolerance": 0,
+    "money_tolerance_cents": 0,
+    "full_release_rebuilds": 1,
+    "idempotent_reruns": 1,
+    "oracle": "Separate validation run-as principal; immutable accepted oracle read only, no business write; runtime no oracle permission"
+  },
+  "genie": {
+    "scope_revision": "20 benchmark questions per space instead of40\u00e2\u20ac\u201c60; full reruns replaced with targeted native questions at unchanged configuration plus complete deterministic SQL/security/reconciliation regressions. Explicit owner approval recorded in design-review.json.",
+    "spaces": 4,
+    "initial_questions_per_space": 20,
+    "initial_questions": 80,
+    "minimum_correct_per_space": 18,
+    "recreate_questions": 8,
+    "batch_release_questions": 8,
+    "rti_regression_questions": 8,
+    "agent_tool_questions": 12,
+    "control_and_probe_questions": 8,
+    "total_native_build_questions": 124,
+    "rerun_policy": "Two targeted stochastic cases per space at eachrecreate/batch/RTI stage, both must pass. Keep certified initial80 with input/code/config/permission/dependency hashes; every trusted SQL answer and authorization assertion reruns deterministically. Changed Genie definitions invalidate affected initial20 and require remaining-cost review before a fresh full affected-space benchmark. Never label8targetedqueries as an80questionrerun.",
+    "coverage": "Per-space20:4common totals,4time/cohort,4drilldown/join,4forecast/uncertainty,4permission/limitation-safe cases; paired roles whereapplicable; negative authorization requests rejected before billable model execution remain unbounded mandatory tests."
+  },
+  "agent_evaluation": {
+    "full_questions": 200,
+    "full_phases": [
+      10,
+      12,
+      13
+    ],
+    "quick_questions": 50,
+    "before_each_funded_deployment": true,
+    "quick_deployment_ceiling": 4,
+    "case_mix": {
+      "structured": 60,
+      "forecast": 40,
+      "documents": 40,
+      "composite": 20,
+      "unsupported": 20,
+      "security_redteam": 20
+    },
+    "reuse": "Phase12 full200 can supply100 warm requests with samefrozen roles/mix; Phase13 fullapplicable200retained. Native Genie tool cases4/fullrun=12total. No duplicate counting of billing; other structured answers use authorized SQL tools.",
+    "quick_scope": "SQL/forecast/retrieval/guardrails50cases; nativeGenietoolpathliveverified4cases/full200run plusdefinedtargetedGenieregressions. No extra unpaidnative calls hidden inquicksets."
+  },
+  "lifecycle_windows": [
+    {
+      "name": "foundation-probes",
+      "search_cycles": 1,
+      "active_hours": "0.5",
+      "phases": [
+        2
+      ]
+    },
+    {
+      "name": "agent-ops-batch-release",
+      "search_cycles": 1,
+      "active_hours": "7",
+      "phases": [
+        10,
+        11,
+        12
+      ],
+      "rule": "Local preparation can overlap; cloudexecutionandcommit/push gates strictly sequential. If any gate fails, stop; a laternewcycle must reprice the whole remainder."
+    },
+    {
+      "name": "batch-post-sleep-wake",
+      "search_cycles": 1,
+      "active_hours": "0.5",
+      "phases": [
+        12
+      ],
+      "rule": "Waitforsearchdeletiontailtosettle, thenobservea separate24hzero-workloadcomputeinterval; externalguardonly. Wakeandreadinessunder30min."
+    },
+    {
+      "name": "rti-release",
+      "search_cycles": 1,
+      "active_hours": "3.5",
+      "phases": [
+        13
+      ]
+    }
+  ],
+  "rti": {
+    "phase": 13,
+    "clock": "Historical2025simulation_time vs emission/ingest wallUTC; latency uses wallclock only",
+    "simulation_origin": "2025-07-01T00:00:00-05:00; use artifacts trained/selected no later than2025-06-30",
+    "seeds": [
+      417,
+      823,
+      1451,
+      2027,
+      3911
+    ],
+    "offline_days_after_warmup": 366,
+    "offline_warmup_days": 30,
+    "completed_ipd_per_seed_min": 1000,
+    "arrivals_relative_tolerance": "0.10",
+    "los_median_p90_relative_tolerance": "0.10",
+    "major_mix_absolute_tolerance": "0.03",
+    "stratum_minimum": 100,
+    "sparse": "Pool predeclaredfacility/seasonstrata until>=100; retain underpoweredslices withCI. LOS censoring explicit. Followup may extendpasttheobservationyear solely to mature stays.",
+    "online_soak_minutes": 120,
+    "online_soak_speed": 1,
+    "accelerated_minutes": 30,
+    "accelerated_speed": 30,
+    "generator_deadline_minutes": 240,
+    "maximum_session_events": 250000,
+    "maximum_total_ingress_events": 1000000,
+    "latency_events_per_topic_min": 100,
+    "latency_topics": 5,
+    "freshness_warm_p95_seconds": {
+      "raw_delta": 15,
+      "current_delta": 30,
+      "lakebase": 60,
+      "screen": 75,
+      "soak_ingestion": 30
+    },
+    "continuous_path": "Lakeflow continuous micro-batch Delta10s target; serving sync min15s; no specialized real-time mode switch",
+    "lateness_simulation_minutes": 15,
+    "durability": "Raw archive before filtering, stableIDs/permanentdedup/conflictquarantine, durableoutboxRNGsessionstate; beyond-watermark repair; newsourceinstance=>newcheckpoint; independentseed-plusfull-logreducer",
+    "synced_copy_security": "Internal sync tables cannot carry PostgresRLS. Broker-only table access + server-side verifiedfacilitypredicates. App-ownedsession/budgettables useRLS/transactions.",
+    "seeded_alerts": [
+      "capacity",
+      "boarding",
+      "turnaround",
+      "ICU overflow",
+      "staffing",
+      "stock",
+      "demand surge"
+    ],
+    "recovery": [
+      "generator crash",
+      "pipeline crash",
+      "sync crash",
+      "transportdelete/recreate",
+      "interruptionbetweenpublicationstages",
+      "source-retentionexpiry"
+    ],
+    "regression": "AllmandatoryPhase12checks and full200agent with streams running; unchanged nativeGenie uses explicit approved targeted8-case revision; no authorization/recovery/integrity waiver"
+  }
+}

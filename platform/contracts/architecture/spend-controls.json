@@ -1,0 +1,98 @@
+{
+  "contract_version": "architecture-1",
+  "window_timezone": "Asia/Kolkata",
+  "window_reset": "00:00 local; uncertain charges remain reserved in their original window, never cleared by reset",
+  "units": "integer paise, ROUND_CEILING per reservation; rate version + invoice currency + planning FX/tax margin",
+  "app": {
+    "shared_build_limit_inr": 500,
+    "shared_day_limit_inr": 150,
+    "user_day_limit_inr": 20,
+    "component_day_limit_inr": 100,
+    "evaluation_run_limit_inr": 200,
+    "input_tokens_per_call": 12000,
+    "output_tokens_per_call": 1500,
+    "max_model_calls_per_turn": 3,
+    "max_retries_per_turn": 1,
+    "turn_deadline_seconds": 60,
+    "reasoning": "none",
+    "model": "gpt-6-luna",
+    "route": "Databricks Unity Gateway Responses only",
+    "price_margin_fraction": "0.25",
+    "admission": "Atomic row-lock transaction reserves user/component/day/build/evaluation buckets together. Each dispatch/retry attempt has unique idempotency key and its own reservation. Unknown price, unavailable ledger, ASLEEP, exhausted bucket or unknown unsupported fee -> deny.",
+    "settlement": "Settle once from provider billable usage, release only verified unused amount. Timeout/crash/expired lease remains UNCERTAIN and covered; late billing reconciles original window; actual above bound freezes further calls."
+  },
+  "native_genie": {
+    "resource_tag": {
+      "databricks-product": "genie"
+    },
+    "additional_resource_tag_filters": [],
+    "action": "Block usage",
+    "build_planning_allowance_inr": 4500,
+    "shared_month_limit_usd": 35,
+    "per_user_month_limit_usd": 25,
+    "inflight_and_reconciliation_reserve_inr": 1000,
+    "maximum_build_questions": 124,
+    "maximum_monthly_demo_questions": 20,
+    "callers": "Actual benchmark/app service principal and human caller identities recorded; free human use/promotions excluded from estimate.",
+    "control": "Not covered by application ledger. Restrict ACLs/access outside funded windows. Shared threshold is approximate, not invoice cap. Pilot and approximate-block test before benchmark; count all native tool calls."
+  },
+  "probes": {
+    "phase": 2,
+    "pre_reservation_inr": 2000,
+    "includes_preflight_inr": 200,
+    "maximum_luna_requests": 12,
+    "maximum_input_tokens_total": 24000,
+    "maximum_output_tokens_total": 3072,
+    "principal": "Isolated temporary probe principal; no business users or unbounded tools",
+    "rule": "Proposed INR2000 envelope includes all Phase2 meters/tails and preflight200. Pending budget decision; not additional funding. Each cost remains in global build model.",
+    "cleanup": "Revoke temporary grants, delete fixtures through owners, keep uncertain charges/tails reserved"
+  },
+  "controller": {
+    "authoritative_state": "ADLS control object + resource/session manifest with ETag/lease compare-and-swap; hc_ops mirror only while awake",
+    "states": [
+      "STARTING",
+      "AWAKE",
+      "STOPPING",
+      "ASLEEP",
+      "FAILED"
+    ],
+    "guard": "Daily external control-plane inspection, no data query/job/notebook; independent hard-deadline shutdown",
+    "limits": {
+      "sql_clusters": 1,
+      "sql_auto_stop_minutes": 5,
+      "apps_max_aggregate_build_hours": 24,
+      "search_units": 1,
+      "search_billing_tail_hours_per_cycle": 24,
+      "lakebase_min_cu": 1,
+      "lakebase_max_cu": 2,
+      "lakebase_suspend_timeout_seconds": 300,
+      "event_hubs_tu": 1,
+      "event_hubs_auto_inflate": false,
+      "generator_max_runtime_hours": 4,
+      "event_hubs_namespace_max_funded_hours": 6
+    }
+  },
+  "ledger": "Both subscriptions plus retained prerequisites; gross consumption, credits and net separate. Join usage to time-valid SKU list prices, handle retractions/restatements and deduplicate record IDs; Azure-billed Databricks usage not counted twice. UNKNOWN/PENDING is not zero.",
+  "checkpoints_inr": [
+    5000,
+    10000,
+    15000,
+    18000
+  ],
+  "pause_new_work_at_inr": 18000,
+  "build_ceiling_inr": 20000,
+  "monthly_ceiling_inr": 6000,
+  "tests": [
+    "Concurrent reservations cannot oversubscribe",
+    "Duplicate dispatch and settlement",
+    "Retry separately reserved",
+    "Timeout uncertain money retained",
+    "Crash/restart ledger durability",
+    "Price change and missing price",
+    "Budget exhausted no retry loop",
+    "Ledger asleep/unavailable fails closed",
+    "Native Genie actual caller block",
+    "Late invoice/correction reconciles original window",
+    "Guard runs without waking compute"
+  ]
+}

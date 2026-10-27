@@ -1,0 +1,911 @@
+{
+  "contract_version": "architecture-1",
+  "rule_source": "contracts/phase0/validation-rules.json",
+  "rule_source_sha256": "dffe39411824eae480f1e80e58e3961302a7d6187cdf011c26d862278d30944b",
+  "rule_count": 55,
+  "rules": [
+    {
+      "rule_id": "ID01",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "PK uniqueness and required scalar fields",
+      "invariant": "PK not null and count(*)=count(distinct PK); required columns correctly typed",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "ID02",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Explicit and typed references",
+      "invariant": "All nonnull physical FKs resolve; polymorphic/stable-ID references satisfy entity-specific lookup",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "TM01",
+      "severity": "P0",
+      "tables": [
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "patient_coverage",
+        "clinical_condition",
+        "source_key_map"
+      ],
+      "title": "Bitemporal intervals",
+      "invariant": "valid_from<valid_to and known_from<known_to when ends exist; no exclusive business/knowledge overlap",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "TM02",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Source knowledge versus export",
+      "invariant": "recorded_at<=export_available_at; as-of projection requires applicable known_from and export availability",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "TM03",
+      "severity": "P0",
+      "tables": [
+        "encounter",
+        "clinical_event",
+        "staff_shift"
+      ],
+      "title": "Lifecycle knowledge",
+      "invariant": "Initial and subsequent lifecycle values use separate versions; no final outcome in earlier known interval",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "NM01",
+      "severity": "P1",
+      "tables": [
+        "patient",
+        "worker_assignment",
+        "facility",
+        "location"
+      ],
+      "title": "Believable identities",
+      "invariant": "Required human names present; no numbered generic person names; distinct persons may share names",
+      "owner": "Business",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "NM02",
+      "severity": "P1",
+      "tables": [
+        "patient",
+        "worker_assignment"
+      ],
+      "title": "Age and contacts",
+      "invariant": "Age uses local calendar birthdays; service age>=18; identity contacts use documented test namespaces",
+      "owner": "Business",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "OR01",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "location",
+        "cost_center"
+      ],
+      "title": "Hierarchy and bed inventory",
+      "invariant": "Parent chains acyclic/same facility; 72 BED rows, 12 ICU and 60 medicine/surgery; opening state covers each bed",
+      "owner": "Operations",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "WK01",
+      "severity": "P1",
+      "tables": [
+        "worker_assignment",
+        "staff_shift"
+      ],
+      "title": "Assignment and credential validity",
+      "invariant": "Worked shift resolves eligible worker, role, credential and effective cost/rate as of service and knowledge",
+      "owner": "Workforce",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "WK02",
+      "severity": "P0",
+      "tables": [
+        "worker_assignment"
+      ],
+      "title": "Manager identity",
+      "invariant": "manager_worker_id resolves a distinct stable worker as of both valid and knowledge time; no cycles",
+      "owner": "Workforce",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "AC01",
+      "severity": "P0",
+      "tables": [
+        "access_scope"
+      ],
+      "title": "Scope and revocation",
+      "invariant": "Scope key resolves its scope_type; NETWORK uses ALL_NETWORK; revoked rows deny later test reads",
+      "owner": "Security",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CV01",
+      "severity": "P0",
+      "tables": [
+        "patient_coverage",
+        "encounter",
+        "claim"
+      ],
+      "title": "Primary coverage",
+      "invariant": "One primary enrollment per stable patient/time; encounter/claim patient matches coverage; SELF_PAY explicit",
+      "owner": "Revenue",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CD01",
+      "severity": "P1",
+      "tables": [
+        "catalog_item",
+        "clinical_condition",
+        "clinical_event"
+      ],
+      "title": "Vocabulary and unit validity",
+      "invariant": "Correct domain, release, effective date and UCUM/base unit; discharge-based diagnosis/procedure selection follows code-system rule",
+      "owner": "Clinical",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CD02",
+      "severity": "P0",
+      "tables": [
+        "catalog_item",
+        "financial_posting"
+      ],
+      "title": "Catalog type discriminators",
+      "invariant": "MEDICATION requires strength/base-unit conversion; ACCOUNT requires account_class and normal_balance; no opaque extra facts",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "EN01",
+      "severity": "P0",
+      "tables": [
+        "encounter",
+        "appointment"
+      ],
+      "title": "Encounter episode identity",
+      "invariant": "Linked encounters share stable patient; episodes acyclic; ED/IPD separate visits, internal bed transfers not new encounters",
+      "owner": "Operations",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "EN02",
+      "severity": "P0",
+      "tables": [
+        "encounter"
+      ],
+      "title": "Observed chronology",
+      "invariant": "arrival<=decision<=IPD start<=observed discharge where applicable; open values remain null; prewindow completed rows are opening-AR context",
+      "owner": "Clinical",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "EN03",
+      "severity": "P0",
+      "tables": [
+        "encounter",
+        "patient"
+      ],
+      "title": "Death and cutoff",
+      "invariant": "No new care after known death; post-death billing permitted; unobserved future outcomes remain censored",
+      "owner": "Clinical",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CN01",
+      "severity": "P1",
+      "tables": [
+        "clinical_condition"
+      ],
+      "title": "Condition family constraints",
+      "invariant": "DIAGNOSIS requires encounter and rank>=1; PROBLEM/ALLERGY rank=0; ALLERGY requires drug substance and reaction",
+      "owner": "Clinical",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CN02",
+      "severity": "P0",
+      "tables": [
+        "clinical_condition",
+        "encounter"
+      ],
+      "title": "Diagnosis coverage",
+      "invariant": "Each completed clinically assessed encounter has a primary diagnosis or explicit reviewed diagnostic uncertainty; no diagnosis required for left-without-seen",
+      "owner": "Clinical",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CE01",
+      "severity": "P0",
+      "tables": [
+        "clinical_event"
+      ],
+      "title": "Clinical event discriminator",
+      "invariant": "Event-specific required fields match type matrix; no fabricated fields; every scalar result counts a row",
+      "owner": "Clinical",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CE02",
+      "severity": "P0",
+      "tables": [
+        "clinical_event",
+        "clinical_condition"
+      ],
+      "title": "Orders, administration and allergy",
+      "invariant": "Results/admin link valid earlier orders; active drug-allergy conflict rejected; dose/route within reviewed pathway configuration",
+      "owner": "Clinical",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CE03",
+      "severity": "P1",
+      "tables": [
+        "clinical_event"
+      ],
+      "title": "Fact-grounded notes",
+      "invariant": "DOCUMENT text contains only structured facts known at authored time; negation and uncertain diagnoses preserved",
+      "owner": "Clinical",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "AP01",
+      "severity": "P1",
+      "tables": [
+        "appointment"
+      ],
+      "title": "Booked-slot history",
+      "invariant": "booked<scheduled_end; no-show unavailable before scheduled end; cancelled/rescheduled slot retained and replacement linked",
+      "owner": "Operations",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "BD01",
+      "severity": "P0",
+      "tables": [
+        "bed_event",
+        "encounter",
+        "location"
+      ],
+      "title": "Exclusive compatible occupancy",
+      "invariant": "One active occupant per bed and one inpatient bed per stable patient; capability/cleanliness/service rules respected",
+      "owner": "Operations",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "BD02",
+      "severity": "P0",
+      "tables": [
+        "bed_event"
+      ],
+      "title": "State machine",
+      "invariant": "Resolve corrections before applying full post-state in effective sequence; no occupied closure without relocation; null occupant only when empty/nonoccupancy",
+      "owner": "Operations",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "BD03",
+      "severity": "P0",
+      "tables": [
+        "bed_event",
+        "encounter"
+      ],
+      "title": "Census roll-forward",
+      "invariant": "opening+admissions+external transfers in-discharges-external transfers out=closing at same scope/time",
+      "owner": "Operations",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "BD04",
+      "severity": "P0",
+      "tables": [
+        "bed_event"
+      ],
+      "title": "Occupied seconds",
+      "invariant": "Event-state integral equals independently reconstructed bed intervals clipped to window",
+      "owner": "Operations",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "BD05",
+      "severity": "P1",
+      "tables": [
+        "bed_event",
+        "encounter"
+      ],
+      "title": "Unmet capacity",
+      "invariant": "Waiting/diversion/deferred appointments explicitly explain exhausted compatible capacity; no dropped arrivals",
+      "owner": "Operations",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "SF01",
+      "severity": "P0",
+      "tables": [
+        "staff_shift"
+      ],
+      "title": "Hours equation",
+      "invariant": "worked_hours=productive+paid_nonproductive+unpaid_break; overtime<=paid hours; no overlapping WORK intervals",
+      "owner": "Workforce",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "SF02",
+      "severity": "P1",
+      "tables": [
+        "staff_shift",
+        "bed_event",
+        "worker_assignment"
+      ],
+      "title": "Demand-linked staffing",
+      "invariant": "RN productive requirement uses acuity-adjusted patient-days; coverage shortages are explicit, not hidden by census deletion",
+      "owner": "Workforce",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "IV01",
+      "severity": "P0",
+      "tables": [
+        "inventory_movement"
+      ],
+      "title": "Stock roll-forward",
+      "invariant": "opening+signed movements=closing by location/item/lot/base unit; paired transfers balance",
+      "owner": "Supply",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "IV02",
+      "severity": "P0",
+      "tables": [
+        "inventory_movement",
+        "clinical_event",
+        "catalog_item"
+      ],
+      "title": "Administration consumption",
+      "invariant": "CONSUME group negative stock quantity equals administered converted base units plus explicit nonpatient waste; receipts not consumed twice",
+      "owner": "Supply",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "IV03",
+      "severity": "P1",
+      "tables": [
+        "inventory_movement"
+      ],
+      "title": "Lot expiry and valuation",
+      "invariant": "No issue before stock arrival/after expiry; extended_cost=HALF_UP(quantity_base*unit_cost,2); reversal opposite",
+      "owner": "Supply",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CH01",
+      "severity": "P0",
+      "tables": [
+        "service_charge",
+        "clinical_event",
+        "encounter"
+      ],
+      "title": "Charge provenance",
+      "invariant": "Charge links performed billable service or declared room-day/category predicate; billed=HALF_UP(units*unit_price,2); no charge for cancelled/not-done service",
+      "owner": "Finance",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CL01",
+      "severity": "P0",
+      "tables": [
+        "claim",
+        "claim_line",
+        "service_charge"
+      ],
+      "title": "Original claim totals",
+      "invariant": "Original billed header equals original line sum; lines match charge and patient; each charge in at most one live original claim",
+      "owner": "Revenue",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CL02",
+      "severity": "P0",
+      "tables": [
+        "claim_event",
+        "claim"
+      ],
+      "title": "Claim lifecycle",
+      "invariant": "Attempt/state valid; resubmissions retain original claim; OPENING is not new-period submission",
+      "owner": "Revenue",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CL03",
+      "severity": "P0",
+      "tables": [
+        "claim_event"
+      ],
+      "title": "AR/cash movements",
+      "invariant": "Opening AR plus signed event ar_delta equals closing; liability reclassification alone creates no cash/revenue; cash/refund reversals linked",
+      "owner": "Finance",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CL04",
+      "severity": "P1",
+      "tables": [
+        "claim_event",
+        "service_charge"
+      ],
+      "title": "Denial evidence availability",
+      "invariant": "Denial causes relate to real authorization/coding/timing facts available at decision; open appeal is not final loss",
+      "owner": "Revenue",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "GL01",
+      "severity": "P0",
+      "tables": [
+        "financial_posting",
+        "catalog_item"
+      ],
+      "title": "Double entry",
+      "invariant": "Exactly one positive debit/credit per line; journal debit=credit per entity/currency/date; account domains valid",
+      "owner": "Finance",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "GL02",
+      "severity": "P0",
+      "tables": [
+        "financial_posting",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim_event"
+      ],
+      "title": "Source group reconciliation",
+      "invariant": "Each source-group journal amount reconciles to latest eligible underlying facts under registered recognition policy",
+      "owner": "Finance",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "GL03",
+      "severity": "P0",
+      "tables": [
+        "financial_posting",
+        "inventory_movement"
+      ],
+      "title": "Stock purchase versus expense",
+      "invariant": "Receipts post asset/AP; consumption posts expense/asset; no simultaneous purchase and consumption double-expense",
+      "owner": "Finance",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CO01",
+      "severity": "P0",
+      "tables": [
+        "cost_allocation",
+        "financial_posting"
+      ],
+      "title": "Cost pool conservation",
+      "invariant": "Selected run allocations PATIENT+NONPATIENT+RESIDUAL equal eligible signed expense source; shares sum 1; no allocation counted as new GL expense",
+      "owner": "Finance",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CO02",
+      "severity": "P0",
+      "tables": [
+        "cost_allocation"
+      ],
+      "title": "Destination and run selection",
+      "invariant": "PATIENT requires encounter; other destinations require null encounter; select one current known run, not all versions",
+      "owner": "Finance",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "AX01",
+      "severity": "P0",
+      "tables": [
+        "finance_monthly",
+        "financial_posting"
+      ],
+      "title": "Axiom actual reconciliation",
+      "invariant": "Latest known ACTUAL equals P&L monthly movement or balance-sheet cumulative closing balance per account class, center, month, USD and explicit reclass/timing entries",
+      "owner": "Finance",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "AX02",
+      "severity": "P0",
+      "tables": [
+        "finance_monthly"
+      ],
+      "title": "Scenario/vintage/unit grain",
+      "invariant": "Monetary rows have account+amount+USD, stats have quantity+unit; no summing scenarios or revisions; first-day month required",
+      "owner": "Finance",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "AX03",
+      "severity": "P0",
+      "tables": [
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "No hindsight forecasts",
+      "invariant": "Budget/forecast uses only inputs available before vintage published_at; realized future indices never used early",
+      "owner": "Finance",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "SR01",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Source round trip",
+      "invariant": "Parsed export rows and control totals equal declared canonical scope; snapshots replace, deltas add once, versions retained",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "SR02",
+      "severity": "P0",
+      "tables": [
+        "source_key_map"
+      ],
+      "title": "Crosswalk resolution",
+      "invariant": "Typed target exists; source namespace/key/time resolves exactly one mapping; UNMAPPED rows are challenge inputs, not accepted canonical facts",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "SR03",
+      "severity": "P0",
+      "tables": [
+        "bed_event",
+        "claim_event",
+        "inventory_movement",
+        "financial_posting"
+      ],
+      "title": "Idempotent replay",
+      "invariant": "Repeated delivery has no new economic or occupancy effect; corrections converge to independent expected state",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "DR01",
+      "severity": "P1",
+      "tables": [
+        "facility_day_driver"
+      ],
+      "title": "Daily driver coverage",
+      "invariant": "3 facilities x1096 dates exactly once; calendar-known time separate from realized-observation-known time",
+      "owner": "Data",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "RS01",
+      "severity": "P1",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Marginal and conditional realism",
+      "invariant": "Apply preregistered target bands by denominator/date/cohort; low-count cells use documented intervals or manual review",
+      "owner": "Business",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "RS02",
+      "severity": "P1",
+      "tables": [
+        "clinical_event",
+        "encounter",
+        "staff_shift",
+        "claim_event"
+      ],
+      "title": "Connected scenario behavior",
+      "invariant": "Scenario-specific expected effects appear in linked domains, no hidden scenario labels in business features",
+      "owner": "Business",
+      "pipeline_action": "drop-to-protected-quarantine",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "CP01",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Business volume/table boundary",
+      "invariant": "20<=physical business tables<=25; all versions/openings/corrections counted; canonical total<=2,000,000",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "RP01",
+      "severity": "P0",
+      "tables": [
+        "facility",
+        "cost_center",
+        "location",
+        "patient",
+        "worker_assignment",
+        "access_scope",
+        "payer_plan",
+        "patient_coverage",
+        "catalog_item",
+        "source_key_map",
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "appointment",
+        "bed_event",
+        "staff_shift",
+        "inventory_movement",
+        "service_charge",
+        "claim",
+        "claim_line",
+        "claim_event",
+        "financial_posting",
+        "cost_allocation",
+        "finance_monthly",
+        "facility_day_driver"
+      ],
+      "title": "Clean rebuild",
+      "invariant": "Pinned code/config/reference/seed reproduces normalized sorted business hashes, excluding volatile execution metadata",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    },
+    {
+      "rule_id": "FN01",
+      "severity": "P0",
+      "tables": [
+        "encounter",
+        "clinical_condition",
+        "clinical_event",
+        "claim_line",
+        "cost_allocation"
+      ],
+      "title": "Independent fact grains",
+      "invariant": "Aggregate each fact to declared target before joining; pairwise joins cannot multiply census/charges/cost",
+      "owner": "Data",
+      "pipeline_action": "fail",
+      "gate_action": "FAIL on unexplained baseline violation; exact expected challenge outcome otherwise"
+    }
+  ],
+  "accepted_policy_hashes": {
+    "data/releases/healthcare-synthetic-v1.1.0/contracts/clinical-history-policy.json": "fe6b0470c2fa5adcfeafc0d70e1ef17486298058f64c03090073349d666dd427",
+    "data/releases/healthcare-synthetic-v1.1.0/contracts/financial-history-policy.json": "fb4a6079bd185b01a7feecd125102fd8bf86fd471a851fdc4f5e85f4c27d4360",
+    "data/releases/healthcare-synthetic-v1.1.0/contracts/integrated-validation-policy.json": "2558bdefe2fcb3d94f0bcc4f792f0c5a94da1bfdf7a32d8dd8e90a02c3dbd232",
+    "data/releases/healthcare-synthetic-v1.1.0/contracts/master-data-policy.json": "619830491bd2eaffda711b92b8c3ac86561dfca4e82e9eb27e65f1a589ce7d31",
+    "data/releases/healthcare-synthetic-v1.1.0/contracts/operational-flow-policy.json": "42d55e3f40135d5d4ba733b7baeed066c74b3ada3178bea9755192b524af9ffc",
+    "data/releases/healthcare-synthetic-v1.1.0/contracts/reference-package-lock.json": "0601389d5984a539d4a696d9b5fdb4045338fdd066a7704265f7ac59b29b7805",
+    "data/releases/healthcare-synthetic-v1.1.0/contracts/resource-foundation-policy.json": "2df32ca42010daf34e5ceacb05489b4f26283b8e30230edf676f885c5295310d",
+    "data/releases/healthcare-synthetic-v1.1.0/contracts/source-delivery-policy.json": "81e1b70f49413724dd224b39542683b976e2ce2cd8ed96cb9fc3ae926e399154"
+  },
+  "baseline_action": "All unexpected baseline failures block dependent publication. Warnings are not blanket integrity waivers; expected challenge failures require exact fixture dispositions. Protected quarantine retains payload/lineage; no silent data loss.",
+  "policy_clock": "Apply release-specific policy semantics in addition to originalrulecatalog; later accepted policy amendments take precedence over historical generatorphase instructions, without regeneratingaccepteddata.",
+  "source_semantic_hashes": {
+    "config/resource-foundation-generation.json": "d08f8a27ed699fab4cfc085919c15061d0b9aa2a75f9b53e1a12fe7a09471757",
+    "src/healthcare_synthetic/resource_workforce.py": "d73b66ef769d072317e093ffc4edc961da3f1f7290ad492b4608397dddb33d45",
+    "src/healthcare_synthetic/source_reader.py": "340f2248316aa963359653aa72358aba3307efacd726f49bff252335f7fcb54f",
+    "data/releases/healthcare-synthetic-v1.1.0/contracts/phase0/baseline.json": "bd22fbd728d6ab3dca6cc36509fd5b48868772d6d960df42ce231909f8619eeb"
+  },
+  "nursing_rule": "Acceptedbase5.5HPPD plusacuityweights/minimumcoverage; initialroadmap8.0wasincorrect and corrected duringPhase0. Observedratio notconstant."
+}

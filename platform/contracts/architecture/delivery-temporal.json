@@ -1,0 +1,70 @@
+{
+  "contract_version": "architecture-1",
+  "delivery_key": [
+    "release_id",
+    "source_system",
+    "feed",
+    "manifest_file_id"
+  ],
+  "path_scope_required": true,
+  "immutable_delivery_conflict": "Same key + changed SHA256 -> quarantine; same key/content -> audit attempt only; distinct keys/equal hashes and zero-row deliveries retained.",
+  "assertion_key": "Source namespace + canonical primary/assertion/version key; never collapse revisions to stable entity ID. Conflicting payload for immutable key -> quarantine.",
+  "snapshot_policy": "Snapshots are observations, not new canonical assertion versions. Preserve observation provenance, deduplicate exact versions, retain revisions/reversals/corrections.",
+  "clocks": {
+    "valid": "Business-effective instant/interval; inclusive start and exclusive end",
+    "known": "Preserve source-known intervals in canonical history, but derive availability-aware projection from delivered assertions; retrospective known_to is not a predictive feature or authority for an undelivered closure.",
+    "available": "max(recorded_at, export_available_at, known_from if present, field-specific availability)",
+    "ingested": "Observed pipeline commit timestamp, not reconstructed from historical exports",
+    "serving": "Feature/state copy published successfully; live availability adds ingest, feature and serving publication times",
+    "backtest": "Modeled source/export clock, not observed historical platform arrival"
+  },
+  "selection": "First filter assertions by max(recorded_at,export_available_at,known_from/fieldavailability)<=decision_at and valid_from<=effective_at. For revision-style identity/grant/assignment histories select latest delivered(source-known,revision_no) per stableidentity, then check that selected version valid_to>effective_at or isopen. Never prefilter valid_to before selectinglatest or resurrect olderopen grant. Preserve canonical known_to for oracle equivalence but do not use hindsight known_to to suppress an oldversion before its replacement is delivered. Feed-specific history policy and source_reader.effective_versions define ties/corrections; assert ambiguousversions/conflicts fail.",
+  "field_rules": [
+    {
+      "field": "facility_day_driver.calendar_*",
+      "rule": "calendar_known_at plus export visibility; deterministic holiday/calendar can be generated independently, never inherit unavailable realized observation fields"
+    },
+    {
+      "field": "facility_day_driver.respiratory_index,weather_index",
+      "rule": "max(observations_known_at,export_available_at,recorded_at); future realized values forbidden"
+    },
+    {
+      "field": "encounter.discharged_at,disposition,medically_ready_at",
+      "rule": "Outcome/post-outcome fields unavailable to active inpatient predictions; availability of header alone never makes a later field visible"
+    },
+    {
+      "field": "appointment.*",
+      "rule": "All accepted booked slots available after scheduled start; no prospective elective booking or no-show use"
+    },
+    {
+      "field": "claim_event.*",
+      "rule": "Only source/export-visible events at origin; predicted adjudication/denial and downstream amounts excluded"
+    }
+  ],
+  "correction": "Resolve bed CORRECTION links before reducing state; preserve original/correcting assertions and separate effective and known replay. Reversals signed, never silent deletes.",
+  "money": "DECIMAL and integer cents; no float summation of currency. One currency/unit per aggregation. Allocation run and finance vintage explicitly selected as-of.",
+  "reference_policy": {
+    "oracle_principal": "sp-hcp-validation",
+    "runtime_oracle_access": false,
+    "validation_business_write": false,
+    "canonical_use": "Independent validation only; pipelines reconstruct from native"
+  },
+  "tests": [
+    "Same delivery replay",
+    "Two equal-SHA distinct deliveries",
+    "Zero-row expectation",
+    "Conflicting immutable version",
+    "Retroactive worker revision",
+    "Revoked grant known-time replay",
+    "Bed correction before/after known cutoff",
+    "DST gap/fold",
+    "Export strictly after business event",
+    "Exact availability cutoff",
+    "One-microsecond-before cutoff",
+    "Delayed serving copy",
+    "Foreign release",
+    "Known_to closed before nextrevision export still retains olddeliveredversion",
+    "Expired latestdelivered grant cannot resurrect olderopen version"
+  ],
+  "retrospective_known_to_as_feature": false
+}

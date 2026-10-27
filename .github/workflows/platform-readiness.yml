@@ -1,10 +1,12 @@
-name: Platform prerequisite checks
+name: Platform prerequisite and architecture checks
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
       - 'platform/**'
+      - 'azure-databricks-implementation.md'
+      - 'evidence/platform/architecture-baseline/**'
       - '.github/workflows/platform-readiness.yml'
 
 permissions:
@@ -30,9 +32,16 @@ jobs:
           uv pip sync platform/requirements-linux.lock --python platform/.venv/bin/python --require-hashes --quiet
       - name: Check platform source
         run: |
-          platform/.venv/bin/ruff check platform/scripts
-          platform/.venv/bin/ruff format --check platform/scripts
+          platform/.venv/bin/ruff check platform/scripts platform/tests
+          platform/.venv/bin/ruff format --check platform/scripts platform/tests
           platform/.venv/bin/python -B platform/scripts/verify_configuration.py
+      - name: Validate approved architecture and negative gate contracts
+        run: |
+          platform/.venv/bin/python -B -m pytest platform/tests/unit/test_architecture_contracts.py -q -p no:cacheprovider --junitxml output/platform-architecture/architecture-tests.xml
+          platform/.venv/bin/python -B platform/scripts/validate_architecture.py
+          if test -f evidence/platform/architecture-baseline/gate.json; then
+            platform/.venv/bin/python -B platform/scripts/verify_architecture_gate.py
+          fi
       - name: Exercise local Spark and Delta
         run: platform/.venv/bin/python -B platform/scripts/check_local_runtime.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -40,6 +49,12 @@ jobs:
         with:
           name: local-platform-runtime
           path: output/platform-readiness/local-runtime.json
+          retention-days: 14
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: approved-architecture-validation
+          path: output/platform-architecture/
           retention-days: 14
 
   identity-smoke:

@@ -6,12 +6,24 @@
   "planning_inr_per_usd": 100,
   "exchange_rate_status": "Conservative planning assumption, not a current FX quote; reconcile actual invoice FX, taxes and delayed usage before each funded window",
   "budgets_usd": {
-    "workspace_subscription": {"build": 165, "monthly": 55},
-    "model_subscription": {"build": 35, "monthly": 5}
+    "workspace_subscription": {
+      "build": 165,
+      "monthly": 55
+    },
+    "model_subscription": {
+      "build": 35,
+      "monthly": 5
+    }
   },
-  "scope": {"tag": "project", "value": "healthcare-platform"},
+  "scope": {
+    "tag": "project",
+    "value": "healthcare-platform"
+  },
   "preflight_upper_allowance_inr": 200,
-  "preflight_allocation": "Within the existing INR 800 capability-probe allocation, not additional budget",
+  "preflight_allocation": "Within cumulative buildcostmodel/probe envelope; not additionalfunding",
   "budget_alerts_are_hard_caps": false,
-  "required_reconciliation": "Combine both subscriptions in the cumulative ledger; include outstanding Databricks usage, Azure billing delays, FX/tax and shutdown tails. Never use subscription credits to hide gross costs. Partition alerts are not the global ledger thresholds."
+  "required_reconciliation": "Combine both subscriptions in the cumulative ledger; include outstanding Databricks usage, Azure billing delays, FX/tax and shutdown tails. Never use subscription credits to hide gross costs. Partition alerts are not the global ledger thresholds.",
+  "planning_tax_reserve_fraction": 0.18,
+  "phase0_cost_model": "platform/contracts/architecture/cost-model.json",
+  "approved_scope": "Reduced POC workload explicitly approved by user2026-10-27; buildceiling20000 unchanged"
 }

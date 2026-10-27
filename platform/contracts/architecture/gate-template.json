@@ -1,0 +1,16 @@
+{
+  "template_only": true,
+  "phase": "integer 0 through 13",
+  "status": "PASS only after every applicable criterion passes; FAIL otherwise",
+  "source_sha": "Exact implementation/configuration Git commit; evidence-only commit may follow",
+  "dataset_descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+  "environment": "Declared actual local/dev/test/prod target and runtime",
+  "dependency_gates": "Paths + SHA256 + status; no failed dependency override",
+  "contract_hashes": "Relative safe file path -> SHA256, including exact approval/test/price contracts",
+  "criteria": [{"id": "phase.ordinal", "status": "PASS / FAIL / NOT_APPLICABLE", "measure": "Actual value and unit, not a copied target", "evidence": "Report paths/hashes", "owner": "Named accountable reviewer; NOT_APPLICABLE also requires explicit reason"}],
+  "tests": "Commands, exit codes, report hashes, counts, failures and clocks; local tests are not tenant probes",
+  "measurements": "Actual measured values plus separate modeled estimates",
+  "costs": "Settled + outstanding + conservative reservations + remaining-work estimate across both subscriptions",
+  "limitations": "Explicit unsupported cases and unrun future gates",
+  "owner_signoff": "Actor, authority and timestamp; no fabricated independent approval"
+}

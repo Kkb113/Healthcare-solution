@@ -1,0 +1,72 @@
+[
+  {
+    "etag": "\"0075c06b-7c18-4044-aab0-298362ec80e4\"",
+    "id": "/subscriptions/0725b5e7-75db-4c60-b5e9-928c3df3fcd1/resourceGroups/rg-hcp-model-access/providers/Microsoft.CognitiveServices/accounts/aoai-hcp-luna-0725fcd1/deployments/gpt-6-luna",
+    "name": "gpt-6-luna",
+    "properties": {
+      "callRateLimit": null,
+      "capabilities": {
+        "agentsV2": "true",
+        "area": "US",
+        "assistants": "true",
+        "chatCompletion": "true",
+        "decision": "true",
+        "responses": "true"
+      },
+      "capacitySettings": null,
+      "currentCapacity": 5,
+      "dynamicThrottlingEnabled": null,
+      "model": {
+        "callRateLimit": null,
+        "format": "OpenAI",
+        "name": "gpt-6-luna",
+        "publisher": null,
+        "source": null,
+        "sourceAccount": null,
+        "version": "2026-09-22"
+      },
+      "parentDeploymentName": null,
+      "provisioningState": "Succeeded",
+      "raiPolicyName": "Microsoft.DefaultV2",
+      "rateLimits": [
+        {
+          "count": 5.0,
+          "dynamicThrottlingEnabled": null,
+          "key": "request",
+          "matchPatterns": null,
+          "minCount": null,
+          "renewalPeriod": 60.0
+        },
+        {
+          "count": 5000.0,
+          "dynamicThrottlingEnabled": null,
+          "key": "token",
+          "matchPatterns": null,
+          "minCount": null,
+          "renewalPeriod": 60.0
+        }
+      ],
+      "scaleSettings": null,
+      "spilloverDeploymentName": null,
+      "versionUpgradeOption": "NoAutoUpgrade"
+    },
+    "resourceGroup": "rg-hcp-model-access",
+    "sku": {
+      "capacity": 5,
+      "family": null,
+      "name": "DataZoneStandard",
+      "size": null,
+      "tier": null
+    },
+    "systemData": {
+      "createdAt": "2026-10-27T07:15:11.683842+00:00",
+      "createdBy": "karthik@intellifysolutions.com",
+      "createdByType": "User",
+      "lastModifiedAt": "2026-10-27T07:15:11.683842+00:00",
+      "lastModifiedBy": "karthik@intellifysolutions.com",
+      "lastModifiedByType": "User"
+    },
+    "tags": null,
+    "type": "Microsoft.CognitiveServices/accounts/deployments"
+  }
+]

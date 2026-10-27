@@ -1,6 +1,6 @@
 # Azure Databricks Implementation Plan: Healthcare Analytics Platform
 
-**Status:** Revised design baseline with authorized prerequisite preparation, 2026-10-27; analytics implementation not started. The [readiness record](platform/docs/prerequisite-readiness.md) distinguishes tested prerequisite changes from unpassed implementation gates. Synthetic data generation is complete: release `healthcare-synthetic-v1.1.0` is certified and `DATA_ACCEPTED` (descriptor `c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5`).
+**Status:** Phase 0 design and cost baseline finalized, 2026-10-27; gate evidence is in [architecture baseline](evidence/platform/architecture-baseline/gate.json). Later implementation gates have not passed. The user explicitly approved the reduced POC workload at the unchanged INR20,000 ceiling; see [budget/scope review](platform/docs/build-budget-review.md). The [readiness record](platform/docs/prerequisite-readiness.md) distinguishes tested prerequisite changes from unpassed implementation gates. Synthetic data generation is complete: release `healthcare-synthetic-v1.1.0` is certified and `DATA_ACCEPTED` (descriptor `c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5`).
 **Platform:** Azure Databricks only. Microsoft Fabric and Power BI are out of scope.
 **Sequence:** Fourteen phases, Phase 0 through Phase 13. Real-Time Intelligence is the final phase.
 **Budget:** ₹20,000 one-time build budget for the POC. After the build, the platform runs 1–2 demo days a month and sleeps the rest of the time (sections 3.6–3.8).
@@ -44,7 +44,7 @@ From the accepted [limitations](docs/dataset-release/limitations.md):
 
 - Small scale by design: about 3.6 inpatient admissions per hospital per day. Forecast accuracy is modest; present methods and uncertainty, not accuracy claims.
 - RN overtime is under 1% of RN hours. No overtime forecasting model.
-- Nurse hours per patient-day is a fixed generation rule (8.0). Staffing demand is derived from the census forecast, not learned.
+- The accepted workforce source uses 5.5 base RN productive hours per patient-day, configured acuity weights and minimum unit coverage; observed HPPD is not constant. Staffing demand is derived from forecast census/acuity under this versioned rule, not learned. The former 8.0 statement was corrected against the accepted policy/configuration during Phase 0.
 - Only 9 inventory items have consumption.
 - Mortality is out of scope (30 boundary cases only).
 - Clinical notes are template-driven. Suitable for retrieval demonstrations, not clinical claims.
@@ -100,7 +100,7 @@ Within layer phases, work proceeds in dependency order. Resolve within-wave refe
 | D | Workforce activity and supply | staff_shift, inventory_movement |
 | E | Revenue cycle and finance | service_charge, claim, claim_line, claim_event, financial_posting, cost_allocation, finance_monthly |
 
-In particular, cost centers and workers precede dependent locations, encounters and rosters; `source_key_map` loads after the patient and worker identities it targets; clinical events precede referencing service charges. The 25-table limit applies to the certified synthetic source model. Platform metadata, derived facts, features and streaming tables are additional application assets, never additional canonical source rows.
+In particular, cost centers precede locations; locations precede worker assignments; worker assignments precede dependent encounters and rosters; `source_key_map` loads after the patient and worker identities it targets; clinical events precede referencing service charges. The 25-table limit applies to the certified synthetic source model. Platform metadata, derived facts, features and streaming tables are additional application assets, never additional canonical source rows.
 
 ---
 
@@ -162,7 +162,7 @@ Cost controls are acceptance criteria, not suggestions. Each phase gate includes
 
 | Resource | Created in | Configuration | Idle policy |
 | --- | --- | --- | --- |
-| SQL warehouse | Phase 2 | Serverless, size 2X-Small, min 1 / max 1 cluster (max 2 in prod) | **Auto-stop 5 minutes.** Serverless warehouses support this; classic and pro warehouses do not go below 10 minutes, so they are not used |
+| SQL warehouse | Phase 2 | Serverless, size 2X-Small, min 1 / max 1 cluster (max 1 in the funded prod profile) | **Auto-stop 5 minutes.** Serverless warehouses support this; classic and pro warehouses do not go below 10 minutes, so they are not used |
 | Jobs and pipelines | Phase 4 | Serverless; triggered, never continuous outside Phase 13 demo windows; cost-optimized (standard) serverless mode where offered | Stop on completion; no always-on pipelines |
 | Notebooks | Phase 2 | Serverless notebook compute | Auto-terminates when idle |
 | Classic clusters | Unavailable in the adopted SERVERLESS workspace | No classic-compute fallback or quota-dependent cluster policy | A need for classic compute requires a separate architecture decision; do not recreate this workspace |
@@ -191,32 +191,41 @@ The POC build (Phases 1–13) has a ₹20,000 ceiling for Azure and Databricks c
 
 **Allocation**
 
-The allocation covers every billed workload this plan requires, including the Phase 2 capability probes, the Autopilot operational worker during awake windows, Genie usage, the section 3.9 warm and cold load tests (at least 100 requests per component), the five Gold-deadline replay days (6.7) and seven Autopilot replay days (7.3), one shared clean-catalog release rebuild (12.1 and 12.5) and the continuous RTI pipeline and Lakebase sync. The lines are planning placeholders until Phase 0 prices them; if a priced line does not fit, revise scope with the owner (section 3.6) rather than move money silently between lines.
+The approved Phase 0 model prices the complete **reduced POC workload** in [cost-model.json](platform/contracts/architecture/cost-model.json) and [test-workloads.json](platform/contracts/architecture/test-workloads.json). The user rejected a larger budget and explicitly approved this narrower native Genie test scope on 2026-10-27. All deterministic SQL, authorization, exact reconciliation, recovery, performance, full-agent and RTI checks remain mandatory. Published East US unit rates and engineering usage assumptions are separate; this is an estimate, not measured service consumption.
 
-| Area | Phases | Budget | Main control |
-| --- | --- | --- | --- |
-| Medallion pipelines (validated runs, replay days, one shared clean-catalog release rebuild) | 4–6, 12 | ₹3,000 | Local development; about 10 full Databricks runs in total; 12.1 and 12.5 share one rebuild |
-| SQL warehouse (dashboards, Genie queries, agent queries, gate checks, load tests) | 2–13 | ₹3,500 | 5-minute auto-stop; SQL development locally or in serverless notebooks |
-| Phase 2 capability probes (LLM route, serving, search, Lakebase, Apps authorization) | 2 | ₹800 | Minimum fixtures only; every temporary resource removed after its probe |
-| Autopilot telemetry jobs, app and operational worker | 7, 11 | ₹1,200 | Worker and collector run only while the platform is awake |
-| ML training and batch scoring | 8 | ₹1,200 | Tune locally; cost both cloud and hybrid paths, including feature exports, verification and scoring |
-| Model serving | 8, 10 | ₹500 | Scale to zero; endpoints created for testing windows only |
-| Agent LLM tokens (GPT-6 Luna) | 10, 11 | ₹3,500 | 30–50-question quick evaluation during development; full 200-question evaluation at most twice |
-| Genie usage billed through Unity Gateway | 9–13 | ₹300 | Benchmarks and demo questions only; tracked in the Unity Gateway budget |
-| Vector Search, Lakebase, apps during test windows | 10, 11, 13 | ₹2,000 | Created on test days, deleted or stopped afterwards |
-| RTI (Event Hubs, generator, continuous pipeline, continuous Lakebase sync) | 13 | ₹2,000 | Three test windows of up to 2 hours; continuous modes only inside windows; Event Hubs deleted afterwards |
-| Storage, Key Vault, miscellaneous | 1–13 | ₹500 | Lifecycle rules; delete test outputs |
-| Contingency | — | ₹1,500 | Released only by the platform owner |
-| **Total** | | **₹20,000** | |
+Planning uses INR100/USD, an 18% tax allowance (not a tax determination), no promotional/free units or credits, INR200 retained for unsettled prerequisites and INR1,500 contingency. Both subscriptions are reconciled together. Every later pilot must reprice the full remaining workload and reserve delayed usage/tails before proceeding.
 
-**POC test scope to cost in Phase 0** (larger operating/reliability programmes require separate funding):
+| Area | Priced amount including planning FX/tax | Scope/control |
+| --- | --- | --- |
+| Medallion | INR1,062.00 | 20 automated DBUs; about ten full/equivalent bounded runs, replay days, shared release rebuild/rerun |
+| SQL | INR2,643.20 | 8 aggregate 2X-Small hours, max one cluster, cold/idle/query failures included |
+| Capability jobs plus unsettled prerequisites | INR412.40 | 4 automated DBUs plus INR200 pending; the cross-meter Phase 2 admission envelope is INR2,000, not an additional allocation |
+| Autopilot automated telemetry/replay | INR318.60 | 6 DBUs; app compute attributed below |
+| ML training/features/scoring | INR637.20 | 12 DBUs, local tuning; complete ML including serving must fit ADR-06 INR1,200 |
+| Two risk serving endpoints | INR528.64 | 64 concurrent-request hours, launch/idle usage reconciled |
+| Luna input/output | INR337.48 | 16 million input and 2 million output tokens; exact short-context US Data Zone model |
+| Native Genie | INR2,048.48 | 124 questions at an unmeasured two DBUs/question; four-DBU stress also priced |
+| Search | INR3,551.80 | Four cycles, 11.5 active hours plus four 24-hour deletion tails, one Standard unit |
+| Lakebase | INR859.04 | 28 database DBUs; unverified billing allowance, must measure CU/SKU mapping |
+| Apps | INR1,345.20 | 24 aggregate Medium app-hours, unrelated apps stopped |
+| RTI pipeline/sync and Event Hubs | INR1,999.87 | 36 automated DBUs; six namespace TU/Kafka hours and one million ingress events |
+| Storage, secrets, network allowance | INR558.14 | 50 GB combined footprint for two build months plus managed-storage/operation allowance |
+| Contingency | INR1,500.00 | Retained until remaining-work review permits release |
+| Unallocated headroom | INR2,197.95 | Protects unmeasured usage and extra costs; not permission for more scope |
+| **Total ceiling** | **INR20,000.00** | **Modeled workload plus prerequisite reserve and contingency: INR17,802.05** |
+
+The four-DBU Genie case totals INR19,850.53 including contingency. A simultaneous 10% FX and rate increase reaches INR21,183.59 and fails the budget. An extra search lifecycle or usage above its estimated allowance requires a fresh whole-remainder estimate, not omission of tests. Phase 2/4/9/13 measured pilots are hold points. The original larger repeated test programme remains costed separately and is outside this funded scope.
+
+**Approved POC test scope** (larger operating/reliability programmes require separate funding):
 
 | Plan item | POC version |
 | --- | --- |
 | Full test and prod runs after every merge | Selective test gate runs; one batch release and one RTI extension to the demo catalog |
 | Three consecutive end-to-end runs (exit criterion 12.1) | One full run plus one rerun to prove idempotency |
 | 24-hour RTI soak test (exit criterion 13.8) | 2-hour soak at 1× speed plus a 30-minute accelerated run at 30× |
-| Full 200-question agent evaluation on every change | Quick 50-question evaluation before each funded agent deployment; full evaluation before the Phase 10 gate and Phase 12 release |
+| Full 200-question agent evaluation on every change | Quick 50-question evaluation before each funded deployment (four funded deployments); full 200 at Phases 10, 12 and 13, including RTI changes |
+| Native Genie benchmark repetition | 20 initial questions per space, then two targeted stochastic questions per space after recreation and at batch/RTI releases; full deterministic SQL/security/reconciliation regressions still run; changed definitions invalidate the affected certification |
+| Search rebuild cycles | Four funded cycles: Phase 2; combined Phase 10/11/12 initial window; Phase 12 post-sleep wake; Phase 13. Gates/commits remain sequential |
 | Always-on Vector Search, Lakebase and serving endpoints | Created for test and demo windows only |
 | Private networking (VNet injection) | Not used for the POC; its NAT gateway charges even when idle |
 
@@ -256,18 +265,14 @@ Store the authoritative control state and resource/session manifest in a durable
 
 **Autopilot sleep state:** while asleep, the collector is paused and expected inactivity does not open freshness incidents; security or resource-state drift can still alert through the external guard. On wake-up, verify content/version integrity and complete a health sweep before enabling the selected demo profile. Static 2023–2025 batch data uses `STATIC_CERTIFIED` SLOs, based on the accepted release and expected deliveries, even while awake. `SCHEDULED_REPLAY` checks use replay-clock due times; `LIVE` checks use wall-clock ingestion SLAs. Do not retrain or mark certified history stale just because a calendar month has passed.
 
-**Monthly operating estimate** (planning figures, confirm in Phase 12):
+**Priced monthly profiles** (Phase 0 estimates; actual lifecycle and billing validation in Phase 12):
 
-| Demo-day item | Estimate |
-| --- | --- |
-| SQL warehouse for dashboards, Genie and agent queries (4–8 running hours) | ₹1,000–2,000 per demo day |
-| Apps running for the day | A few hundred rupees |
-| LLM tokens for a few hundred questions | ₹200–1,000, depending on GPT-6 Luna pricing |
-| Genie usage billed through Unity Gateway | Measure in Phase 12; include in the monthly profile |
-| RTI demo (generator, Event Hubs, streaming for 2–3 hours) | ₹500–1,500 |
-| Vector Search and Lakebase for the day | A few hundred rupees |
-| Storage (always on) | ₹100–300 per month |
-| **Monthly target** | **₹6,000 ceiling to validate with measured demo durations; the component ranges above are not proof that two full days fit** |
+| Profile | Estimate including INR600 contingency | Funded usage |
+| --- | --- | --- |
+| Selected: one three-hour demonstration | INR5,471.45/month | One search cycle including 24-hour tail; 20 native questions total; 1.5 live RTI hours; readiness/idle allowance and retained storage |
+| Alternative: two one-hour demonstrations | INR5,698.01/month | Two search cycles/tails; 20 native questions total across both days; two 30-minute live RTI windows; readiness/idle allowance and retained storage |
+
+Two full working days are not funded. Historical batch/ML outputs remain static; no monthly full rebuild or retraining. Detailed meter quantities, estimated Lakebase billing and compute allowances are in the cost model. Reconcile actual FX/tax, remaining allowance and price changes before each window.
 
 A separate monthly Azure budget of ₹6,000 alerts at 50%, 80% and 100%. Phase 12 measures one complete demo profile and projects both one-day and two-day totals, including persistent storage, rebuilds, syncs and billing tails. Shorten the demo windows or revise the agreed budget before scheduling an unaffordable profile.
 
@@ -341,7 +346,7 @@ Phase 0 fixes the numerical limits, daily-window timezone, price/headroom policy
 4. Define the gate format and measurement workloads (sections 2.1 and 3.9). Publish source/table dependency, delivery/temporal, KPI-grain, feature-eligibility and resource-ownership matrices. Record known unsupported prospective cases explicitly; no accepted batch source is changed by this plan.
 5. Obtain dated official capability and regional quota evidence for required features and the chosen LLM API. Where a tenant-level probe needs the workspace, specify the exact low-cost Phase 2 probe, cleanup and blocking result. No Phase 3 onboarding begins until these probes pass; documentation availability alone is not a successful tenant test.
 
-**Deliverables:** Fifteen ADRs, costed test plan, budgets and allocation, RACI, contract/dependency matrices, pinned compatibility manifest, probe plan and gate template.
+**Deliverables:** [Architecture baseline package](platform/docs/architecture-baseline.md): fifteen ADRs, costed test plan, budgets/allocation, RACI, 25-table/526-column dependency and temporal matrices, 42 KPI definitions, 13 ML dispositions, compatibility/capability/probe matrices, ownership register and gate template. User approval for the reduced POC scope is recorded in `platform/contracts/architecture/design-review.json`.
 
 **Exit criteria**
 
@@ -404,7 +409,7 @@ Phase 0 fixes the numerical limits, daily-window timezone, price/headroom policy
 3. **Protection at creation:** define governed tags, baseline masks and fail-closed facility policies before onboarding. Build an admin-managed `hc_ops.security.principal_scope` mapping verified Entra object IDs to synthetic worker/persona identities and allowed facilities. Synthetic Workday `access_scope` rows are test inputs to an approved mapping, never automatic cloud authorization. Deny missing, ambiguous, expired or revoked mappings. Use ABAC only if supported and approved in ADR-03; otherwise use explicit masks/row filters or secured views with equivalent tests.
 4. **Compute policies:** serverless notebooks, jobs and pipelines only in the adopted SERVERLESS workspace. Do not create classic cluster policies or assume subscription VM quota is a serverless quota. Verify serverless workload and service limits through the required tenant probes.
 5. **Budget policies:** one per component (`medallion`, `ml`, `agent`, `autopilot`, `genie`, `rti`), assigned to service principals and groups.
-6. **SQL warehouse (Terraform `databricks_sql_endpoint`):** serverless, 2X-Small, `auto_stop_mins = 5`, `min_num_clusters = 1`, `max_num_clusters = 1` in dev and test, 2 in prod.
+6. **SQL warehouse (Terraform `databricks_sql_endpoint`):** serverless, 2X-Small, `auto_stop_mins = 5`, `min_num_clusters = 1`, `max_num_clusters = 1` in dev and test, 1 in the funded prod profile; a second cluster requires a new funded estimate.
 7. **System tables:** enable `system.billing`, `system.access`, `system.lakeflow`, `system.compute` and lineage system tables; grant read to `hcp-platform-admins` and `sp-hcp-jobs`.
 8. **Repository and bundle:** create the layout in section 3.3; `databricks.yml` with targets `dev`, `test`, `prod`; variables for catalog, warehouse ID and service principal.
 9. **Shared library `hcp`:** logging, configuration, time-zone helpers, versioned contracts, authorization/query clients, lineage, DQ and citation types; shared by jobs and apps. Remediation credentials are isolated from read-only app clients.
@@ -697,13 +702,13 @@ targets:
 | M3 | Census and occupancy | Facility × unit × hour (72 h) / day (14 d) | Monte Carlo stock-and-flow on M2 and M4; LightGBM quantile challenger | Pinball loss, Brier score for P(full) | Batch hourly |
 | M4 | Remaining length of stay / expected discharge date | Active inpatient at first eligible available snapshot, then supported updates | Conditional survival/AFT, Cox, LightGBM on remaining log-LOS | Remaining-LOS concordance/MAE and interval coverage | Online + batch after eligibility |
 | M5 | Discharge within 24 h | Active inpatient × eligible as-of hour | Logistic regression, LightGBM | AUC, Brier from the decision origin | Batch hourly after eligibility |
-| M6 | Staffing demand | Facility × unit × shift (14 d) | Derived from M3 patient-hours and the 8.0 HPPD generation rule; explicit shift/productive-hours conversion | Arithmetic, units, rounding and uncertainty propagation | Batch derived product |
+| M6 | Staffing demand | Facility × unit × shift (14 d) | Derived from M3 patient-hours and the accepted 5.5 base-HPPD, acuity and minimum-coverage rules; explicit shift/productive-hours conversion | Arithmetic, units, rounding and uncertainty propagation | Batch derived product |
 | M7 | RN absence | Facility × week | Poisson GLM with winter and surge effects | MASE | Batch |
 | M8 | Supply consumption | Item × location × day (28 d) | Croston/TSB, LightGBM with patient-days | WAPE, stock-out recall | Batch |
 | M9 | Cash collections | Payer type × week (12 w) | Lag-distribution model, SARIMAX residual | WAPE | Batch weekly |
 | M10 | Denial risk + denial volume | Pending claim at first eligible available snapshot; payer × month for volume | Logistic regression, LightGBM; ETS for volume | AUC, Brier, lift @ top decile at the declared cutoff | Online + batch after eligibility |
 | M11 | Appointment no-show (retrospective-only in v1.1.0) | Per completed booking/outcome record | Optional retrospective logistic/LightGBM benchmark, clearly labeled unavailable for pre-visit prediction | Descriptive/retrospective metrics only | No prospective endpoint |
-| M12 | 30-day readmission | Per discharge | Logistic regression, LightGBM | AUC, calibration | Batch daily |
+| M12 | 30-day readmission | Per first-available eligible discharge snapshot; residual follow-up to business discharge +30 d | Logistic regression, LightGBM | AUC, calibration | Batch daily |
 | M13 | Monthly finance | Facility × cost centre × account × month (1–3 m supported where eligible; 12 m exploratory) | Seasonal naive, simple pooled ETS/ARIMA; hierarchical reconciliation | MASE by horizon, reconciliation error | Batch monthly |
 
 Before training, publish `ml.use_case_eligibility` and `ml.feature_availability` with decision origin, target/label window, entity and grain, field-level known/export availability, source history coverage, sample counts, minimum support, baseline, metric threshold and disposition: `ELIGIBLE`, `BASELINE_ONLY`, `DERIVED`, `RETROSPECTIVE_ONLY` or `INSUFFICIENT_DATA`. Endpoints and agents expose only the supported disposition. A baseline may be the champion when no challenger improves it; publishing an unsupported learned model is not required to pass.
@@ -711,7 +716,7 @@ Before training, publish `ml.use_case_eligibility` and `ml.feature_availability`
 - **M11:** all 25,800 attended/no-show records arrive after the scheduled start. Historical `booked_at` does not supply earlier platform knowledge. Deliver the limitation, availability audit and optional retrospective benchmark, not an online risk service. A future certified dataset with pre-visit booking/change deliveries is a separately approved extension; this phase does not regenerate accepted data.
 - **M5:** exclude medically-ready status because readiness is not available before discharge in this release. Audit all other snapshot fields similarly. M4/M5 may use only admission or later snapshots actually known at the selected decision origin; post-discharge facts cannot enter predictors.
 - **M1/M2/M8:** calendar features are known in advance; realized weather/respiratory indices and future patient-days are not. Use available lagged observations, upstream forecasts or explicitly named scenario inputs. All 4,800 elective-admission bookings become visible only after their scheduled start, so booked elective schedules are never model inputs; M2 forecasts elective admissions from history. Compare models at the same information cutoff.
-- **M3/M6:** version the simulation and deterministic staffing rules and propagate upstream uncertainty. M3 takes elective inflow from M2, not bookings. Eligible existing inpatients use conditional remaining LOS from M4; future admissions and patients awaiting M4 eligibility use a separately versioned cohort LOS prior estimated only from completed stays available at the forecast origin, conditioned on elapsed stay where applicable. Never invoke M4 at an unsupported admission-instant origin or apply its remaining-LOS output as an unconditional total LOS. Cite the model/prior used per simulation cohort. Do not add an uncalibrated acuity multiplier to fixed HPPD or call roster agreement learned accuracy. Compare M3 with persistence/stock-and-flow baselines; validate M3 capacity/state and M6 units, rounding and conservation.
+- **M3/M6:** version the simulation and deterministic staffing rules and propagate upstream uncertainty. M3 takes elective inflow from M2, not bookings. Eligible existing inpatients use conditional remaining LOS from M4; future admissions and patients awaiting M4 eligibility use a separately versioned cohort LOS prior estimated only from completed stays available at the forecast origin, conditioned on elapsed stay where applicable. Never invoke M4 at an unsupported admission-instant origin or apply its remaining-LOS output as an unconditional total LOS. Cite the model/prior used per simulation cohort. Use only the accepted acuity weights and minimum coverage with the 5.5 base, actual DST shift duration and declared productive/full/partial-shift conversion. Do not call roster agreement learned accuracy or assume observed HPPD is constant. Compare M3 with persistence/stock-and-flow baselines; validate M3 capacity/state and M6 units, rounding and conservation.
 - **M13:** 36 monthly points per series do not establish reliable annual forecasts for every cost center/account. Pool or aggregate sparse series, limit seasonal complexity, keep scenarios/vintages separate, and label 12-month outputs exploratory with the number of independent full-horizon evaluations. Do not promise a tuned 12-month model from a six-month holdout.
 
 #### Decision-time and feature-availability contract
@@ -723,6 +728,7 @@ For M4/M5/M10, `first_source_available_at` is the earliest usable source asserti
 | M4 | First eligible inpatient snapshot, never earlier than the header's admission +1 h 45 min modeled availability in v1.1.0. Predict **remaining LOS conditional on still being admitted and elapsed stay at `decision_at`**; `expected_discharge_at = decision_at + predicted_remaining_duration`. Training/baselines/evaluation use this origin/target; later supported snapshots keep the same conditional semantics. | Before eligibility return `NOT_YET_AVAILABLE`; known discharged encounters return `ALREADY_RESOLVED`. No admission-instant forecast is claimed. |
 | M5 | First UTC hourly scoring boundary at or after inpatient eligibility, followed by supported active-stay snapshots. The label is discharge in `(decision_at, decision_at +24 h]`; an earlier business-time bucket must not be populated by rounding the availability cutoff down. | No predictions before eligibility or for known completed stays; exclude unavailable medically-ready data throughout. |
 | M10 risk | First eligible available claim snapshot with known pending status before the targeted adjudication; `first_submitted_at` is context, **not** the scoring timestamp. Fix the original-claim/attempt and first-adjudication target definition in ADR-14. | No score at submission before delivery. Already known adjudicated/denied/paid cases return `ALREADY_RESOLVED`; cases without an auditable pre-outcome window are reported separately rather than backdated into prospective validation. |
+| M12 | First discharge snapshot actually available, before business discharge +30 d and without an already observed readmission; predict the residual interval `(decision_at, discharged_at +30 d]`. Mature follow-up/source availability is required. | Already readmitted returns `ALREADY_RESOLVED`; too-late/missing visibility is ineligible. No instantaneous discharge scoring is claimed. |
 
 Keep `first_source_available_at`, `first_eligible_at`, `decision_at`, feature cutoff, actual `scored_at` and clock mode in feature/prediction lineage and tool responses. Required-feature readiness can make a decision later than the header alone. Labels and follow-up must mature after the recorded origin; final outcomes are not used as predictors or to authorize a live lookup. The M10 volume forecast keeps its existing payer/month origin and availability-filtered aggregates.
 
@@ -816,7 +822,7 @@ Select the cloud or hybrid path using the measured pilot and remaining total bud
 2. Write table and column comments as business definitions; add synonyms.
 3. General instructions per space: time zone, static/replay/live clock, close timing, open stays and unknown outcomes, finance scenario/vintage, selected encounter-cost scope, prediction support/intervals and M11 retrospective-only limitation.
 4. Trusted assets: example SQL for the top 20 questions per space and the UC functions from Phase 6.
-5. Benchmarks: 40–60 questions per space with expected SQL; stored in `genie/` and run on every configuration change.
+5. Benchmarks: 20 questions per space with expected SQL in the funded POC (80 total), stored in `genie/`. At least 18/20 must pass in each space. Use four cases each for totals, time/cohort, joins, forecasts and permission/limitation-safe answers. A changed definition invalidates that space's certification and requires a fresh complete 20-case run after a remaining-cost review. Recreate/batch/RTI unchanged-definition regression uses two targeted stochastic questions per space (both must pass), plus all deterministic trusted-SQL/contract/security/reconciliation checks. Retain exact code/input/configuration/permission/dependency hashes; never report eight targeted calls as a full80 rerun. Total funded native calls are124 including12 full-agent tool calls and8 control/probe calls; failures/retries count.
 6. Permissions by Entra group; masks and row filters continue to apply.
 7. Version the space configuration in Git and deploy with the bundle or the Genie API.
 8. Embed the relevant space in each AI/BI dashboard.
@@ -829,10 +835,10 @@ Select the cloud or hybrid path using the measured pilot and remaining total bud
 
 | # | Criterion | Measure |
 | --- | --- | --- |
-| 9.1 | Benchmark accuracy | At least 90% per space |
+| 9.1 | Benchmark accuracy | At least 18/20 correct per space on the full initial or changed-definition benchmark; bounded POC sample/confidence disclosed |
 | 9.2 | No access to Bronze, Silver or raw PHI | 0 such tables in any space |
 | 9.3 | Permission tests | 100% pass (masked and filtered results for restricted users) |
-| 9.4 | Configuration reproducible from Git | Configuration/permissions and trusted-query results match after targeted redeploy; repeated stochastic benchmarks still meet ≥90% per space, with run variance reported |
+| 9.4 | Configuration reproducible from Git | Configuration/permissions and trusted-query results match after targeted redeploy; two targeted stochastic cases per space both pass after unchanged-definition recreation, with retained full20-case baseline and exact dependency hashes; changed definitions require fresh full20-case ≥90% results |
 | 9.5 | Native Genie spend boundary controlled | Correct shared/per-user budget scope and caller identities, blocking behavior, funded access/query limits and sleep denial verified; actual billed/free Genie usage and separate SQL charges recorded; no claim that the app counter caps native Genie |
 
 ---
@@ -860,7 +866,7 @@ Evaluate feasible paths for tool calling, structured output, streaming, timeout/
 
 ### 10.2 Agent build
 
-1. **Agent framework:** pinned Mosaic/MLflow `ResponsesAgent` integration, registered in `<catalog>.ml.healthcare_agent`; use the single ADR-02 deployment owner. Verify the user-context/tool-broker path end to end; an agent endpoint's shared runtime identity must not silently replace the caller's authorization.
+1. **Agent framework:** pinned Mosaic/MLflow `ResponsesAgent` integration, registered as a versioned artifact in `<catalog>.ml.healthcare_agent`, executed inside the FastAPI Databricks App. The app owns the chat API; no third standalone agent Model Serving endpoint is funded. The two standalone Small endpoints are M4/M10 only. Use the single ADR-02 Bundle owner for the agent app. Verify the user-context/tool-broker path end to end; an agent endpoint's shared runtime identity must not silently replace the caller's authorization.
 2. **Planner:** classifies each question as descriptive, diagnostic, predictive, document or out of scope; decomposes multi-part questions; selects tools.
 3. **Tools (allow-listed):**
 
@@ -874,7 +880,7 @@ Evaluate feasible paths for tool calling, structured output, streaming, timeout/
 | `search_documents` | Vector Search over notes (permission-filtered), KPI glossary, data dictionary, limitations, runbooks | Passages + citation |
 
    No free-form SQL against Bronze, Silver or PHI tables.
-4. **Vector Search / AI Search:** one endpoint with glossary, dictionary, limitations, runbook and separately restricted clinical-note indexes. Materialize approved minimal source tables with document/version IDs, facility and security class; keep embeddings/configuration for repeatable rebuilds. UC table masks/row filters are not inherited by search indexes. Only the trusted retrieval broker can query clinical indexes: it constructs ACL filters from verified user entitlements and rechecks each hit before any text reaches the LLM or caller. Users cannot submit/omit authorization filters or directly query the protected index. Verify current source/index compatibility in ADR-03. See [AI Search permission limitations](https://learn.microsoft.com/en-us/azure/databricks/ai-search/ai-search).
+4. **Vector Search / AI Search:** one endpoint with glossary, dictionary, limitations, runbook and separately restricted clinical-note indexes. Materialize approved minimal source tables with document/version IDs, facility and security class; keep embeddings/configuration for repeatable rebuilds. UC table masks/row filters are not inherited by search indexes. Only the trusted retrieval broker can query clinical indexes: it constructs ACL filters from verified user entitlements and rechecks each hit before any text reaches the LLM or caller. Users cannot submit/omit authorization filters or directly query the protected index. The funded baseline uses self-managed embeddings: compute document embeddings locally before upload and query embeddings in the already costed app CPU. Pin the same model revision/tokenizer/dimension and verify parity before indexing; no additional embedding endpoint/provider fee is assumed. Verify app memory, query-embedding latency and source/index compatibility in ADR-03/Phase10; an unsupported fit requires a new funded decision, not an unpriced endpoint. See [AI Search permission limitations](https://learn.microsoft.com/en-us/azure/databricks/ai-search/ai-search).
 5. **Lakebase:** store sessions by verified user/tenant ownership and eligible M4/M10 feature copies. Use minimal non-identifying columns and restricted database roles. Synced tables, including the M4/M10 feature copies, are owned by the internal sync pipeline role, so Postgres row-level security cannot be configured on them: the trusted broker enforces facility/ownership access to them through explicit server-side predicates. Apply Postgres row policies only to app-owned tables such as sessions, where they are supported and tested. See [Lakebase synced tables](https://learn.microsoft.com/en-us/azure/databricks/oltp/projects/sync-tables). Do not assume copied UC masks or row filters survive synchronization. No browser/database credentials or arbitrary SQL; verify cross-user/facility denial and revocation on every serving path.
 
 ### 10.3 Citation and grounding mechanism
@@ -919,10 +925,10 @@ React front end and FastAPI back end: streaming chat, inline charts and tables, 
 2. MLflow GenAI evaluation with scorers: numeric exact match, citation validity, groundedness, relevance, abstention correctness, safety.
 3. Red-team set: prompt injection, PHI extraction attempts, permission escalation, fabricated-source requests.
 4. Review app for subject-matter experts; reviewed examples extend the golden set.
-5. A 50-question quick evaluation runs in CI before every agent deployment; the full 200-question evaluation runs before the Phase 10 gate and the Phase 12 release (section 3.6).
+5. A 50-question quick evaluation runs in CI before every agent deployment; the full 200-question evaluation runs at the Phase10 gate, Phase12 batch release and Phase13 RTI release (section3.6). The50-case quick set exercises SQL/forecast/retrieval/guardrails; live native Genie tool cases run in the full suite (four per full run) and scoped Genie regressions, within the124-question envelope.
 6. Spend-control tests run against the shared agent/Autopilot/evaluation wrapper: simultaneous requests near a limit across workers, duplicate attempt/settlement IDs, retries and unknown provider outcomes, app/ledger restart, day-boundary late settlement, price-policy change, unavailable ledger and native Genie tool calls. Verify no unreserved application dispatch, no double release and no accidental charging of native Genie tokens to the model-call ledger. Use low-cost fixtures and include pending reservations in the cost report.
 
-**Deliverables:** ADR-04 results, approved LLM route, search indexes, agent model/endpoint and app, shared budget reservation service/ledger with settlement/recovery runbook, evaluation suite/report and measured cost per question.
+**Deliverables:** ADR-04 results, approved LLM route, search indexes, registered agent artifact and FastAPI app API, shared budget reservation service/ledger with settlement/recovery runbook, evaluation suite/report and measured cost per question.
 
 **Exit criteria**
 
@@ -982,13 +988,13 @@ React front end and FastAPI back end: streaming chat, inline charts and tables, 
 **Implementation steps**
 
 1. **End-to-end test:** begin from a recorded test baseline, deliver a declared native replay partition with all required prior context, then run Bronze → Silver → Gold → eligible features/scoring → semantics/dashboards → Genie/agent. Verify deterministic business answers with independent oracle checks, predictions with their registered artifacts/feature cutoffs, and healthy Autopilot nodes. Include the complete accepted load/rebuild in the release evidence; a one-day delta alone does not prove reconstruction of the whole release.
-2. **Regression suite:** all unit, contract, reconciliation, fault-injection, ML, Genie benchmark and agent evaluation tests run in one pipeline.
+2. **Regression suite:** all unit, contract, reconciliation, fault-injection, ML, deterministic Genie trusted-SQL/permission checks and full200 agent evaluations run in one pipeline. Native Genie uses the explicitly approved two targeted questions per space against the unchanged hash-bound full20-case certification; changed definitions rebenchmark before release.
 3. **Performance tests:** section 3.9 workload, including replay Gold deadlines, 10-user concurrency, request sample counts, errors/timeouts and both warm and cold behavior for dashboards, endpoints and the full agent answer.
 4. **Security review:** end-to-end identities/grants, PHI/row policies, index/Lakebase copies, session ownership, traces/caches, revoked entitlements, secrets and audit coverage. Public-network synthetic POC acceptance is not approval for real data; record separate production network, privacy, clinical, encryption and availability prerequisites.
 5. **Disaster recovery:** restore a Gold table and a model alias from history. For the clean-catalog rebuild, use the same complete accepted load from landing into a clean catalog that step 1 records; compare its hashes rather than running a second full rebuild.
 6. **Runbooks:** deployment, rollback, reprocess delivery, backfill, model rollback, agent rollback, incident response, cost spike response.
 7. **Cost baseline:** run one simulated demo day (wake, dashboards, Genie, agent questions, sleep) and measure it against the section 3.7 estimate; record total build spend to date.
-8. **Sleep–wake cycle:** record shutdown and service/billing-settlement boundaries, then observe a full 24-hour sleep interval. The external control-plane guard runs without Databricks compute. Reconcile delayed billing after the interval before asserting zero workload compute; include shutdown tails, storage and external checks in their proper cost categories. Wake the declared batch profile, verify index/sync readiness, scopes, sessions and health, and keep historical ingestion/training schedules paused.
+8. **Sleep–wake cycle:** record shutdown and service/billing-settlement boundaries, allow billed deletion tails to settle, then observe a separate full 24-hour sleep interval. The external control-plane guard runs without Databricks compute. Reconcile delayed billing after the interval before asserting zero workload compute; include shutdown tails, storage and external checks in their proper cost categories. Wake the declared batch profile, verify index/sync readiness, scopes, sessions and health, and keep historical ingestion/training schedules paused.
 9. **POC release:** deploy approved assets to `hc_prod` using each resource's single lifecycle owner; smoke-test the synthetic demo role/workload matrix. Record versioned release manifest, limitations, unresolved production prerequisites and rollback point.
 
 **Exit criteria**
