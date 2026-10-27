@@ -1,0 +1,407 @@
+{
+  "source_sha": "e74e1d9abec6e28cea9308e96050512cfd163a61",
+  "input_hashes": {
+    ".github/workflows/foundation-validation.yml": "32938cad623ebceef340bc5c883eee23ddaaf9bed07f5a65b6dced996ec5e38e",
+    "platform/config/foundation-resources.json": "e50d463eaad81cdf8a080aa94ba6f94527d0241ef3096639a45e165f2634de4a",
+    "platform/config/identity-provisioning.json": "8d86d7dd1021e4f82e811ca01089f958aea5514857df63de82c8d0ce0c23c60a",
+    "platform/config/infrastructure.json": "351718d66a436c75bdc0472f2c7ea0b9e3604e5fb95892e46c3bc741b3961d85",
+    "platform/docs/prerequisite-readiness.md": "5806327887edf8b0415e6b028854f8c547abf9c77f4369f6332bc45a8b373f36",
+    "platform/infra/foundation/.terraform.lock.hcl": "6d1cce459da42fec954a0a1e9ba04a5b6c2d518018a93bf94a89e21a622d77c3",
+    "platform/infra/foundation/backend.hcl": "1ec3118e870eb2f3b7b21ec02c54dba6739ac7dbbf126e7e5f4dbc7bf38e11d8",
+    "platform/infra/foundation/backend.tf": "290754bcbc78d9a2482c08acacd60a8faba072f465105e69f102650bea78ff8a",
+    "platform/infra/foundation/main.tf": "5245988a4339060854fcd74ae98a3b693d1af8e11f0a26544b4e60ce3b3c492c",
+    "platform/infra/model-access/.terraform.lock.hcl": "cf44a2badceb3c6e719446fe81dba98af7afebd7175a5be65ef5b974a859995c",
+    "platform/infra/model-access/backend.hcl": "3b0426ad1a7c0a9b73a2ec1d135100718610239906a00153d56a862c25fcf793",
+    "platform/infra/model-access/backend.tf": "290754bcbc78d9a2482c08acacd60a8faba072f465105e69f102650bea78ff8a",
+    "platform/infra/model-access/main.tf": "0191804943485d44991729aac69c0f26936060373447d48c7ecfa8219a25b5d8",
+    "platform/infra/workspace/.terraform.lock.hcl": "5cf1a93a8deea851aae3bcebca0b25cbf617f65a7272326e7a082c6757e7007c",
+    "platform/infra/workspace/backend.hcl": "613ba12517b520fab14a792d8fcf5070e4d8d663f518b40eb1ab505f9b6d69cf",
+    "platform/infra/workspace/main.tf": "d0d0abe9d480cf61b2ba2c46aca6dea47417e9054d74cb3b3c1557aa539e9fc3",
+    "platform/scripts/bootstrap-scim-credential.ps1": "2cbf28458f4e6f1bfbfb2f05ff45725e37fffcd042d903b29d3b0c55d0cd9c7b",
+    "platform/scripts/check_foundation_drift.py": "831af9ead955e3497d08376d3d9748eecd8a968d955391836cde8810e1c2c5ce",
+    "platform/scripts/configure_foundation_identity.py": "828537373aa591350ae81387b984e30a5299dd1c788af71f8f6576fb2e7fffcf",
+    "platform/scripts/foundation_ledger.py": "062f8996b79566104b6deff84e7554ad16681c622cd5a0336ecb7a515eff5354",
+    "platform/scripts/foundation_support.py": "92f26b3b63cbe7ead5f482eb1d6a2b2d35b535d7c0e89f16954b0ad5aeb05e3c",
+    "platform/scripts/verify_foundation.py": "3f5ae44f7d39a2bf1eac7d130dc631c4eb17c1f6b923c541ed4160a0cf8f5578",
+    "platform/scripts/verify_foundation_gate.py": "09bc9ea8391d7a88b272b3ad360d57c5374fba3e31c2c5dee5dd1525685ba9ea",
+    "platform/scripts/write_foundation_gate.py": "63825f14982b1a8e35eced980c327cade453ffc83987bfb28e793b4c3b1b1ca1",
+    "platform/tests/unit/test_foundation.py": "d347e01b8756e36d640457b4acae0df0b0b75dbf41cc469841dbde86100d6139"
+  },
+  "observed_at": "2026-10-27T11:22:23.332302+00:00",
+  "phase": 1,
+  "command": "databricks",
+  "status": "PASS",
+  "results": {
+    "workspace": {
+      "account_id": "aed328b4-17bf-43f0-9399-c470ad8ea1b5",
+      "azure_workspace_info": {
+        "resource_group": "Databricks",
+        "subscription_id": "d054aa64-95db-467b-a25c-387de70b15bd"
+      },
+      "cloud": "azure",
+      "compute_mode": "SERVERLESS",
+      "creation_time": 1793072812283,
+      "deployment_name": "adb-7405619366453187.7",
+      "location": "eastus",
+      "pricing_tier": "PREMIUM",
+      "workspace_id": 7405619366453187,
+      "workspace_name": "intellify-healthcare-dbw",
+      "workspace_status": "RUNNING",
+      "workspace_status_message": "Workspace is running."
+    },
+    "metastore": {
+      "default_catalog_name": "intellify_healthcare_dbw",
+      "metastore_id": "d9469652-1d8e-4e7f-9abd-8626b32a9f30",
+      "workspace_id": 7405619366453187
+    },
+    "storage_validation": {
+      "hcp_uc_managed_dev": {
+        "isDir": true,
+        "results": [
+          {
+            "operation": "READ",
+            "result": "PASS"
+          },
+          {
+            "operation": "LIST",
+            "result": "PASS"
+          },
+          {
+            "operation": "WRITE",
+            "result": "PASS"
+          },
+          {
+            "operation": "DELETE",
+            "result": "PASS"
+          },
+          {
+            "operation": "PATH_EXISTS",
+            "result": "PASS"
+          },
+          {
+            "result": "PASS"
+          }
+        ]
+      },
+      "hcp_landing_dev": {
+        "isDir": true,
+        "results": [
+          {
+            "operation": "READ",
+            "result": "PASS"
+          },
+          {
+            "operation": "LIST",
+            "result": "PASS"
+          },
+          {
+            "operation": "WRITE",
+            "result": "PASS"
+          },
+          {
+            "operation": "DELETE",
+            "result": "PASS"
+          },
+          {
+            "operation": "PATH_EXISTS",
+            "result": "PASS"
+          },
+          {
+            "result": "PASS"
+          }
+        ]
+      }
+    },
+    "principals": {
+      "sp-hcp-cicd": {
+        "identity": {
+          "active": true,
+          "applicationId": "6640afb9-483e-46f6-8b83-405feca8c227",
+          "displayName": "sp-hcp-cicd",
+          "externalId": "09171d0f-6aaa-43e3-be3a-72c617f2bf8b",
+          "id": "144680044601354",
+          "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:ServicePrincipal"
+          ]
+        },
+        "assignment": {
+          "permissions": [
+            "USER"
+          ],
+          "principal": {
+            "display_name": "sp-hcp-cicd",
+            "principal_id": 144680044601354,
+            "service_principal_name": "6640afb9-483e-46f6-8b83-405feca8c227"
+          }
+        }
+      },
+      "sp-hcp-jobs": {
+        "identity": {
+          "active": true,
+          "applicationId": "658faa8a-72bf-4285-bf4c-3cd25778ac5f",
+          "displayName": "sp-hcp-jobs",
+          "externalId": "a1003242-ffac-446c-98e8-527e8c4217e0",
+          "id": "147109184184541",
+          "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:ServicePrincipal"
+          ]
+        },
+        "assignment": {
+          "permissions": [
+            "USER"
+          ],
+          "principal": {
+            "display_name": "sp-hcp-jobs",
+            "principal_id": 147109184184541,
+            "service_principal_name": "658faa8a-72bf-4285-bf4c-3cd25778ac5f"
+          }
+        }
+      },
+      "sp-hcp-validation": {
+        "identity": {
+          "active": true,
+          "applicationId": "5d3656f0-eac7-4874-b49b-02f637df54ec",
+          "displayName": "sp-hcp-validation",
+          "externalId": "f595d242-9aa2-4113-bfa5-fdac8fa740ee",
+          "id": "144866838711850",
+          "schemas": [
+            "urn:ietf:params:scim:schemas:core:2.0:ServicePrincipal"
+          ]
+        },
+        "assignment": {
+          "permissions": [
+            "USER"
+          ],
+          "principal": {
+            "display_name": "sp-hcp-validation",
+            "principal_id": 144866838711850,
+            "service_principal_name": "5d3656f0-eac7-4874-b49b-02f637df54ec"
+          }
+        }
+      }
+    },
+    "warehouses": [],
+    "apps": [],
+    "jobs": [],
+    "storage_credential": {
+      "azure_managed_identity": {
+        "access_connector_id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Databricks/accessConnectors/ac-hcp-dev",
+        "credential_id": "f64f15b1-942b-4657-be7e-2646ce58639d"
+      },
+      "comment": "Dedicated healthcare ADLS identity; Terraform workspace foundation owned",
+      "created_at": 1793086990701,
+      "created_by": "karthik@intellifysolutions.com",
+      "full_name": "hcp_storage_dev",
+      "id": "0b35a052-c6a8-45c8-a1c5-6d05cfdfbcab",
+      "isolation_mode": "ISOLATION_MODE_OPEN",
+      "metastore_id": "d9469652-1d8e-4e7f-9abd-8626b32a9f30",
+      "name": "hcp_storage_dev",
+      "owner": "karthik@intellifysolutions.com",
+      "read_only": false,
+      "updated_at": 1793086990701,
+      "updated_by": "karthik@intellifysolutions.com"
+    },
+    "serving_endpoints": [
+      {
+        "name": "databricks-claude-opus-4-7",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-opus-4-8",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-opus-5",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-opus-5-5",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-opus-4-6",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-gpt-oss-120b",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-sonnet-5",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-sonnet-5-5",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-sonnet-4-6",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-sonnet-4-5",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-haiku-5-5",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-haiku-4-5",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-gpt-oss-20b",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-qwen3-next-80b-a3b-instruct",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-qwen35-122b-a10b",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-gemma-3-12b",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-gte-large-en",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-bge-large-en",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-meta-llama-3-1-8b-instruct",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-meta-llama-3-3-70b-instruct",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-opus-4-5",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-claude-opus-4-1",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-qwen3-embedding-0-6b",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-openjev-qwen35-4b",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      },
+      {
+        "name": "databricks-llama-4-maverick",
+        "state": {
+          "config_update": "NOT_UPDATING",
+          "ready": "READY"
+        },
+        "builtin_foundation_models": true
+      }
+    ]
+  }
+}

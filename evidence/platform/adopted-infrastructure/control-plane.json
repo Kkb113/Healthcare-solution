@@ -1,0 +1,781 @@
+{
+  "source_sha": "e74e1d9abec6e28cea9308e96050512cfd163a61",
+  "input_hashes": {
+    ".github/workflows/foundation-validation.yml": "32938cad623ebceef340bc5c883eee23ddaaf9bed07f5a65b6dced996ec5e38e",
+    "platform/config/foundation-resources.json": "e50d463eaad81cdf8a080aa94ba6f94527d0241ef3096639a45e165f2634de4a",
+    "platform/config/identity-provisioning.json": "8d86d7dd1021e4f82e811ca01089f958aea5514857df63de82c8d0ce0c23c60a",
+    "platform/config/infrastructure.json": "351718d66a436c75bdc0472f2c7ea0b9e3604e5fb95892e46c3bc741b3961d85",
+    "platform/docs/prerequisite-readiness.md": "5806327887edf8b0415e6b028854f8c547abf9c77f4369f6332bc45a8b373f36",
+    "platform/infra/foundation/.terraform.lock.hcl": "6d1cce459da42fec954a0a1e9ba04a5b6c2d518018a93bf94a89e21a622d77c3",
+    "platform/infra/foundation/backend.hcl": "1ec3118e870eb2f3b7b21ec02c54dba6739ac7dbbf126e7e5f4dbc7bf38e11d8",
+    "platform/infra/foundation/backend.tf": "290754bcbc78d9a2482c08acacd60a8faba072f465105e69f102650bea78ff8a",
+    "platform/infra/foundation/main.tf": "5245988a4339060854fcd74ae98a3b693d1af8e11f0a26544b4e60ce3b3c492c",
+    "platform/infra/model-access/.terraform.lock.hcl": "cf44a2badceb3c6e719446fe81dba98af7afebd7175a5be65ef5b974a859995c",
+    "platform/infra/model-access/backend.hcl": "3b0426ad1a7c0a9b73a2ec1d135100718610239906a00153d56a862c25fcf793",
+    "platform/infra/model-access/backend.tf": "290754bcbc78d9a2482c08acacd60a8faba072f465105e69f102650bea78ff8a",
+    "platform/infra/model-access/main.tf": "0191804943485d44991729aac69c0f26936060373447d48c7ecfa8219a25b5d8",
+    "platform/infra/workspace/.terraform.lock.hcl": "5cf1a93a8deea851aae3bcebca0b25cbf617f65a7272326e7a082c6757e7007c",
+    "platform/infra/workspace/backend.hcl": "613ba12517b520fab14a792d8fcf5070e4d8d663f518b40eb1ab505f9b6d69cf",
+    "platform/infra/workspace/main.tf": "d0d0abe9d480cf61b2ba2c46aca6dea47417e9054d74cb3b3c1557aa539e9fc3",
+    "platform/scripts/bootstrap-scim-credential.ps1": "2cbf28458f4e6f1bfbfb2f05ff45725e37fffcd042d903b29d3b0c55d0cd9c7b",
+    "platform/scripts/check_foundation_drift.py": "831af9ead955e3497d08376d3d9748eecd8a968d955391836cde8810e1c2c5ce",
+    "platform/scripts/configure_foundation_identity.py": "828537373aa591350ae81387b984e30a5299dd1c788af71f8f6576fb2e7fffcf",
+    "platform/scripts/foundation_ledger.py": "062f8996b79566104b6deff84e7554ad16681c622cd5a0336ecb7a515eff5354",
+    "platform/scripts/foundation_support.py": "92f26b3b63cbe7ead5f482eb1d6a2b2d35b535d7c0e89f16954b0ad5aeb05e3c",
+    "platform/scripts/verify_foundation.py": "3f5ae44f7d39a2bf1eac7d130dc631c4eb17c1f6b923c541ed4160a0cf8f5578",
+    "platform/scripts/verify_foundation_gate.py": "09bc9ea8391d7a88b272b3ad360d57c5374fba3e31c2c5dee5dd1525685ba9ea",
+    "platform/scripts/write_foundation_gate.py": "63825f14982b1a8e35eced980c327cade453ffc83987bfb28e793b4c3b1b1ca1",
+    "platform/tests/unit/test_foundation.py": "d347e01b8756e36d640457b4acae0df0b0b75dbf41cc469841dbde86100d6139"
+  },
+  "observed_at": "2026-10-27T11:21:32.888978+00:00",
+  "phase": 1,
+  "command": "control-plane",
+  "status": "PASS",
+  "results": {
+    "resources": [
+      {
+        "id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Storage/storageAccounts/sthcpd054dev",
+        "name": "sthcpd054dev",
+        "type": "Microsoft.Storage/storageAccounts",
+        "location": "eastus",
+        "tags": {
+          "costcenter": "healthcare-poc",
+          "environment": "dev",
+          "managedby": "terraform",
+          "owner": "karthik",
+          "project": "healthcare-platform"
+        }
+      },
+      {
+        "id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Databricks/accessConnectors/ac-hcp-dev",
+        "name": "ac-hcp-dev",
+        "type": "Microsoft.Databricks/accessConnectors",
+        "location": "eastus",
+        "tags": {
+          "costcenter": "healthcare-poc",
+          "environment": "dev",
+          "managedby": "terraform",
+          "owner": "karthik",
+          "project": "healthcare-platform"
+        }
+      },
+      {
+        "id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.KeyVault/vaults/kv-hcp-d054-dev",
+        "name": "kv-hcp-d054-dev",
+        "type": "Microsoft.KeyVault/vaults",
+        "location": "eastus",
+        "tags": {
+          "costcenter": "healthcare-poc",
+          "environment": "dev",
+          "managedby": "terraform",
+          "owner": "karthik",
+          "project": "healthcare-platform"
+        }
+      },
+      {
+        "id": "/subscriptions/0725b5e7-75db-4c60-b5e9-928c3df3fcd1/resourceGroups/rg-hcp-model-access/providers/Microsoft.CognitiveServices/accounts/aoai-hcp-luna-0725fcd1",
+        "name": "aoai-hcp-luna-0725fcd1",
+        "type": "Microsoft.CognitiveServices/accounts",
+        "location": "eastus",
+        "tags": {
+          "costcenter": "healthcare-poc",
+          "environment": "readiness",
+          "managedby": "terraform",
+          "owner": "karthik",
+          "project": "healthcare-platform"
+        }
+      },
+      {
+        "id": "/subscriptions/0725b5e7-75db-4c60-b5e9-928c3df3fcd1/resourceGroups/rg-hcp-model-access/providers/Microsoft.Databricks/accessConnectors/ac-hcp-luna-gateway",
+        "name": "ac-hcp-luna-gateway",
+        "type": "Microsoft.Databricks/accessConnectors",
+        "location": "eastus",
+        "tags": {
+          "costcenter": "healthcare-poc",
+          "environment": "readiness",
+          "managedby": "terraform",
+          "owner": "karthik",
+          "project": "healthcare-platform"
+        }
+      }
+    ],
+    "workspace_arm": {
+      "id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/Databricks/providers/Microsoft.Databricks/workspaces/intellify-healthcare-dbw",
+      "name": "intellify-healthcare-dbw",
+      "location": "eastus",
+      "sku": {
+        "capacity": null,
+        "family": null,
+        "model": null,
+        "name": "premium",
+        "size": null,
+        "tier": null
+      },
+      "tags": {
+        "costcenter": "healthcare-poc",
+        "environment": "dev",
+        "owner": "karthik",
+        "project": "healthcare-platform"
+      }
+    },
+    "storage": {
+      "accessTier": "Hot",
+      "accountMigrationInProgress": null,
+      "allowBlobPublicAccess": false,
+      "allowCrossTenantReplication": false,
+      "allowSharedKeyAccess": false,
+      "allowedCopyScope": null,
+      "azureFilesIdentityBasedAuthentication": null,
+      "blobRestoreStatus": null,
+      "creationTime": "2026-10-27T07:28:12.750671+00:00",
+      "customDomain": null,
+      "defaultToOAuthAuthentication": false,
+      "dnsEndpointType": "Standard",
+      "dualStackEndpointPreference": null,
+      "enableExtendedGroups": null,
+      "enableHttpsTrafficOnly": true,
+      "enableNfsV3": false,
+      "encryption": {
+        "encryptionIdentity": null,
+        "keySource": "Microsoft.Storage",
+        "keyVaultProperties": null,
+        "requireInfrastructureEncryption": null,
+        "services": {
+          "blob": {
+            "enabled": true,
+            "keyType": "Account",
+            "lastEnabledTime": "2026-10-27T07:28:13.159471+00:00"
+          },
+          "file": {
+            "enabled": true,
+            "keyType": "Account",
+            "lastEnabledTime": "2026-10-27T07:28:13.159471+00:00"
+          },
+          "queue": null,
+          "table": null
+        }
+      },
+      "extendedLocation": null,
+      "failoverInProgress": null,
+      "geoPriorityReplicationStatus": null,
+      "geoReplicationStats": null,
+      "id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Storage/storageAccounts/sthcpd054dev",
+      "identity": {
+        "principalId": null,
+        "tenantId": null,
+        "type": "None",
+        "userAssignedIdentities": null
+      },
+      "immutableStorageWithVersioning": null,
+      "isHnsEnabled": true,
+      "isLocalUserEnabled": true,
+      "isSftpEnabled": false,
+      "isSkuConversionBlocked": null,
+      "keyCreationTime": {
+        "key1": "2026-10-27T07:28:13.154343+00:00",
+        "key2": "2026-10-27T07:28:13.154343+00:00"
+      },
+      "keyPolicy": null,
+      "kind": "StorageV2",
+      "largeFileSharesState": null,
+      "lastGeoFailoverTime": null,
+      "location": "eastus",
+      "minimumTlsVersion": "TLS1_2",
+      "name": "sthcpd054dev",
+      "networkRuleSet": {
+        "bypass": "AzureServices",
+        "defaultAction": "Allow",
+        "ipRules": [],
+        "ipv6Rules": [],
+        "resourceAccessRules": [],
+        "virtualNetworkRules": []
+      },
+      "placement": null,
+      "primaryEndpoints": {
+        "blob": "https://sthcpd054dev.blob.core.windows.net/",
+        "dfs": "https://sthcpd054dev.dfs.core.windows.net/",
+        "file": "https://sthcpd054dev.file.core.windows.net/",
+        "internetEndpoints": null,
+        "ipv6Endpoints": null,
+        "microsoftEndpoints": null,
+        "queue": "https://sthcpd054dev.queue.core.windows.net/",
+        "table": "https://sthcpd054dev.table.core.windows.net/",
+        "web": "https://sthcpd054dev.z13.web.core.windows.net/"
+      },
+      "primaryLocation": "eastus",
+      "privateEndpointConnections": [],
+      "provisioningState": "Succeeded",
+      "publicNetworkAccess": "Enabled",
+      "resourceGroup": "rg-hcp-dev",
+      "routingPreference": null,
+      "sasPolicy": null,
+      "secondaryEndpoints": null,
+      "secondaryLocation": null,
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "statusOfPrimary": "available",
+      "statusOfSecondary": null,
+      "storageAccountSkuConversionStatus": null,
+      "tags": {
+        "costcenter": "healthcare-poc",
+        "environment": "dev",
+        "managedby": "terraform",
+        "owner": "karthik",
+        "project": "healthcare-platform"
+      },
+      "type": "Microsoft.Storage/storageAccounts",
+      "zones": null
+    },
+    "containers": [
+      {
+        "deleted": null,
+        "encryptionScope": {
+          "defaultEncryptionScope": "$account-encryption-key",
+          "preventEncryptionScopeOverride": false
+        },
+        "immutableStorageWithVersioningEnabled": false,
+        "metadata": null,
+        "name": "checkpoints",
+        "properties": {
+          "etag": "\"0x8DF33FBFE66460E\"",
+          "hasImmutabilityPolicy": false,
+          "hasLegalHold": false,
+          "lastModified": "2026-10-27T07:29:10+00:00",
+          "lease": {
+            "duration": null,
+            "state": "available",
+            "status": "unlocked"
+          },
+          "publicAccess": null
+        },
+        "version": null
+      },
+      {
+        "deleted": null,
+        "encryptionScope": {
+          "defaultEncryptionScope": "$account-encryption-key",
+          "preventEncryptionScopeOverride": false
+        },
+        "immutableStorageWithVersioningEnabled": false,
+        "metadata": null,
+        "name": "control",
+        "properties": {
+          "etag": "\"0x8DF3411CE0A8AD3\"",
+          "hasImmutabilityPolicy": false,
+          "hasLegalHold": false,
+          "lastModified": "2026-10-27T10:05:18+00:00",
+          "lease": {
+            "duration": null,
+            "state": "available",
+            "status": "unlocked"
+          },
+          "publicAccess": null
+        },
+        "version": null
+      },
+      {
+        "deleted": null,
+        "encryptionScope": {
+          "defaultEncryptionScope": "$account-encryption-key",
+          "preventEncryptionScopeOverride": false
+        },
+        "immutableStorageWithVersioningEnabled": false,
+        "metadata": null,
+        "name": "landing",
+        "properties": {
+          "etag": "\"0x8DF33FBFE51282A\"",
+          "hasImmutabilityPolicy": false,
+          "hasLegalHold": false,
+          "lastModified": "2026-10-27T07:29:10+00:00",
+          "lease": {
+            "duration": null,
+            "state": "available",
+            "status": "unlocked"
+          },
+          "publicAccess": null
+        },
+        "version": null
+      },
+      {
+        "deleted": null,
+        "encryptionScope": {
+          "defaultEncryptionScope": "$account-encryption-key",
+          "preventEncryptionScopeOverride": false
+        },
+        "immutableStorageWithVersioningEnabled": false,
+        "metadata": null,
+        "name": "tfstate",
+        "properties": {
+          "etag": "\"0x8DF33FBFE4FA346\"",
+          "hasImmutabilityPolicy": false,
+          "hasLegalHold": false,
+          "lastModified": "2026-10-27T07:29:10+00:00",
+          "lease": {
+            "duration": null,
+            "state": "available",
+            "status": "unlocked"
+          },
+          "publicAccess": null
+        },
+        "version": null
+      },
+      {
+        "deleted": null,
+        "encryptionScope": {
+          "defaultEncryptionScope": "$account-encryption-key",
+          "preventEncryptionScopeOverride": false
+        },
+        "immutableStorageWithVersioningEnabled": false,
+        "metadata": null,
+        "name": "uc-managed",
+        "properties": {
+          "etag": "\"0x8DF33FBFE5A45AB\"",
+          "hasImmutabilityPolicy": false,
+          "hasLegalHold": false,
+          "lastModified": "2026-10-27T07:29:10+00:00",
+          "lease": {
+            "duration": null,
+            "state": "available",
+            "status": "unlocked"
+          },
+          "publicAccess": null
+        },
+        "version": null
+      }
+    ],
+    "lifecycle": {
+      "id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Storage/storageAccounts/sthcpd054dev/managementPolicies/default",
+      "lastModifiedTime": "2026-10-27T10:05:18.733915+00:00",
+      "name": "DefaultManagementPolicy",
+      "policy": {
+        "rules": [
+          {
+            "definition": {
+              "actions": {
+                "baseBlob": {
+                  "delete": null,
+                  "enableAutoTierToHotFromCool": null,
+                  "tierToArchive": null,
+                  "tierToCold": null,
+                  "tierToCool": {
+                    "daysAfterCreationGreaterThan": null,
+                    "daysAfterLastAccessTimeGreaterThan": null,
+                    "daysAfterLastTierChangeGreaterThan": null,
+                    "daysAfterModificationGreaterThan": 90.0
+                  },
+                  "tierToHot": null
+                },
+                "snapshot": null,
+                "version": null
+              },
+              "filters": {
+                "blobIndexMatch": null,
+                "blobTypes": [
+                  "blockBlob"
+                ],
+                "prefixMatch": [
+                  "landing/"
+                ]
+              }
+            },
+            "enabled": true,
+            "name": "cool-landing-after-ninety-days",
+            "type": "Lifecycle"
+          }
+        ]
+      },
+      "resourceGroup": "rg-hcp-dev",
+      "type": "Microsoft.Storage/storageAccounts/managementPolicies"
+    },
+    "vault": {
+      "id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.KeyVault/vaults/kv-hcp-d054-dev",
+      "properties": {
+        "tenantId": "807ebfbb-86ca-41a5-87df-d9c348b89f83",
+        "vaultUri": "https://kv-hcp-d054-dev.vault.azure.net/",
+        "enableRbacAuthorization": true,
+        "enableSoftDelete": true,
+        "softDeleteRetentionInDays": 7
+      }
+    },
+    "budgets": {
+      "workspace-build": {
+        "id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/providers/Microsoft.Consumption/budgets/hcp-platform-build",
+        "name": "hcp-platform-build",
+        "type": "Microsoft.Consumption/budgets",
+        "eTag": "\"1dd65e4b0b79e81\"",
+        "properties": {
+          "timePeriod": {
+            "startDate": "2026-10-01T00:00:00Z",
+            "endDate": "2027-10-01T00:00:00Z"
+          },
+          "timeGrain": "Annually",
+          "amount": 165.0,
+          "currentSpend": {
+            "amount": 0.0,
+            "unit": "USD"
+          },
+          "category": "Cost",
+          "notifications": {
+            "actual_GreaterThanOrEqualTo_25.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 25.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            },
+            "actual_GreaterThanOrEqualTo_50.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 50.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            },
+            "actual_GreaterThanOrEqualTo_75.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 75.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            },
+            "actual_GreaterThanOrEqualTo_90.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 90.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            }
+          },
+          "filter": {
+            "tags": {
+              "name": "project",
+              "operator": "In",
+              "values": [
+                "healthcare-platform"
+              ]
+            }
+          }
+        }
+      },
+      "workspace-monthly": {
+        "id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/providers/Microsoft.Consumption/budgets/hcp-platform-monthly",
+        "name": "hcp-platform-monthly",
+        "type": "Microsoft.Consumption/budgets",
+        "eTag": "\"1dd65e4ac6a16da\"",
+        "properties": {
+          "timePeriod": {
+            "startDate": "2026-10-01T00:00:00Z",
+            "endDate": "2027-10-01T00:00:00Z"
+          },
+          "timeGrain": "Monthly",
+          "amount": 55.0,
+          "currentSpend": {
+            "amount": 0.0,
+            "unit": "USD"
+          },
+          "category": "Cost",
+          "notifications": {
+            "actual_GreaterThanOrEqualTo_100.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 100.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            },
+            "actual_GreaterThanOrEqualTo_50.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 50.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            },
+            "actual_GreaterThanOrEqualTo_80.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 80.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            }
+          },
+          "filter": {
+            "tags": {
+              "name": "project",
+              "operator": "In",
+              "values": [
+                "healthcare-platform"
+              ]
+            }
+          }
+        }
+      },
+      "model-build": {
+        "id": "/subscriptions/0725b5e7-75db-4c60-b5e9-928c3df3fcd1/resourceGroups/rg-hcp-model-access/providers/Microsoft.Consumption/budgets/hcp-model-build",
+        "name": "hcp-model-build",
+        "type": "Microsoft.Consumption/budgets",
+        "eTag": "\"1dd65e4d9f1bbed\"",
+        "properties": {
+          "timePeriod": {
+            "startDate": "2026-10-01T00:00:00Z",
+            "endDate": "2027-10-01T00:00:00Z"
+          },
+          "timeGrain": "Annually",
+          "amount": 35.0,
+          "currentSpend": {
+            "amount": 0.0,
+            "unit": "INR"
+          },
+          "category": "Cost",
+          "notifications": {
+            "actual_GreaterThanOrEqualTo_25.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 25.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            },
+            "actual_GreaterThanOrEqualTo_50.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 50.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            },
+            "actual_GreaterThanOrEqualTo_75.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 75.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            },
+            "actual_GreaterThanOrEqualTo_90.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 90.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            }
+          },
+          "filter": {}
+        }
+      },
+      "model-monthly": {
+        "id": "/subscriptions/0725b5e7-75db-4c60-b5e9-928c3df3fcd1/resourceGroups/rg-hcp-model-access/providers/Microsoft.Consumption/budgets/hcp-model-monthly",
+        "name": "hcp-model-monthly",
+        "type": "Microsoft.Consumption/budgets",
+        "eTag": "\"1dd65e4da4ee5e8\"",
+        "properties": {
+          "timePeriod": {
+            "startDate": "2026-10-01T00:00:00Z",
+            "endDate": "2027-10-01T00:00:00Z"
+          },
+          "timeGrain": "Monthly",
+          "amount": 5.0,
+          "currentSpend": {
+            "amount": 0.0,
+            "unit": "INR"
+          },
+          "category": "Cost",
+          "notifications": {
+            "actual_GreaterThanOrEqualTo_100.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 100.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            },
+            "actual_GreaterThanOrEqualTo_50.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 50.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            },
+            "actual_GreaterThanOrEqualTo_80.000000_Percent": {
+              "enabled": true,
+              "operator": "GreaterThanOrEqualTo",
+              "threshold": 80.0,
+              "contactEmails": [
+                "karthik@intellifysolutions.com"
+              ],
+              "contactRoles": [],
+              "contactGroups": [],
+              "thresholdType": "Actual"
+            }
+          },
+          "filter": {}
+        }
+      }
+    },
+    "roles": {
+      "storage": [
+        {
+          "principalId": "5ee77c8e-621d-4953-9502-1be929c977e1",
+          "principalType": "User",
+          "roleDefinitionName": "Storage Blob Data Contributor",
+          "scope": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Storage/storageAccounts/sthcpd054dev",
+          "condition": null
+        },
+        {
+          "principalId": "daef0320-f21b-4021-9090-dd34590e64c1",
+          "principalType": "ServicePrincipal",
+          "roleDefinitionName": "Storage Blob Data Contributor",
+          "scope": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Storage/storageAccounts/sthcpd054dev",
+          "condition": null
+        }
+      ],
+      "vault": [
+        {
+          "principalId": "5ad7ee05-af17-490d-97e9-9fa2ac9cc7e4",
+          "principalType": "Group",
+          "roleDefinitionName": "Key Vault Secrets Officer",
+          "scope": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.KeyVault/vaults/kv-hcp-d054-dev",
+          "condition": null
+        }
+      ],
+      "control": [
+        {
+          "principalId": "09171d0f-6aaa-43e3-be3a-72c617f2bf8b",
+          "principalType": "ServicePrincipal",
+          "roleDefinitionName": "Storage Blob Data Contributor",
+          "scope": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Storage/storageAccounts/sthcpd054dev/blobServices/default/containers/control",
+          "condition": null
+        }
+      ]
+    },
+    "model_deployments": [
+      {
+        "etag": "\"0075c06b-7c18-4044-aab0-298362ec80e4\"",
+        "id": "/subscriptions/0725b5e7-75db-4c60-b5e9-928c3df3fcd1/resourceGroups/rg-hcp-model-access/providers/Microsoft.CognitiveServices/accounts/aoai-hcp-luna-0725fcd1/deployments/gpt-6-luna",
+        "name": "gpt-6-luna",
+        "properties": {
+          "callRateLimit": null,
+          "capabilities": {
+            "agentsV2": "true",
+            "area": "US",
+            "assistants": "true",
+            "chatCompletion": "true",
+            "decision": "true",
+            "responses": "true"
+          },
+          "capacitySettings": null,
+          "currentCapacity": 5,
+          "dynamicThrottlingEnabled": null,
+          "model": {
+            "callRateLimit": null,
+            "format": "OpenAI",
+            "name": "gpt-6-luna",
+            "publisher": null,
+            "source": null,
+            "sourceAccount": null,
+            "version": "2026-09-22"
+          },
+          "parentDeploymentName": null,
+          "provisioningState": "Succeeded",
+          "raiPolicyName": "Microsoft.DefaultV2",
+          "rateLimits": [
+            {
+              "count": 5.0,
+              "dynamicThrottlingEnabled": null,
+              "key": "request",
+              "matchPatterns": null,
+              "minCount": null,
+              "renewalPeriod": 60.0
+            },
+            {
+              "count": 5000.0,
+              "dynamicThrottlingEnabled": null,
+              "key": "token",
+              "matchPatterns": null,
+              "minCount": null,
+              "renewalPeriod": 60.0
+            }
+          ],
+          "scaleSettings": null,
+          "spilloverDeploymentName": null,
+          "versionUpgradeOption": "NoAutoUpgrade"
+        },
+        "resourceGroup": "rg-hcp-model-access",
+        "sku": {
+          "capacity": 5,
+          "family": null,
+          "name": "DataZoneStandard",
+          "size": null,
+          "tier": null
+        },
+        "systemData": {
+          "createdAt": "2026-10-27T07:15:11.683842+00:00",
+          "createdBy": "karthik@intellifysolutions.com",
+          "createdByType": "User",
+          "lastModifiedAt": "2026-10-27T07:15:11.683842+00:00",
+          "lastModifiedBy": "karthik@intellifysolutions.com",
+          "lastModifiedByType": "User"
+        },
+        "tags": null,
+        "type": "Microsoft.CognitiveServices/accounts/deployments"
+      }
+    ],
+    "model_keyless": true,
+    "access_connector": {
+      "id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Databricks/accessConnectors/ac-hcp-dev",
+      "identity": {
+        "principalId": "daef0320-f21b-4021-9090-dd34590e64c1",
+        "tenantId": "807ebfbb-86ca-41a5-87df-d9c348b89f83",
+        "type": "SystemAssigned",
+        "userAssignedIdentities": null
+      }
+    }
+  }
+}

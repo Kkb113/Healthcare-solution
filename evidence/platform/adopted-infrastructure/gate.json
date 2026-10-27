@@ -1,0 +1,95 @@
+{
+  "source_sha": "e74e1d9abec6e28cea9308e96050512cfd163a61",
+  "input_hashes": {
+    ".github/workflows/foundation-validation.yml": "32938cad623ebceef340bc5c883eee23ddaaf9bed07f5a65b6dced996ec5e38e",
+    "platform/config/foundation-resources.json": "e50d463eaad81cdf8a080aa94ba6f94527d0241ef3096639a45e165f2634de4a",
+    "platform/config/identity-provisioning.json": "8d86d7dd1021e4f82e811ca01089f958aea5514857df63de82c8d0ce0c23c60a",
+    "platform/config/infrastructure.json": "351718d66a436c75bdc0472f2c7ea0b9e3604e5fb95892e46c3bc741b3961d85",
+    "platform/docs/prerequisite-readiness.md": "5806327887edf8b0415e6b028854f8c547abf9c77f4369f6332bc45a8b373f36",
+    "platform/infra/foundation/.terraform.lock.hcl": "6d1cce459da42fec954a0a1e9ba04a5b6c2d518018a93bf94a89e21a622d77c3",
+    "platform/infra/foundation/backend.hcl": "1ec3118e870eb2f3b7b21ec02c54dba6739ac7dbbf126e7e5f4dbc7bf38e11d8",
+    "platform/infra/foundation/backend.tf": "290754bcbc78d9a2482c08acacd60a8faba072f465105e69f102650bea78ff8a",
+    "platform/infra/foundation/main.tf": "5245988a4339060854fcd74ae98a3b693d1af8e11f0a26544b4e60ce3b3c492c",
+    "platform/infra/model-access/.terraform.lock.hcl": "cf44a2badceb3c6e719446fe81dba98af7afebd7175a5be65ef5b974a859995c",
+    "platform/infra/model-access/backend.hcl": "3b0426ad1a7c0a9b73a2ec1d135100718610239906a00153d56a862c25fcf793",
+    "platform/infra/model-access/backend.tf": "290754bcbc78d9a2482c08acacd60a8faba072f465105e69f102650bea78ff8a",
+    "platform/infra/model-access/main.tf": "0191804943485d44991729aac69c0f26936060373447d48c7ecfa8219a25b5d8",
+    "platform/infra/workspace/.terraform.lock.hcl": "5cf1a93a8deea851aae3bcebca0b25cbf617f65a7272326e7a082c6757e7007c",
+    "platform/infra/workspace/backend.hcl": "613ba12517b520fab14a792d8fcf5070e4d8d663f518b40eb1ab505f9b6d69cf",
+    "platform/infra/workspace/main.tf": "d0d0abe9d480cf61b2ba2c46aca6dea47417e9054d74cb3b3c1557aa539e9fc3",
+    "platform/scripts/bootstrap-scim-credential.ps1": "2cbf28458f4e6f1bfbfb2f05ff45725e37fffcd042d903b29d3b0c55d0cd9c7b",
+    "platform/scripts/check_foundation_drift.py": "831af9ead955e3497d08376d3d9748eecd8a968d955391836cde8810e1c2c5ce",
+    "platform/scripts/configure_foundation_identity.py": "828537373aa591350ae81387b984e30a5299dd1c788af71f8f6576fb2e7fffcf",
+    "platform/scripts/foundation_ledger.py": "062f8996b79566104b6deff84e7554ad16681c622cd5a0336ecb7a515eff5354",
+    "platform/scripts/foundation_support.py": "92f26b3b63cbe7ead5f482eb1d6a2b2d35b535d7c0e89f16954b0ad5aeb05e3c",
+    "platform/scripts/verify_foundation.py": "3f5ae44f7d39a2bf1eac7d130dc631c4eb17c1f6b923c541ed4160a0cf8f5578",
+    "platform/scripts/verify_foundation_gate.py": "09bc9ea8391d7a88b272b3ad360d57c5374fba3e31c2c5dee5dd1525685ba9ea",
+    "platform/scripts/write_foundation_gate.py": "63825f14982b1a8e35eced980c327cade453ffc83987bfb28e793b4c3b1b1ca1",
+    "platform/tests/unit/test_foundation.py": "d347e01b8756e36d640457b4acae0df0b0b75dbf41cc469841dbde86100d6139"
+  },
+  "phase": 1,
+  "status": "PASS",
+  "recorded_at": "2026-10-27T11:24:54.165482+00:00",
+  "criteria": [
+    {
+      "id": "1.1",
+      "status": "PASS",
+      "evidence": "terraform-drift.json + databricks.json"
+    },
+    {
+      "id": "1.2",
+      "status": "PASS",
+      "evidence": "databricks.json + control-plane.json"
+    },
+    {
+      "id": "1.3",
+      "status": "PASS",
+      "evidence": "identity.json + databricks.json"
+    },
+    {
+      "id": "1.4",
+      "status": "PASS",
+      "evidence": "control-plane.json + costs.json"
+    },
+    {
+      "id": "1.5",
+      "status": "PASS",
+      "evidence": "control-plane.json + databricks.json"
+    }
+  ],
+  "prerequisite_gate_sha256": "05a183da0e7d9a425021996b488e7b89ca87b0f5679e1dcbb1ef2d2463bdac4f",
+  "report_hashes": {
+    "all-platform-tests.xml": "024c7f5679bd138cb9903905587a6820ec8bd277efa3d4e40da85ef0e35e39c9",
+    "control-plane.json": "6de3d2895c92a7b6879254eee33a7560b1e12eb099bf713715a6809d641f66d6",
+    "costs.json": "55e478348b272448c38e9ff917dce85134bb1f686e805de3e387dc9a972228a8",
+    "databricks.json": "97f8f2a98bab86b2358dad36fcd821dd4523fe64fa86484e65cc701f1ad1bc33",
+    "identity.json": "a65071695a77c6f6bbc20fe662ff000329f1e3142e51f1f994d37ff165588ac3",
+    "operator-display-name.json": "e1f5e06dc508954a297d087960126ab379a2e273639cc19724768d7f187c884e",
+    "scim-credential-bootstrap.json": "43d576b87560e3905a69e4714c11f04b52499bf725fc3d262ea1ed241bbe417d",
+    "scim-on-demand.json": "61e9e4cb4c65c5c1bcbd8e22b20fcd36d64388ebd8a59ef777b95fc3feda3fd2",
+    "scoped-scim-bootstrap.png": "34e49aa4177c17f8e02fac9cd173b14ada7a789208ae45b087f049741fa1f37a",
+    "storage-probe.json": "8f5c3b20747fb1d73e1a4c9f17adef561cc590fd96fae2e1cc9fddf77d2005e2",
+    "terraform-drift.json": "46d1d43d9f0e7a4e9d43d186c0f3022f918a669a937bcefc978b1798cf1aaf53",
+    "vault-probe.json": "3c8351f92bdbdf4e4ea9cf434ad43e2063e3acde745e56e3bc26abca91e09aed"
+  },
+  "tests": {
+    "tests": 104,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "governance": {
+    "aim": "DISABLED; no shared-account migration",
+    "user_scope": "Only existing Karthik Bhat identity may be reconciled",
+    "provisioning_approval": "User explicitly approved healthcare-only SCIM setup",
+    "bootstrap_console_exception": "Only generation/revocation of the account-SCIM-only credential; remaining provisioning and tests use CLI/API",
+    "business_data_grants": "None in Phase 1"
+  },
+  "limitations": [
+    "Azure budgets alert; they do not hard-stop spend. Phase 2 sleep/guard tests remain required.",
+    "Provider costs are provisional. Empty tagged cost results are not zero spend; reservations remain until independent settlement.",
+    "SCIM scope intentionally admits eight groups and one user. Expanding user scope needs explicit approval, schema revision and access tests. SP lifecycle remains the existing code-owned adapter.",
+    "Actual serverless notebook read/write, layer-specific grants, masking and feature probes remain Phase 2; UC credential control-plane validation passed here.",
+    "This is dated, source-bound execution evidence, not a perpetual assertion of live cloud state."
+  ]
+}
