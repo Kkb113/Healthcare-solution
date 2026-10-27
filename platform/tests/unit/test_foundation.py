@@ -159,13 +159,23 @@ def test_invalid_snapshot_does_not_write(ledger, change):
 class MemoryBlob:
     """Emulates server CAS, with an optional competing writer before PUT."""
 
-    def __init__(self, content, races=0, unavailable=False, missing_etag=False):
+    def __init__(
+        self,
+        content,
+        races=0,
+        unavailable=False,
+        missing_etag=False,
+        exists_status=412,
+        exists_code="BlobAlreadyExists",
+    ):
         self.content = copy.deepcopy(content)
         self.version = 1
         self.races = races
         self.unavailable = unavailable
         self.missing_etag = missing_etag
         self.writes = 0
+        self.exists_status = exists_status
+        self.exists_code = exists_code
 
     def request(self, method, url, *, body=None, headers=None):
         if self.unavailable:
@@ -177,7 +187,7 @@ class MemoryBlob:
                 json.dumps(self.content).encode(),
             )
         if headers.get("If-None-Match"):
-            raise CloudHttpError(412, "BlobExists")
+            raise CloudHttpError(self.exists_status, self.exists_code)
         if self.races:
             self.races -= 1
             self.version += 1
@@ -190,11 +200,19 @@ class MemoryBlob:
         return 201, {}, b""
 
 
-def test_existing_ledger_init_does_not_reset(config, ledger):
+@pytest.mark.parametrize("exists_status", [409, 412])
+def test_existing_ledger_init_does_not_reset(config, ledger, exists_status):
     ledger = reserve(ledger, "existing", 1000, 2)
-    client = MemoryBlob(ledger)
+    client = MemoryBlob(ledger, exists_status=exists_status)
     actual, created = BlobLedger(config, client).initialize()
     assert not created and actual == ledger and client.writes == 0
+
+
+def test_other_blob_conflict_does_not_get_treated_as_success(config, ledger):
+    client = MemoryBlob(ledger, exists_status=409, exists_code="LeaseAlreadyPresent")
+    with pytest.raises(CloudHttpError):
+        BlobLedger(config, client).initialize()
+    assert client.writes == 0
 
 
 def test_concurrent_ledger_retry_preserves_both_reservations(config, ledger):

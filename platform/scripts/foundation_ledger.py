@@ -236,7 +236,9 @@ class BlobLedger:
             )
             return content, True
         except CloudHttpError as error:
-            if error.status != 412:
+            if error.status != 412 and not (
+                error.status == 409 and error.code == "BlobAlreadyExists"
+            ):
                 raise
             existing, _ = self.read()
             if (
