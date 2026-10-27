@@ -1,0 +1,15 @@
+{
+  "observed_at": "2026-10-27T07:45:24.357442+00:00",
+  "checks": {
+    "spark_sql": "PASS",
+    "delta_write_append_time_travel": "PASS"
+  },
+  "versions": {
+    "pyspark": "4.0.4",
+    "delta-spark": "4.0.1",
+    "mlflow": "3.17.2",
+    "databricks-sdk": "0.157.0",
+    "openai": "2.54.0"
+  },
+  "status": "PASS"
+}

@@ -118,7 +118,7 @@ resource "azuread_application_federated_identity_credential" "github_main" {
   display_name   = "github-healthcare-main"
   audiences      = ["api://AzureADTokenExchange"]
   issuer         = "https://token.actions.githubusercontent.com"
-  subject        = "repo:Kkb113/Healthcare-solution:ref:refs/heads/main"
+  subject        = "repo:Kkb113@176327882/Healthcare-solution@1430602110:ref:refs/heads/main"
 }
 
 # CI can manage the dedicated foundation RG, and read only the existing workspace.
@@ -151,6 +151,7 @@ output "foundation" {
   value = {
     resource_group      = azurerm_resource_group.healthcare.name
     storage_account     = azurerm_storage_account.healthcare.name
+    oidc_subject        = azuread_application_federated_identity_credential.github_main.subject
     access_connector_id = azurerm_databricks_access_connector.healthcare.id
     key_vault_id        = azurerm_key_vault.healthcare.id
     groups              = { for name, group in azuread_group.healthcare : name => group.object_id }

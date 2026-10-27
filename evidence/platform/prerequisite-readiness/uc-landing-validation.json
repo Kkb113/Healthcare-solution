@@ -1,0 +1,29 @@
+{
+  "isDir": true,
+  "results": [
+    {
+      "operation": "READ",
+      "result": "PASS"
+    },
+    {
+      "operation": "LIST",
+      "result": "PASS"
+    },
+    {
+      "operation": "WRITE",
+      "result": "PASS"
+    },
+    {
+      "operation": "DELETE",
+      "result": "PASS"
+    },
+    {
+      "operation": "PATH_EXISTS",
+      "result": "PASS"
+    },
+    {
+      "operation": "HIERARCHICAL_NAMESPACE_ENABLED",
+      "result": "PASS"
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "attempt": 4,
+  "conclusion": "success",
+  "headSha": "081d259eb4ad715d3c96b39b4a7130bc71e351fe",
+  "jobs": [
+    {
+      "completedAt": "2026-10-27T07:56:08Z",
+      "conclusion": "success",
+      "databaseId": 122074908480,
+      "name": "identity-smoke",
+      "startedAt": "2026-10-27T07:55:52Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-27T07:55:54Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-27T07:55:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:55:55Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+          "number": 2,
+          "startedAt": "2026-10-27T07:55:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:56:00Z",
+          "conclusion": "success",
+          "name": "Run azure/login@8216e11d8cd9b42fe925c852af8e76311ff067ac",
+          "number": 3,
+          "startedAt": "2026-10-27T07:55:55Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:56:01Z",
+          "conclusion": "success",
+          "name": "Install verified Databricks CLI",
+          "number": 4,
+          "startedAt": "2026-10-27T07:56:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:56:06Z",
+          "conclusion": "success",
+          "name": "Verify federated identity without starting compute",
+          "number": 5,
+          "startedAt": "2026-10-27T07:56:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:56:07Z",
+          "conclusion": "success",
+          "name": "Post Run azure/login@8216e11d8cd9b42fe925c852af8e76311ff067ac",
+          "number": 9,
+          "startedAt": "2026-10-27T07:56:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:56:07Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+          "number": 10,
+          "startedAt": "2026-10-27T07:56:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:56:07Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "startedAt": "2026-10-27T07:56:07Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40468980776/job/122074908480"
+    },
+    {
+      "completedAt": "2026-10-27T07:45:51Z",
+      "conclusion": "success",
+      "databaseId": 122074910519,
+      "name": "local-runtime",
+      "startedAt": "2026-10-27T07:45:03Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-27T07:45:05Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-27T07:45:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:06Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+          "number": 2,
+          "startedAt": "2026-10-27T07:45:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:06Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961",
+          "number": 3,
+          "startedAt": "2026-10-27T07:45:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:08Z",
+          "conclusion": "success",
+          "name": "Run astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9",
+          "number": 4,
+          "startedAt": "2026-10-27T07:45:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:24Z",
+          "conclusion": "success",
+          "name": "Install hash-locked platform runtime",
+          "number": 5,
+          "startedAt": "2026-10-27T07:45:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:24Z",
+          "conclusion": "success",
+          "name": "Check platform source",
+          "number": 6,
+          "startedAt": "2026-10-27T07:45:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:43Z",
+          "conclusion": "success",
+          "name": "Exercise local Spark and Delta",
+          "number": 7,
+          "startedAt": "2026-10-27T07:45:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:44Z",
+          "conclusion": "success",
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "number": 8,
+          "startedAt": "2026-10-27T07:45:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:48Z",
+          "conclusion": "success",
+          "name": "Post Run astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9",
+          "number": 14,
+          "startedAt": "2026-10-27T07:45:44Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:48Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961",
+          "number": 15,
+          "startedAt": "2026-10-27T07:45:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:49Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+          "number": 16,
+          "startedAt": "2026-10-27T07:45:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-27T07:45:49Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 17,
+          "startedAt": "2026-10-27T07:45:49Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40468980776/job/122074910519"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40468980776"
+}

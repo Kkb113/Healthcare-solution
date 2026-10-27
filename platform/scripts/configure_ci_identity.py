@@ -10,7 +10,7 @@ import json
 import os
 from pathlib import Path
 
-from databricks.sdk import AccountClient
+from databricks.sdk import AccountClient, WorkspaceClient
 from databricks.sdk.service import iam
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -25,6 +25,7 @@ def main() -> None:
     )
     os.environ["ARM_SUBSCRIPTION_ID"] = config["subscription_id"]
     account = AccountClient(profile=config["account_profile"])
+    workspace = WorkspaceClient(profile=config["workspace_profile"])
     registered = {}
     for name, identity in foundation["principals"].items():
         matches = list(
@@ -49,16 +50,41 @@ def main() -> None:
             principal_id=int(principal.id),
             permissions=[iam.WorkspacePermission.USER],
         )
+        current = workspace.service_principals.get(principal.id)
+        required_entitlements = ["workspace-access"]
+        if name == "sp-hcp-cicd":
+            # SQL service access permits warehouse API checks. It does not grant
+            # warehouse CAN_USE, business-table access or administrator roles.
+            required_entitlements.append("databricks-sql-access")
+        missing = sorted(
+            set(required_entitlements)
+            - {entry.value for entry in current.entitlements or []}
+        )
+        if missing:
+            workspace.service_principals.patch(
+                principal.id,
+                schemas=[
+                    iam.PatchSchema.URN_IETF_PARAMS_SCIM_API_MESSAGES_2_0_PATCH_OP
+                ],
+                operations=[
+                    iam.Patch(
+                        op=iam.PatchOp.ADD,
+                        path="entitlements",
+                        value=[{"value": value} for value in missing],
+                    )
+                ],
+            )
         registered[name] = {
             **identity,
             "databricks_principal_id": principal.id,
             "workspace_permission": "USER",
+            "entitlements": required_entitlements,
         }
     public = {
         **foundation,
         "principals": registered,
         "workspace_id": config["workspace_id"],
-        "oidc_subject": "repo:Kkb113/Healthcare-solution:ref:refs/heads/main",
+        "oidc_subject": foundation["oidc_subject"],
         "cloud_data_grants": "none; phase-specific grants follow independent allow/deny tests",
     }
     (ROOT / "platform/config/foundation-resources.json").write_text(

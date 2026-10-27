@@ -1,0 +1,26 @@
+{
+  "run_url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40468980776",
+  "tested_source_sha": "081d259eb4ad715d3c96b39b4a7130bc71e351fe",
+  "attempts": [
+    {
+      "attempt": 1,
+      "outcome": "FAIL",
+      "reason": "AADSTS700213 immutable repository subject mismatch"
+    },
+    {
+      "attempt": 2,
+      "outcome": "FAIL",
+      "reason": "Azure OIDC passed; workspace-access entitlement missing"
+    },
+    {
+      "attempt": 3,
+      "outcome": "FAIL",
+      "reason": "Azure and Databricks identity passed; SQL service entitlement required for warehouse metadata"
+    },
+    {
+      "attempt": 4,
+      "outcome": "PASS",
+      "reason": "All runtime and identity smoke checks passed"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "observed_at": "2026-10-27T07:46:05.402869+00:00",
+  "workspace": {
+    "subscription_id": "d054aa64-95db-467b-a25c-387de70b15bd",
+    "tenant_id": "807ebfbb-86ca-41a5-87df-d9c348b89f83",
+    "account_id": "aed328b4-17bf-43f0-9399-c470ad8ea1b5",
+    "workspace_name": "intellify-healthcare-dbw",
+    "workspace_id": 7405619366453187,
+    "workspace_host": "https://adb-7405619366453187.7.azuredatabricks.net",
+    "workspace_resource_id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/Databricks/providers/Microsoft.Databricks/workspaces/intellify-healthcare-dbw",
+    "region": "eastus",
+    "compute_mode": "SERVERLESS",
+    "workspace_profile": "HEALTHCARE_AZURE",
+    "account_profile": "HEALTHCARE_ACCOUNT",
+    "required_model": "gpt-6-luna",
+    "default_cloud_execution": "disabled"
+  },
+  "cli_profiles": {
+    "workspace_identity_verified": "karthik@intellifysolutions.com",
+    "account_workspace_verified": 7405619366453187,
+    "global_defaults_changed": false
+  },
+  "preflight_cost": {
+    "upper_allowance_inr": 200,
+    "actual_currency_cost": null,
+    "status": "AWAITING_BILLING_SETTLEMENT",
+    "model_input_tokens": 352,
+    "model_output_tokens": 54,
+    "successful_model_requests": 4,
+    "native_route_failures": 1,
+    "sql_queries": 4,
+    "disposable_warehouse_deleted": true
+  },
+  "permissions": {
+    "telemetry_scope": "four explicitly approved tables plus USE",
+    "metastore_owner": "karthik@intellifysolutions.com",
+    "metastore_owner_change_explicitly_approved": true
+  },
+  "implementation_phase_gate": "NOT_EVALUATED",
+  "analytics_workloads_started": false
+}

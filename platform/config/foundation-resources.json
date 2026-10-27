@@ -11,29 +11,39 @@
     "hcp-platform-admins": "5ad7ee05-af17-490d-97e9-9fa2ac9cc7e4"
   },
   "key_vault_id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.KeyVault/vaults/kv-hcp-d054-dev",
+  "oidc_subject": "repo:Kkb113@176327882/Healthcare-solution@1430602110:ref:refs/heads/main",
   "principals": {
     "sp-hcp-cicd": {
       "client_id": "6640afb9-483e-46f6-8b83-405feca8c227",
       "object_id": "09171d0f-6aaa-43e3-be3a-72c617f2bf8b",
       "databricks_principal_id": "144680044601354",
-      "workspace_permission": "USER"
+      "workspace_permission": "USER",
+      "entitlements": [
+        "workspace-access",
+        "databricks-sql-access"
+      ]
     },
     "sp-hcp-jobs": {
       "client_id": "658faa8a-72bf-4285-bf4c-3cd25778ac5f",
       "object_id": "a1003242-ffac-446c-98e8-527e8c4217e0",
       "databricks_principal_id": "147109184184541",
-      "workspace_permission": "USER"
+      "workspace_permission": "USER",
+      "entitlements": [
+        "workspace-access"
+      ]
     },
     "sp-hcp-validation": {
       "client_id": "5d3656f0-eac7-4874-b49b-02f637df54ec",
       "object_id": "f595d242-9aa2-4113-bfa5-fdac8fa740ee",
       "databricks_principal_id": "144866838711850",
-      "workspace_permission": "USER"
+      "workspace_permission": "USER",
+      "entitlements": [
+        "workspace-access"
+      ]
     }
   },
   "resource_group": "rg-hcp-dev",
   "storage_account": "sthcpd054dev",
   "workspace_id": 7405619366453187,
-  "oidc_subject": "repo:Kkb113/Healthcare-solution:ref:refs/heads/main",
   "cloud_data_grants": "none; phase-specific grants follow independent allow/deny tests"
 }
