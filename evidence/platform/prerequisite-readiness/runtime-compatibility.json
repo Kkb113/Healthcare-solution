@@ -1,0 +1,16 @@
+{
+  "native_windows_spark_delta": {
+    "status": "FAIL",
+    "reason": "HADOOP_HOME / Hadoop Windows support unavailable; no unofficial native binary installed"
+  },
+  "supported_local_execution": {
+    "status": "PASS",
+    "runtime": "Ubuntu 24.04 WSL, Java 21, Python 3.12.13",
+    "evidence": "local-runtime.json"
+  },
+  "ci_execution": {
+    "status": "PASS",
+    "runtime": "Ubuntu 24.04, Java 21, Python 3.12.13",
+    "evidence": "ci-local-runtime.json"
+  }
+}

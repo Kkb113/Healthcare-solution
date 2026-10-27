@@ -1,5 +1,5 @@
 {
-  "observed_at": "2026-10-27T07:46:05.402869+00:00",
+  "observed_at": "2026-10-27T08:01:36.326451+00:00",
   "workspace": {
     "subscription_id": "d054aa64-95db-467b-a25c-387de70b15bd",
     "tenant_id": "807ebfbb-86ca-41a5-87df-d9c348b89f83",
@@ -37,5 +37,20 @@
     "metastore_owner_change_explicitly_approved": true
   },
   "implementation_phase_gate": "NOT_EVALUATED",
-  "analytics_workloads_started": false
+  "analytics_workloads_started": false,
+  "ci": {
+    "status": "PASS",
+    "source_sha": "d062bf816c50126cf62558010887170e721dffcc",
+    "run_url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40470464161",
+    "jobs": [
+      "identity-smoke",
+      "local-runtime"
+    ]
+  },
+  "terraform_remote_state_keys": [
+    "foundation.tfstate",
+    "model-access.tfstate",
+    "workspace.tfstate"
+  ],
+  "source_data_onboarded": false
 }
