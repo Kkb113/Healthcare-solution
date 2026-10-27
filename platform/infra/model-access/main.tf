@@ -58,7 +58,7 @@ resource "azurerm_cognitive_deployment" "luna" {
   }
   sku {
     name     = "DataZoneStandard"
-    capacity = 5
+    capacity = 100
   }
   version_upgrade_option = "NoAutoUpgrade"
 }

@@ -55,7 +55,7 @@ resource "databricks_access_control_rule_set" "component_policy" {
   }
 }
 
-# Existing creator manager grant is retained; CI receives only Jobs run-as.
+# Manager does not imply run-as. Scope both CI and the approved operator to Jobs.
 resource "databricks_access_control_rule_set" "jobs_run_as" {
   provider = databricks.account
   name     = "accounts/aed328b4-17bf-43f0-9399-c470ad8ea1b5/servicePrincipals/${local.principals.jobs}/ruleSets/default"
@@ -65,7 +65,7 @@ resource "databricks_access_control_rule_set" "jobs_run_as" {
   }
   grant_rules {
     role       = "roles/servicePrincipal.user"
-    principals = ["servicePrincipals/${local.principals.cicd}"]
+    principals = ["servicePrincipals/${local.principals.cicd}", "users/karthik@intellifysolutions.com"]
   }
 }
 

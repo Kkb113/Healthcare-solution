@@ -1,0 +1,58 @@
+{
+  "status": "FUNCTIONAL_PASS_BILLING_PENDING",
+  "started_at": "2026-10-27T17:52:21.515284+00:00",
+  "completed_at": "2026-10-27T18:04:08.055936+00:00",
+  "cases": [
+    {
+      "case": "bounded_compute_configuration",
+      "status": "PASS"
+    },
+    {
+      "case": "end_user_has_no_database_access",
+      "status": "PASS",
+      "denial": "OperationalError",
+      "sqlstate": null,
+      "database_role_exists": false,
+      "token_mint_does_not_imply_data_access": true
+    },
+    {
+      "case": "cdf_insert_update_delete_reconciled",
+      "status": "PASS",
+      "sha256": "907aebf61b54f6493f8f6c3397b43e9ebbaa18e35fcc96718df7f6974d0382e6"
+    },
+    {
+      "case": "broker_scope_rls_missing_cross_facility_expired_revoked_ambiguous",
+      "status": "PASS"
+    },
+    {
+      "case": "native_idle_suspend",
+      "status": "PASS",
+      "observed_seconds": 322.594
+    },
+    {
+      "case": "hard_disable_rejects_connection",
+      "status": "PASS"
+    },
+    {
+      "case": "resume_integrity",
+      "status": "PASS",
+      "sha256": "907aebf61b54f6493f8f6c3397b43e9ebbaa18e35fcc96718df7f6974d0382e6"
+    }
+  ],
+  "accelerated_sync": false,
+  "credential_persistence": false,
+  "billing_status": "PENDING_PROVIDER_ATTRIBUTION",
+  "empty_billing_is_zero": false,
+  "cleanup": {
+    "connections_and_credentials_closed": true,
+    "pipeline_stopped": true,
+    "synced_table_deleted": true,
+    "pipeline_deleted": true,
+    "endpoint_hard_disabled": true,
+    "project_purged": true,
+    "source_table_deleted": true
+  },
+  "cleanup_errors": [],
+  "elapsed_seconds": 706.531,
+  "private_original_sha256": "87873f6b11310148b2f757b22d62bf3f0ec0a30e92b6a3eddf9245ee5f319cdc"
+}

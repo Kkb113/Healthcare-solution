@@ -202,3 +202,9 @@ def test_concurrent_wake_is_not_a_second_funded_session():
         )
     with pytest.raises(ValueError):
         transition(state, "ASLEEP", asleep=True)
+
+
+def test_nonclinical_phi_flag_cannot_override_role_policy():
+    with pytest.raises(PermissionError, match="SCOPE"):
+        authorize(binding(role="hcp-finance", phi=True), "A", "finance", phi=True)
+    authorize(binding(role="sp-hcp-jobs", phi=True), "A", "clinical", phi=True)

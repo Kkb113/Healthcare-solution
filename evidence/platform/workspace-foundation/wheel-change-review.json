@@ -1,0 +1,12 @@
+{
+  "cloud_apps_tested_version": "0.2.1",
+  "current_delivery_version": "0.2.3",
+  "changed_shared_modules": [
+    "hcp/agent/request_policy.py",
+    "hcp/control/funding.py"
+  ],
+  "authorization_modules_byte_identical": true,
+  "canonical_wheel_sha256": "254a409b70a0fca391c57bc4b8791b17f1547d3ac26209c0ce770f7f0e0ae63b",
+  "linux_windows_wheels_byte_identical": true,
+  "new_module_testing": "Local deterministic request-policy tests; atomic application ledger remains Phase10"
+}

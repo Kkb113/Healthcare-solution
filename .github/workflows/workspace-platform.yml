@@ -16,6 +16,9 @@ on:
 permissions:
   contents: read
 
+env:
+  SOURCE_DATE_EPOCH: '1704067200'
+
 concurrency:
   group: hcp-platform-${{ github.ref }}
   cancel-in-progress: false
@@ -40,12 +43,14 @@ jobs:
         run: |
           uv venv platform/.venv
           uv pip sync platform/requirements-linux.lock --python platform/.venv/bin/python --require-hashes --quiet
+          uv pip install --python platform/.venv/bin/python --require-hashes --requirements platform/requirements-azure-linux.lock --quiet
           uv build platform --wheel --out-dir platform/dist
+          platform/.venv/bin/python -B platform/scripts/canonicalize_platform_wheel.py
           uv pip install --python platform/.venv/bin/python --no-deps platform/dist/*.whl
       - name: Run the same Linux local suite
         run: |
-          platform/.venv/bin/ruff check platform/scripts platform/src platform/tests
-          platform/.venv/bin/ruff format --check platform/scripts platform/src platform/tests
+          platform/.venv/bin/ruff check platform/scripts platform/src platform/tests platform/probes
+          platform/.venv/bin/ruff format --check platform/scripts platform/src platform/tests platform/probes
           platform/.venv/bin/python -B -m pytest platform/tests/unit platform/tests/integration/test_shared_delta.py -q --junitxml=output/platform-foundation/ci-tests.xml
           platform/.venv/bin/python -B platform/scripts/verify_architecture_gate.py
           platform/.venv/bin/python -B platform/scripts/verify_foundation_gate.py
@@ -88,6 +93,7 @@ jobs:
         run: |
           uv venv platform/.venv
           uv pip sync platform/requirements-linux.lock --python platform/.venv/bin/python --require-hashes --quiet
+          uv pip install --python platform/.venv/bin/python --require-hashes --requirements platform/requirements-azure-linux.lock --quiet
           curl --fail --silent --show-error --location https://github.com/databricks/cli/releases/download/v1.22.1/databricks_cli_1.22.1_linux_amd64.zip --output /tmp/databricks.zip
           echo '2f24260441f211e75df4266fba506983cd2373c622cb34437d752befba8261af  /tmp/databricks.zip' | sha256sum --check
           mkdir -p "$RUNNER_TEMP/databricks-cli"

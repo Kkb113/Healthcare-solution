@@ -1,0 +1,38 @@
+{
+  "status": "COMPATIBILITY_AND_DECLARED_CAPACITY_PASS",
+  "observed_at": "2026-10-27T17:41:20.864941+00:00",
+  "model": "gpt-6-luna",
+  "revision": "2026-09-22",
+  "accepted_fixture_calls": 4,
+  "input_tokens": 208,
+  "output_tokens": 46,
+  "permission_denial_positive_control": true,
+  "tool_arithmetic_assertion": "Original bounded runner asserted function arguments 17+25 and final answer 42 before recording tool_result",
+  "json_stream_tool_required_cases": [
+    "tool_request",
+    "tool_result",
+    "json_schema",
+    "stream"
+  ],
+  "sizing": {
+    "concurrent_clients": 10,
+    "completed_benchmark_minimum": 100,
+    "offered_turns_per_minute": 20,
+    "tpm_including_twenty_percent_headroom": "90300.000",
+    "rpm_including_twenty_percent_headroom": "44.400"
+  },
+  "live_429_observed": false,
+  "retry_and_fail_closed_test_suite": "platform/tests/unit/test_request_policy.py",
+  "application_budget_contract": "platform/config/application-budget-probe.json",
+  "external_gateway_beta": "UNSUPPORTED_EXTERNAL_BETA",
+  "limits": "Nominal per-intent capped POC profile only. Quality, true ten-client full-answer latency, quota estimator and rolling-window dispatch controls remain mandatory in Phase10; no guarantee at all global token ceilings.",
+  "all_phase2_holds_retained": true,
+  "billing_settled": false,
+  "input_hashes": {
+    "model-tool-roundtrip-format-failure.json": "9f3ea925b0bc7a6f04e821ec61aa3c978e8f14014628c744c931a4c6bd6ced72",
+    "model-responses-probe.json": "af6f5bd0b5da28f3528f14180d09867d0bd2a669b05acc26bf9b45250da4b748",
+    "luna-current-capacity.json": "4361b2cbb09ca9431c1c60629707c66e580125020d97f808362a3ab2d675176e",
+    "external-budget-probe.json": "3217f74d7263fd55404573066e5101d232fffa1cfba67d929b937a8c5efde463"
+  },
+  "private_original_sha256": "a23168626eb1b979c7dff1edf11a790dc9c329b5d42c39e2b2076c50ba7eaeb1"
+}

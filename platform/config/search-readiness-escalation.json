@@ -1,0 +1,37 @@
+{
+  "status": "SUBMISSION_REJECTED_INVALID_SUPPORT_PLAN",
+  "approval": "User approved support submission in this conversation on 2026-10-27; no paid support purchase or resource recreation",
+  "submission_result": {
+    "observed_at": "2026-10-27T18:07:34Z",
+    "code": "InvalidSupportPlan",
+    "message": "Azure Support API reports no eligible support plan for creating technical tickets",
+    "ticket_created": false,
+    "paid_plan_purchased": false,
+    "attempted_resource_name": "hcp-search-provisioning-20261027"
+  },
+  "recipient": "Microsoft Azure support / Azure Databricks service team",
+  "subscription_id": "d054aa64-95db-467b-a25c-387de70b15bd",
+  "workspace_resource_id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/Databricks/providers/Microsoft.Databricks/workspaces/intellify-healthcare-dbw",
+  "workspace_id": "7405619366453187",
+  "region": "eastus",
+  "service_id": "/providers/Microsoft.Support/services/3461f86b-df79-07f2-aad9-34a81b2d9023",
+  "problem_classification_id": "/providers/Microsoft.Support/services/3461f86b-df79-07f2-aad9-34a81b2d9023/problemClassifications/c9901c87-8ed0-f011-bbd3-7c1e52470a12",
+  "severity": "minimal",
+  "title": "Standard Vector Search index remains pending endpoint provisioning after endpoint is ONLINE",
+  "description": "Please investigate Vector Search provisioning in our Premium SERVERLESS Azure Databricks workspace intellify-healthcare-dbw, East US. This is an isolated POC with three constant nonpatient documents and precomputed 768-dimensional vectors, no embedding model calls or healthcare source data. First endpoint hcp-foundation-search (UID 99251605-0190-424f-b04d-4a74ae7f9965) became ONLINE, but a four-minute index-readiness timeout was too short; it was deleted. We funded a separate retry: endpoint hcp-foundation-search-retry (UID 6d97cf32-701d-4b94-9c18-5e182a55650b) became ONLINE at 2026-10-27T13:48:16.902521Z. Direct-access index hc_test._foundation_probe.hcp_foundation_search remained not ready with indexed_row_count zero and message 'Direct access index creation is pending endpoint provisioning.' Upserts were rejected as initializing. The second attempt ran from 2026-10-27T13:48:13.783820Z to 2026-10-27T14:08:35.181244Z, including cleanup; its readiness allowance was twenty minutes inside a thirty-minute total probe contract. Both indexes and endpoints were confirmed deleted. Python SDK 0.157.0 and Databricks CLI 1.22.1. Please check the backend provisioning history, workspace entitlement/region/quota/network dependencies, whether a longer readiness allowance is required, and a supported corrective action before another paid lifecycle. We have not classified the feature as unsupported and have not created a third endpoint. No production workload is affected. Please do not recreate or expand billable resources without our approval.",
+  "contact": {
+    "first_name": "Karthik",
+    "last_name": "Bhat",
+    "primary_email_address": "karthik@intellifysolutions.com",
+    "preferred_contact_method": "email",
+    "preferred_time_zone": "India Standard Time",
+    "preferred_support_language": "en-US",
+    "country": "IND"
+  },
+  "publication_scope": "Business contact, healthcare workspace/resource identifiers, bounded nonpatient provisioning diagnostics only. No credentials, patient rows, Terraform state, other users or other workspaces.",
+  "paid_support_purchase_authorized": false,
+  "additional_search_resource_authorized": false,
+  "new_search_lifecycle_upper_reservation_inr": "809.48",
+  "current_phase2_gate": "NOT_READY",
+  "evidence": ["output/platform-foundation/search-first-attempt.json", "output/platform-foundation/search-probe.json", "output/platform-foundation/search-progress.json"]
+}

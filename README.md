@@ -203,3 +203,11 @@ The design validator checks schema integrity and feasibility arithmetic. The 55 
 ## Repository policy
 
 Commit each completed phase with its evidence and push to `https://github.com/Kkb113/Healthcare-solution.git`. Never commit credentials, live patient data, or generated datasets by accident; generated business data belongs in a separately manifested release location. A source export mirror is counted separately from canonical business rows in that release manifest.
+
+## Azure Databricks implementation
+
+The active solution roadmap is [azure-databricks-implementation.md](azure-databricks-implementation.md). Platform Phase 2 is **in progress**; source/CI checkpoints are not a completed phase gate. Phase 3 data onboarding remains blocked until every required capability probe and exit criterion passes. Generated healthcare data is not uploaded by these foundation probes.
+
+Platform code, Terraform, bundles and tests live under `platform/`. Run Spark/Delta tests in Ubuntu WSL with the pinned Linux lockfile; native Windows supports the CLI and control-plane tooling. Before preparing an Apps probe, build the current wheel with `SOURCE_DATE_EPOCH=1704067200`, run `platform/scripts/canonicalize_platform_wheel.py` on that wheel, then run `platform/scripts/prepare_probe_artifacts.py`. Canonicalization makes wheel packaging independent of host line endings and file permissions; preparation verifies the app lockfile checksum and copies the wheel into the ignored vendor directory. These steps do not provision cloud resources.
+
+The approved Phase 2 allowance is ₹2,850, including retained prerequisite costs and Search billing tails; see [the approved revision](platform/config/probe-budget-revision.json) and [current pooled allocation](platform/config/probe-runtime-allocation.json). These versioned amendments preserve the ₹20,000 build ceiling and required tests. The original Phase 0 roadmap/cost files remain frozen evidence. Missing provider billing never means zero spend, and failed probe attempts remain retained separately from successful reconciliation.

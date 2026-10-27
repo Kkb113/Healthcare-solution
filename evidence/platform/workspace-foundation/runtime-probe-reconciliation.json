@@ -1,0 +1,81 @@
+{
+  "observed_at": "2026-10-27T17:23:31.076940+00:00",
+  "runtime_status": "FUNCTIONAL_PASS_BILLING_PENDING",
+  "polling_status": "PASS",
+  "original_harness_status": "FAIL",
+  "harness_issue": "Task-key dictionary overwrote an earlier FAILED attempt with a retried TIMEDOUT attempt; all task attempts are retained here.",
+  "constant_fixture_result": {
+    "status": "PASS",
+    "rows": 3,
+    "version": 4,
+    "append_version": 1,
+    "historical_sentinel_rows": 1,
+    "replay_idempotent": true,
+    "table": "hc_test._foundation_probe.wheel_smoke",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "packages": {
+      "intellify-healthcare-platform": "0.2.0",
+      "pyspark": "4.1.0+databricks.connect.18.2.8",
+      "delta-spark": "3.4.0+databricks.connect.18.2.8"
+    }
+  },
+  "task_attempts": [
+    {
+      "task_key": "expected_failure",
+      "run_id": 287131130343453,
+      "attempt_number": 0,
+      "state": {
+        "life_cycle_state": "TERMINATED",
+        "result_state": "FAILED",
+        "state_message": "Workload failed, see run output for details",
+        "user_cancelled_or_timedout": false
+      }
+    },
+    {
+      "task_key": "expected_failure",
+      "run_id": 10642829372172,
+      "attempt_number": 1,
+      "state": {
+        "life_cycle_state": "TERMINATED",
+        "result_state": "TIMEDOUT",
+        "state_message": "Run timed out",
+        "user_cancelled_or_timedout": true
+      }
+    },
+    {
+      "task_key": "delta_replay",
+      "run_id": 754040864317720,
+      "attempt_number": 0,
+      "state": {
+        "life_cycle_state": "TERMINATED",
+        "result_state": "SUCCESS",
+        "state_message": "",
+        "user_cancelled_or_timedout": false
+      }
+    }
+  ],
+  "polling_principal": "658faa8a-72bf-4285-bf4c-3cd25778ac5f",
+  "poll_samples": 81,
+  "maximum_observed_poll_interval_seconds": 6.607811,
+  "failure_detected_seconds_from_probe_start": 551.305509,
+  "webhooks_enabled": false,
+  "system_tables_required_for_detection": false,
+  "cleanup": {
+    "run_reconciled": true,
+    "pipeline_stopped": true,
+    "pipeline_deleted": true,
+    "job_deleted": true,
+    "wheel_smoke_deleted": true,
+    "pipeline_constants_deleted": true,
+    "temporary_grant_removed": true,
+    "source_directory_removed": true
+  },
+  "billing_reservations_released": false,
+  "evidence_sha256": {
+    "serverless-runtime.json": "7378bbf1a4018d141e7ac3e5b125e83f8b968dbd96469c8ebb6e920183e91ff3",
+    "runtime-success-output.json": "35a295b5c3089a0d830b86f15693aad67d702ead7fcfea3609de2c2f66840487",
+    "runtime-terminal-reconciliation.json": "9abb9b56797721cdf5d5c7f14c08187e8e519a9e3590215a5ff38b1435e0a0af",
+    "runtime-pipeline-events.json": "d48e42ac10cdaf36f5a3e9a89181e1c3a8e1d4d4f10b1738898fc8e7280d0313"
+  },
+  "private_original_sha256": "4ee9fd28c5dce9ee3f12d0748e6a6366fae6999299eafa5e7ec88eecc8a27147"
+}

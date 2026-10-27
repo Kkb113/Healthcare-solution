@@ -9,16 +9,16 @@ import copy
 # Integer paise; includes the full search billing tail. These are pooled phase
 # limits, not per-session allowances. No automatic price discovery fallback.
 LIMITS = {
-    "sql_minutes": (90, 551),
+    "sql_minutes": (110, 551),
     "automated_dbu_milli": (4000, 6),
-    "app_minutes": (30, 94),
-    "search_cycles": (1, 80948),
-    "lakebase_minutes": (60, 103),
+    "app_minutes": (33, 94),
+    "search_cycles": (2, 80948),
+    "lakebase_minutes": (35, 103),
     "serving_minutes": (60, 56),
-    "genie_questions": (3, 3304),
+    "genie_questions": (1, 3304),
     "luna_requests": (12, 5),
 }
-ENVELOPE_PAISE = 175000
+ENVELOPE_PAISE = 260000
 
 
 def claim(state, operation_id, meter, units):

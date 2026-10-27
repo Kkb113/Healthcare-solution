@@ -1,0 +1,34 @@
+{
+  "phase": 2,
+  "status": "NOT_READY",
+  "observed_at": "2026-10-27T18:18:45.513626+00:00",
+  "phase3_authorized": false,
+  "current_required_functional_blocker": "P08 Search index provisioning; two funded lifecycles removed, no third approved",
+  "billing_pending": [
+    "P02 serverless Jobs/Lakeflow DBUs",
+    "P09 Lakebase CU/DBU attribution",
+    "P13 actual paid-principal native Genie SKU/DBU cost"
+  ],
+  "support_submission": "Approved by user; Azure Support API rejected with InvalidSupportPlan. No paid plan purchased and no case created. Portal eligibility not established because interactive sign-in is required.",
+  "criteria": {
+    "2.1": "Prior dev/test CI deployments pass; updated-source CI rerun pending",
+    "2.2": "PASS: independently observed auto-stop in 339.313 seconds",
+    "2.3": "PASS: 96 actual authorization matrix cases",
+    "2.4": "PASS: approved billing, lakeflow and lineage queries",
+    "2.5": "PASS: zero running compute after 1502 seconds idle; metadata guard launched no workload",
+    "2.6": "Local sleep/wake pass; updated-source external CI guard rerun pending",
+    "2.7": "Updated Linux/Windows suites pass; current CI rerun pending",
+    "2.8": "NOT_READY: Search and provider attribution pending"
+  },
+  "current_shared_wheel": "0.2.3",
+  "cloud_apps_tested_wheel": "0.2.1; authorization modules byte-identical to 0.2.3",
+  "terraform_workspace_drift": "Plan exit 0, no changes",
+  "probe_envelope_inr": "2850.00",
+  "holds_released": false,
+  "build_ceiling_inr": "20000.00",
+  "additional_markdown_files_created": 0,
+  "local_tests": {
+    "windows_unit": 200,
+    "linux_unit_and_delta_integration": 201
+  }
+}

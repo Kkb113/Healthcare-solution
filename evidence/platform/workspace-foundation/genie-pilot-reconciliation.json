@@ -1,0 +1,24 @@
+{
+  "status": "FUNCTIONAL_PASS_BILLING_PENDING",
+  "original_harness_status": "FAIL",
+  "harness_issue": "Genie SDK returned result metadata without inline data; retained cached statement result proves the expected constant count. No additional question was dispatched.",
+  "caller_application_id": "658faa8a-72bf-4285-bf4c-3cd25778ac5f",
+  "caller_databricks_id": "147109184184541",
+  "native_questions_dispatched": 1,
+  "global_native_build_allowance": 124,
+  "remaining_native_build_questions": 123,
+  "statement_id": "01f1d21c-5fba-1246-b49e-000a984257d8",
+  "reconciled_nonpatient_count": 3,
+  "billing": {
+    "status": "PENDING",
+    "empty_is_zero": false
+  },
+  "cleanup": {
+    "funded_access_revoked": true,
+    "space_trashed": true,
+    "fixture_deleted": true
+  },
+  "human_free_usage_assumed": false,
+  "original_sha256": "1f3c41b07f66db78610012fc055e42b882d412ec1123bb1b086ba09a875ac1eb",
+  "cached_result_sha256": "4f4f2036120d27c97fd54a9cbf0e23f44b14dd391a23b38df67cde64a7ba6130"
+}

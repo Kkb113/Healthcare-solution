@@ -48,7 +48,7 @@ ALTER FUNCTION hc_ops.security.facility_allowed OWNER TO `hcp-platform-admins`;
 CREATE OR REPLACE FUNCTION hc_ops.security.phi_allowed(facility STRING)
 RETURNS BOOLEAN
 RETURN hc_ops.security.facility_allowed(facility) AND COALESCE((
-  SELECT COUNT(*) = 1 AND COUNT_IF(phi_access AND role IN ('hcp-clinical', 'hcp-platform-admins')) = 1
+  SELECT COUNT(*) = 1 AND COUNT_IF(phi_access AND role IN ('hcp-clinical', 'hcp-platform-admins', 'sp-hcp-jobs', 'sp-hcp-validation')) = 1
   FROM hc_ops.security.principal_scope
   WHERE lower(principal_name) = lower(current_user())
     AND scope_version = (

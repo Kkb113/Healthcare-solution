@@ -39,6 +39,8 @@ def test_replay_and_delta_time_travel(tmp_path):
         first = run(LocalCatalog(), "hc_test._foundation_probe.wheel_smoke")
         second = run(LocalCatalog(), "hc_test._foundation_probe.wheel_smoke")
         assert first["rows"] == second["rows"] == 3
+        assert first["historical_sentinel_rows"] == 1
+        assert second["replay_idempotent"] is True
         assert second["version"] > first["version"]
         with pytest.raises(ValueError):
             run(LocalCatalog(), "hc_prod.silver.patient")

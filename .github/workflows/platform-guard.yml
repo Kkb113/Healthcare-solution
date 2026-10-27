@@ -4,6 +4,14 @@ on:
   schedule:
     - cron: '13 0 * * *'
   workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        options: [guard, watch]
+        default: guard
+      minutes:
+        type: number
+        default: 60
 
 permissions:
   contents: read
@@ -17,12 +25,14 @@ jobs:
   inspect-without-compute:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 135
     env:
       DATABRICKS_HOST: https://adb-7405619366453187.7.azuredatabricks.net
       DATABRICKS_AUTH_TYPE: azure-cli
       DATABRICKS_AZURE_RESOURCE_ID: /subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/Databricks/providers/Microsoft.Databricks/workspaces/intellify-healthcare-dbw
       ARM_SUBSCRIPTION_ID: d054aa64-95db-467b-a25c-387de70b15bd
+      HCP_GUARD_MODE: ${{ inputs.mode || 'guard' }}
+      HCP_GUARD_MINUTES: ${{ inputs.minutes || 60 }}
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       - uses: azure/login@8216e11d8cd9b42fe925c852af8e76311ff067ac # v2
@@ -39,10 +49,16 @@ jobs:
           uv venv platform/.venv
           uv pip sync platform/requirements-linux.lock --python platform/.venv/bin/python --require-hashes --quiet
       - name: Inspect or stop through metadata APIs only
-        run: platform/.venv/bin/python -B platform/scripts/platform_control.py guard
+        run: |
+          case "$HCP_GUARD_MODE" in guard|watch) ;; *) exit 1 ;; esac
+          [[ "$HCP_GUARD_MINUTES" =~ ^[0-9]+$ ]] || exit 1
+          (( HCP_GUARD_MINUTES >= 1 && HCP_GUARD_MINUTES <= 120 )) || exit 1
+          platform/.venv/bin/python -B platform/scripts/platform_control.py "$HCP_GUARD_MODE" --minutes "$HCP_GUARD_MINUTES"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
           name: external-guard
-          path: output/platform-foundation/control-guard.json
+          path: |
+            output/platform-foundation/control-guard.json
+            output/platform-foundation/control-watch.json
           retention-days: 14

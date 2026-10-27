@@ -33,6 +33,49 @@ SETTINGS = ROOT / "platform/config/platform-foundation.json"
 OUTPUT = ROOT / "output/platform-foundation"
 
 
+def has_funding(ledger):
+    settings = load(SETTINGS)
+    required = {
+        settings["probe_reservation_id"]: settings["new_probe_reservation_paise"]
+    }
+    if settings.get("contingency_reservation_id"):
+        amendment = load(ROOT / settings["cost_amendment"])
+        if amendment["status"] != "APPROVED":
+            return False
+        required[settings["contingency_reservation_id"]] = settings[
+            "contingency_reservation_paise"
+        ]
+    return not exposure(ledger)["pause_new_work"] and all(
+        ledger["reservations"].get(key, {}).get("paise", 0) >= amount
+        for key, amount in required.items()
+    )
+
+
+def admit_operation(store, operation_id, meter, units):
+    def action(value):
+        admission(value, has_funding(BlobLedger().read()[0]))
+        return claim(value, operation_id, meter, units)
+
+    return store.transact(action)
+
+
+class RefreshingAzureRest(AzureRest):
+    """Refresh once after an explicit authentication rejection, including writes.
+
+    An HTTP 401 means the service rejected authentication before mutation. Other
+    ambiguous write failures remain uncertain and are never blindly retried.
+    """
+
+    def request(self, method, url, **kwargs):
+        try:
+            return super().request(method, url, **kwargs)
+        except CloudHttpError as error:
+            if error.status != 401:
+                raise
+            self._token = None
+            return super().request(method, url, **kwargs)
+
+
 def workspace_client():
     from databricks.sdk import WorkspaceClient
 
@@ -50,7 +93,7 @@ class ControlStore:
         config = load(CONFIG)
         self.settings = load(SETTINGS)
         host = config["storage_account"] + ".blob.core.windows.net"
-        self.client = client or AzureRest(
+        self.client = client or RefreshingAzureRest(
             config["workspace_subscription"], "https://storage.azure.com/", {host}
         )
         self.url = f"https://{host}/control/{self.settings['control_blob']}"
@@ -87,13 +130,26 @@ class ControlStore:
         return value, etag
 
     def transact(self, action):
-        _, headers, _ = self.client.request(
-            "PUT",
-            self.url + "?comp=lease",
-            headers=self.headers(
-                {"x-ms-lease-action": "acquire", "x-ms-lease-duration": "60"}
-            ),
-        )
+        for attempt in range(4):
+            try:
+                _, headers, _ = self.client.request(
+                    "PUT",
+                    self.url + "?comp=lease",
+                    headers=self.headers(
+                        {"x-ms-lease-action": "acquire", "x-ms-lease-duration": "60"}
+                    ),
+                )
+                break
+            except CloudHttpError as error:
+                if (
+                    error.status != 409
+                    or error.code != "LeaseAlreadyPresent"
+                    or attempt == 3
+                ):
+                    raise
+                # Explicit rejected acquisition made no mutation. Never retry
+                # an ambiguous write or stale CAS under this policy.
+                time.sleep(attempt + 1)
         lease = headers.get("x-ms-lease-id")
         if not lease:
             raise ValueError("Control lease missing; fail closed")
@@ -105,6 +161,25 @@ class ControlStore:
                 return previous
             changed["revision"] = previous["revision"] + 1
             changed["updated_at"] = now()
+            events = list(previous.get("events", []))
+            if len(events) >= 10000:
+                raise PermissionError(
+                    "Archive control audit history before another mutation"
+                )
+            events.append(
+                {
+                    "revision": changed["revision"],
+                    "at": changed["updated_at"],
+                    "from": previous["state"],
+                    "to": changed["state"],
+                    "session_id": changed["session"]["id"]
+                    if changed.get("session")
+                    else None,
+                    "resource_count": len(changed["resources"]),
+                    "cost_claim_count": len(changed.get("cost_claims", {})),
+                }
+            )
+            changed["events"] = events
             self.client.request(
                 "PUT",
                 self.url,
@@ -134,7 +209,7 @@ def owned_name(name):
     )
 
 
-def inventory(client):
+def inventory(client, registered=()):
     """Metadata APIs only. Existing unrelated and system foundation endpoints excluded."""
     warehouses = [
         {
@@ -162,7 +237,7 @@ def inventory(client):
             )
         )
         runs = list(
-            client.jobs.list_runs(job_id=job.job_id, active_only=True, limit=100)
+            client.jobs.list_runs(job_id=job.job_id, active_only=True, limit=25)
         )
         jobs.append(
             {
@@ -176,29 +251,32 @@ def inventory(client):
                 "owned": owned_name(settings.name),
             }
         )
+    from lakebase_lifecycle import inspect_resources
+
+    lakebase, sync_pipeline_ids = inspect_resources(client, registered)
     pipelines = []
     for pipeline in client.pipelines.list_pipelines():
-        if owned_name(pipeline.name):
-            record = client.pipelines.get(pipeline.pipeline_id)
-            running = record.state.value not in {"IDLE", "DELETED", "FAILED"}
-            pipelines.append(
-                {
-                    "kind": "pipeline",
-                    "id": pipeline.pipeline_id,
-                    "name": pipeline.name,
-                    "running": running,
-                    "state": record.state.value,
-                    "owner": "bundle",
-                }
-            )
+        record = client.pipelines.get(pipeline.pipeline_id)
+        state = record.state.value if record.state else "UNKNOWN"
+        pipelines.append(
+            {
+                "kind": "pipeline",
+                "id": pipeline.pipeline_id,
+                "name": pipeline.name,
+                "running": state not in {"IDLE", "DELETED", "FAILED"},
+                "state": state,
+                "owned": owned_name(pipeline.name)
+                or pipeline.pipeline_id in sync_pipeline_ids,
+                "owner": "bundle",
+            }
+        )
     apps = [
         {
             "kind": "app",
             "id": app.name,
             "name": app.name,
-            "running": bool(
-                app.compute_status and app.compute_status.state.value != "STOPPED"
-            ),
+            "running": not app.compute_status
+            or app.compute_status.state.value != "STOPPED",
             "state": app.compute_status.state.value
             if app.compute_status
             else "UNKNOWN",
@@ -219,6 +297,20 @@ def inventory(client):
         for endpoint in client.serving_endpoints.list()
         if owned_name(endpoint.name)
     ]
+    search = [
+        {
+            "kind": "search",
+            "id": endpoint.name,
+            "name": endpoint.name,
+            "running": True,
+            "state": str(endpoint.endpoint_status.state)
+            if endpoint.endpoint_status
+            else "UNKNOWN",
+            "owner": "api-adapter",
+            "owned": endpoint.name.startswith("hcp-foundation-"),
+        }
+        for endpoint in client.vector_search_endpoints.list_endpoints()
+    ]
     # Search/Lakebase are registered before their funded probe. The adapters
     # extend this manifest with their API status; unknown status is never sleep.
     clusters = [
@@ -233,7 +325,9 @@ def inventory(client):
         }
         for c in client.clusters.list()
     ]
-    result = warehouses + jobs + pipelines + apps + serving + clusters
+    result = (
+        warehouses + jobs + pipelines + apps + serving + clusters + search + lakebase
+    )
     return result
 
 
@@ -246,9 +340,11 @@ def shutdown(client, resources):
         key=lambda r: {
             "job": 0,
             "pipeline": 1,
-            "app": 2,
-            "serving": 3,
-            "warehouse": 4,
+            "synced_table": 2,
+            "app": 3,
+            "serving": 4,
+            "lakebase": 5,
+            "warehouse": 6,
         }.get(r["kind"], 5),
     ):
         if not resource["running"] or not resource.get("owned", True):
@@ -276,6 +372,28 @@ def shutdown(client, resources):
             client.serving_endpoints.delete(identity)
         elif kind == "warehouse":
             client.warehouses.stop(identity)
+        elif kind == "search":
+            if not identity.startswith("hcp-foundation-"):
+                raise PermissionError(
+                    "Search deletion requires a tested rebuild/snapshot owner"
+                )
+            indexes = list(client.vector_search_indexes.list_indexes(identity))
+            if any(
+                not index.name.startswith("hc_test._foundation_probe.")
+                for index in indexes
+            ):
+                raise PermissionError("Unexpected index on temporary search endpoint")
+            for index in indexes:
+                client.vector_search_indexes.delete_index(index.name)
+            client.vector_search_endpoints.delete_endpoint(identity)
+        elif kind == "lakebase":
+            from lakebase_lifecycle import hard_disable
+
+            hard_disable(client, identity)
+        elif kind == "synced_table":
+            from lakebase_lifecycle import remove_temporary_sync
+
+            remove_temporary_sync(client, identity)
         else:
             raise ValueError(
                 "Resource owner adapter is not registered; cannot certify sleep"
@@ -284,22 +402,64 @@ def shutdown(client, resources):
     return actions
 
 
-def down(store, client, timeout=360):
+_ANY_SESSION = object()
+
+
+class SupersededSession(RuntimeError):
+    """A newer window owns the controller; an old watcher must leave it alone."""
+
+
+def session_id(state):
+    return (state.get("session") or {}).get("id")
+
+
+def down(store, client, timeout=360, expected_session_id=_ANY_SESSION):
     state, _ = store.read()
+    if (
+        expected_session_id is not _ANY_SESSION
+        and session_id(state) != expected_session_id
+    ):
+        return {"status": "SUPERSEDED", "actions": [], "metadata_only": True}
     if any(
-        r["kind"] not in {"warehouse", "job", "pipeline", "app", "serving"}
+        r["kind"]
+        not in {
+            "warehouse",
+            "job",
+            "pipeline",
+            "app",
+            "serving",
+            "search",
+            "lakebase",
+            "synced_table",
+        }
         for r in state["resources"]
     ):
         raise ValueError(
             "A registered resource needs its inspection/stop adapter; sleep cannot be certified"
         )
-    resources = inventory(client)
+    resources = inventory(client, state["resources"])
     if state["state"] == "ASLEEP" and not any(r["running"] for r in resources):
         return {"status": "PASS", "state": "ASLEEP", "running": 0, "actions": []}
-    if state["state"] == "ASLEEP":
-        store.transact(lambda old: old | {"state": "FAILED"})
-    store.transact(lambda old: transition(old, "STOPPING"))
-    actions = shutdown(client, resources)
+
+    def begin_shutdown(old):
+        if (
+            expected_session_id is not _ANY_SESSION
+            and session_id(old) != expected_session_id
+        ):
+            raise SupersededSession("Shutdown belongs to a previous window")
+        if old["state"] == "ASLEEP":
+            old = old | {"state": "FAILED"}
+        return transition(old, "STOPPING")
+
+    try:
+        store.transact(begin_shutdown)
+    except SupersededSession:
+        return {"status": "SUPERSEDED", "actions": [], "metadata_only": True}
+    try:
+        actions = shutdown(client, resources)
+    except Exception:
+        store.transact(lambda old: transition(old, "FAILED"))
+        raise
     if any(r["running"] and not r.get("owned", True) for r in resources):
         store.transact(lambda old: transition(old, "FAILED"))
         raise PermissionError(
@@ -307,7 +467,7 @@ def down(store, client, timeout=360):
         )
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
-        resources = inventory(client)
+        resources = inventory(client, state["resources"])
         if not any(r["running"] for r in resources):
             store.transact(lambda old: transition(old, "ASLEEP", asleep=True))
             return {
@@ -330,16 +490,39 @@ def guard(store, client):
         # running. Shutdown uses live metadata and the closed healthcare prefix;
         # it never interprets untrusted state or starts compute for inspection.
         shutdown(client, inventory(client))
+        # Fixed emergency scope covers a corrupt/unavailable manifest without
+        # querying Postgres or touching an unrelated project. Stop other known
+        # compute first even when the Lakebase control API is unavailable.
+        from lakebase_lifecycle import PROJECT, SYNC, inspect_resources
+
+        emergency, _ = inspect_resources(
+            client,
+            [
+                {"kind": "lakebase", "id": PROJECT},
+                {"kind": "synced_table", "id": SYNC},
+            ],
+        )
+        shutdown(client, emergency)
         raise
     if any(
-        r["kind"] not in {"warehouse", "job", "pipeline", "app", "serving"}
+        r["kind"]
+        not in {
+            "warehouse",
+            "job",
+            "pipeline",
+            "app",
+            "serving",
+            "search",
+            "lakebase",
+            "synced_table",
+        }
         for r in state["resources"]
     ):
         raise ValueError("A registered resource cannot yet be inspected; fail closed")
-    resources = inventory(client)
+    resources = inventory(client, state["resources"])
     running = [r for r in resources if r["running"]]
     if needs_shutdown(state, running):
-        return down(store, client)
+        return down(store, client, expected_session_id=session_id(state))
     return {
         "status": "PASS",
         "state": state["state"],
@@ -349,6 +532,29 @@ def guard(store, client):
     }
 
 
+def watch_window(store, client, minutes):
+    """Watch exactly the session present at launch, including final cleanup.
+
+    The durable lease/CAS check in down also protects the gap between reading
+    the session and requesting a stop. Scheduled one-shot guard remains global.
+    """
+    owned = session_id(store.read()[0])
+    if owned is None:
+        return guard(store, client)
+    started = time.monotonic()
+    while time.monotonic() - started < minutes * 60:
+        if session_id(store.read()[0]) != owned:
+            return {"status": "SUPERSEDED", "metadata_only": True, "actions": []}
+        result = guard(store, client)
+        current = store.read()[0]
+        if session_id(current) != owned:
+            return result
+        if instant(current["session"]["deadline_utc"]) <= datetime.now(timezone.utc):
+            return down(store, client, expected_session_id=owned)
+        time.sleep(30)
+    return down(store, client, expected_session_id=owned)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -356,6 +562,7 @@ def main():
         choices=[
             "initialize",
             "reserve",
+            "reserve-contingency",
             "open",
             "up",
             "down",
@@ -387,17 +594,34 @@ def main():
             )
         )
         result = {"status": "PASS", "budget": exposure(ledger)}
+    elif args.command == "reserve-contingency":
+        revision = load(ROOT / settings["cost_amendment"])
+        if (
+            revision["status"] != "APPROVED"
+            or revision["proposed_build_ceiling_inr"] != "20000.00"
+        ):
+            raise PermissionError("No approved within-ceiling contingency amendment")
+        ledger = BlobLedger().transact(
+            lambda value: reserve(
+                value,
+                settings["contingency_reservation_id"],
+                settings["contingency_reservation_paise"],
+                2,
+            )
+        )
+        result = {
+            "status": "PASS",
+            "budget": exposure(ledger),
+            "amendment": settings["cost_amendment"],
+        }
     elif args.command == "open":
         ledger = BlobLedger().read()[0]
-        if (
-            exposure(ledger)["pause_new_work"]
-            or settings["probe_reservation_id"] not in ledger["reservations"]
-        ):
+        if not has_funding(ledger):
             raise PermissionError("No funded reservation")
         if not 1 <= args.minutes <= settings["window_max_minutes"]:
             raise ValueError("Invalid funded window duration")
         client = workspace_client()
-        if any(r["running"] for r in inventory(client)):
+        if any(r["running"] for r in inventory(client, store.read()[0]["resources"])):
             raise PermissionError(
                 "Reconcile existing active resources before opening a window"
             )
@@ -414,10 +638,7 @@ def main():
         def funded_claim(value):
             admission(value, True)
             ledger = BlobLedger().read()[0]
-            if (
-                exposure(ledger)["pause_new_work"]
-                or settings["probe_reservation_id"] not in ledger["reservations"]
-            ):
+            if not has_funding(ledger):
                 raise PermissionError("No funded reservation")
             return claim(value, args.operation_id, args.meter, args.units)
 
@@ -435,8 +656,7 @@ def main():
             ledger = BlobLedger().read()[0]
             admission(
                 state,
-                state["session"]["reservation_id"] in ledger["reservations"]
-                and not exposure(ledger)["pause_new_work"],
+                has_funding(ledger),
             )
             declared = [
                 r
@@ -459,21 +679,7 @@ def main():
         elif args.command == "guard":
             result = guard(store, client)
         else:
-            started = time.monotonic()
-            while time.monotonic() - started < args.minutes * 60:
-                result = guard(store, client)
-                current = store.read()[0]
-                if current["session"] and instant(
-                    current["session"]["deadline_utc"]
-                ) <= datetime.now(timezone.utc):
-                    result = down(store, client)
-                    break
-                time.sleep(30)
-            if (
-                any(r["running"] for r in inventory(client))
-                or store.read()[0]["state"] != "ASLEEP"
-            ):
-                result = down(store, client)
+            result = watch_window(store, client, args.minutes)
     report = {"observed_at": now(), "command": args.command, "result": result}
     save(OUTPUT / ("control-" + args.command + ".json"), report)
     print(json.dumps(report))

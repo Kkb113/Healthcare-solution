@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-10-27T18:23:14.300170+00:00",
+  "preserved_identity_count": 16,
+  "preserved_identity_sha256": "c953a979a00dd37295a949ec4783c7facb2160ddc10b252617d302ce9ea8ee62",
+  "human_user_changes_in_phase2": 0,
+  "temporary_fixture_identities_removed": 8,
+  "unrelated_identity_details_published": false
+}

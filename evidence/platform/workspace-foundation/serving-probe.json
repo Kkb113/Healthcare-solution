@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-27T17:21:19.745889+00:00",
+  "completed_at": "2026-10-27T17:35:05.112632+00:00",
+  "calls": [
+    {
+      "case": "first_after_deploy",
+      "elapsed_ms": 2375.0,
+      "reconciled_prediction": 42
+    },
+    {
+      "case": "warm",
+      "elapsed_ms": 1671.0,
+      "reconciled_prediction": 42
+    }
+  ],
+  "minimum_cpu_sku": {
+    "creation_timestamp": 1793121766000,
+    "creator": "karthik@intellifysolutions.com",
+    "entity_name": "hc_test._foundation_probe.hcp_constant_fixture",
+    "entity_version": "1",
+    "name": "constant",
+    "scale_to_zero_enabled": true,
+    "state": {
+      "deployment": "DEPLOYMENT_READY",
+      "deployment_state_message": ""
+    },
+    "workload_size": "Small",
+    "workload_type": "CPU"
+  },
+  "signature": {
+    "inputs": "[{\"type\": \"long\", \"name\": \"input\", \"required\": true}]",
+    "outputs": "[{\"type\": \"long\", \"name\": \"prediction\", \"required\": true}]",
+    "params": null
+  },
+  "readiness_seconds": 805.516,
+  "caller_denied": "PermissionDenied",
+  "cleanup": {
+    "endpoint_deleted": true,
+    "model_deleted": true,
+    "experiment_permissions_restored": true,
+    "experiment_soft_deleted": true,
+    "runtime_secret_revoked": true
+  },
+  "elapsed_seconds": 825.375,
+  "pip_requirements": [
+    "mlflow==3.17.2",
+    "pandas==3.1.0",
+    "cloudpickle==3.1.2"
+  ],
+  "private_original_sha256": "ec00211b01da6091bce971465568d69d236689697af80ce01f844345ba1756ad"
+}

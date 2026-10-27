@@ -110,11 +110,36 @@ def authorize(binding: Binding, facility: str, domain: str, phi=False):
             "finance",
             "revenue",
         },
+        "sp-hcp-jobs": {
+            "clinical",
+            "quality",
+            "flow",
+            "workforce",
+            "finance",
+            "revenue",
+        },
+        "sp-hcp-validation": {
+            "clinical",
+            "quality",
+            "flow",
+            "workforce",
+            "finance",
+            "revenue",
+        },
     }
     if (
         facility not in binding.facilities
         or domain not in domains.get(binding.role, set())
         or phi
-        and not binding.phi
+        and (
+            not binding.phi
+            or binding.role
+            not in {
+                "hcp-clinical",
+                "hcp-platform-admins",
+                "sp-hcp-jobs",
+                "sp-hcp-validation",
+            }
+        )
     ):
         raise PermissionError("DENY_SCOPE")

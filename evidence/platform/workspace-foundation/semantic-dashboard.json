@@ -1,0 +1,118 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-27T17:37:17.056288+00:00",
+  "completed_at": "2026-10-27T17:44:37.678337+00:00",
+  "cases": [
+    {
+      "case": "direct_api_0",
+      "status": "PASS"
+    },
+    {
+      "case": "direct_api_1",
+      "status": "PASS"
+    },
+    {
+      "case": "scoped_dashboard_share_0",
+      "status": "PASS"
+    },
+    {
+      "case": "scoped_dashboard_share_1",
+      "status": "PASS"
+    },
+    {
+      "case": "human_user_oauth_unmapped",
+      "status": "PASS"
+    },
+    {
+      "case": "obo_0_own_facility",
+      "status": "PASS",
+      "http_status": 200
+    },
+    {
+      "case": "obo_0_cross_facility",
+      "status": "PASS",
+      "http_status": 200
+    },
+    {
+      "case": "obo_0_forged_identity",
+      "status": "PASS",
+      "http_status": 200
+    },
+    {
+      "case": "obo_0_forged_forwarded_token",
+      "status": "PASS",
+      "http_status": 200
+    },
+    {
+      "case": "obo_1_own_facility",
+      "status": "PASS",
+      "http_status": 200
+    },
+    {
+      "case": "obo_1_cross_facility",
+      "status": "PASS",
+      "http_status": 200
+    },
+    {
+      "case": "obo_1_forged_identity",
+      "status": "PASS",
+      "http_status": 200
+    },
+    {
+      "case": "obo_1_forged_forwarded_token",
+      "status": "PASS",
+      "http_status": 200
+    },
+    {
+      "case": "unauthenticated",
+      "status": "PASS",
+      "http_status": 401
+    },
+    {
+      "case": "revoked_with_existing_token",
+      "status": "PASS"
+    }
+  ],
+  "published_dashboard": {
+    "display_name": "hcp-foundation-metric-scope",
+    "embed_credentials": false,
+    "revision_create_time": "2026-10-27T17:39:00.996Z",
+    "warehouse_id": "bd30bdac29080126"
+  },
+  "optional_webhook": {
+    "status": "UNSUPPORTED_DISABLED",
+    "attempt": "Notification-shaped HTTP Basic POST to protected Apps ingress using the same valid scoped service principal used for successful bearer requests",
+    "http_status": 401,
+    "actual_jobs_notification_engine_delivery_tested": false,
+    "reason": "Approved GA GenericWebhookConfig exposes HTTP Basic only; Apps ingress accepts OAuth bearer. OAuth destinations are a separate Beta and were not enabled.",
+    "receiver_enabled": false,
+    "notification_destination_created": false,
+    "polling_fallback": "runtime-probe-reconciliation.json"
+  },
+  "cleanup": {
+    "dashboard_unpublished": true,
+    "dashboard_trashed": true,
+    "app_deleted": true,
+    "scope_bindings_removed": true,
+    "metric_removed": true,
+    "fixture_removed": true,
+    "grant_removed_179d269c-33d8-4fda-b6e2-aab5e38b6348_schema": true,
+    "grant_removed_179d269c-33d8-4fda-b6e2-aab5e38b6348_catalog": true,
+    "grant_removed_65649fad-4d49-420f-87f8-6677ad5f34be_schema": true,
+    "grant_removed_65649fad-4d49-420f-87f8-6677ad5f34be_catalog": true,
+    "warehouse_acl_restored": true,
+    "source_directory_removed": true,
+    "oauth_secrets_revoked": true,
+    "app_delete_readback": true
+  },
+  "cleanup_errors": [],
+  "elapsed_seconds": 419.266,
+  "source_hashes": {
+    "platform/probes/authorization_app/app.py": "66dbda7794881a042fbf43b5ad77dd9f788cdc664c7801332758b085e7a36c33",
+    "platform/probes/authorization_app/app.yaml": "9bc4d962e672daa566701d5c150c5ebed302a87a22a0c941ef1e8cb12b72f370",
+    "platform/probes/authorization_app/pyproject.toml": "cbdfd8cee299ee1ec90832c3674a621aeceabe9958a8a19b21d0b4ff57ebdaa6",
+    "platform/probes/authorization_app/uv.lock": "297916fa032c7aed0eff18ff49098fe78994b6f4dc54a9a59eee9078452e981b",
+    "platform/probes/authorization_app/vendor/intellify_healthcare_platform-0.2.1-py3-none-any.whl": "8bf71edce87c89fb859fa3cc46ecb158be5301d0f704fe87284aa0e92ad75feb"
+  },
+  "private_original_sha256": "d4e19e4a5552236892626376044f1c062474f4c70cf5195bc3d6a4ad77aba021"
+}

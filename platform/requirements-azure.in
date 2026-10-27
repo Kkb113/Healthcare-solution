@@ -1,0 +1,5 @@
+# Azure UC model artifacts and Lakebase probes. Resolve against the frozen base
+# lock; install as an additive hash-locked layer without changing base packages.
+azure-storage-file-datalake>=12,<13
+azure-identity>=1,<2
+psycopg[binary]>=3.2,<4

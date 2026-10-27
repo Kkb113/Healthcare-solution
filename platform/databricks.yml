@@ -19,7 +19,9 @@ artifacts:
   shared:
     type: whl
     path: .
-    build: uv build --wheel --out-dir dist
+    build: |
+      uv build --wheel --out-dir dist
+      python scripts/canonicalize_platform_wheel.py
 
 sync:
   exclude:

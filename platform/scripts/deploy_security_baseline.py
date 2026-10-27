@@ -13,8 +13,8 @@ from foundation_support import ROOT, now, save
 from platform_control import ControlStore, admission, workspace_client
 
 
-def execute(client, warehouse, statement, timeout=120):
-    admission(ControlStore().read()[0], True)
+def execute(client, warehouse, statement, timeout=120, control=None):
+    admission((control or ControlStore()).read()[0], True)
     response = client.statement_execution.execute_statement(
         warehouse_id=warehouse, statement=statement, wait_timeout="0s"
     )
@@ -34,13 +34,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--warehouse-id", required=True)
     args = parser.parse_args()
-    source = ROOT / "platform/sql/security/baseline.sql"
+    sources = [
+        ROOT / "platform/sql/security/baseline.sql",
+        ROOT / "platform/sql/security/domain_policies.sql",
+    ]
+    sql = "\n-- COMMAND ----------\n".join(path.read_text() for path in sources)
     client = workspace_client()
     results = []
     try:
-        for index, command in enumerate(
-            source.read_text().split("-- COMMAND ----------")
-        ):
+        for index, command in enumerate(sql.split("-- COMMAND ----------")):
             response = execute(client, args.warehouse_id, command)
             results.append(
                 {
@@ -54,7 +56,7 @@ def main():
             ROOT / "output/platform-foundation/security-baseline.json",
             {
                 "observed_at": now(),
-                "source_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                "source_sha256": hashlib.sha256(sql.encode()).hexdigest(),
                 "commands": results,
                 "business_read_grants": 0,
             },

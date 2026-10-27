@@ -1,0 +1,18 @@
+{
+  "status": "FIXTURE_CONTRACT_IMPLEMENTED_ATOMIC_SERVICE_DEFERRED",
+  "primary_application_reservation_phase": 10,
+  "tiny_fixture_limit_paise": 10,
+  "fixtures": [
+    {"condition": "known versioned price within tiny limit", "expected": "ALLOW_AFTER_ATOMIC_RESERVATION"},
+    {"condition": "exhausted budget", "expected": "DENY_ZERO_DISPATCH"},
+    {"condition": "unknown or nonfinite price", "expected": "DENY_ZERO_DISPATCH"},
+    {"condition": "unavailable ledger", "expected": "DENY_ZERO_DISPATCH"},
+    {"condition": "explicit 429", "expected": "AT_MOST_ONE_RETRY_WITH_FRESH_RESERVATION_AND_BOUNDED_RETRY_AFTER"},
+    {"condition": "401/403 or ambiguous timeout/transport failure", "expected": "NO_AUTOMATIC_RETRY_RETAIN_UNCERTAIN_HOLD"}
+  ],
+  "external_gateway_beta": "UNSUPPORTED_EXTERNAL_BETA in this account; no Beta was enabled",
+  "gateway_budget_replaces_primary_ledger": false,
+  "phase2_production_app_user_model_access": false,
+  "live_429_observed": false,
+  "retry_fault_testing": "Deterministic transport faults; no manufactured billable quota exhaustion"
+}

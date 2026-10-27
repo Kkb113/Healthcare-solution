@@ -1,0 +1,186 @@
+{
+  "original_private_reports_retained": true,
+  "attempts": [
+    {
+      "file": "app-authorization-initial-provisioning-attempt.json",
+      "sha256": "120529d687392fea03f2f0781526f5ade2f87b4d5b42ffb25b1dc246da0bc27a",
+      "original_status": "CLEANUP_FAILED",
+      "failure_type": "BadRequest",
+      "cleanup": {
+        "scope_bindings_removed": true,
+        "fixture_removed": true,
+        "grant_removed_179d269c-33d8-4fda-b6e2-aab5e38b6348_schema": true,
+        "grant_removed_179d269c-33d8-4fda-b6e2-aab5e38b6348_catalog": true,
+        "grant_removed_65649fad-4d49-420f-87f8-6677ad5f34be_schema": true,
+        "grant_removed_65649fad-4d49-420f-87f8-6677ad5f34be_catalog": true,
+        "warehouse_acl_restored": true,
+        "source_directory_removed": true,
+        "oauth_secrets_revoked": true
+      },
+      "cleanup_errors": [
+        {
+          "operation": "app_deleted",
+          "error_type": "BadRequest"
+        },
+        {
+          "operation": "app_delete_readback",
+          "error_type": "StillExists"
+        }
+      ],
+      "elapsed_seconds": 86.875
+    },
+    {
+      "file": "app-authorization-omitted-readback-attempt.json",
+      "sha256": "b3d8a28c3ed4c14a0a416dcb48762ef976c874bcf0bbe2040b1c8e77c7210192",
+      "original_status": "FAIL",
+      "failure_type": "AssertionError",
+      "cleanup": {
+        "app_deleted": true,
+        "scope_bindings_removed": true,
+        "fixture_removed": true,
+        "grant_removed_179d269c-33d8-4fda-b6e2-aab5e38b6348_schema": true,
+        "grant_removed_179d269c-33d8-4fda-b6e2-aab5e38b6348_catalog": true,
+        "grant_removed_65649fad-4d49-420f-87f8-6677ad5f34be_schema": true,
+        "grant_removed_65649fad-4d49-420f-87f8-6677ad5f34be_catalog": true,
+        "warehouse_acl_restored": true,
+        "source_directory_removed": true,
+        "oauth_secrets_revoked": true,
+        "app_delete_readback": true
+      },
+      "cleanup_errors": [],
+      "elapsed_seconds": 318.75
+    },
+    {
+      "file": "app-authorization-rest-scope-attempt.json",
+      "sha256": "2a97011c7642008374904325a2c4f96f2862234d8df2845a6963533d9c04be22",
+      "original_status": "FAIL",
+      "failure_type": "AssertionError",
+      "cleanup": {
+        "app_deleted": true,
+        "scope_bindings_removed": true,
+        "fixture_removed": true,
+        "grant_removed_179d269c-33d8-4fda-b6e2-aab5e38b6348_schema": true,
+        "grant_removed_179d269c-33d8-4fda-b6e2-aab5e38b6348_catalog": true,
+        "grant_removed_65649fad-4d49-420f-87f8-6677ad5f34be_schema": true,
+        "grant_removed_65649fad-4d49-420f-87f8-6677ad5f34be_catalog": true,
+        "warehouse_acl_restored": true,
+        "source_directory_removed": true,
+        "oauth_secrets_revoked": true,
+        "app_delete_readback": true
+      },
+      "cleanup_errors": [],
+      "elapsed_seconds": 331.141
+    },
+    {
+      "file": "app-authorization-service-principal-attempt.json",
+      "sha256": "9c503b628491f79e88c4ca6acc566b62f3182626d1844c85b826459259fcbd70",
+      "original_status": "FAIL",
+      "failure_type": "AssertionError",
+      "cleanup": {
+        "app_deleted": true,
+        "scope_bindings_removed": true,
+        "fixture_removed": true,
+        "grant_removed_179d269c-33d8-4fda-b6e2-aab5e38b6348_schema": true,
+        "grant_removed_179d269c-33d8-4fda-b6e2-aab5e38b6348_catalog": true,
+        "grant_removed_65649fad-4d49-420f-87f8-6677ad5f34be_schema": true,
+        "grant_removed_65649fad-4d49-420f-87f8-6677ad5f34be_catalog": true,
+        "warehouse_acl_restored": true,
+        "source_directory_removed": true,
+        "oauth_secrets_revoked": true,
+        "app_delete_readback": true
+      },
+      "cleanup_errors": [],
+      "elapsed_seconds": 302.094
+    },
+    {
+      "file": "external-budget-original-attempt.json",
+      "sha256": "54e8d6532a9dadc8d89655ba17b11edab686803892c9159f23a22b91d6dc52ec",
+      "original_status": "INCOMPLETE",
+      "failure_type": "InvalidParameterValue",
+      "cleanup": null,
+      "cleanup_errors": null,
+      "elapsed_seconds": null
+    },
+    {
+      "file": "lakebase-proxy-denial-classification-attempt.json",
+      "sha256": "99b2fea75d9bd1f21e94e517a56e652662d57fbec75cecb959cad3f1c256fa40",
+      "original_status": "FAIL",
+      "failure_type": "OperationalError",
+      "cleanup": {
+        "connections_and_credentials_closed": true,
+        "endpoint_hard_disabled": true,
+        "project_purged": true,
+        "source_table_deleted": true
+      },
+      "cleanup_errors": [],
+      "elapsed_seconds": 56.953
+    },
+    {
+      "file": "lakebase-token-mint-assertion-attempt.json",
+      "sha256": "87ccf0fdd39308e8876a091754fce1602dd1b1310aee680a620a33060a5c2219",
+      "original_status": "FAIL",
+      "failure_type": "AssertionError",
+      "cleanup": {
+        "connections_and_credentials_closed": true,
+        "endpoint_hard_disabled": true,
+        "project_purged": true,
+        "source_table_deleted": true
+      },
+      "cleanup_errors": [],
+      "elapsed_seconds": 54.375
+    },
+    {
+      "file": "search-first-attempt.json",
+      "sha256": "e4ed45537fbc5d6c21cdd6025ffe8034e9e28298e8cf11267fe58ce76bcefe49",
+      "original_status": "FAIL_CLEANUP",
+      "failure_type": "TimeoutError",
+      "cleanup": {
+        "index": false,
+        "endpoint": true
+      },
+      "cleanup_errors": null,
+      "elapsed_seconds": null
+    },
+    {
+      "file": "serving-first-readiness-attempt.json",
+      "sha256": "558beaabde43c2c1c121597795477826977dd680fab8dc2be4b16821e2446b52",
+      "original_status": "INCOMPLETE",
+      "failure_type": "TimeoutError",
+      "cleanup": {
+        "endpoint_deleted": true,
+        "model_deleted": true,
+        "experiment_soft_deleted": true
+      },
+      "cleanup_errors": null,
+      "elapsed_seconds": 739.531
+    },
+    {
+      "file": "serving-incompatible-skinny-attempt.json",
+      "sha256": "c2c005ec354890f897a51b10a03bf51476342c87cb5f52bec94e828671415f5a",
+      "original_status": "INCOMPLETE",
+      "failure_type": "RuntimeError",
+      "cleanup": {
+        "endpoint_deleted": true,
+        "model_deleted": true,
+        "experiment_soft_deleted": true
+      },
+      "cleanup_errors": null,
+      "elapsed_seconds": 445.375
+    },
+    {
+      "file": "serving-invalid-grant-attempt.json",
+      "sha256": "e4f74cc4169c463b10fdc87acb920991cf29969504618fd805aa5dd9c5f43c86",
+      "original_status": "FAIL",
+      "failure_type": "InvalidState",
+      "cleanup": {
+        "endpoint_deleted": true,
+        "model_deleted": true,
+        "experiment_permissions_restored": true,
+        "experiment_soft_deleted": true,
+        "runtime_secret_revoked": true
+      },
+      "cleanup_errors": null,
+      "elapsed_seconds": 91.203
+    }
+  ]
+}

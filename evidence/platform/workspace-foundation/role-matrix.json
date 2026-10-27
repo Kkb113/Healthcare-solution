@@ -1,0 +1,558 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-27T14:29:51.032371+00:00",
+  "completed_at": "2026-10-27T14:39:28.237178+00:00",
+  "cases": [
+    {
+      "role": "platform-admins",
+      "case": "unmapped",
+      "status": "PASS"
+    },
+    {
+      "role": "data-engineers",
+      "case": "unmapped",
+      "status": "PASS"
+    },
+    {
+      "role": "data-scientists",
+      "case": "unmapped",
+      "status": "PASS"
+    },
+    {
+      "role": "analysts",
+      "case": "unmapped",
+      "status": "PASS"
+    },
+    {
+      "role": "clinical",
+      "case": "unmapped",
+      "status": "PASS"
+    },
+    {
+      "role": "finance",
+      "case": "unmapped",
+      "status": "PASS"
+    },
+    {
+      "role": "operations",
+      "case": "unmapped",
+      "status": "PASS"
+    },
+    {
+      "role": "auditors",
+      "case": "unmapped",
+      "status": "PASS"
+    },
+    {
+      "role": "platform-admins",
+      "case": "layer_bronze",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "platform-admins",
+      "case": "layer_silver",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "platform-admins",
+      "case": "layer_gold",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "platform-admins",
+      "case": "layer_features",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "platform-admins",
+      "case": "layer_dq",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "platform-admins",
+      "case": "control_hc_test.bronze.raw_payload_fixture",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "platform-admins",
+      "case": "control_hc_test.reference.answer_access_probe",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "platform-admins",
+      "case": "control_hc_ops.security.principal_scope",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "data-engineers",
+      "case": "layer_bronze",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "data-engineers",
+      "case": "layer_silver",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "data-engineers",
+      "case": "layer_gold",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "data-engineers",
+      "case": "layer_features",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "data-engineers",
+      "case": "layer_dq",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "data-engineers",
+      "case": "control_hc_test.bronze.raw_payload_fixture",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "data-engineers",
+      "case": "control_hc_test.reference.answer_access_probe",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "data-engineers",
+      "case": "control_hc_ops.security.principal_scope",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "data-scientists",
+      "case": "layer_bronze",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "data-scientists",
+      "case": "layer_silver",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "data-scientists",
+      "case": "layer_gold",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "data-scientists",
+      "case": "layer_features",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "data-scientists",
+      "case": "layer_dq",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "data-scientists",
+      "case": "control_hc_test.bronze.raw_payload_fixture",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "data-scientists",
+      "case": "control_hc_test.reference.answer_access_probe",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "data-scientists",
+      "case": "control_hc_ops.security.principal_scope",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "analysts",
+      "case": "layer_bronze",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "analysts",
+      "case": "layer_silver",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "analysts",
+      "case": "layer_gold",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "analysts",
+      "case": "layer_features",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "analysts",
+      "case": "layer_dq",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "analysts",
+      "case": "control_hc_test.bronze.raw_payload_fixture",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "analysts",
+      "case": "control_hc_test.reference.answer_access_probe",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "analysts",
+      "case": "control_hc_ops.security.principal_scope",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "clinical",
+      "case": "layer_bronze",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "clinical",
+      "case": "layer_silver",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "clinical",
+      "case": "layer_gold",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "clinical",
+      "case": "layer_features",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "clinical",
+      "case": "layer_dq",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "clinical",
+      "case": "control_hc_test.bronze.raw_payload_fixture",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "clinical",
+      "case": "control_hc_test.reference.answer_access_probe",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "clinical",
+      "case": "control_hc_ops.security.principal_scope",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "finance",
+      "case": "layer_bronze",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "finance",
+      "case": "layer_silver",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "finance",
+      "case": "layer_gold",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "finance",
+      "case": "layer_features",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "finance",
+      "case": "layer_dq",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "finance",
+      "case": "control_hc_test.bronze.raw_payload_fixture",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "finance",
+      "case": "control_hc_test.reference.answer_access_probe",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "finance",
+      "case": "control_hc_ops.security.principal_scope",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "operations",
+      "case": "layer_bronze",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "operations",
+      "case": "layer_silver",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "operations",
+      "case": "layer_gold",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "operations",
+      "case": "layer_features",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "operations",
+      "case": "layer_dq",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "operations",
+      "case": "control_hc_test.bronze.raw_payload_fixture",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "operations",
+      "case": "control_hc_test.reference.answer_access_probe",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "operations",
+      "case": "control_hc_ops.security.principal_scope",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "auditors",
+      "case": "layer_bronze",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "auditors",
+      "case": "layer_silver",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "auditors",
+      "case": "layer_gold",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "auditors",
+      "case": "layer_features",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "auditors",
+      "case": "layer_dq",
+      "status": "PASS",
+      "allowed": true
+    },
+    {
+      "role": "auditors",
+      "case": "control_hc_test.bronze.raw_payload_fixture",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "auditors",
+      "case": "control_hc_test.reference.answer_access_probe",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "auditors",
+      "case": "control_hc_ops.security.principal_scope",
+      "status": "PASS",
+      "allowed": false
+    },
+    {
+      "role": "platform-admins",
+      "case": "revoked",
+      "status": "PASS"
+    },
+    {
+      "role": "data-engineers",
+      "case": "revoked",
+      "status": "PASS"
+    },
+    {
+      "role": "data-scientists",
+      "case": "revoked",
+      "status": "PASS"
+    },
+    {
+      "role": "analysts",
+      "case": "revoked",
+      "status": "PASS"
+    },
+    {
+      "role": "clinical",
+      "case": "revoked",
+      "status": "PASS"
+    },
+    {
+      "role": "finance",
+      "case": "revoked",
+      "status": "PASS"
+    },
+    {
+      "role": "operations",
+      "case": "revoked",
+      "status": "PASS"
+    },
+    {
+      "role": "auditors",
+      "case": "revoked",
+      "status": "PASS"
+    },
+    {
+      "role": "platform-admins",
+      "case": "expired",
+      "status": "PASS"
+    },
+    {
+      "role": "data-engineers",
+      "case": "expired",
+      "status": "PASS"
+    },
+    {
+      "role": "data-scientists",
+      "case": "expired",
+      "status": "PASS"
+    },
+    {
+      "role": "analysts",
+      "case": "expired",
+      "status": "PASS"
+    },
+    {
+      "role": "clinical",
+      "case": "expired",
+      "status": "PASS"
+    },
+    {
+      "role": "finance",
+      "case": "expired",
+      "status": "PASS"
+    },
+    {
+      "role": "operations",
+      "case": "expired",
+      "status": "PASS"
+    },
+    {
+      "role": "auditors",
+      "case": "expired",
+      "status": "PASS"
+    },
+    {
+      "role": "platform-admins",
+      "case": "ambiguous",
+      "status": "PASS"
+    },
+    {
+      "role": "data-engineers",
+      "case": "ambiguous",
+      "status": "PASS"
+    },
+    {
+      "role": "data-scientists",
+      "case": "ambiguous",
+      "status": "PASS"
+    },
+    {
+      "role": "analysts",
+      "case": "ambiguous",
+      "status": "PASS"
+    },
+    {
+      "role": "clinical",
+      "case": "ambiguous",
+      "status": "PASS"
+    },
+    {
+      "role": "finance",
+      "case": "ambiguous",
+      "status": "PASS"
+    },
+    {
+      "role": "operations",
+      "case": "ambiguous",
+      "status": "PASS"
+    },
+    {
+      "role": "auditors",
+      "case": "ambiguous",
+      "status": "PASS"
+    }
+  ],
+  "cleanup": {
+    "tables_and_bindings_removed": true,
+    "original_memberships_restored": true,
+    "connector_state_restored": true
+  },
+  "cleanup_errors": [],
+  "private_original_sha256": "5a2eefaeba71f33d9554ff9281c13335d295b7a78d0b22fac7d81f9de6825e11"
+}

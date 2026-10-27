@@ -1,0 +1,72 @@
+{
+  "observed_at": "2026-10-27T17:23:08.981054+00:00",
+  "status": "PROVISIONAL_PROVIDER_ROWS",
+  "statement_id": "01f1d22b-11d4-1689-b247-62fcf346556f",
+  "workspace_id": "7405619366453187",
+  "rows": [
+    {
+      "sku_name": "PREMIUM_DATABRICKS_STORAGE_US_EAST",
+      "usage_unit": "DSU",
+      "resource_metadata": "{\"storage_api_type\":\"TYPE_2\"}",
+      "net_quantity": "0.000339000000000000",
+      "usd_list_unit_price": "0.026000000000000000",
+      "first_usage": "2026-10-27T06:00:00.000Z",
+      "last_usage": "2026-10-27T08:00:00.000Z",
+      "provider_records": "2"
+    },
+    {
+      "sku_name": "PREMIUM_DATABRICKS_STORAGE_US_EAST",
+      "usage_unit": "DSU",
+      "resource_metadata": "{\"storage_api_type\":\"TYPE_1\"}",
+      "net_quantity": "0.004242000000000000",
+      "usd_list_unit_price": "0.026000000000000000",
+      "first_usage": "2026-10-27T07:00:00.000Z",
+      "last_usage": "2026-10-27T08:00:00.000Z",
+      "provider_records": "1"
+    },
+    {
+      "sku_name": "PREMIUM_SERVERLESS_REAL_TIME_INFERENCE_US_EAST",
+      "usage_unit": "DBU",
+      "resource_metadata": "{\"endpoint_name\":\"system.ai.gpt-6-luna\",\"endpoint_id\":\"7158ed73-ab68-4ef7-bcc5-2a5da6f99131\"}",
+      "net_quantity": "0.000001429000000000",
+      "usd_list_unit_price": "0.070000000000000000",
+      "first_usage": "2026-10-27T07:00:00.000Z",
+      "last_usage": "2026-10-27T07:10:00.000Z",
+      "provider_records": "1"
+    },
+    {
+      "sku_name": "PREMIUM_SERVERLESS_REAL_TIME_INFERENCE_US_EAST",
+      "usage_unit": "DBU",
+      "resource_metadata": "{\"endpoint_name\":\"intellify_healthcare_dbw.readiness.gpt_6_luna\",\"endpoint_id\":\"3994c069-cbf5-4484-8de9-f8bef09c13bc\"}",
+      "net_quantity": "0.000045728000000000",
+      "usd_list_unit_price": "0.070000000000000000",
+      "first_usage": "2026-10-27T07:20:00.000Z",
+      "last_usage": "2026-10-27T13:30:00.000Z",
+      "provider_records": "3"
+    },
+    {
+      "sku_name": "PREMIUM_SERVERLESS_SQL_COMPUTE_US_EAST",
+      "usage_unit": "DBU",
+      "resource_metadata": "{\"warehouse_id\":\"5b76126b3edf8b83\",\"node_type\":\"db.xxsmall\"}",
+      "net_quantity": "0.036460000000000000",
+      "usd_list_unit_price": "0.700000000000000000",
+      "first_usage": "2026-10-27T07:00:00.000Z",
+      "last_usage": "2026-10-27T08:00:00.000Z",
+      "provider_records": "1"
+    },
+    {
+      "sku_name": "PREMIUM_SERVERLESS_SQL_COMPUTE_US_EAST",
+      "usage_unit": "DBU",
+      "resource_metadata": "{\"warehouse_id\":\"bd30bdac29080126\",\"node_type\":\"db.xxsmall\"}",
+      "net_quantity": "0.870383333333333333",
+      "usd_list_unit_price": "0.700000000000000000",
+      "first_usage": "2026-10-27T12:00:00.000Z",
+      "last_usage": "2026-10-27T13:00:00.000Z",
+      "provider_records": "1"
+    }
+  ],
+  "reservations_released": false,
+  "empty_usage_means_zero": false,
+  "caveat": "List-price evidence, not an Azure invoice. Late records, retractions and unmatched prices require subsequent reconciliation.",
+  "private_original_sha256": "e7136a5bb2216457785808e59193b8dbc9665ca3aa4da36e401b9431fbaac438"
+}

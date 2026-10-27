@@ -1,0 +1,29 @@
+{
+  "status": "SIZED_FOR_DECLARED_POC_TRAFFIC_LATENCY_AND_QUALITY_PENDING_PHASE10",
+  "model": "gpt-6-luna",
+  "revision": "2026-09-22",
+  "deployment_type": "DataZoneStandard",
+  "region": "eastus",
+  "deployed_capacity": 100,
+  "verified_rpm": 100,
+  "verified_tpm": 100000,
+  "concurrent_clients": 10,
+  "minimum_completed_benchmark_turns": 100,
+  "offered_turns_per_minute": 20,
+  "headroom_fraction": "0.20",
+  "mix": [
+    {"intent": "structuredSQL", "turns_per_100": 25, "estimated_input_caps_per_call": [1200, 1400], "output_caps_per_call": [100, 200]},
+    {"intent": "forecast", "turns_per_100": 20, "estimated_input_caps_per_call": [1500, 2000], "output_caps_per_call": [120, 250]},
+    {"intent": "notes", "turns_per_100": 20, "estimated_input_caps_per_call": [1800, 2600], "output_caps_per_call": [120, 300]},
+    {"intent": "composite", "turns_per_100": 15, "estimated_input_caps_per_call": [1800, 2600, 3200], "output_caps_per_call": [120, 180, 350]},
+    {"intent": "denied", "turns_per_100": 10, "estimated_input_caps_per_call": [], "output_caps_per_call": []},
+    {"intent": "unsupported/abstain", "turns_per_100": 10, "estimated_input_caps_per_call": [500], "output_caps_per_call": [120]}
+  ],
+  "input_cap_includes": "System and user prompts, schemas, retrieval, prior messages, and all tool-result context; use conservative provider quota estimates rather than billed tokens alone",
+  "traffic_shaping": "Twenty turns per minute in the declared mix; maximum ten concurrent clients. The Phase10 dispatcher must enforce both rolling RPM and estimated TPM, with headroom, and count queuing in the full-answer latency.",
+  "not_guaranteed": "Ten concurrent turns each making three calls at the global 12000/1500 token ceilings cannot fit this deployment. The global ceilings are safety limits, not the nominal load profile.",
+  "scope_preserved": "All 100 benchmark completions, ten concurrent clients, exact frozen case mix, errors/timeouts and strict full-answer p95<15000ms remain. No first-token substitution, hidden queue time, dropped cases, unreported prompt truncation or Global geography fallback.",
+  "phase10_hold_point": "Measure complete prompts including quota estimates before load. If a case cannot fit its intent cap without losing necessary evidence, or quota shaping misses the latency/error/quality criteria, request DataZone quota/capacity and reprice before proceeding; never weaken the benchmark to force a pass.",
+  "retry_policy": "At most one separately reserved retry per turn, within the three-total-call and whole-turn deadline limits. Twenty percent headroom is not a promise of serving an all-callers retry storm. Deterministic 429 and fail-closed cases are tested locally.",
+  "evidence": "output/platform-foundation/luna-current-capacity.json"
+}
