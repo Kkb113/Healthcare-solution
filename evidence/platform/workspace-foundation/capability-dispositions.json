@@ -1,0 +1,27 @@
+{
+  "effective_revision": "architecture-search-basic-1",
+  "P08": {
+    "status": "PASS_VIA_OWNER_APPROVED_REPLACEMENT",
+    "backend": "Azure AI Search Basic",
+    "evidence": "azure-search-probe.json",
+    "native_databricks_search": "Still unresolved; failed attempts and full billing-tail holds retained"
+  },
+  "billing": {
+    "P02": "PASS: actual job and pipeline DBU attribution",
+    "P09": "PASS: project compute/storage and sync-pipeline attribution",
+    "P13": "PASS: native Genie paid service-principal SKU/DBU attribution",
+    "evidence": "probe-billing-reconciliation.json",
+    "invoice_status": "PROVISIONAL; holds retained"
+  },
+  "P11_optional_inbound_webhook": {
+    "status": "UNSUPPORTED_DISABLED",
+    "reason": "Approved GA Jobs Basic-auth delivery is incompatible with the protected Databricks Apps OAuth ingress in the adopted path. Native Jobs delivery was not proven. No anonymous/insecure receiver is enabled and the temporary App was deleted.",
+    "evidence": [
+      "app-authorization.json",
+      "runtime-probe-reconciliation.json"
+    ],
+    "required_authenticated_polling": "PASS: failure detected in551.305509seconds; no webhook or delayed system-table dependency",
+    "future_gate": "Full Autopilot fault and outbound-notification suite remains mandatory in Phase7/11"
+  },
+  "historical_evidence": "Original reports remain immutable as-of records. The current billing reconciliation and approved Search revision close their stated pending dispositions, without relabeling failed attempts."
+}

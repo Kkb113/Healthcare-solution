@@ -1,45 +1,50 @@
 {
   "phase": 2,
-  "status": "NOT_READY",
-  "observed_at": "2026-10-27T18:47:09.235048+00:00",
+  "status": "PASS",
+  "observed_at": "2026-10-28T04:56:35.116920+00:00",
   "phase3_authorized": false,
-  "current_required_functional_blocker": "P08 Search index provisioning; two funded lifecycles removed, no third approved",
-  "billing_pending": [
-    "P02 serverless Jobs/Lakeflow DBUs",
-    "P09 Lakebase CU/DBU attribution",
-    "P13 actual paid-principal native Genie SKU/DBU cost"
-  ],
+  "current_required_functional_blocker": null,
+  "billing_pending": [],
   "support_submission": "User will submit the case manually using platform/config/search-readiness-escalation.json; prior API attempt rejected InvalidSupportPlan, no case created",
   "criteria": {
-    "2.1": "PASS: dev and test CI deployments on the same source revision",
-    "2.2": "PASS: independently observed auto-stop in 339.313 seconds",
-    "2.3": "PASS: 96 actual authorization matrix cases",
-    "2.4": "PASS: approved billing, lakeflow and lineage queries",
-    "2.5": "PASS: zero running compute after 1502 seconds idle; metadata guard launched no workload",
-    "2.6": "PASS: local declared-profile wake/sleep and external metadata-only guard; zero workloads launched by inspection",
-    "2.7": "PASS: 200 Windows unit tests; 201 Linux local/CI tests including Delta integration",
-    "2.8": "NOT_READY: Search and provider attribution pending"
+    "2.1": "PASS: Dev and test deploy the same committed 0.2.4 source from CI; metadata-only deployment launches zero workloads",
+    "2.2": "PASS: Shared warehouse is serverless 2XSmall min/max1 auto-stop5; retained independent idle test observed339.313seconds",
+    "2.3": "PASS: 96 retained actual role allow/deny cases; additional Azure Search Entra403 and facility prefilter/per-hit checks pass",
+    "2.4": "PASS: System billing, lakeflow and lineage read probes pass; six actual billing component attributions now reconcile",
+    "2.5": "PASS: Independent metadata inspection confirms zero workload compute after at least fifteen minutes idle",
+    "2.6": "PASS: Basic Search create/delete/rebuild/delete preserves results and scoped ACLs; external no-workload guard passes",
+    "2.7": "PASS: Matching Windows/Linux unit suites plus Linux Delta integration pass; wheel hash agrees across Windows and Linux CI",
+    "2.8": "PASS: All required capability evidence passes under the approved versioned Search replacement; optional webhook remains UNSUPPORTED_DISABLED with authenticated API polling passed; costs/cleanup recorded"
   },
-  "current_shared_wheel": "0.2.3",
+  "current_shared_wheel": "0.2.4",
   "cloud_apps_tested_wheel": "0.2.1; authorization modules byte-identical to 0.2.3",
   "terraform_workspace_drift": "Plan exit 0, no changes",
-  "probe_envelope_inr": "2850.00",
+  "probe_envelope_inr": "3050.00",
   "holds_released": false,
   "build_ceiling_inr": "20000.00",
   "additional_markdown_files_created": 0,
   "local_tests": {
-    "windows_unit": 200,
-    "linux_unit_and_delta_integration": 201
+    "windows_unit": 234,
+    "linux_unit_and_delta_integration": 235
   },
-  "verified_runtime_source_sha": "ddf7adf58cc1842a1738495a1aa035a01bf71cb3",
+  "verified_runtime_source_sha": "8734f060fa4b328f853e4d937a01267ab5f53dc6",
   "final_state": "ASLEEP",
   "running_compute": 0,
   "new_paid_probe_retries_allowed_without_reconciliation": false,
   "limitations": [
-    "Current billing rows do not yet attribute all serverless, Lakebase and native Genie pilot usage; holds remain retained and missing rows are not zero spend.",
-    "Nominal ten-client Luna capacity is sized, but agent quality and full-answer latency remain mandatory Phase10 tests.",
-    "The constant serving fixture measured a 1671ms warm SDK request; the eligible endpoint latency target remains unproven until Phase8.",
-    "Dashboard rendered performance remains Phase9; the foundation probe verified sharing, caller-scoped SQL and OBO access.",
-    "Optional webhook disposition is a protected-ingress protocol incompatibility with the approved GA Basic-auth path; native Jobs delivery was not proven and no receiver remains enabled."
-  ]
+    "Invoice and late corrections remain provisional; no reservation released and no claim of zero total bill.",
+    "Constant Search vectors prove capability, authorization and lifecycle only; real corpus relevance, embeddings, scale, revocation and clinical security remain mandatory Phase10 tests.",
+    "Full demo performance, whole-platform cold rebuild and settled24hour sleep remain Phase12/13 gates.",
+    "Original model-serving latency and full-answer agent quality remain later gates; Phase2 does not claim their acceptance."
+  ],
+  "phase3_prerequisite_satisfied": true,
+  "effective_architecture_revision": "platform/contracts/revisions/search-basic-v1.json",
+  "search_resolution": "Approved Azure AI Search Basic replacement; both native Databricks attempts remain failed and retained",
+  "provider_attribution_complete": true,
+  "azure_invoice_final": false,
+  "completion_ci": {
+    "dev": 40633874952,
+    "test": 40634021983,
+    "guard": 40634719840
+  }
 }

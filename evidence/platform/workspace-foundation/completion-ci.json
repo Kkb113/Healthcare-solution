@@ -1,0 +1,49 @@
+{
+  "source_sha": "8734f060fa4b328f853e4d937a01267ab5f53dc6",
+  "observed_at": "2026-10-28T04:55:34.605401+00:00",
+  "deployments": {
+    "dev": {
+      "run_id": 40633874952,
+      "url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40633874952",
+      "conclusion": "success",
+      "source_sha": "8734f060fa4b328f853e4d937a01267ab5f53dc6",
+      "workloads_launched": 0,
+      "tests": {
+        "tests": 235,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      },
+      "metadata_deployment_sha256": "0acbd713d54967ae0e1a41adfb070ef0573632f3fdac6f9a082deecca265cbb7"
+    },
+    "test": {
+      "run_id": 40634021983,
+      "url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40634021983",
+      "conclusion": "success",
+      "source_sha": "8734f060fa4b328f853e4d937a01267ab5f53dc6",
+      "workloads_launched": 0,
+      "tests": {
+        "tests": 235,
+        "errors": 0,
+        "failures": 0,
+        "skipped": 0
+      },
+      "metadata_deployment_sha256": "2a3c42a14ab29f7a8c043887e55fdf5ec66f7c80b25c6f1a8a828a58f2f1f33e"
+    }
+  },
+  "external_guard": {
+    "run_id": 40634719840,
+    "url": "https://github.com/Kkb113/Healthcare-solution/actions/runs/40634719840",
+    "conclusion": "success",
+    "source_sha": "8734f060fa4b328f853e4d937a01267ab5f53dc6",
+    "result": {
+      "status": "PASS",
+      "state": "ASLEEP",
+      "running": 0,
+      "metadata_only": true,
+      "workloads_launched": 0
+    },
+    "observed_at": "2026-10-28T04:54:09.434507+00:00"
+  },
+  "canonical_windows_linux_wheel_sha256": "1ec0ca31cd8f96c6d9693dfd933c6414d3d18e918af63fdcc71ca0944f092850"
+}

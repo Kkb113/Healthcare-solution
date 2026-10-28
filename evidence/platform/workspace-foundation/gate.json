@@ -1,0 +1,767 @@
+{
+  "phase": 2,
+  "name": "workspace-foundation",
+  "status": "PASS",
+  "evaluated_at": "2026-10-28T04:55:45.257914+00:00",
+  "source_sha": "8734f060fa4b328f853e4d937a01267ab5f53dc6",
+  "dataset_descriptor_sha256": "c36a9b7841743057be2f6993a27790c82a170c847399687a0c2647b5b9167af5",
+  "criteria": [
+    {
+      "id": "2.1",
+      "status": "PASS",
+      "measure": "Dev and test deploy the same committed 0.2.4 source from CI; metadata-only deployment launches zero workloads"
+    },
+    {
+      "id": "2.2",
+      "status": "PASS",
+      "measure": "Shared warehouse is serverless 2XSmall min/max1 auto-stop5; retained independent idle test observed339.313seconds"
+    },
+    {
+      "id": "2.3",
+      "status": "PASS",
+      "measure": "96 retained actual role allow/deny cases; additional Azure Search Entra403 and facility prefilter/per-hit checks pass"
+    },
+    {
+      "id": "2.4",
+      "status": "PASS",
+      "measure": "System billing, lakeflow and lineage read probes pass; six actual billing component attributions now reconcile"
+    },
+    {
+      "id": "2.5",
+      "status": "PASS",
+      "measure": "Independent metadata inspection confirms zero workload compute after at least fifteen minutes idle"
+    },
+    {
+      "id": "2.6",
+      "status": "PASS",
+      "measure": "Basic Search create/delete/rebuild/delete preserves results and scoped ACLs; external no-workload guard passes"
+    },
+    {
+      "id": "2.7",
+      "status": "PASS",
+      "measure": "Matching Windows/Linux unit suites plus Linux Delta integration pass; wheel hash agrees across Windows and Linux CI"
+    },
+    {
+      "id": "2.8",
+      "status": "PASS",
+      "measure": "All required capability evidence passes under the approved versioned Search replacement; optional webhook remains UNSUPPORTED_DISABLED with authenticated API polling passed; costs/cleanup recorded"
+    }
+  ],
+  "contract_hashes": {
+    ".github/workflows/platform-guard.yml": "fe832b528aa26004688d24f50a8e5b149204b013273e1aea234cf7f5a85792bb",
+    ".github/workflows/workspace-platform.yml": "3db0223b185eb28a527222674b9c6a13a0a411dcb344c7d4c944c47bc0258d2e",
+    "platform/config/application-budget-probe.json": "5eaf0ee04eafc68ccdaaf13e50121790deb9089f60ddd154093bbe552e5a4049",
+    "platform/config/completion-cost-model.json": "3ab505ca9ea30e9a812487c402ce00fb199191956acc9b7ce2db4bb5d06ea54c",
+    "platform/config/cost-policy.json": "5f2ff10e80a3377134d4a56cd2452dbab32e8a75db677d0d04207fc085cb496e",
+    "platform/config/foundation-resources.json": "e50d463eaad81cdf8a080aa94ba6f94527d0241ef3096639a45e165f2634de4a",
+    "platform/config/identity-provisioning.json": "8d86d7dd1021e4f82e811ca01089f958aea5514857df63de82c8d0ce0c23c60a",
+    "platform/config/infrastructure.json": "351718d66a436c75bdc0472f2c7ea0b9e3604e5fb95892e46c3bc741b3961d85",
+    "platform/config/luna-capacity-profile.json": "ede4747547a45831c6628ad709e71e6d7ded29defd8242901d2b230f58b85013",
+    "platform/config/metastore-bootstrap-request.json": "c7881556ad8d479073a1981d21dc3a0f6da76a9271d090076f393cb2615eea29",
+    "platform/config/metastore-owner-update.json": "f39df45f3ef4d24d67d15549bf52d168cc57247f8a5f39be17d9221d9612be4a",
+    "platform/config/platform-foundation.json": "a4e5f366b8d90cbdf06d9273491b3530d648e07541d79f486d02548d30598018",
+    "platform/config/probe-budget-revision.json": "37d0a2663490c0ed02c16f6c3896616974f0fd5f344803298f8de8a697de4482",
+    "platform/config/probe-runtime-allocation.json": "2b01b4624215f214a3ab64ae87b3613935612d08b650f3a0d44baab2241291fd",
+    "platform/config/search-backend.json": "d8e5726f31bf8a3c4e29244d08750cb61c50b8c02847af1f232f677df06e57a6",
+    "platform/config/search-baseline-revision.json": "53f549ca8b19ccb502739028c4445e78a2de08566a826e4d2e2e98af2c17421d",
+    "platform/config/search-readiness-escalation.json": "b4c92336d0fe6d28a6184cbb3621ec8a4803fab80f52d2f29ddb685f109c9c88",
+    "platform/config/telemetry-access-request.json": "9ca6a521497c11c1a50b745c36b1fe89707bd63e034b48c955b9050ae8551ad3",
+    "platform/config/tool-versions.json": "9ec21055165f2ae289fa923aee147976e36b70844d7f060ba4302c8ac865d0bf",
+    "platform/config/usage-policy-access-request.json": "233de51bcef7b438b1ff39342e8746eadc7b4ccccc74df18d259cd9b0b1715b6",
+    "platform/config/workspace.json": "dd52f4143626cf496a0ec995505c119b2ec8375ae9c11b96e1112c04344cd228",
+    "platform/contracts/revisions/search-basic-v1.json": "195ba4f37f9ff21a0d0ed4e354e52627eb5356842d083684694ceb787d9b873b",
+    "platform/databricks.yml": "7ff3f41e3557a6b0f0237a06a26ea32c87531aab074f33be2ccddb42f75bd4fe",
+    "platform/infra/foundation/backend.tf": "290754bcbc78d9a2482c08acacd60a8faba072f465105e69f102650bea78ff8a",
+    "platform/infra/foundation/main.tf": "5245988a4339060854fcd74ae98a3b693d1af8e11f0a26544b4e60ce3b3c492c",
+    "platform/infra/model-access/backend.tf": "290754bcbc78d9a2482c08acacd60a8faba072f465105e69f102650bea78ff8a",
+    "platform/infra/model-access/main.tf": "6d3307ffa1f1d018617f705deb4dd700916bfa1afb2132c7a8bc485dab0c4e49",
+    "platform/infra/workspace/bundle_folder.tf": "a6e0e4c52ad76b27ead627a0a78489d17d692b1b1d90b212a35a6356cb8c532d",
+    "platform/infra/workspace/catalogs.tf": "c32816400f68ef249ef8bee090a8f559b531eb182c458a8bc169d5f1c5e671d1",
+    "platform/infra/workspace/governance.tf": "df03fd4e8287e09f7547275c4a5b62ec42fa77becffc3e86690f40ca981eaaee",
+    "platform/infra/workspace/main.tf": "d0d0abe9d480cf61b2ba2c46aca6dea47417e9054d74cb3b3c1557aa539e9fc3",
+    "platform/infra/workspace/runtime_entitlements.tf": "b89ab6681c8a14caaece2474602d4b31a9aad91e2210406a34009e9fee0a0f9a",
+    "platform/infra/workspace/warehouse.tf": "32553286827c7def0194bb34a75348ae1145adbe7f366ccd9c589b4120d1895a",
+    "platform/pyproject.toml": "37158943c702ca45bab8479c49c029a83cb6439c4ebd1311011b93436711aaa6",
+    "platform/scripts/app_lifecycle.py": "05f8dfa0cb6072d5e815d87991a697cfc89c7695775f4cddccf1d116a5bc1a7a",
+    "platform/scripts/azure_search_lifecycle.py": "cc26101dec3d5dbe47e03938d01d470e3c20a7223661af8bd76acece6084f18f",
+    "platform/scripts/bootstrap_tools.py": "ad5fd75ee5163e14754ce8229ca479ea63d4da7829db4827c0c93cd120d0d7d4",
+    "platform/scripts/build_price_evidence.py": "eef08849e0fd3bea35abab21b0cf9a18e443017a87cbb8274b2f36353955b58e",
+    "platform/scripts/canonicalize_platform_wheel.py": "66b22690722a9ebc2d04f3dbc5388ae13013ae804ce84c9b14ac7355a489a8e3",
+    "platform/scripts/check_foundation_drift.py": "831af9ead955e3497d08376d3d9748eecd8a968d955391836cde8810e1c2c5ce",
+    "platform/scripts/check_local_runtime.py": "cac725917ff0e3fc14e543b480ce65ec462b5ae7bd220a5a03714d3521b7e6cf",
+    "platform/scripts/collect_price_evidence.py": "786d7e193b58db39b4ae75c12654891b08c3efcdf6b7eb35cf6883b322427e46",
+    "platform/scripts/collect_probe_billing.py": "5c9f88ec644551eb1cfb00c8b26eb908ad934b3b83f2d64752f4d351da023d70",
+    "platform/scripts/configure_ci_identity.py": "3d9d02278f10f79023f1a6c1b77813a0af4ae373f11bbf1b644762c75f256869",
+    "platform/scripts/configure_foundation_identity.py": "828537373aa591350ae81387b984e30a5299dd1c788af71f8f6576fb2e7fffcf",
+    "platform/scripts/configure_model_gateway.py": "f5d86c503d487f72e3af35a6757d86b0af98a5dbc054dd562048438746028033",
+    "platform/scripts/configure_native_budgets.py": "3b53e84b9fd624a8df5bab80d4b2ea43217f67a9fb45bc44501d728586b9e14c",
+    "platform/scripts/configure_profiles.py": "1e42cce7ac17a4dc305c96d434e6f98a3bc2ebb61f446baea83394d2c96ba196",
+    "platform/scripts/configure_telemetry_access.py": "7e08eac5c1d5b66faf1810cd554041330186b2ebc3f5d4d59fd390871aa0743f",
+    "platform/scripts/configure_usage_policy_access.py": "98c54755816c142815174b1a254532402cd6a5c5211346f5784ddef7056c8e19",
+    "platform/scripts/deploy_security_baseline.py": "cdb7f4946269ed2f0ea9434fb482b3237b084ea69ebccec32a8145307e48d999",
+    "platform/scripts/deploy_workspace_bundle.py": "aedd0fe98d2a630f778116ec328c39c8a50b6bca81767ba8e89996eab3bfddc2",
+    "platform/scripts/foundation_ledger.py": "77c76a54918c2029ffc9945678c8d24982976486939307fc963d37a0f82e1af6",
+    "platform/scripts/foundation_support.py": "92f26b3b63cbe7ead5f482eb1d6a2b2d35b535d7c0e89f16954b0ad5aeb05e3c",
+    "platform/scripts/freeze_gate_contracts.py": "2191d967893de53eda2c71ff26e53a9ef810d5f8f9e8eba14025377a19e79202",
+    "platform/scripts/freeze_source_contracts.py": "6a9962c680a088d1dfc606af298706e5347b25e00fd484156c62953f27e2e139",
+    "platform/scripts/lakebase_lifecycle.py": "9bcf8d5aa2c605254bd9363dcf0df318c1bc1f54ee30ef24bad9501d48f6c041",
+    "platform/scripts/manage_authorization_fixtures.py": "72062e6b769baca373274ffd193eb4af026d250d101376a0a70fd30dc95631f4",
+    "platform/scripts/platform_control.py": "d83e880415a36460f0fc78e9483b040130b37cb74d9983bc9d59c21492e1d720",
+    "platform/scripts/prepare_probe_artifacts.py": "90460a250db66e46958d478da933afeec0502d0e83d40f79c8e5c3787c83d73e",
+    "platform/scripts/probe_app_authorization.py": "75fe2268efe68057e438097c39b8a6ea63bb56102375b23eb47866ee05d2e36d",
+    "platform/scripts/probe_azure_luna.py": "f23cd2f7b63dc2e4ac8f7c50539a122a015e3f72cdcec26701644d384b7900a4",
+    "platform/scripts/probe_azure_search.py": "7250a033273143e521866827a1c56127f263bb17fd12031f12683131de3168ee",
+    "platform/scripts/probe_genie_billing.py": "6c1e599845b596a9fd05a37d86e397cbe3ea189ded3cfbd35f7d2090f99d15c3",
+    "platform/scripts/probe_lakebase_runtime.py": "4ac5f934bfbdec2f517d4d5b3dde6728d0efcd31b993bf10db8c66798254d20a",
+    "platform/scripts/probe_luna.py": "548306ace8d59b5df37c7c78b78ff7a594782c940d6a8c1c7ca5591cb114e4d0",
+    "platform/scripts/probe_model_responses.py": "e03e1afb573480bf4a1d097b7578bd18a3600f4173d7e1d44369d74525219df3",
+    "platform/scripts/probe_model_serving.py": "97d2690dc1fa1e653d1f4f8997b91ff2d640f4d6ce75cce96f0d0fab63a4fa15",
+    "platform/scripts/probe_role_matrix.py": "73dc9a164464b55a0a6f0254aac13f41e0c33fe3f66da7a3eb7c0f379f943acf",
+    "platform/scripts/probe_search_capability.py": "fdf4be38cc5ee222675c03c5d96b5b02f6de886422e558a1524a3c383da8b672",
+    "platform/scripts/probe_security_baseline.py": "157521a213783b2969ca96a87e2be3e309ca76b964a637502d4222d7ea3f328f",
+    "platform/scripts/probe_serverless_runtime.py": "42e863866200c95484be243f1c14637c344ccfc8c003da86d1190ad0b65ee303",
+    "platform/scripts/probe_telemetry.py": "c58921e9e1155a3d0c1d37bb2121fa997065d7568e43fe03aedbb36181108deb",
+    "platform/scripts/probe_telemetry_access.py": "98e20663e54482215a809a4bbb79a08c1560a8176080ad5c2ca167ba540c2d5c",
+    "platform/scripts/probe_volume_access.py": "11be370a7647a438bd5650d60dffe8a4203ce49d3b53926b911f1fc3b34a0c5c",
+    "platform/scripts/probe_warehouse_idle.py": "258133360543690e0e43bfd055704d81925009782dc9836d43bb3aff6349961b",
+    "platform/scripts/reconcile_model_probe.py": "1fdc5250292f86ebd54435a35005ae84cf37928fdb33f2140271b71e63ee0d87",
+    "platform/scripts/reconcile_probe_billing.py": "75767f8ef841302c907428158f66b8b90aa9be4263c27e1d428484c831547188",
+    "platform/scripts/reconcile_runtime_probe.py": "c7251dc5a6422a18c875e3a7d677cbe92892179b571600c4277b4cb72878c617",
+    "platform/scripts/reconcile_workspace_drift.py": "8340ec61f42994091dc85930db06629ee5e280a5ab2151559da2178e15498964",
+    "platform/scripts/refresh_healthcare_costs.py": "50c3a62adae48bd4ace5aeee95ac17e168ad3edbfbea61e89fb4d4c0cbbb4916",
+    "platform/scripts/semantic_dashboard_fixture.py": "fe049a850dd79e7f54849b2a4bee556ac1807ce04b744a807add0f8bea2ae635",
+    "platform/scripts/validate_architecture.py": "e6d1ac9194db9c602bf95d90d79ebf36b04c167fb684fe9560b9de93f76c2df4",
+    "platform/scripts/verify_architecture_gate.py": "a58d22b3ddec5365f7b24791c2feabb84192cb585528c8de62ecb14acab1429f",
+    "platform/scripts/verify_configuration.py": "8f0d6a618920f157aaea062f6d9f719aae5d0f2183c48b0f99c580170a6ccaed",
+    "platform/scripts/verify_foundation.py": "3f5ae44f7d39a2bf1eac7d130dc631c4eb17c1f6b923c541ed4160a0cf8f5578",
+    "platform/scripts/verify_foundation_gate.py": "09bc9ea8391d7a88b272b3ad360d57c5374fba3e31c2c5dee5dd1525685ba9ea",
+    "platform/scripts/verify_search_revision.py": "b8a60c8c48dc1b58ca868b107d9efb1b332c3b0a52962158dfbf69c42bad4863",
+    "platform/scripts/verify_workspace_gate.py": "670cb2e5d7b6539e256e0c3c745ae7413cee3069cea3a815004f78f707809b24",
+    "platform/scripts/write_architecture_gate.py": "37201783bb8d3611c770984d129301942fcaa14edae52089c1de303ef05213b2",
+    "platform/scripts/write_foundation_gate.py": "63825f14982b1a8e35eced980c327cade453ffc83987bfb28e793b4c3b1b1ca1",
+    "platform/sql/security/baseline.sql": "a6bbae96f8dd447ac7f6ab1f1e1fcd656220f6b044a329880932ae7c776f51aa",
+    "platform/sql/security/domain_policies.sql": "86121ffebfd53b4996e274ffb93d48821420ebe73e4eecef91492933747a1d90",
+    "platform/src/hcp/__init__.py": "f46f3644c6270023428f3f5f7b4cdfcaa9fed22a267ed4b08a13d17d41111c77",
+    "platform/src/hcp/agent/__init__.py": "8a2165345173c3523f80c080f6cce792a7754a34987e5cec312a1013e257f4eb",
+    "platform/src/hcp/agent/request_policy.py": "b2c724b6af894e6972226041597778f2b19e8de347d849f8f70d30a643a6d2bf",
+    "platform/src/hcp/auth/__init__.py": "eb2d6c4cd1ed0d5097cf7bd9102150d7ee81633bf21690175db0448b7e40c225",
+    "platform/src/hcp/auth/forwarded.py": "763b187a07f19d46b11b3ab58dff44ed7cc0cac3cc38748978ab434b368f662e",
+    "platform/src/hcp/auth/query.py": "5ea24c7d28d79201a36f364f4b11f30cf2a0b375e9ade82351a1bdc88e28fb45",
+    "platform/src/hcp/auth/scope.py": "4ab09aaa44bbb1bbc72285e9bd7b7f9e11eaea3b0494663a6afaf2df10003419",
+    "platform/src/hcp/autopilot/__init__.py": "ecd431a560cb9ae3e6447d5244a44df75caba5496dd8e9b7ee5dd270c0c64ea9",
+    "platform/src/hcp/common/__init__.py": "d0647f8acc311bbeac186e468402c33ec29d0023fbe2a47a4283d498d8296f76",
+    "platform/src/hcp/common/cli.py": "c870744f94f0b944c53ab9e49533395c61aed0ffe01cbe7632b7e211f2d6daa4",
+    "platform/src/hcp/common/clocks.py": "b8bab21ac2993c9630c7e99e381a6eb81fa6f738aa8523445ae78061832f80cc",
+    "platform/src/hcp/common/config.py": "25cd89f87d9bed61e42dba57027f589a0081d9c56bda48dab04fd94dbb24e5a4",
+    "platform/src/hcp/common/logging.py": "ee8cf34a29516427e5cf283546070927f65093d8f0e550e3e02ee38014257e0d",
+    "platform/src/hcp/common/smoke.py": "3ac2df944ba345d84632dde93110134ca4516e36a9387b1a0c6d458daec7c5df",
+    "platform/src/hcp/contracts/__init__.py": "b3a60cfeaac051e2dda5015280ce84af1786f1914cbba6827947a6596c0fb957",
+    "platform/src/hcp/control/__init__.py": "d28b9d649d76d36ef18b6a9dccf64212103a67349e304f0f5cbd91606c38f02e",
+    "platform/src/hcp/control/funding.py": "7f290abf463e76eaa2a5d80e56d0feeb2525781df69f655a88026f7e5d903f80",
+    "platform/src/hcp/control/state.py": "f691fea27902e1301bf6a7e83e1a50add36c1b6fcd46967b386736036fa65754",
+    "platform/src/hcp/dq/__init__.py": "c3e7d2f14f216d93051097232c320bd9053cd07fc5271eebe94236e1c147d34c",
+    "platform/src/hcp/features/__init__.py": "644ef64ddcb69f757e9ce7a466f51459b90996e8de72db8c3f6861723bd36693",
+    "platform/src/hcp/gold/__init__.py": "d52087f4c98a8d8ba20d114af00def3e8a5858ab039462247de7800a15026944",
+    "platform/src/hcp/ingest/__init__.py": "63b42ef8820292b8925a2d4c068d93396d150ad2c61597a41b6264898b1c826f",
+    "platform/src/hcp/ml/__init__.py": "f5aabec665415b7e9d90105626dc7ec41278b37c0dd5134bd88e2c54661bd806",
+    "platform/src/hcp/ml/constant_fixture.py": "9e756de3d42a621a1a7490c8e40dce658f1c2865331990e928eccd4596f67933",
+    "platform/src/hcp/rti/__init__.py": "f309839599a1257218a9c136de9e6a7754a8e92765c1130f8cac604612dbfc86",
+    "platform/src/hcp/silver/__init__.py": "a0b22c297996f75acdd053176769e8ee5f5368ce2053b2b2526dafedf8dd7e8e",
+    "platform/src/hcp/telemetry/__init__.py": "2077c37d6fb00319c8b910ef9ee511ea33e8dd7afdc11124b7e38d5daf09a930",
+    "platform/tests/conftest.py": "5bb4c38002f8628cb060420dda98e0373edf2071f5e7400014451acbda6de22c",
+    "platform/tests/integration/test_shared_delta.py": "871372f5d18eb9aec703ce1e168c61dac53f566aba47a9622d2b7133bb4a6eec",
+    "platform/tests/unit/test_app_lifecycle.py": "b6f110fb23b75eab128d8a7ffde4bc31539437954eff42fcd3f119485866e9f4",
+    "platform/tests/unit/test_architecture_contracts.py": "d851c92e4772cb348668c88d863e339f7f559f9af8c887b1c7423dfc6ef0840d",
+    "platform/tests/unit/test_authorization_app.py": "74e189ddd785bfacb2772a022c79106601eb3099c6210bc477f7bec58913a084",
+    "platform/tests/unit/test_azure_search_lifecycle.py": "f97cbd6b7b7f4c054fcc1d3e4ab197f9d14b068e8c6e48477de021e35c9f1645",
+    "platform/tests/unit/test_billing_attribution.py": "ffaaaf9fe7ab0aadd52f80b6b5a97a88f5f92fb6ba12dbde3399fc8ee0069dc0",
+    "platform/tests/unit/test_constant_fixture.py": "be431a3feb3de09ce7969e7809479362b411ec5745b78e6e8dcd742c43feca10",
+    "platform/tests/unit/test_control_funding.py": "341680cdbd21568a7f0750302dd33a92e0082998aac91ce9232ef4ed91d41a31",
+    "platform/tests/unit/test_forwarded_caller.py": "19a2f2ec678588b35bb1947f95e4276266a088a225952e0bb4bd464af4849660",
+    "platform/tests/unit/test_foundation.py": "d347e01b8756e36d640457b4acae0df0b0b75dbf41cc469841dbde86100d6139",
+    "platform/tests/unit/test_genie_pilot.py": "42080da112ba8dbe0bc6f478b1c897057cdad62df547cc37dc3b7da3005e9152",
+    "platform/tests/unit/test_lakebase_lifecycle.py": "c50de5ecb42f65798ef56ec76a00ba12b7090634ec3719ba6ea1a16b967a6cc5",
+    "platform/tests/unit/test_lakebase_probe.py": "63fc8ce92364cd5cfc6dfc1504e5164ec432939338708c779085935f093f3cc2",
+    "platform/tests/unit/test_luna_capacity.py": "e08f3c1ce01936eb4e2c55bb5848c3d6783f4ae357ac08b20c443369b27480eb",
+    "platform/tests/unit/test_native_budget_scope.py": "62f3aa99cfbb3dafd6c673a44d7a27cfb5dd0aa5be7689a3f44605b873a14979",
+    "platform/tests/unit/test_platform_contracts.py": "c2e585aa480a1b4e605d958db73f0da148415c4a8033ad555a1878d4ccd747de",
+    "platform/tests/unit/test_platform_controller.py": "33be63157b5e5f5fa8f8c1cb93b02b83f7335f6508266dee9089f4bd57dad612",
+    "platform/tests/unit/test_probe_budget_revision.py": "ebf1ddd2ae1c769cd092c4fa446b39e0a04372f5812289b07a185bcae00ec1aa",
+    "platform/tests/unit/test_request_policy.py": "fdc82d218ae2e05e0d8b01f7977b8311400f452d5d9d8461b13b7f88fc14f2d7",
+    "platform/tests/unit/test_role_scope_matrix.py": "0ec6673f57919aee3bc17e9f6dcb995e17a84fdc5411e53dd12438012fde3e81",
+    "platform/tests/unit/test_runtime_allocation.py": "2e3b07bddb55c7d763f36a779829355bfe94c95ba811725189a94ddf503947d1",
+    "platform/tests/unit/test_runtime_probe.py": "5626fa11be7bcb181b4155d0137f537904da3e2517a05c72874a1888290d6ff6",
+    "platform/tests/unit/test_search_probe.py": "84ab169c9e118ac9679d17b5bd938b6ba3a1765d5870558ad51752d87f9e46ef",
+    "platform/tests/unit/test_search_revision.py": "add86b5ecf09d848cbd67f6379cd37d0571bf6a3b6a4c1df3f678c3f17f6d071",
+    "platform/tests/unit/test_wheel_reproducibility.py": "cba9fd3168fae28d07573c7cb9b614a81418ffe67741b712c33133a4a526f1b2",
+    "README.md": "9a8c8c5ccf58c90f5fc1456f2190abfd2f2fadda73b60d91345b2ba8040e5963"
+  },
+  "report_hashes": {
+    "azure-search-probe.json": "61435c104a3d6c3557f0d4dc39b3d668722bf9f900534300a88a7d51f552a6f4",
+    "azure-search-price.json": "6e2f2f304befd6c08596efa7b4f0245175258bfa5b4e45432a8aa29f5a427e95",
+    "azure-search-rejected-request.json": "07642849e8238e629e54dd14dc0480e79abf3b8486a335e8ed763e22d545c2fe",
+    "azure-search-first-lifecycle.json": "706de0305ecf1e7109bc77c70cd804d2e79daf5cf6bf04b09126505d22e66b26",
+    "probe-billing-reconciliation.json": "2ec391baaa722d36304498b3e83e09f03622009e5002efb98c4139ce8ba244d1",
+    "completion-azure-costs.json": "494df04b4266d4f01a336bb1243dd659fab788faa9e3ef97b56c91d1e66b3b1f",
+    "completion-cleanup.json": "53e6307bceca70864551393708aaa5465015905a527e76d5ef51658da7fcc924",
+    "completion-idle.json": "0224fd2e0b9d4375db099449cff38aad24a1bd645db44cb0c5b6870289cadf57",
+    "completion-ci.json": "51a078040193187e5009a8ffdb60eb1e464a0a8f523502f5b4234d4614af37d5",
+    "completion-terraform-drift.json": "6467ec5f9df3bb1e5db474fede20ec2847eb390971af9476857e70a7f463608f",
+    "completion-windows-tests.xml": "45a7f4fb1d1465a5caf09916b415fa1ce21dd3237e5f0989426f515c437944a1",
+    "completion-linux-tests.xml": "f6143560d14d22e15b1d6162449d218fbcd95ebca06d7ff373e2847070b74d55",
+    "wheel-change-review.json": "94ad82ca73faa68df782979ea1bdc5a2f83d17c13b95fca8de27e70273e1285f",
+    "role-matrix.json": "4760bc6942325398701c1b2a4e7b56e781f1b41d94501e7d355d7ee520feb5ca",
+    "foundation-smoke-probes.json": "bc2fa08d10b5be514d37ea9e5fb2e204da1239e9910daf73f7468333659f9302",
+    "runtime-probe-reconciliation.json": "cd3ee56547d956afd4ad568580b18482d010e0a0f035e939a358e7ab307c0764",
+    "model-probe-reconciliation.json": "f98fc14d5291902f95c918b77602b1891bdfbd4b4e33260a881e932546d254c6",
+    "app-authorization.json": "f3627d9e7e4619d0f21562a529793a7272466ef41d89bd5c72a45184b9b7dfd7",
+    "lakebase-runtime.json": "63b5d74d1bc7d2294cc07a564964b7efa59469e125404ba1d25bf909f5e0d125",
+    "genie-pilot-reconciliation.json": "e42f0f1227734554935b10238ea164321da1d9c23cc0d6eed611205488297313",
+    "semantic-dashboard.json": "712984175a07bd3f8a0f238f2ada98678bd9234a266f2f4e0efe74bda5be9046",
+    "serving-probe.json": "7bcce8ab532928c7bdccdcdde190f939a80609ddf6e9e89346da3020c5d73aa2",
+    "capability-dispositions.json": "a1efc2f773222bc4d53ffece6d7e7fb611be4b722cc00d1e1ac532ea58937a57"
+  },
+  "dependency_gates": [
+    {
+      "path": "evidence/platform/architecture-baseline/gate.json",
+      "sha256": "05a183da0e7d9a425021996b488e7b89ca87b0f5679e1dcbb1ef2d2463bdac4f",
+      "status": "PASS"
+    },
+    {
+      "path": "evidence/platform/adopted-infrastructure/gate.json",
+      "sha256": "5be1c90f96be4160d04a4631e5ed6c5ff8cb2b060c073e9fbb60762faeab5f46",
+      "status": "PASS"
+    }
+  ],
+  "effective_architecture_revision": "platform/contracts/revisions/search-basic-v1.json",
+  "environment": "Existing healthcare East US workspace; bounded nonpatient test windows; native Windows and Ubuntu24.04/CI Python3.12",
+  "tests": {
+    "source_sha": "8734f060fa4b328f853e4d937a01267ab5f53dc6",
+    "windows_tests": {
+      "tests": 234,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "linux_tests": {
+      "tests": 235,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "costs": {
+    "planning": {
+      "build": {
+        "lines": [
+          {
+            "id": "sql",
+            "quantity": "32",
+            "unit": "DBU-hour",
+            "usd": "22.40",
+            "inr_including_tax_reserve": "2643.20"
+          },
+          {
+            "id": "medallion",
+            "quantity": "20",
+            "unit": "DBU-hour",
+            "usd": "9.00",
+            "inr_including_tax_reserve": "1062.00"
+          },
+          {
+            "id": "autopilot",
+            "quantity": "6",
+            "unit": "DBU-hour",
+            "usd": "2.70",
+            "inr_including_tax_reserve": "318.60"
+          },
+          {
+            "id": "ml",
+            "quantity": "12",
+            "unit": "DBU-hour",
+            "usd": "5.40",
+            "inr_including_tax_reserve": "637.20"
+          },
+          {
+            "id": "capability-probes",
+            "quantity": "4",
+            "unit": "DBU-hour",
+            "usd": "1.80",
+            "inr_including_tax_reserve": "212.40"
+          },
+          {
+            "id": "rti-pipelines-and-sync",
+            "quantity": "36",
+            "unit": "DBU-hour",
+            "usd": "16.20",
+            "inr_including_tax_reserve": "1911.60"
+          },
+          {
+            "id": "search",
+            "quantity": "200",
+            "unit": "DBU-hour",
+            "usd": "14.00",
+            "inr_including_tax_reserve": "1652.00"
+          },
+          {
+            "id": "apps",
+            "quantity": "12",
+            "unit": "DBU-hour",
+            "usd": "11.40",
+            "inr_including_tax_reserve": "1345.20"
+          },
+          {
+            "id": "native-genie",
+            "quantity": "248",
+            "unit": "DBU-hour",
+            "usd": "17.36",
+            "inr_including_tax_reserve": "2048.48"
+          },
+          {
+            "id": "lakebase",
+            "quantity": "28",
+            "unit": "DBU-hour",
+            "usd": "7.28",
+            "inr_including_tax_reserve": "859.04"
+          },
+          {
+            "id": "risk-serving",
+            "quantity": "64",
+            "unit": "DBU-hour",
+            "usd": "4.48",
+            "inr_including_tax_reserve": "528.64"
+          },
+          {
+            "id": "luna-input",
+            "quantity": "16",
+            "unit": "million-tokens",
+            "usd": "1.76",
+            "inr_including_tax_reserve": "207.68"
+          },
+          {
+            "id": "luna-output",
+            "quantity": "2",
+            "unit": "million-tokens",
+            "usd": "1.10",
+            "inr_including_tax_reserve": "129.80"
+          },
+          {
+            "id": "event-hubs-tu",
+            "quantity": "6",
+            "unit": "TU-hour",
+            "usd": "0.18",
+            "inr_including_tax_reserve": "21.24"
+          },
+          {
+            "id": "event-hubs-kafka",
+            "quantity": "6",
+            "unit": "namespace-hour",
+            "usd": "0.54",
+            "inr_including_tax_reserve": "63.72"
+          },
+          {
+            "id": "event-hubs-ingress",
+            "quantity": "1",
+            "unit": "million-events",
+            "usd": "0.028",
+            "inr_including_tax_reserve": "3.31"
+          },
+          {
+            "id": "blob-storage",
+            "quantity": "100",
+            "unit": "GB-month",
+            "usd": "2.0800",
+            "inr_including_tax_reserve": "245.44"
+          },
+          {
+            "id": "blob-write",
+            "quantity": "10",
+            "unit": "10K-operations",
+            "usd": "0.50",
+            "inr_including_tax_reserve": "59.00"
+          },
+          {
+            "id": "blob-read",
+            "quantity": "20",
+            "unit": "10K-operations",
+            "usd": "0.080",
+            "inr_including_tax_reserve": "9.44"
+          },
+          {
+            "id": "managed-storage",
+            "quantity": "40",
+            "unit": "DSU",
+            "usd": "1.040",
+            "inr_including_tax_reserve": "122.72"
+          },
+          {
+            "id": "secrets",
+            "quantity": "1",
+            "unit": "10K-operations",
+            "usd": "0.03",
+            "inr_including_tax_reserve": "3.54"
+          },
+          {
+            "id": "network",
+            "quantity": "1",
+            "unit": "USD-allowance",
+            "usd": "1",
+            "inr_including_tax_reserve": "118.00"
+          },
+          {
+            "id": "azure-search-demo-windows",
+            "quantity": "16",
+            "unit": "search-unit-hour",
+            "usd": "1.616",
+            "inr_including_tax_reserve": "190.69"
+          },
+          {
+            "id": "completion-sql",
+            "quantity": "3.3333333334",
+            "unit": "DBU-hour",
+            "usd": "2.333333333380",
+            "inr_including_tax_reserve": "275.34"
+          }
+        ],
+        "usd": "124.307333333380",
+        "inr": "14668.28",
+        "preflight_pending_inr": "250",
+        "contingency_inr": "650",
+        "total_inr": "15568.28",
+        "ceiling_inr": "20000",
+        "fits": true
+      },
+      "monthly": {
+        "one-three-hour-demo": {
+          "lines": [
+            {
+              "id": "sql",
+              "quantity": "14",
+              "unit": "DBU-hour",
+              "usd": "9.80",
+              "inr_including_tax_reserve": "1156.40"
+            },
+            {
+              "id": "health-and-sync",
+              "quantity": "2",
+              "unit": "DBU-hour",
+              "usd": "0.90",
+              "inr_including_tax_reserve": "106.20"
+            },
+            {
+              "id": "rti-pipelines-and-sync",
+              "quantity": "15",
+              "unit": "DBU-hour",
+              "usd": "6.75",
+              "inr_including_tax_reserve": "796.50"
+            },
+            {
+              "id": "search",
+              "quantity": "4",
+              "unit": "search-unit-hour",
+              "usd": "0.404",
+              "inr_including_tax_reserve": "47.68"
+            },
+            {
+              "id": "apps",
+              "quantity": "7",
+              "unit": "DBU-hour",
+              "usd": "6.65",
+              "inr_including_tax_reserve": "784.70"
+            },
+            {
+              "id": "native-genie",
+              "quantity": "40",
+              "unit": "DBU-hour",
+              "usd": "2.80",
+              "inr_including_tax_reserve": "330.40"
+            },
+            {
+              "id": "lakebase",
+              "quantity": "8",
+              "unit": "DBU-hour",
+              "usd": "2.08",
+              "inr_including_tax_reserve": "245.44"
+            },
+            {
+              "id": "risk-serving",
+              "quantity": "32",
+              "unit": "DBU-hour",
+              "usd": "2.24",
+              "inr_including_tax_reserve": "264.32"
+            },
+            {
+              "id": "luna-input",
+              "quantity": "2",
+              "unit": "million-tokens",
+              "usd": "0.22",
+              "inr_including_tax_reserve": "25.96"
+            },
+            {
+              "id": "luna-output",
+              "quantity": ".25",
+              "unit": "million-tokens",
+              "usd": "0.1375",
+              "inr_including_tax_reserve": "16.23"
+            },
+            {
+              "id": "event-hubs-tu",
+              "quantity": "3",
+              "unit": "TU-hour",
+              "usd": "0.09",
+              "inr_including_tax_reserve": "10.62"
+            },
+            {
+              "id": "event-hubs-kafka",
+              "quantity": "3",
+              "unit": "namespace-hour",
+              "usd": "0.27",
+              "inr_including_tax_reserve": "31.86"
+            },
+            {
+              "id": "event-hubs-ingress",
+              "quantity": ".1",
+              "unit": "million-events",
+              "usd": "0.0028",
+              "inr_including_tax_reserve": "0.34"
+            },
+            {
+              "id": "blob-storage",
+              "quantity": "50",
+              "unit": "GB-month",
+              "usd": "1.0400",
+              "inr_including_tax_reserve": "122.72"
+            },
+            {
+              "id": "blob-write",
+              "quantity": "1",
+              "unit": "10K-operations",
+              "usd": "0.05",
+              "inr_including_tax_reserve": "5.90"
+            },
+            {
+              "id": "blob-read",
+              "quantity": "10",
+              "unit": "10K-operations",
+              "usd": "0.040",
+              "inr_including_tax_reserve": "4.72"
+            },
+            {
+              "id": "managed-storage",
+              "quantity": "10",
+              "unit": "DSU",
+              "usd": "0.260",
+              "inr_including_tax_reserve": "30.68"
+            },
+            {
+              "id": "secrets",
+              "quantity": ".1",
+              "unit": "10K-operations",
+              "usd": "0.003",
+              "inr_including_tax_reserve": "0.36"
+            },
+            {
+              "id": "network",
+              "quantity": ".25",
+              "unit": "USD-allowance",
+              "usd": "0.25",
+              "inr_including_tax_reserve": "29.50"
+            }
+          ],
+          "usd": "33.9873",
+          "inr": "4010.53",
+          "total_inr": "4610.53",
+          "contingency_inr": "600",
+          "fits": true
+        },
+        "two-one-hour-demos": {
+          "lines": [
+            {
+              "id": "sql",
+              "quantity": "12",
+              "unit": "DBU-hour",
+              "usd": "8.40",
+              "inr_including_tax_reserve": "991.20"
+            },
+            {
+              "id": "health-and-sync",
+              "quantity": "4",
+              "unit": "DBU-hour",
+              "usd": "1.80",
+              "inr_including_tax_reserve": "212.40"
+            },
+            {
+              "id": "rti-pipelines-and-sync",
+              "quantity": "10",
+              "unit": "DBU-hour",
+              "usd": "4.50",
+              "inr_including_tax_reserve": "531.00"
+            },
+            {
+              "id": "search",
+              "quantity": "4",
+              "unit": "search-unit-hour",
+              "usd": "0.404",
+              "inr_including_tax_reserve": "47.68"
+            },
+            {
+              "id": "apps",
+              "quantity": "6",
+              "unit": "DBU-hour",
+              "usd": "5.70",
+              "inr_including_tax_reserve": "672.60"
+            },
+            {
+              "id": "native-genie",
+              "quantity": "40",
+              "unit": "DBU-hour",
+              "usd": "2.80",
+              "inr_including_tax_reserve": "330.40"
+            },
+            {
+              "id": "lakebase",
+              "quantity": "6",
+              "unit": "DBU-hour",
+              "usd": "1.56",
+              "inr_including_tax_reserve": "184.08"
+            },
+            {
+              "id": "risk-serving",
+              "quantity": "24",
+              "unit": "DBU-hour",
+              "usd": "1.68",
+              "inr_including_tax_reserve": "198.24"
+            },
+            {
+              "id": "luna-input",
+              "quantity": "2",
+              "unit": "million-tokens",
+              "usd": "0.22",
+              "inr_including_tax_reserve": "25.96"
+            },
+            {
+              "id": "luna-output",
+              "quantity": ".25",
+              "unit": "million-tokens",
+              "usd": "0.1375",
+              "inr_including_tax_reserve": "16.23"
+            },
+            {
+              "id": "event-hubs-tu",
+              "quantity": "4",
+              "unit": "TU-hour",
+              "usd": "0.12",
+              "inr_including_tax_reserve": "14.16"
+            },
+            {
+              "id": "event-hubs-kafka",
+              "quantity": "4",
+              "unit": "namespace-hour",
+              "usd": "0.36",
+              "inr_including_tax_reserve": "42.48"
+            },
+            {
+              "id": "event-hubs-ingress",
+              "quantity": ".1",
+              "unit": "million-events",
+              "usd": "0.0028",
+              "inr_including_tax_reserve": "0.34"
+            },
+            {
+              "id": "blob-storage",
+              "quantity": "50",
+              "unit": "GB-month",
+              "usd": "1.0400",
+              "inr_including_tax_reserve": "122.72"
+            },
+            {
+              "id": "blob-write",
+              "quantity": "1",
+              "unit": "10K-operations",
+              "usd": "0.05",
+              "inr_including_tax_reserve": "5.90"
+            },
+            {
+              "id": "blob-read",
+              "quantity": "10",
+              "unit": "10K-operations",
+              "usd": "0.040",
+              "inr_including_tax_reserve": "4.72"
+            },
+            {
+              "id": "managed-storage",
+              "quantity": "10",
+              "unit": "DSU",
+              "usd": "0.260",
+              "inr_including_tax_reserve": "30.68"
+            },
+            {
+              "id": "secrets",
+              "quantity": ".1",
+              "unit": "10K-operations",
+              "usd": "0.003",
+              "inr_including_tax_reserve": "0.36"
+            },
+            {
+              "id": "network",
+              "quantity": ".25",
+              "unit": "USD-allowance",
+              "usd": "0.25",
+              "inr_including_tax_reserve": "29.50"
+            }
+          ],
+          "usd": "29.3273",
+          "inr": "3460.65",
+          "total_inr": "4060.65",
+          "contingency_inr": "600",
+          "fits": true
+        }
+      },
+      "stress_cases": [
+        {
+          "name": "genie-double-usage",
+          "total_inr": "17616.76",
+          "fits": true,
+          "expected": "WITHIN_BUDGET",
+          "matches_expected": true
+        },
+        {
+          "name": "fx-and-price-shock",
+          "total_inr": "18648.73",
+          "fits": true,
+          "expected": "WITHIN_BUDGET",
+          "matches_expected": true
+        }
+      ],
+      "basis": "Published USD unit rates \u00d7 unmeasured engineering quantities; INR100/USD +18% planning tax reserve; no credits/free promotional units. Later gates must substitute measured usage and reconcile delayed invoices."
+    },
+    "provider_attribution": "PASS: six component groups matched to retained IDs and actual effective unit prices",
+    "azure_invoice_final": false,
+    "all_prior_reservations_retained": true,
+    "completion_envelope_inr": "3050.00"
+  },
+  "measurements": {
+    "native_search": "Still unresolved, replaced by explicitly approved tested Azure Basic backend; both failed attempts retained",
+    "search_accepted_lifecycles": 2,
+    "new_application_secrets": 0,
+    "final_state": "ASLEEP",
+    "optional_webhook_disposition": "UNSUPPORTED_DISABLED; required authenticated polling PASS; no enabled receiver",
+    "invoice_status": "Provider attribution PASS; invoice and late corrections provisional, no holds released"
+  },
+  "limitations": [
+    "Invoice and late corrections remain provisional; no reservation released and no claim of zero total bill.",
+    "Constant Search vectors prove capability, authorization and lifecycle only; real corpus relevance, embeddings, scale, revocation and clinical security remain mandatory Phase10 tests.",
+    "Full demo performance, whole-platform cold rebuild and settled24hour sleep remain Phase12/13 gates.",
+    "Original model-serving latency and full-answer agent quality remain later gates; Phase2 does not claim their acceptance."
+  ],
+  "owner_signoff": {
+    "authority": "User-approved phase completion and explicit versioned Search baseline approval; delegated technical review",
+    "record": "platform/config/search-baseline-revision.json",
+    "independent_clinical_certification_claimed": false
+  },
+  "next_phase": {
+    "phase": 3,
+    "prerequisite_satisfied": true,
+    "execution_started": false
+  }
+}
