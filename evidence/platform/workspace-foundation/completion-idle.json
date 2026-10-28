@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-10-28T04:34:48.139727+00:00",
+  "state": "ASLEEP",
+  "running_compute": 0,
+  "metadata_only": true,
+  "workloads_launched": 0,
+  "idle_seconds": 1404.087105,
+  "last_search_cleanup": "2026-10-28T04:11:24.051605+00:00",
+  "resources": [
+    {
+      "kind": "warehouse",
+      "id": "bd30bdac29080126",
+      "name": "hcp-sql-shared",
+      "state": "STOPPED",
+      "running": false,
+      "owner": "terraform",
+      "owned": true
+    },
+    {
+      "kind": "job",
+      "id": "569239393770025",
+      "name": "hcp-test-foundation-smoke",
+      "running": false,
+      "active_run_ids": [],
+      "unpaused_trigger": false,
+      "owner": "bundle",
+      "owned": true
+    },
+    {
+      "kind": "job",
+      "id": "26574482921778",
+      "name": "hcp-dev-foundation-smoke",
+      "running": false,
+      "active_run_ids": [],
+      "unpaused_trigger": false,
+      "owner": "bundle",
+      "owned": true
+    },
+    {
+      "kind": "synced_table",
+      "id": "synced_tables/hc_test._foundation_probe.hcp_synced_fixture",
+      "name": "hcp-foundation-synced",
+      "owner": "api-adapter",
+      "owned": true,
+      "running": false,
+      "state": "REGISTERED_METADATA_NOT_QUERIED"
+    }
+  ],
+  "all_active_job_runs": 0,
+  "instance_pools": 0,
+  "lakebase_projects": 0,
+  "legacy_database_instances": 0,
+  "custom_serving_endpoints": 0
+}

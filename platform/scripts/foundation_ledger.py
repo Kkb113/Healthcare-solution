@@ -45,14 +45,12 @@ def validate_ledger(ledger: dict) -> None:
                 "Reservation settlement is not supported by this controller"
             )
     for scope, snapshot in ledger["snapshots"].items():
-        if snapshot["scope"] != scope or snapshot["currency"] != "USD":
+        if snapshot["scope"] != scope or snapshot["currency"] not in {"USD", "INR"}:
             raise ValueError("Snapshot identity/currency conflict")
-        to_paise(
-            snapshot["positive_cost_usd"],
-            snapshot.get("planning_fx", "100"),
-            snapshot.get("tax_reserve", "0.18"),
+        snapshot_paise(snapshot)
+        credits = Decimal(
+            str(snapshot.get("credits_" + snapshot["currency"].lower(), "0"))
         )
-        credits = Decimal(str(snapshot.get("credits_usd", "0")))
         if not credits.is_finite() or credits > 0:
             raise ValueError("Credits must be finite and nonpositive")
 
@@ -73,6 +71,20 @@ def to_paise(usd: str, fx="100", tax="0.18") -> int:
             rounding=ROUND_CEILING
         )
     )
+
+
+def snapshot_paise(snapshot):
+    currency = snapshot["currency"]
+    if currency not in {"USD", "INR"}:
+        raise ValueError("Unexpected snapshot currency")
+    cost = to_paise(
+        snapshot["positive_cost_" + currency.lower()],
+        snapshot.get("planning_fx", "100") if currency == "USD" else "1",
+        snapshot.get("tax_reserve", "0.18"),
+    )
+    floor = snapshot.get("retained_cost_floor_paise", 0)
+    integer_paise(floor)
+    return max(cost, floor)
 
 
 def initial_ledger(config: dict) -> dict:
@@ -106,14 +118,7 @@ def initial_ledger(config: dict) -> dict:
 
 def exposure(ledger: dict) -> dict:
     validate_ledger(ledger)
-    snapshots = sum(
-        to_paise(
-            s["positive_cost_usd"],
-            s.get("planning_fx", "100"),
-            s.get("tax_reserve", "0.18"),
-        )
-        for s in ledger["snapshots"].values()
-    )
+    snapshots = sum(snapshot_paise(s) for s in ledger["snapshots"].values())
     reserved = sum(r["paise"] for r in ledger["reservations"].values())
     total = snapshots + reserved
     return {
@@ -165,12 +170,13 @@ def update_snapshot(
     validate_ledger(ledger)
     if (
         scope not in expected_scopes
-        or snapshot["currency"] != "USD"
+        or snapshot["currency"] not in {"USD", "INR"}
         or snapshot["scope"] != scope
     ):
         raise ValueError("Unexpected cost scope or currency")
-    to_paise(snapshot["positive_cost_usd"])
-    credits = Decimal(str(snapshot.get("credits_usd", "0")))
+    snapshot_paise(snapshot)
+    amount_key = "positive_cost_" + snapshot["currency"].lower()
+    credits = Decimal(str(snapshot.get("credits_" + snapshot["currency"].lower(), "0")))
     if not credits.is_finite() or credits > 0:
         raise ValueError(
             "Credits must be zero or negative and do not reduce gross exposure"
@@ -182,12 +188,12 @@ def update_snapshot(
             "Cumulative build snapshots must retain the fixed project start"
         )
     previous = ledger["snapshots"].get(scope)
-    if previous and Decimal(snapshot["positive_cost_usd"]) < Decimal(
-        previous["positive_cost_usd"]
-    ):
+    if previous and snapshot_paise(snapshot) < snapshot_paise(previous):
         # An empty/delayed/revised query cannot erase already observed gross spend.
-        snapshot["reported_positive_cost_usd"] = snapshot["positive_cost_usd"]
-        snapshot["positive_cost_usd"] = previous["positive_cost_usd"]
+        snapshot["reported_" + amount_key] = snapshot[amount_key]
+        if snapshot["currency"] == previous["currency"]:
+            snapshot[amount_key] = previous[amount_key]
+        snapshot["retained_cost_floor_paise"] = snapshot_paise(previous)
         snapshot["status"] = "PROVISIONAL_REGRESSION_RETAINED"
     # Latest whole-period snapshot replaces prior totals, not additive billing.
     changed["snapshots"][scope] = snapshot

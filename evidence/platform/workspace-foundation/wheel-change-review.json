@@ -1,12 +1,15 @@
 {
   "cloud_apps_tested_version": "0.2.1",
-  "current_delivery_version": "0.2.3",
+  "current_delivery_version": "0.2.4",
   "changed_shared_modules": [
-    "hcp/agent/request_policy.py",
-    "hcp/control/funding.py"
+    "hcp/__init__.py",
+    "hcp/control/funding.py",
+    "hcp/control/state.py"
   ],
   "authorization_modules_byte_identical": true,
-  "canonical_wheel_sha256": "254a409b70a0fca391c57bc4b8791b17f1547d3ac26209c0ce770f7f0e0ae63b",
-  "linux_windows_wheels_byte_identical": true,
-  "new_module_testing": "Local deterministic request-policy tests; atomic application ledger remains Phase10"
+  "canonical_wheel_sha256": "3627dff055875d77cfe41b8d86f6794508aeae5856fdb732366b852d6e79bd31",
+  "linux_windows_wheels_byte_identical": false,
+  "new_module_testing": "Local control, billing, Search lifecycle/security and approved revision tests; full agent ledger remains Phase10",
+  "authorization_comparison_source": "ddf7adf58cc1842a1738495a1aa035a01bf71cb3; prior0.2.3-to-cloud0.2.1 byte identity retained in Git history",
+  "linux_windows_verification": "Pending new CI canonical hash comparison"
 }

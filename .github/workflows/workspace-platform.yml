@@ -54,6 +54,7 @@ jobs:
           platform/.venv/bin/python -B -m pytest platform/tests/unit platform/tests/integration/test_shared_delta.py -q --junitxml=output/platform-foundation/ci-tests.xml
           platform/.venv/bin/python -B platform/scripts/verify_architecture_gate.py
           platform/.venv/bin/python -B platform/scripts/verify_foundation_gate.py
+          platform/.venv/bin/python -B platform/scripts/verify_search_revision.py
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:

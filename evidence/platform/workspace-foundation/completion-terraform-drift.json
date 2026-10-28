@@ -1,0 +1,1092 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-10-28T04:40:40.854634+00:00",
+  "modules": {
+    "foundation": {
+      "status": "PASS",
+      "plan_exit_code": 0,
+      "plan_exit_evidence": "Native detailed-exitcode plan log says No changes; complete saved plan confirms no-op/read only",
+      "changes": 0,
+      "plan_generated_at_epoch": 1793162018.3092706,
+      "plan_sha256": "f9cb3a8d01d2553fc2cab900e247731dcdb4fd08a7c5c4965609a5f242115cbe",
+      "log_sha256": "80d5c774b0beee442c0cb310ab2300be46fcf289898138531f8ebc51b0035c0c",
+      "validate": true,
+      "input_hashes": {
+        "platform/infra/foundation/.terraform.lock.hcl": "bcbb02bc48972b3cf6a397f325d1347a9070074853313780b42d39903a98d8f2",
+        "platform/infra/foundation/backend.hcl": "1ec3118e870eb2f3b7b21ec02c54dba6739ac7dbbf126e7e5f4dbc7bf38e11d8",
+        "platform/infra/foundation/backend.tf": "290754bcbc78d9a2482c08acacd60a8faba072f465105e69f102650bea78ff8a",
+        "platform/infra/foundation/main.tf": "5245988a4339060854fcd74ae98a3b693d1af8e11f0a26544b4e60ce3b3c492c"
+      },
+      "resource_actions": [
+        {
+          "address": "azuread_application.foundation[\"sp-hcp-cicd\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_application.foundation[\"sp-hcp-jobs\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_application.foundation[\"sp-hcp-validation\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_application_federated_identity_credential.github_main",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_group.healthcare[\"hcp-analysts\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_group.healthcare[\"hcp-auditors\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_group.healthcare[\"hcp-clinical\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_group.healthcare[\"hcp-data-engineers\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_group.healthcare[\"hcp-data-scientists\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_group.healthcare[\"hcp-finance\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_group.healthcare[\"hcp-operations\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_group.healthcare[\"hcp-platform-admins\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_service_principal.foundation[\"sp-hcp-cicd\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_service_principal.foundation[\"sp-hcp-jobs\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azuread_service_principal.foundation[\"sp-hcp-validation\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_consumption_budget_subscription.build",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_consumption_budget_subscription.monthly",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_databricks_access_connector.healthcare",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_key_vault.healthcare",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_resource_group.healthcare",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_role_assignment.ci_control",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_role_assignment.ci_foundation",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_role_assignment.ci_state",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_role_assignment.ci_workspace_read",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_role_assignment.connector_storage",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_role_assignment.operator_storage",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_role_assignment.platform_secrets",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_storage_account.healthcare",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_storage_container.healthcare[\"checkpoints\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_storage_container.healthcare[\"control\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_storage_container.healthcare[\"landing\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_storage_container.healthcare[\"tfstate\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_storage_container.healthcare[\"uc-managed\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_storage_management_policy.landing",
+          "actions": [
+            "no-op"
+          ]
+        }
+      ]
+    },
+    "model-access": {
+      "status": "PASS",
+      "plan_exit_code": 0,
+      "plan_exit_evidence": "Native detailed-exitcode plan log says No changes; complete saved plan confirms no-op/read only",
+      "changes": 0,
+      "plan_generated_at_epoch": 1793162069.2651443,
+      "plan_sha256": "498ca8a4140e20bbc6573b2c165a52aa99f789db6d9818f9359a5e3413dc1306",
+      "log_sha256": "991b95362cd24bb7d4e33e9872f1cc790b611546e603e6ed68d9e334a451d839",
+      "validate": true,
+      "input_hashes": {
+        "platform/infra/model-access/.terraform.lock.hcl": "0eb93cf29237e7e73aaec364317b91dda3023338cefdb329214360f11f05eff8",
+        "platform/infra/model-access/backend.hcl": "3b0426ad1a7c0a9b73a2ec1d135100718610239906a00153d56a862c25fcf793",
+        "platform/infra/model-access/backend.tf": "290754bcbc78d9a2482c08acacd60a8faba072f465105e69f102650bea78ff8a",
+        "platform/infra/model-access/main.tf": "6d3307ffa1f1d018617f705deb4dd700916bfa1afb2132c7a8bc485dab0c4e49"
+      },
+      "resource_actions": [
+        {
+          "address": "azurerm_cognitive_account.luna",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_cognitive_deployment.luna",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_consumption_budget_resource_group.model_build",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_consumption_budget_resource_group.model_monthly",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_databricks_access_connector.gateway",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_resource_group.model",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_role_assignment.gateway_inference",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "azurerm_role_assignment.operator_inference",
+          "actions": [
+            "no-op"
+          ]
+        }
+      ]
+    },
+    "workspace": {
+      "status": "PASS",
+      "plan_exit_code": 0,
+      "plan_exit_evidence": "Native detailed-exitcode plan log says No changes; complete saved plan confirms no-op/read only",
+      "changes": 0,
+      "plan_generated_at_epoch": 1793162125.8804812,
+      "plan_sha256": "e26e5ca069fc5c85247907f48dc1cc1db8ffb0204e43ec32e19cf68eafec2e8e",
+      "log_sha256": "ac74532bcad2485d46fa41915f9e018dea7b6e6ba4a0331778c211e3b6106836",
+      "validate": true,
+      "input_hashes": {
+        "platform/infra/workspace/.terraform.lock.hcl": "ffe73c019e6556414d810ace7169db4300adf9d9d0a593a384ab63dd8d6888f7",
+        "platform/infra/workspace/backend.hcl": "613ba12517b520fab14a792d8fcf5070e4d8d663f518b40eb1ab505f9b6d69cf",
+        "platform/infra/workspace/bundle_folder.tf": "a6e0e4c52ad76b27ead627a0a78489d17d692b1b1d90b212a35a6356cb8c532d",
+        "platform/infra/workspace/catalogs.tf": "c32816400f68ef249ef8bee090a8f559b531eb182c458a8bc169d5f1c5e671d1",
+        "platform/infra/workspace/governance.tf": "df03fd4e8287e09f7547275c4a5b62ec42fa77becffc3e86690f40ca981eaaee",
+        "platform/infra/workspace/main.tf": "d0d0abe9d480cf61b2ba2c46aca6dea47417e9054d74cb3b3c1557aa539e9fc3",
+        "platform/infra/workspace/runtime_entitlements.tf": "b89ab6681c8a14caaece2474602d4b31a9aad91e2210406a34009e9fee0a0f9a",
+        "platform/infra/workspace/warehouse.tf": "32553286827c7def0194bb34a75348ae1145adbe7f366ccd9c589b4120d1895a"
+      },
+      "resource_actions": [
+        {
+          "address": "databricks_access_control_rule_set.component_policy[\"agent\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_access_control_rule_set.component_policy[\"autopilot\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_access_control_rule_set.component_policy[\"genie\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_access_control_rule_set.component_policy[\"medallion\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_access_control_rule_set.component_policy[\"ml\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_access_control_rule_set.component_policy[\"rti\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_access_control_rule_set.jobs_run_as",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_budget_policy.component[\"agent\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_budget_policy.component[\"autopilot\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_budget_policy.component[\"genie\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_budget_policy.component[\"medallion\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_budget_policy.component[\"ml\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_budget_policy.component[\"rti\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_catalog.healthcare[\"hc_dev\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_catalog.healthcare[\"hc_ops\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_catalog.healthcare[\"hc_prod\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_catalog.healthcare[\"hc_test\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_directory.bundle_root",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_entitlements.runtime_sql[\"jobs\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_entitlements.runtime_sql[\"validation\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_entity_tag_assignment.catalog_domain[\"hc_dev\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_entity_tag_assignment.catalog_domain[\"hc_ops\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_entity_tag_assignment.catalog_domain[\"hc_prod\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_entity_tag_assignment.catalog_domain[\"hc_test\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_external_location.healthcare[\"landing\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_external_location.healthcare[\"uc-managed\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.catalog[\"hc_dev\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.catalog[\"hc_ops\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.catalog[\"hc_prod\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.catalog[\"hc_test\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.landing_volume[\"hc_dev\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.landing_volume[\"hc_prod\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.landing_volume[\"hc_test\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev._foundation_probe\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.agent\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.bronze\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.dq\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.features\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.gold\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.landing\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.ml\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.pred\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.reference\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.semantic\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_dev.silver\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_ops.autopilot\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_ops.costs\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_ops.governance\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_ops.security\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_ops.telemetry\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.agent\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.bronze\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.dq\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.features\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.gold\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.landing\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.ml\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.pred\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.reference\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.semantic\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_prod.silver\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test._foundation_probe\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.agent\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.bronze\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.dq\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.features\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.gold\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.landing\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.ml\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.pred\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.reference\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.semantic\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_grants.schema[\"hc_test.silver\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_permissions.bundle_root",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_permissions.warehouse",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev._foundation_probe\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.agent\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.bronze\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.dq\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.features\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.gold\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.landing\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.ml\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.pred\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.reference\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.semantic\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_dev.silver\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_ops.autopilot\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_ops.costs\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_ops.governance\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_ops.security\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_ops.telemetry\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.agent\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.bronze\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.dq\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.features\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.gold\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.landing\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.ml\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.pred\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.reference\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.semantic\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_prod.silver\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test._foundation_probe\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.agent\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.bronze\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.dq\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.features\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.gold\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.landing\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.ml\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.pred\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.reference\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.semantic\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_schema.healthcare[\"hc_test.silver\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_sql_endpoint.healthcare",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_storage_credential.healthcare",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_tag_policy.healthcare[\"hcp_domain\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_tag_policy.healthcare[\"hcp_layer\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_tag_policy.healthcare[\"hcp_owner\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_tag_policy.healthcare[\"hcp_pii_class\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_tag_policy.healthcare[\"hcp_sla_tier\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_volume.landing[\"hc_dev\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_volume.landing[\"hc_prod\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_volume.landing[\"hc_test\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_workspace_binding.healthcare_catalog[\"hc_dev\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_workspace_binding.healthcare_catalog[\"hc_ops\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_workspace_binding.healthcare_catalog[\"hc_prod\"]",
+          "actions": [
+            "no-op"
+          ]
+        },
+        {
+          "address": "databricks_workspace_binding.healthcare_catalog[\"hc_test\"]",
+          "actions": [
+            "no-op"
+          ]
+        }
+      ]
+    }
+  },
+  "mutations": "none; saved plan and validation only",
+  "phase1_apply_allowlist_unchanged": true
+}

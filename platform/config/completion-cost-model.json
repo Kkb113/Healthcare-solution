@@ -1,0 +1,526 @@
+{
+  "contract_version": "architecture-1",
+  "as_of": "2026-10-28",
+  "region": "eastus",
+  "currency": "USD",
+  "planning_inr_per_usd": "100",
+  "tax_reserve_fraction": "0.18",
+  "tax_note": "Planning reserve only, not a determination of applicable tax; reconcile the invoice. No credits, human free Genie allowance or promotional discounts assumed.",
+  "ceiling_inr": "20000",
+  "monthly_ceiling_inr": "6000",
+  "preflight_unsettled_inr": "250",
+  "build_contingency_inr": "650",
+  "monthly_contingency_inr": "600",
+  "rate_revalidation_days": 30,
+  "selected_monthly_profile": "one-three-hour-demo",
+  "rate_evidence": "evidence/platform/architecture-baseline/price-evidence.json",
+  "rates": {
+    "sql": {
+      "usd": "0.70",
+      "unit": "DBU-hour",
+      "meter": "Premium Serverless SQL"
+    },
+    "automated": {
+      "usd": "0.45",
+      "unit": "DBU-hour",
+      "meter": "Premium Automated Serverless Compute"
+    },
+    "interactive": {
+      "usd": "0.95",
+      "unit": "DBU-hour",
+      "meter": "Premium Interactive Serverless Compute"
+    },
+    "inference": {
+      "usd": "0.07",
+      "unit": "DBU-hour",
+      "meter": "Premium Serverless Realtime Inferencing"
+    },
+    "database": {
+      "usd": "0.26",
+      "unit": "DBU-hour",
+      "meter": "Premium Database Serverless Compute"
+    },
+    "storage_dsu": {
+      "usd": "0.026",
+      "unit": "DSU",
+      "meter": "Premium Databricks Storage Unit"
+    },
+    "blob_gb_month": {
+      "usd": "0.0208",
+      "unit": "GB-month",
+      "meter": "Hot LRS Data Stored"
+    },
+    "blob_write_10k": {
+      "usd": "0.05",
+      "unit": "10K-operations",
+      "meter": "Hot LRS Write Operations"
+    },
+    "blob_read_10k": {
+      "usd": "0.004",
+      "unit": "10K-operations",
+      "meter": "Hot Read Operations"
+    },
+    "event_tu": {
+      "usd": "0.03",
+      "unit": "TU-hour",
+      "meter": "Standard Throughput Unit"
+    },
+    "event_kafka": {
+      "usd": "0.09",
+      "unit": "namespace-hour",
+      "meter": "Standard Kafka Endpoint"
+    },
+    "event_ingress": {
+      "usd": "0.028",
+      "unit": "million-events",
+      "meter": "Standard Ingress Events"
+    },
+    "key_operations": {
+      "usd": "0.03",
+      "unit": "10K-operations",
+      "meter": "Operations"
+    },
+    "luna_input": {
+      "usd": "0.11",
+      "unit": "million-tokens",
+      "meter": "gpt-6-luna US Data Zone Standard short-context input",
+      "source": "https://azure.microsoft.com/en-us/blog/gpt-6-astra-sol-and-luna-for-production-agents-in-microsoft-foundry/"
+    },
+    "luna_output": {
+      "usd": "0.55",
+      "unit": "million-tokens",
+      "meter": "gpt-6-luna US Data Zone Standard short-context output",
+      "source": "https://azure.microsoft.com/en-us/blog/gpt-6-astra-sol-and-luna-for-production-agents-in-microsoft-foundry/"
+    },
+    "allowance": {
+      "usd": "1",
+      "unit": "USD-allowance",
+      "meter": "Engineering allowance; not a published service tariff"
+    },
+    "azure_search_basic": {
+      "usd": "0.101",
+      "unit": "search-unit-hour",
+      "meter": "Azure AI Search Basic East US"
+    }
+  },
+  "usage_uncertainty": {
+    "genie_dbu_per_request": "2",
+    "genie_note": "Approved124 native questions priced at2estimatedDBU each;4DBU stress included.20initial questions/space and targeted2/space at recreate/batch/RTI is an explicitly approved POC scope revision. Mandatory SQL authorization/reconciliation tests unchanged.",
+    "automated_note": "DBU totals are engineering workload estimates, not published minimum cluster prices. Phase 2/4/13 pilots must reprice every remaining required test; do not skip tests to fit.",
+    "lakebase_note": "2 Database DBU per endpoint-hour is an unverified billing allowance for a 1\u00e2\u20ac\u201c2 CU Autoscaling endpoint, NOT a CU-to-DBU published conversion. Official multiplier is 0.213X. Measure SKU quantities and reconcile before dependent use.",
+    "search_note": "Approved four creation cycles:Phase2;combined10/11/12initial(7h);Phase12wake(0.5h);Phase13(3.5h),active11.5h+96h deletion tail. Same window still requires sequential passing commits/gates beforedependentexecution; local preparation may overlap. An extra cycle exceeds planned headroom and requires re-estimation.",
+    "apps_note": "Approved24aggregateapphours; per-app timers and externaldeadline, stop unused apps. Full200agent evaluation at10/12/13 unchanged.",
+    "sql_note": "Approved8aggregate warehouse-hours including starts,queryfailures and5min idle tails. No additionalcluster or always-on SQL.",
+    "probe_hold": "If any measured floor or full-workload projection exceeds its funded allowance and unused contingency cannot cover the complete remaining scope, block the next gate and request an explicit budget/scope revision."
+  },
+  "build": [
+    {
+      "id": "sql",
+      "rate": "sql",
+      "quantity": "32",
+      "basis": "Funded proposal:8 aggregate2XSmall hours including readiness,idle and targeted native regression; deterministic SQL regressions batched"
+    },
+    {
+      "id": "medallion",
+      "rate": "automated",
+      "quantity": "20",
+      "basis": "Funded proposal:about10 full/equivalent runs, five replay days, clean rebuild/idempotent rerun; reuse certified unchanged baseline; pilot must prove full test fits"
+    },
+    {
+      "id": "autopilot",
+      "rate": "automated",
+      "quantity": "6",
+      "basis": "Seven replay days, six faults, API collectors; app hours separate"
+    },
+    {
+      "id": "ml",
+      "rate": "automated",
+      "quantity": "12",
+      "basis": "Feature/export/verification 3 DBU; final fits 6 DBU; batch scoring 3 DBU; local tuning; hybrid fallback at ADR-06 threshold"
+    },
+    {
+      "id": "capability-probes",
+      "rate": "automated",
+      "quantity": "4",
+      "basis": "Tiny bounded job/pipeline/sync/failed-run probes, excluding other component meters below"
+    },
+    {
+      "id": "rti-pipelines-and-sync",
+      "rate": "automated",
+      "quantity": "36",
+      "basis": "Aggregate allowance for continuous micro-batch LDP and continuous Lakebase sync, warmup, soak and recovery; no always-on deployment"
+    },
+    {
+      "id": "search",
+      "rate": "inference",
+      "quantity": "200",
+      "basis": "Both failed native Search attempts retain 25 hours each including the complete 24-hour tail; no third native lifecycle"
+    },
+    {
+      "id": "apps",
+      "rate": "interactive",
+      "quantity": "12",
+      "basis": "Proposed24 aggregate app-hours; stage fixtures locally and stop unrelated apps; hard4hgenerator deadline"
+    },
+    {
+      "id": "native-genie",
+      "rate": "inference",
+      "quantity": "248",
+      "basis": "Proposed124 questions x2 estimated DBU:80initial(20/space)+8recreate+8batchrelease+8RTI+12agenttool+8control/probe"
+    },
+    {
+      "id": "lakebase",
+      "rate": "database",
+      "quantity": "28",
+      "basis": "14 endpoint-hours \u00c3\u20142 estimated DBU/hour; explicitly unverified CU allowance"
+    },
+    {
+      "id": "risk-serving",
+      "rate": "inference",
+      "quantity": "64",
+      "basis": "Two Small CPU endpoints \u00c3\u20144 concurrency \u00c3\u20148 total hours including idle/launch allowance; actual launch SKU must reconcile without double counting"
+    },
+    {
+      "id": "luna-input",
+      "rate": "luna_input",
+      "quantity": "16",
+      "basis": "Up to 16 million aggregate short-context input tokens, no caching discount"
+    },
+    {
+      "id": "luna-output",
+      "rate": "luna_output",
+      "quantity": "2",
+      "basis": "Up to 2 million output tokens; reasoning disabled; every billable attempt reserved"
+    },
+    {
+      "id": "event-hubs-tu",
+      "rate": "event_tu",
+      "quantity": "6",
+      "basis": "Six namespace TU-hours including create/delete/recovery; one shared TU"
+    },
+    {
+      "id": "event-hubs-kafka",
+      "rate": "event_kafka",
+      "quantity": "6",
+      "basis": "Kafka endpoint charge conservatively additional to TU"
+    },
+    {
+      "id": "event-hubs-ingress",
+      "rate": "event_ingress",
+      "quantity": "1",
+      "basis": "One million event ingress units including duplicates/retries, Capture off"
+    },
+    {
+      "id": "blob-storage",
+      "rate": "blob_gb_month",
+      "quantity": "100",
+      "basis": "50 GB maximum combined physical footprint across environments, archives and state for two build months; extend ledger if build takes longer"
+    },
+    {
+      "id": "blob-write",
+      "rate": "blob_write_10k",
+      "quantity": "10",
+      "basis": "100,000 writes/list operations; round up including retries"
+    },
+    {
+      "id": "blob-read",
+      "rate": "blob_read_10k",
+      "quantity": "20",
+      "basis": "200,000 read/other operations"
+    },
+    {
+      "id": "managed-storage",
+      "rate": "storage_dsu",
+      "quantity": "40",
+      "basis": "Allowance for search/database/PITR/snapshots and operations; product multipliers 10/15/8.7/3.91 do not mean raw GB equals DSU; Phase 2 must measure"
+    },
+    {
+      "id": "secrets",
+      "rate": "key_operations",
+      "quantity": "1",
+      "basis": "10,000 standard operations; no managed HSM/private network fixed resources"
+    },
+    {
+      "id": "network",
+      "rate": "allowance",
+      "quantity": "1",
+      "basis": "USD reserve for network/control requests; same-region transfers not assumed universally free"
+    },
+    {
+      "id": "azure-search-demo-windows",
+      "rate": "azure_search_basic",
+      "quantity": "16",
+      "basis": "Two one-hour Phase2 lifecycle caps plus fourteen hours for unchanged later retrieval, rebuild, release and security tests; one SU, delete after each window"
+    },
+    {
+      "id": "completion-sql",
+      "rate": "sql",
+      "quantity": "3.3333333334",
+      "basis": "Twenty previously approved extra Phase2 SQL minutes plus thirty completion minutes, four DBU/hour; retains all original eight warehouse-hours"
+    }
+  ],
+  "monthly": {
+    "one-three-hour-demo": [
+      {
+        "id": "sql",
+        "rate": "sql",
+        "quantity": "14",
+        "basis": "3 demo hours +0.5 hour cold/idle allowance \u00c3\u20144 DBU/hour"
+      },
+      {
+        "id": "health-and-sync",
+        "rate": "automated",
+        "quantity": "2",
+        "basis": "No full batch history retraining/refresh"
+      },
+      {
+        "id": "rti-pipelines-and-sync",
+        "rate": "automated",
+        "quantity": "15",
+        "basis": "1.5 live hours plus bounded startup/repair allowance"
+      },
+      {
+        "id": "search",
+        "rate": "azure_search_basic",
+        "quantity": "4",
+        "basis": "Demo-only Basic provisioned hours including readiness/rebuild/deletion; service deleted outside funded windows"
+      },
+      {
+        "id": "apps",
+        "rate": "interactive",
+        "quantity": "7",
+        "basis": "14 aggregate app-hours including generator and startup"
+      },
+      {
+        "id": "native-genie",
+        "rate": "inference",
+        "quantity": "40",
+        "basis": "20 native questions total \u00c3\u20142 estimated DBU"
+      },
+      {
+        "id": "lakebase",
+        "rate": "database",
+        "quantity": "8",
+        "basis": "4 endpoint-hours \u00c3\u20142 billing allowance"
+      },
+      {
+        "id": "risk-serving",
+        "rate": "inference",
+        "quantity": "32",
+        "basis": "2 endpoints \u00c3\u20144 concurrency \u00c3\u20144 hours"
+      },
+      {
+        "id": "luna-input",
+        "rate": "luna_input",
+        "quantity": "2",
+        "basis": "2 million tokens"
+      },
+      {
+        "id": "luna-output",
+        "rate": "luna_output",
+        "quantity": ".25",
+        "basis": "250,000 tokens"
+      },
+      {
+        "id": "event-hubs-tu",
+        "rate": "event_tu",
+        "quantity": "3",
+        "basis": "3 namespace hours"
+      },
+      {
+        "id": "event-hubs-kafka",
+        "rate": "event_kafka",
+        "quantity": "3",
+        "basis": "3 namespace hours"
+      },
+      {
+        "id": "event-hubs-ingress",
+        "rate": "event_ingress",
+        "quantity": ".1",
+        "basis": "100,000 ingress events"
+      },
+      {
+        "id": "blob-storage",
+        "rate": "blob_gb_month",
+        "quantity": "50",
+        "basis": "50 GB-month retained footprint"
+      },
+      {
+        "id": "blob-write",
+        "rate": "blob_write_10k",
+        "quantity": "1",
+        "basis": "10,000 writes/lists"
+      },
+      {
+        "id": "blob-read",
+        "rate": "blob_read_10k",
+        "quantity": "10",
+        "basis": "100,000 reads"
+      },
+      {
+        "id": "managed-storage",
+        "rate": "storage_dsu",
+        "quantity": "10",
+        "basis": "Measured managed storage must replace allowance before recurring schedule"
+      },
+      {
+        "id": "secrets",
+        "rate": "key_operations",
+        "quantity": ".1",
+        "basis": "1,000 operations"
+      },
+      {
+        "id": "network",
+        "rate": "allowance",
+        "quantity": ".25",
+        "basis": "Network/request allowance"
+      }
+    ],
+    "two-one-hour-demos": [
+      {
+        "id": "sql",
+        "rate": "sql",
+        "quantity": "12",
+        "basis": "Two \u00c3\u2014(1 demo hour +0.5 cold/idle hour) \u00c3\u20144"
+      },
+      {
+        "id": "health-and-sync",
+        "rate": "automated",
+        "quantity": "4",
+        "basis": "Two bounded wake sweeps; no history recomputation"
+      },
+      {
+        "id": "rti-pipelines-and-sync",
+        "rate": "automated",
+        "quantity": "10",
+        "basis": "Two \u00c3\u201430-minute live windows plus startup/repair allowance"
+      },
+      {
+        "id": "search",
+        "rate": "azure_search_basic",
+        "quantity": "4",
+        "basis": "Demo-only Basic provisioned hours including readiness/rebuild/deletion; service deleted outside funded windows"
+      },
+      {
+        "id": "apps",
+        "rate": "interactive",
+        "quantity": "6",
+        "basis": "12 aggregate app-hours"
+      },
+      {
+        "id": "native-genie",
+        "rate": "inference",
+        "quantity": "40",
+        "basis": "20 native questions total, not per demo"
+      },
+      {
+        "id": "lakebase",
+        "rate": "database",
+        "quantity": "6",
+        "basis": "3 endpoint-hours \u00c3\u20142 billing allowance"
+      },
+      {
+        "id": "risk-serving",
+        "rate": "inference",
+        "quantity": "24",
+        "basis": "2 endpoints \u00c3\u20144 concurrency \u00c3\u20143 hours"
+      },
+      {
+        "id": "luna-input",
+        "rate": "luna_input",
+        "quantity": "2",
+        "basis": "2 million tokens"
+      },
+      {
+        "id": "luna-output",
+        "rate": "luna_output",
+        "quantity": ".25",
+        "basis": "250,000 tokens"
+      },
+      {
+        "id": "event-hubs-tu",
+        "rate": "event_tu",
+        "quantity": "4",
+        "basis": "4 namespace hours total"
+      },
+      {
+        "id": "event-hubs-kafka",
+        "rate": "event_kafka",
+        "quantity": "4",
+        "basis": "4 namespace hours"
+      },
+      {
+        "id": "event-hubs-ingress",
+        "rate": "event_ingress",
+        "quantity": ".1",
+        "basis": "100,000 ingress events"
+      },
+      {
+        "id": "blob-storage",
+        "rate": "blob_gb_month",
+        "quantity": "50",
+        "basis": "50 GB-month retained footprint"
+      },
+      {
+        "id": "blob-write",
+        "rate": "blob_write_10k",
+        "quantity": "1",
+        "basis": "10,000 writes/lists"
+      },
+      {
+        "id": "blob-read",
+        "rate": "blob_read_10k",
+        "quantity": "10",
+        "basis": "100,000 reads"
+      },
+      {
+        "id": "managed-storage",
+        "rate": "storage_dsu",
+        "quantity": "10",
+        "basis": "Measured managed storage must replace allowance before recurring schedule"
+      },
+      {
+        "id": "secrets",
+        "rate": "key_operations",
+        "quantity": ".1",
+        "basis": "1,000 operations"
+      },
+      {
+        "id": "network",
+        "rate": "allowance",
+        "quantity": ".25",
+        "basis": "Network/request allowance"
+      }
+    ]
+  },
+  "training_location": {
+    "pilot_limit_inr": 150,
+    "cloud_fit_limit_inr": 400,
+    "cloud_total_limit_inr": 1200,
+    "maximum_cloud_trials": 1,
+    "hybrid_rule": "If pilot projects final fitting above INR 400 or full ML above INR 800 inclusive of tax/FX, train selected estimators locally, log artifacts to UC/MLflow, verify parity and score in bounded Databricks jobs. Local tuning only; no cloud hyperparameter search. Both routes must keep feature/export/verification/scoring funded. A fallback never waives eligible data or model tests."
+  },
+  "exclusions": [
+    "Staff time",
+    "Local electricity/hardware",
+    "External CI charges outside included GitHub allowance",
+    "Real-data production qualification"
+  ],
+  "stress_cases": [
+    {
+      "name": "genie-double-usage",
+      "rate_factor": "1",
+      "fx": "100",
+      "genie_quantity": "496",
+      "expected": "WITHIN_BUDGET"
+    },
+    {
+      "name": "fx-and-price-shock",
+      "rate_factor": "1.10",
+      "fx": "110",
+      "expected": "WITHIN_BUDGET"
+    }
+  ],
+  "proposed_build_ceiling_inr": "20000",
+  "proposal_status": "APPROVED_BY_USER: reduced POC scope at INR20000 on2026-10-27"
+}

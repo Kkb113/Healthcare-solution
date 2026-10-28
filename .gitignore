@@ -18,5 +18,6 @@ output/
 .databricks/
 platform/build/
 platform/dist/
+platform/dist-linux/
 platform/probes/**/vendor/
 *.egg-info/

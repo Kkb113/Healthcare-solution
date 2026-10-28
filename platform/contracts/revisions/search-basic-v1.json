@@ -1,0 +1,47 @@
+{
+  "revision": "architecture-search-basic-1",
+  "status": "APPROVED_BY_USER",
+  "approved_on": "2026-10-28",
+  "approval": "platform/config/search-baseline-revision.json",
+  "original_gate": "evidence/platform/architecture-baseline/gate.json",
+  "original_gate_sha256": "05a183da0e7d9a425021996b488e7b89ca87b0f5679e1dcbb1ef2d2463bdac4f",
+  "frozen_gate_contract_sha256": "f94c21a5281a11e87fb40a599cdc6d799271cdef341274c9b7eae82c0d292c42",
+  "supersedes_only": [
+    "ADR-02 Search lifecycle owner and disposable service",
+    "ADR-03 search capability/backend",
+    "P08 Search implementation mechanism",
+    "Search line items and completion SQL allowance in ADR-10 cost projections"
+  ],
+  "original_contracts_remain_immutable": true,
+  "effective_overrides": {
+    "search": "Azure AI Search Basic, East US, 1 partition x 1 replica, Entra only; no API keys, optional semantic ranker/vectorizer/agentic retrieval not enabled",
+    "P08": {
+      "fixture_rows": 3,
+      "embedding_dimensions": 768,
+      "accepted_lifecycles": 2,
+      "required_cases": [
+        "expected_nearest_hit",
+        "facility_A_B_isolation",
+        "ungranted_valid_Entra_principal_denied",
+        "document_delete_propagation",
+        "delete_service",
+        "recreate_identical_results_and_ACLs",
+        "delete_service_again"
+      ],
+      "constant_vectors_are_capability_test_only": true,
+      "phase10_actual_embedding_relevance_scale_revocation_clinical_security_tests_remain_required": true
+    },
+    "lifecycle": "Versioned API adapter owns service and per-service operator role bindings. External guard inspects ARM metadata and deletes capacity on expiry/drift. Source documents/embeddings remain in durable storage. No query before ACL/readiness; no 24x7 service. Full demo startup/SLO suite remains Phase12.",
+    "cost_model": "platform/config/completion-cost-model.json",
+    "cost_caps_unchanged": {
+      "build_inr": 20000,
+      "monthly_inr": 6000
+    },
+    "prior_attempts": "Both failed Databricks Search lifecycles remain failed and their complete tail holds are retained; no claim of native Search fix.",
+    "billing": "Actual Jobs/DLT, Lakebase compute/storage/sync and native paid-caller Genie attribution is required; provider invoice and later correction settlement remain provisional with holds retained."
+  },
+  "frozen_exit_criteria_changed": false,
+  "required_tests_reduced": false,
+  "microsoft_fabric_included": false,
+  "core_compute": "Existing Azure Databricks workspace remains the core data, ML, dashboard, application and RTI platform"
+}

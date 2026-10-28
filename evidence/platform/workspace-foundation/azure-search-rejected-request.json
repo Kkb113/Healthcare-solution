@@ -1,0 +1,20 @@
+{
+  "status": "FAIL",
+  "started_at": "2026-10-28T03:59:27.185555+00:00",
+  "backend": "azure-ai-search-basic",
+  "subscription_id": "d054aa64-95db-467b-a25c-387de70b15bd",
+  "resource_id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Search/searchServices/hcp-search-d054-dev",
+  "lifecycles": [],
+  "cleanup": {
+    "service_deleted": true
+  },
+  "embedding_model_calls": 0,
+  "sql_queries": 0,
+  "source_fixture_sha256": "1a28e8c9ab45df51bd0c331f04248436488ef0b638240604734e09cd03fbb6ba",
+  "failure": {
+    "type": "CloudHttpError",
+    "code": "BadRequest",
+    "message": "Cloud request failed: HTTP 400 / BadRequest"
+  },
+  "completed_at": "2026-10-28T03:59:50.440324+00:00"
+}

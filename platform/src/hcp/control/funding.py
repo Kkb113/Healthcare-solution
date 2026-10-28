@@ -17,8 +17,10 @@ LIMITS = {
     "serving_minutes": (60, 56),
     "genie_questions": (1, 3304),
     "luna_requests": (12, 5),
+    "completion_sql_minutes": (30, 551),
+    "azure_search_hours": (2, 1192),
 }
-ENVELOPE_PAISE = 260000
+ENVELOPE_PAISE = 280000
 
 
 def claim(state, operation_id, meter, units):

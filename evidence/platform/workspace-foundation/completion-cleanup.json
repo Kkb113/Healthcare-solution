@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-10-28T04:26:21.025113+00:00",
+  "out_of_scope_identity_count": 16,
+  "out_of_scope_identities_unchanged": true,
+  "azure_search_service": "ABSENT",
+  "temporary_service_role_assignments": [
+    "ABSENT",
+    "ABSENT"
+  ],
+  "new_application_secrets_created": 0
+}

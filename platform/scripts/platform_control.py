@@ -45,6 +45,11 @@ def has_funding(ledger):
         required[settings["contingency_reservation_id"]] = settings[
             "contingency_reservation_paise"
         ]
+    if settings.get("completion_reservation_id"):
+        amendment = load(ROOT / "platform/config/search-backend.json")
+        if amendment["authorization_status"] != "USER_AUTHORIZED":
+            return False
+        required[settings["completion_reservation_id"]] = 20000
     return not exposure(ledger)["pause_new_work"] and all(
         ledger["reservations"].get(key, {}).get("paise", 0) >= amount
         for key, amount in required.items()
@@ -85,7 +90,15 @@ def workspace_client():
         if os.environ["DATABRICKS_HOST"].rstrip("/") != target["workspace_host"]:
             raise ValueError("Wrong workspace environment")
         return WorkspaceClient()
-    return WorkspaceClient(profile=target["workspace_profile"])
+    profile = os.environ.get("HCP_WORKSPACE_PROFILE", target["workspace_profile"])
+    if profile not in {"HEALTHCARE_USER", target["workspace_profile"]}:
+        raise ValueError("Unapproved healthcare authentication profile")
+    client = WorkspaceClient(profile=profile)
+    if client.config.host.rstrip("/") != target["workspace_host"]:
+        raise ValueError(
+            "Healthcare authentication profile targets the wrong workspace"
+        )
+    return client
 
 
 class ControlStore:
@@ -325,80 +338,128 @@ def inventory(client, registered=()):
         }
         for c in client.clusters.list()
     ]
+    from azure_search_lifecycle import inspect_resources as inspect_azure_search
+
+    try:
+        azure_search = inspect_azure_search()
+    except (CloudHttpError, OSError):
+        # An unavailable Azure API must not prevent shutdown of Databricks.
+        # UNKNOWN remains running and prevents a false ASLEEP certification.
+        from azure_search_lifecycle import RESOURCE_ID
+
+        azure_search = [
+            {
+                "kind": "azure_search",
+                "id": RESOURCE_ID,
+                "name": "hcp-search-d054-dev",
+                "owner": "api-adapter",
+                "owned": True,
+                "running": True,
+                "state": "UNKNOWN",
+            }
+        ]
     result = (
-        warehouses + jobs + pipelines + apps + serving + clusters + search + lakebase
+        warehouses
+        + jobs
+        + pipelines
+        + apps
+        + serving
+        + clusters
+        + search
+        + lakebase
+        + azure_search
     )
     return result
 
 
-def shutdown(client, resources):
+def stop_owned_resource(client, resource):
     from databricks.sdk.service.jobs import JobSettings, PauseStatus
 
-    actions = []
-    for resource in sorted(
-        resources,
-        key=lambda r: {
-            "job": 0,
-            "pipeline": 1,
-            "synced_table": 2,
-            "app": 3,
-            "serving": 4,
-            "lakebase": 5,
-            "warehouse": 6,
-        }.get(r["kind"], 5),
-    ):
+    kind, identity = resource["kind"], resource["id"]
+    if kind == "job":
+        job = client.jobs.get(int(identity)).settings
+        updates = JobSettings()
+        changed = False
+        for attr in ["schedule", "trigger", "continuous"]:
+            value = getattr(job, attr)
+            if value:
+                value.pause_status = PauseStatus.PAUSED
+                setattr(updates, attr, value)
+                changed = True
+        if changed:
+            client.jobs.update(int(identity), new_settings=updates)
+        for run_id in resource["active_run_ids"]:
+            client.jobs.cancel_run(run_id)
+    elif kind == "pipeline":
+        client.pipelines.stop(identity)
+    elif kind == "app":
+        client.apps.stop(identity)
+    elif kind == "serving":
+        client.serving_endpoints.delete(identity)
+    elif kind == "warehouse":
+        client.warehouses.stop(identity)
+    elif kind == "search":
+        if not identity.startswith("hcp-foundation-"):
+            raise PermissionError(
+                "Search deletion requires a tested rebuild/snapshot owner"
+            )
+        indexes = list(client.vector_search_indexes.list_indexes(identity))
+        if any(
+            not index.name.startswith("hc_test._foundation_probe.") for index in indexes
+        ):
+            raise PermissionError("Unexpected index on temporary search endpoint")
+        for index in indexes:
+            client.vector_search_indexes.delete_index(index.name)
+        client.vector_search_endpoints.delete_endpoint(identity)
+    elif kind == "lakebase":
+        from lakebase_lifecycle import hard_disable
+
+        hard_disable(client, identity)
+    elif kind == "azure_search":
+        from azure_search_lifecycle import delete_service
+
+        delete_service(identity)
+    elif kind == "synced_table":
+        from lakebase_lifecycle import remove_temporary_sync
+
+        remove_temporary_sync(client, identity)
+    else:
+        raise ValueError(
+            "Resource owner adapter is not registered; cannot certify sleep"
+        )
+
+
+def shutdown(client, resources):
+    actions, errors = [], []
+    priority = {
+        "job": 0,
+        "pipeline": 1,
+        "synced_table": 2,
+        "app": 3,
+        "serving": 4,
+        "lakebase": 5,
+        "warehouse": 6,
+    }
+    for resource in sorted(resources, key=lambda r: priority.get(r["kind"], 5)):
         if not resource["running"] or not resource.get("owned", True):
             continue
-        kind, identity = resource["kind"], resource["id"]
-        if kind == "job":
-            job = client.jobs.get(int(identity)).settings
-            updates = JobSettings()
-            changed = False
-            for attr in ["schedule", "trigger", "continuous"]:
-                value = getattr(job, attr)
-                if value:
-                    value.pause_status = PauseStatus.PAUSED
-                    setattr(updates, attr, value)
-                    changed = True
-            if changed:
-                client.jobs.update(int(identity), new_settings=updates)
-            for run_id in resource["active_run_ids"]:
-                client.jobs.cancel_run(run_id)
-        elif kind == "pipeline":
-            client.pipelines.stop(identity)
-        elif kind == "app":
-            client.apps.stop(identity)
-        elif kind == "serving":
-            client.serving_endpoints.delete(identity)
-        elif kind == "warehouse":
-            client.warehouses.stop(identity)
-        elif kind == "search":
-            if not identity.startswith("hcp-foundation-"):
-                raise PermissionError(
-                    "Search deletion requires a tested rebuild/snapshot owner"
-                )
-            indexes = list(client.vector_search_indexes.list_indexes(identity))
-            if any(
-                not index.name.startswith("hc_test._foundation_probe.")
-                for index in indexes
-            ):
-                raise PermissionError("Unexpected index on temporary search endpoint")
-            for index in indexes:
-                client.vector_search_indexes.delete_index(index.name)
-            client.vector_search_endpoints.delete_endpoint(identity)
-        elif kind == "lakebase":
-            from lakebase_lifecycle import hard_disable
-
-            hard_disable(client, identity)
-        elif kind == "synced_table":
-            from lakebase_lifecycle import remove_temporary_sync
-
-            remove_temporary_sync(client, identity)
-        else:
-            raise ValueError(
-                "Resource owner adapter is not registered; cannot certify sleep"
+        try:
+            stop_owned_resource(client, resource)
+            actions.append(
+                {
+                    "kind": resource["kind"],
+                    "id": resource["id"],
+                    "action": "sleep_requested",
+                }
             )
-        actions.append({"kind": kind, "id": identity, "action": "sleep_requested"})
+        except Exception as error:  # noqa: BLE001 -- attempt every independent shutdown before failing
+            errors.append(
+                {"kind": resource["kind"], "error_type": type(error).__name__}
+            )
+    if errors:
+        raise ValueError(
+            "Resource lifecycle adapter shutdown failed: " + json.dumps(errors)
+        )
     return actions
 
 
@@ -429,6 +490,7 @@ def down(store, client, timeout=360, expected_session_id=_ANY_SESSION):
             "app",
             "serving",
             "search",
+            "azure_search",
             "lakebase",
             "synced_table",
         }
@@ -513,6 +575,7 @@ def guard(store, client):
             "app",
             "serving",
             "search",
+            "azure_search",
             "lakebase",
             "synced_table",
         }
@@ -563,6 +626,7 @@ def main():
             "initialize",
             "reserve",
             "reserve-contingency",
+            "reserve-completion",
             "open",
             "up",
             "down",
@@ -614,6 +678,16 @@ def main():
             "budget": exposure(ledger),
             "amendment": settings["cost_amendment"],
         }
+    elif args.command == "reserve-completion":
+        amendment = load(ROOT / "platform/config/search-backend.json")
+        if amendment["authorization_status"] != "USER_AUTHORIZED":
+            raise PermissionError("Completion scope not authorized")
+        ledger = BlobLedger().transact(
+            lambda value: reserve(
+                value, settings["completion_reservation_id"], 20000, 2
+            )
+        )
+        result = {"status": "PASS", "budget": exposure(ledger)}
     elif args.command == "open":
         ledger = BlobLedger().read()[0]
         if not has_funding(ledger):

@@ -5,9 +5,9 @@ resource "databricks_entitlements" "runtime_sql" {
     jobs       = "147109184184541"
     validation = "144866838711850"
   }
-  service_principal_id        = each.value
+  service_principal_id       = each.value
   workspace_access           = true
-  databricks_sql_access       = true
+  databricks_sql_access      = true
   allow_cluster_create       = false
   allow_instance_pool_create = false
 }

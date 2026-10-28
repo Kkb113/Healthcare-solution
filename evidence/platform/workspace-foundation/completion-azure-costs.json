@@ -1,0 +1,81 @@
+{
+  "observed_at": "2026-10-28T04:17:43.128561+00:00",
+  "status": "PROVISIONAL_PROVIDER_SNAPSHOT",
+  "subscriptions": {
+    "subscriptions/d054aa64-95db-467b-a25c-387de70b15bd": {
+      "snapshot": {
+        "scope": "subscriptions/d054aa64-95db-467b-a25c-387de70b15bd",
+        "currency": "USD",
+        "positive_cost_usd": "0",
+        "credits_usd": "0",
+        "as_of": "2026-10-28T04:17:32.025673+00:00",
+        "period_start": "2026-10-01",
+        "source_rows": 3,
+        "status": "PROVISIONAL",
+        "planning_fx": "100",
+        "tax_reserve": "0.18",
+        "query_sha256": "225bedf84fc87d5936a1eadeccb127b8facdaaa5e17465d33ea026e72b0c608a"
+      },
+      "rows": [
+        {
+          "PreTaxCost": 0.0,
+          "UsageDate": 20261027,
+          "ResourceId": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourcegroups/databricks/providers/microsoft.databricks/workspaces/intellify-healthcare-dbw",
+          "ChargeType": "Usage",
+          "Currency": "USD"
+        },
+        {
+          "PreTaxCost": 0.0,
+          "UsageDate": 20261027,
+          "ResourceId": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourcegroups/rg-hcp-dev/providers/microsoft.keyvault/vaults/kv-hcp-d054-dev",
+          "ChargeType": "Usage",
+          "Currency": "USD"
+        },
+        {
+          "PreTaxCost": 0.0,
+          "UsageDate": 20261027,
+          "ResourceId": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourcegroups/rg-hcp-dev/providers/microsoft.storage/storageaccounts/sthcpd054dev",
+          "ChargeType": "Usage",
+          "Currency": "USD"
+        }
+      ]
+    },
+    "subscriptions/0725b5e7-75db-4c60-b5e9-928c3df3fcd1": {
+      "snapshot": {
+        "scope": "subscriptions/0725b5e7-75db-4c60-b5e9-928c3df3fcd1",
+        "currency": "INR",
+        "positive_cost_inr": "0.00970049924",
+        "credits_inr": "0",
+        "as_of": "2026-10-28T04:17:41.051448+00:00",
+        "period_start": "2026-10-01",
+        "source_rows": 1,
+        "status": "PROVISIONAL",
+        "planning_fx": "100",
+        "tax_reserve": "0.18",
+        "query_sha256": "7d2d09fb29a6f2aba0581084305f14ce5f5b580ca3e83b84e9e3011d7160ed68"
+      },
+      "rows": [
+        {
+          "PreTaxCost": 0.00970049924,
+          "UsageDate": 20261027,
+          "ResourceId": "/subscriptions/0725b5e7-75db-4c60-b5e9-928c3df3fcd1/resourcegroups/rg-hcp-model-access/providers/microsoft.cognitiveservices/accounts/aoai-hcp-luna-0725fcd1",
+          "ChargeType": "Usage",
+          "Currency": "INR"
+        }
+      ]
+    }
+  },
+  "exposure": {
+    "observed_cost_with_planning_reserves_paise": 2,
+    "outstanding_reservations_paise": 305000,
+    "exposure_paise": 305002,
+    "remaining_paise": 1694998,
+    "pause_new_work": false,
+    "over_ceiling": false,
+    "billing_status": "PROVISIONAL"
+  },
+  "invoice_final": false,
+  "reservations_released": false,
+  "databricks_list_prices_added_to_azure_costs": false,
+  "note": "List-price DBU attribution and Azure actual cost are separate views of the same spend, never added together. Missing/late billing retains every reservation."
+}

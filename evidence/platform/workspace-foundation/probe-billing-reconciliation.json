@@ -1,0 +1,195 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-10-28T04:00:26.304363+00:00",
+  "cases": {
+    "serverless_job": {
+      "status": "PASS",
+      "usage_unit": "DBU",
+      "net_quantity": "0.131516971250000030",
+      "usd_list_cost": "0.05918263706250001350000000000",
+      "provider_records": 2,
+      "rows": [
+        {
+          "sku_name": "PREMIUM_JOBS_SERVERLESS_COMPUTE_US_EAST",
+          "usage_unit": "DBU",
+          "billing_origin_product": "JOBS",
+          "resource_metadata": "{\"job_id\":\"619642680220846\",\"job_run_id\":\"1004497012709612\",\"job_name\":\"hcp-foundation-runtime\",\"budget_policy_id\":\"69fd7474-2feb-3cca-b79f-c5e1f17e77e5\",\"usage_policy_id\":\"69fd7474-2feb-3cca-b79f-c5e1f17e77e5\"}",
+          "caller_metadata": "{\"run_as\":\"658faa8a-72bf-4285-bf4c-3cd25778ac5f\"}",
+          "product_features": "{\"is_serverless\":true,\"is_photon\":true,\"performance_target\":\"STANDARD\"}",
+          "net_quantity": "0.131516971250000030",
+          "usd_list_unit_price": "0.450000000000000000",
+          "first_usage": "2026-10-27T15:00:00.000Z",
+          "last_usage": "2026-10-27T16:00:00.000Z",
+          "last_ingestion_date": "2026-10-27",
+          "provider_records": "2",
+          "retractions": "0"
+        }
+      ]
+    },
+    "serverless_pipeline": {
+      "status": "PASS",
+      "usage_unit": "DBU",
+      "net_quantity": "0.437481505555555557",
+      "usd_list_cost": "0.1968666775000000006500000000",
+      "provider_records": 2,
+      "rows": [
+        {
+          "sku_name": "PREMIUM_JOBS_SERVERLESS_COMPUTE_US_EAST",
+          "usage_unit": "DBU",
+          "billing_origin_product": "DLT",
+          "resource_metadata": "{\"dlt_pipeline_id\":\"8d191903-9e6d-43b1-b33a-f7e164c209e0\",\"budget_policy_id\":\"69fd7474-2feb-3cca-b79f-c5e1f17e77e5\",\"usage_policy_id\":\"69fd7474-2feb-3cca-b79f-c5e1f17e77e5\"}",
+          "caller_metadata": "{\"run_as\":\"658faa8a-72bf-4285-bf4c-3cd25778ac5f\"}",
+          "product_features": "{\"is_serverless\":true,\"is_photon\":true,\"performance_target\":\"PERFORMANCE_OPTIMIZED\"}",
+          "net_quantity": "0.318097538888888889",
+          "usd_list_unit_price": "0.450000000000000000",
+          "first_usage": "2026-10-27T15:00:00.000Z",
+          "last_usage": "2026-10-27T16:00:00.000Z",
+          "last_ingestion_date": "2026-10-27",
+          "provider_records": "1",
+          "retractions": "0"
+        },
+        {
+          "sku_name": "PREMIUM_JOBS_SERVERLESS_COMPUTE_US_EAST",
+          "usage_unit": "DBU",
+          "billing_origin_product": "DLT",
+          "resource_metadata": "{\"dlt_pipeline_id\":\"8d191903-9e6d-43b1-b33a-f7e164c209e0\",\"dlt_update_id\":\"7d4e87ee-ae30-44ab-8d50-481c1251a085\",\"budget_policy_id\":\"69fd7474-2feb-3cca-b79f-c5e1f17e77e5\",\"usage_policy_id\":\"69fd7474-2feb-3cca-b79f-c5e1f17e77e5\"}",
+          "caller_metadata": "{\"run_as\":\"658faa8a-72bf-4285-bf4c-3cd25778ac5f\"}",
+          "product_features": "{\"is_serverless\":true,\"is_photon\":true,\"performance_target\":\"PERFORMANCE_OPTIMIZED\"}",
+          "net_quantity": "0.119383966666666668",
+          "usd_list_unit_price": "0.450000000000000000",
+          "first_usage": "2026-10-27T15:10:00.000Z",
+          "last_usage": "2026-10-27T15:20:00.000Z",
+          "last_ingestion_date": "2026-10-27",
+          "provider_records": "1",
+          "retractions": "0"
+        }
+      ]
+    },
+    "lakebase_compute": {
+      "status": "PASS",
+      "usage_unit": "DBU",
+      "net_quantity": "0.030293333333333333",
+      "usd_list_cost": "0.007876266666666666580000000000",
+      "provider_records": 2,
+      "rows": [
+        {
+          "sku_name": "PREMIUM_DATABASE_SERVERLESS_COMPUTE_US_EAST",
+          "usage_unit": "DBU",
+          "billing_origin_product": "LAKEBASE",
+          "resource_metadata": "{\"endpoint_id\":\"ep-morning-water-e9gbsx1x\",\"budget_policy_id\":\"7c255664-af70-3981-b198-06b758e5d67e\",\"usage_policy_id\":\"7c255664-af70-3981-b198-06b758e5d67e\",\"project_id\":\"14fc3c6c-8800-4de9-a5e1-5e9d2a1fb3a5\",\"branch_id\":\"br-plain-meadow-e9riobij\"}",
+          "caller_metadata": "{}",
+          "product_features": "{\"lakebase\":{\"compute_type\":\"COMPUTE_NODE\"}}",
+          "net_quantity": "0.030293333333333333",
+          "usd_list_unit_price": "0.260000000000000000",
+          "first_usage": "2026-10-27T17:50:00.000Z",
+          "last_usage": "2026-10-27T18:10:00.000Z",
+          "last_ingestion_date": "2026-10-27",
+          "provider_records": "2",
+          "retractions": "0"
+        }
+      ]
+    },
+    "lakebase_storage": {
+      "status": "PASS",
+      "usage_unit": "DSU",
+      "net_quantity": "0.000080794672247482",
+      "usd_list_cost": "0.000002100661478434532000000000000",
+      "provider_records": 2,
+      "rows": [
+        {
+          "sku_name": "PREMIUM_DATABRICKS_STORAGE_US_EAST",
+          "usage_unit": "DSU",
+          "billing_origin_product": "LAKEBASE",
+          "resource_metadata": "{\"budget_policy_id\":\"7c255664-af70-3981-b198-06b758e5d67e\",\"usage_policy_id\":\"7c255664-af70-3981-b198-06b758e5d67e\",\"project_id\":\"14fc3c6c-8800-4de9-a5e1-5e9d2a1fb3a5\",\"branch_id\":\"br-plain-meadow-e9riobij\"}",
+          "caller_metadata": "{}",
+          "product_features": "{\"lakebase\":{\"storage_type\":\"BRANCH_DATA_STORAGE\"}}",
+          "net_quantity": "0.000080794672247482",
+          "usd_list_unit_price": "0.026000000000000000",
+          "first_usage": "2026-10-27T17:00:00.000Z",
+          "last_usage": "2026-10-27T19:00:00.000Z",
+          "last_ingestion_date": "2026-10-27",
+          "provider_records": "2",
+          "retractions": "0"
+        }
+      ]
+    },
+    "lakebase_sync": {
+      "status": "PASS",
+      "usage_unit": "DBU",
+      "net_quantity": "0.171040833333333322",
+      "usd_list_cost": "0.07696837499999999490000000000",
+      "provider_records": 2,
+      "rows": [
+        {
+          "sku_name": "PREMIUM_JOBS_SERVERLESS_COMPUTE_US_EAST",
+          "usage_unit": "DBU",
+          "billing_origin_product": "LAKEBASE",
+          "resource_metadata": "{\"dlt_pipeline_id\":\"2b801446-8bee-45a5-ac51-6ef72f7912c8\",\"dlt_update_id\":\"b198bf8d-eb30-4b3e-a2be-cfe59354cf57\",\"budget_policy_id\":\"7c255664-af70-3981-b198-06b758e5d67e\",\"usage_policy_id\":\"7c255664-af70-3981-b198-06b758e5d67e\"}",
+          "caller_metadata": "{\"run_as\":\"658faa8a-72bf-4285-bf4c-3cd25778ac5f\"}",
+          "product_features": "{\"is_serverless\":true,\"is_photon\":true}",
+          "net_quantity": "0.076593333333333353",
+          "usd_list_unit_price": "0.450000000000000000",
+          "first_usage": "2026-10-27T17:50:00.000Z",
+          "last_usage": "2026-10-27T18:00:00.000Z",
+          "last_ingestion_date": "2026-10-27",
+          "provider_records": "1",
+          "retractions": "0"
+        },
+        {
+          "sku_name": "PREMIUM_JOBS_SERVERLESS_COMPUTE_US_EAST",
+          "usage_unit": "DBU",
+          "billing_origin_product": "LAKEBASE",
+          "resource_metadata": "{\"dlt_pipeline_id\":\"2b801446-8bee-45a5-ac51-6ef72f7912c8\",\"dlt_update_id\":\"7eb42580-9f3b-4104-879b-21e5b6e6cb39\",\"budget_policy_id\":\"7c255664-af70-3981-b198-06b758e5d67e\",\"usage_policy_id\":\"7c255664-af70-3981-b198-06b758e5d67e\"}",
+          "caller_metadata": "{\"run_as\":\"658faa8a-72bf-4285-bf4c-3cd25778ac5f\"}",
+          "product_features": "{\"is_serverless\":true,\"is_photon\":true}",
+          "net_quantity": "0.094447499999999969",
+          "usd_list_unit_price": "0.450000000000000000",
+          "first_usage": "2026-10-27T17:50:00.000Z",
+          "last_usage": "2026-10-27T18:00:00.000Z",
+          "last_ingestion_date": "2026-10-27",
+          "provider_records": "1",
+          "retractions": "0"
+        }
+      ]
+    },
+    "native_genie_paid_caller": {
+      "status": "PASS",
+      "usage_unit": "DBU",
+      "net_quantity": "0.242742342857142802",
+      "usd_list_cost": "0.01699196399999999614000000000",
+      "provider_records": 5,
+      "rows": [
+        {
+          "sku_name": "PREMIUM_SERVERLESS_REAL_TIME_INFERENCE_US_EAST",
+          "usage_unit": "DBU",
+          "billing_origin_product": "GENIE",
+          "resource_metadata": "{\"genie\":{\"surface\":\"GENIE_AGENTS\",\"channel\":\"API\",\"agent_id\":\"01f1d21c4cf91a5a83edbadce06fa7fb\"}}",
+          "caller_metadata": "{\"run_as\":\"658faa8a-72bf-4285-bf4c-3cd25778ac5f\"}",
+          "product_features": "{\"genie\":{\"offering_type\":\"PAYGO\"}}",
+          "net_quantity": "0.242742342857142802",
+          "usd_list_unit_price": "0.070000000000000000",
+          "first_usage": "2026-10-27T15:00:00.000Z",
+          "last_usage": "2026-10-27T16:00:00.000Z",
+          "last_ingestion_date": "2026-10-27",
+          "provider_records": "5",
+          "retractions": "0"
+        }
+      ]
+    }
+  },
+  "automated_probe_dbu": "0.740039310138888909",
+  "remaining_cost_assumptions": {
+    "native_genie_dbu_per_question": "2; retained conservative assumption, pilot is not a workload-wide bound",
+    "lakebase_maximum_cu": 2,
+    "lakebase_planning_database_dbu_per_hour": "2; retained upper engineering allowance, not a measured universal CU conversion",
+    "database_sku_usd_per_dbu": "0.26",
+    "sync_sku_usd_per_dbu": "0.45"
+  },
+  "provider_attribution_complete": true,
+  "invoice_final": false,
+  "reservations_released": false,
+  "native_search_full_tail_holds_retained": true,
+  "later_phase_full_workload_pilots_required": true,
+  "source_statement_id": "01f1d283-4783-11c1-bdab-7b81b13997aa",
+  "source_observed_at": "2026-10-28T03:54:41.557473+00:00"
+}

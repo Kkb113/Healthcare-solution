@@ -14,8 +14,8 @@ def test_runtime_allocation_fits_approved_pool_without_reducing_required_scope()
     )
     maximum = sum(units * paise for units, paise in LIMITS.values())
     assert maximum == int(Decimal(policy["maximum_phase2_operation_pool_inr"]) * 100)
-    assert maximum <= ENVELOPE_PAISE == 260000
-    assert ENVELOPE_PAISE + 25000 == 285000
+    assert maximum <= ENVELOPE_PAISE == 280000
+    assert ENVELOPE_PAISE + 25000 == 305000
     assert (
         scope["genie"]["total_native_build_questions"]
         == policy["native_questions_in_entire_build"]

@@ -1,6 +1,6 @@
 {
   "status": "WITHIN_APPROVED_SCOPE_AND_FUNDING",
-  "phase_probe_envelope_inr": "2850.00",
+  "phase_probe_envelope_inr": "3050.00",
   "change": "Allocate twenty additional SQL minutes using two unused optional Phase 2 native-question reservations and an unclaimed Lakebase reservation adjustment from sixty to thirty-five minutes. The required Lakebase probe remains thirty minutes with five extra cleanup minutes. P13 retains its minimum paid-caller pilot; all eight build control/probe questions and all 124 native build questions remain funded. No required assertion or benchmark is removed.",
   "phase2_native_question_max_before": 3,
   "phase2_native_question_max_after": 1,
@@ -12,8 +12,8 @@
   "control_and_probe_questions_remaining_for_later_control_tests": 7,
   "additional_sql_upper_cost_inr": "110.20",
   "unused_phase2_native_reservation_inr": "66.08",
-  "maximum_phase2_operation_pool_inr": "2599.37",
-  "funded_operation_pool_inr": "2600.00",
+  "maximum_phase2_operation_pool_inr": "2788.51",
+  "funded_operation_pool_inr": "2800.00",
   "prerequisite_and_foundation_reservations_inr": "250.00",
   "remaining_lifecycle_and_question_scope": "Unchanged; the remaining seven native control/probe questions remain included in the existing 124-question build allowance.",
   "revised_build_model_inr": "17874.55",
@@ -37,5 +37,7 @@
     "maximum_followup_seconds": 900,
     "conservative_total_seconds": "1938.860",
     "reserved_seconds": 1980
-  }
+  },
+  "historical_phase_probe_envelope_inr": "2850.00",
+  "completion_amendment": "platform/config/search-backend.json"
 }

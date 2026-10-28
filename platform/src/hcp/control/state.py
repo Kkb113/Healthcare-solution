@@ -14,6 +14,7 @@ KINDS = {
     "app",
     "serving",
     "search",
+    "azure_search",
     "lakebase",
     "synced_table",
     "genie",

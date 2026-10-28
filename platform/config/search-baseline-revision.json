@@ -1,0 +1,48 @@
+{
+  "status": "APPROVED_BY_USER",
+  "requested_decision": "Version the tested Azure Basic Search fallback and its cost/lifecycle contracts; retain the original baseline and failed native probes, enforce strict hashes for the new revision, and retain every existing exit criterion. No architecture hash-bypass exception.",
+  "authorization_context": "User authorized resolving Search/billing with the discussed Azure Basic fallback and demo-only operation; approval review separately rejected an exception to the old gate hash.",
+  "technical_evidence": "output/platform-foundation/azure-search-probe.json",
+  "billing_evidence": "output/platform-foundation/probe-billing-reconciliation.json",
+  "original_gate_sha256": "05a183da0e7d9a425021996b488e7b89ca87b0f5679e1dcbb1ef2d2463bdac4f",
+  "scope": [
+    "Update the roadmap and ADR-02/03 Search backend and lifecycle references",
+    "Version the effective P08/capability/cost contracts with the tested Azure Basic alternative",
+    "Keep all frozen criteria, dependencies and required tests unchanged",
+    "Validate and bind the new revision using committed source hashes; preserve historical Phase0 and Phase1 provenance",
+    "Finalize Phase2 only after its revised contract, live evidence and local/CI suites pass"
+  ],
+  "native_databricks_search_status": "PROVISIONING_UNRESOLVED_REPLACED_BY_TESTED_FALLBACK",
+  "new_native_search_cycles": 0,
+  "search_backend": "Azure AI Search Basic, East US, one partition and replica, Entra only",
+  "demo_lifecycle": "Create/rebuild in a funded window; delete entire service and scoped grants on shutdown; external guard uses metadata only",
+  "completion_envelope_inr": "3050.00",
+  "build_model_inr": "15568.28",
+  "stress_cases": [
+    {
+      "name": "genie-double-usage",
+      "total_inr": "17616.76",
+      "fits": true,
+      "expected": "WITHIN_BUDGET",
+      "matches_expected": true
+    },
+    {
+      "name": "fx-and-price-shock",
+      "total_inr": "18648.73",
+      "fits": true,
+      "expected": "WITHIN_BUDGET",
+      "matches_expected": true
+    }
+  ],
+  "monthly_model_inr": {
+    "one-three-hour-demo": "4610.53",
+    "two-one-hour-demos": "4060.65"
+  },
+  "build_ceiling_inr": "20000",
+  "monthly_ceiling_inr": "6000",
+  "required_test_scope_reduced": false,
+  "prior_cost_holds_released": false,
+  "owner_reply": "Approve versioned Search baseline revision",
+  "approval_reference": "call_523876bd6d6d4b558a4eb29947cea446",
+  "implementation": "Add a separately hashed effective revision; keep every original Phase0 contract, ADR, roadmap and hash verifier byte-for-byte unchanged. Phase2 gate requires both the original gate and this revision. README identifies the effective revision."
+}

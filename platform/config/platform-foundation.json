@@ -52,7 +52,7 @@
   "control_blob": "platform/control-state.json",
   "probe_reservation_id": "platform-capability-probes",
   "new_probe_reservation_paise": 175000,
-  "combined_prerequisite_foundation_probe_envelope_paise": 285000,
+  "combined_prerequisite_foundation_probe_envelope_paise": 305000,
   "window_max_minutes": 120,
   "fixture_prefix": "hcp-foundation-",
   "facilities": {
@@ -82,5 +82,7 @@
   "publication": "Code, metadata and bounded nonpatient fixture results only; no tokens, state, patient records or unrelated identity details",
   "contingency_reservation_id": "platform-probe-retry-contingency",
   "contingency_reservation_paise": 85000,
-  "cost_amendment": "platform/config/probe-budget-revision.json"
+  "cost_amendment": "platform/config/probe-budget-revision.json",
+  "completion_reservation_id": "platform-search-billing-completion",
+  "effective_architecture_revision": "platform/contracts/revisions/search-basic-v1.json"
 }

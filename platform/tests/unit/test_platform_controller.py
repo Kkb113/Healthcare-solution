@@ -17,6 +17,11 @@ from platform_control import (
 )
 
 
+@pytest.fixture(autouse=True)
+def isolate_azure_metadata(monkeypatch):
+    monkeypatch.setattr("azure_search_lifecycle.inspect_resources", list)
+
+
 class BlobFixture:
     def __init__(self, fail_write=False):
         self.value = initial_state()
@@ -146,6 +151,25 @@ def test_unavailable_control_store_stops_known_compute_without_starting(monkeypa
 def test_shutdown_refuses_unsupported_owner_adapter():
     with pytest.raises(ValueError, match="adapter"):
         shutdown(object(), [{"kind": "unknown", "id": "fixture", "running": True}])
+
+
+def test_search_failure_does_not_prevent_warehouse_shutdown(monkeypatch):
+    stopped = []
+    client = SimpleNamespace(warehouses=SimpleNamespace(stop=stopped.append))
+
+    def broken(*_):
+        raise CloudHttpError(503, "Unavailable")
+
+    monkeypatch.setattr("azure_search_lifecycle.delete_service", broken)
+    with pytest.raises(ValueError, match="adapter shutdown failed"):
+        shutdown(
+            client,
+            [
+                {"kind": "azure_search", "id": "fixture", "running": True},
+                {"kind": "warehouse", "id": "owned", "running": True},
+            ],
+        )
+    assert stopped == ["owned"]
 
 
 def test_explicit_401_refreshes_once_but_ambiguous_write_is_not_retried(monkeypatch):

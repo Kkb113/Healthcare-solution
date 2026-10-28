@@ -38,5 +38,6 @@
     "output/platform-foundation/search-probe.json",
     "output/platform-foundation/search-progress.json"
   ],
-  "manual_handoff": "User chose to submit the support case personally; do not send further support communications without new user authorization"
+  "manual_handoff": "User chose to submit the support case personally; do not send further support communications without new user authorization",
+  "fallback_disposition": "User-approved Azure AI Search Basic replacement passed two capability lifecycles on 2026-10-28; native Databricks provisioning remains unresolved and no third native lifecycle is authorized. Manual support case status is controlled by the user."
 }

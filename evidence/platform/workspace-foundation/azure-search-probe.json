@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "started_at": "2026-10-28T04:10:04.508438+00:00",
+  "backend": "azure-ai-search-basic",
+  "subscription_id": "d054aa64-95db-467b-a25c-387de70b15bd",
+  "resource_id": "/subscriptions/d054aa64-95db-467b-a25c-387de70b15bd/resourceGroups/rg-hcp-dev/providers/Microsoft.Search/searchServices/hcp-search-d054-dev",
+  "lifecycles": [
+    {
+      "operation": "azure-search-first-lifecycle",
+      "ready_at": "2026-10-28T04:03:05.521496+00:00",
+      "elapsed_to_ready_seconds": 44.266,
+      "expected_hit": "0",
+      "scoped_ids_A": [
+        "0",
+        "2"
+      ],
+      "scoped_ids_B": [
+        "1"
+      ],
+      "authorized_result_sha256": "3f05bbbbb8ff3b55b3fdf8bf711760d5ee2b6d2ed818b49cc8077fec05fb9c33",
+      "local_auth_disabled": true,
+      "source_document_count": 3
+    },
+    {
+      "operation": "azure-search-rebuild-lifecycle",
+      "ready_at": "2026-10-28T04:10:53.793056+00:00",
+      "elapsed_to_ready_seconds": 48.172,
+      "expected_hit": "0",
+      "scoped_ids_A": [
+        "0",
+        "2"
+      ],
+      "scoped_ids_B": [
+        "1"
+      ],
+      "authorized_result_sha256": "3f05bbbbb8ff3b55b3fdf8bf711760d5ee2b6d2ed818b49cc8077fec05fb9c33",
+      "local_auth_disabled": true,
+      "source_document_count": 3
+    }
+  ],
+  "cleanup": {
+    "service_deleted": true
+  },
+  "embedding_model_calls": 0,
+  "sql_queries": 0,
+  "source_fixture_sha256": "1a28e8c9ab45df51bd0c331f04248436488ef0b638240604734e09cd03fbb6ba",
+  "first_service_deleted": true,
+  "retained_harness_failure": {
+    "path": "output/platform-foundation/azure-search-first-lifecycle.json",
+    "status": "FAIL",
+    "type": "InvalidURL",
+    "disposition": "First service was functional and deleted; corrected credential lookup is tested during the second reserved lifecycle"
+  },
+  "wrong_entra_principal_denied": true,
+  "denial_http_status": 403,
+  "negative_probe_credential_process_local_cleared": true,
+  "new_application_secrets_created": 0,
+  "document_deletion_propagated": true,
+  "rebuild_integrity": true,
+  "completed_at": "2026-10-28T04:11:24.051605+00:00"
+}
